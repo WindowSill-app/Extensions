@@ -1,0 +1,39 @@
+﻿name: Publish Extension to NuGet.org
+
+on:
+  push:
+    branches: [ main ]
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '10.x'
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+      
+    - name: Restore dependencies
+      run: dotnet restore src/Extensions.slnx
+
+    - name: Create NuGet package with MSBuild
+      run: msbuild src/Extensions.slnx /p:Configuration=Release /p:Platform="x64" /p:PackageOutputPath=${{ github.workspace }}/artifacts /p:RestorePackages=false
+
+    - name: Publish to NuGet.org
+      run: dotnet nuget push "${{ github.workspace }}\artifacts\*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-package
+        path: ${{ github.workspace }}/artifacts/*.nupkg

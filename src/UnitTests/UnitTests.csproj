@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WindowSill.AppLauncher\WindowSill.AppLauncher.csproj" />
+    <ProjectReference Include="..\WindowSill.ClipboardHistory\WindowSill.ClipboardHistory.csproj" />
+    <ProjectReference Include="..\WindowSill.DevToys\WindowSill.DevToys.csproj" />
+    <ProjectReference Include="..\WindowSill.ImageHelper\WindowSill.ImageHelper.csproj" />
+    <ProjectReference Include="..\WindowSill.MediaControl\WindowSill.MediaControl.csproj" />
+    <ProjectReference Include="..\WindowSill.PerfCounter\WindowSill.PerfCounter.csproj" />
+    <ProjectReference Include="..\WindowSill.ShortTermReminder\WindowSill.ShortTermReminder.csproj" />
+    <ProjectReference Include="..\WindowSill.Teams\WindowSill.Teams.csproj" />
+    <ProjectReference Include="..\WindowSill.UnitConverter\WindowSill.UnitConverter.csproj" />
+    <ProjectReference Include="..\WindowSill.URLHelper\WindowSill.URLHelper.csproj" />
+    <ProjectReference Include="..\WindowSill.WebBrowser\WindowSill.WebBrowser.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

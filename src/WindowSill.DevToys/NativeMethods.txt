@@ -1,0 +1,6 @@
+﻿// User32
+SendInput
+MapVirtualKey
+SetForegroundWindow
+SetActiveWindow
+SetFocus

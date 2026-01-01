@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>WindowSill.WebBrowser</PackageId>
+    <Version>0.7.1</Version>
+    <Authors>Etienne Baudoux</Authors>
+    <Title>Web Browser</Title>
+    <Description>
+      This WindowSill extension allows to control zoom of your favorite web browsers. Supports Google Chrome, Microsoft Edge, Mozilla Firefox, Brave, Opera, Vivaldi and Zen Browser.
+    </Description>
+    <PackageIcon>Assets/globe.png</PackageIcon>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/WindowSill-app/WindowSill.WebBrowser</RepositoryUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Assets/globe.png" Pack="true" PackagePath="\Assets\" />
+    <None Include="LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WindowSill.API" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.AppLauncher.Settings.AppSelectionFlyout"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:appinfo="using:WindowSill.AppLauncher.Core.AppInfo"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WindowSill.AppLauncher.Settings"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:BoolToVisibilityConverter
+            x:Key="TrueToCollapsedConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
+    </UserControl.Resources>
+
+    <Grid
+        Width="300"
+        Height="400"
+        RowSpacing="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            api:Uids.Uid="/WindowSill.AppLauncher/AppSelectionFlyout/SelectApp"
+            Style="{ThemeResource SubtitleTextBlockStyle}"
+            TextWrapping="WrapWholeWords" />
+
+        <!--  Loading State  -->
+        <StackPanel
+            Grid.Row="1"
+            Grid.RowSpan="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="16"
+            Visibility="{x:Bind ViewModel.IsLoading, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+            <ProgressRing
+                Width="32"
+                Height="32"
+                IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                api:Uids.Uid="/WindowSill.AppLauncher/AppSelectionFlyout/Loading"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}" />
+        </StackPanel>
+
+        <AutoSuggestBox
+            x:Name="SearchBox"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch"
+            api:Uids.Uid="/WindowSill.AppLauncher/AppSelectionFlyout/Search"
+            KeyboardAcceleratorPlacementMode="Hidden"
+            QueryIcon="Find"
+            Text="{x:Bind ViewModel.SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <AutoSuggestBox.KeyboardAccelerators>
+                <KeyboardAccelerator
+                    Key="F"
+                    Invoked="SearchBoxFocusShortcut_Invoked"
+                    Modifiers="Control" />
+            </AutoSuggestBox.KeyboardAccelerators>
+        </AutoSuggestBox>
+
+        <!--  App List  -->
+        <ListView
+            Grid.Row="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            IsItemClickEnabled="True"
+            ItemClick="ListView_ItemClick"
+            ItemsSource="{x:Bind AppListCollectionViewSource.View, Mode=OneWay}"
+            SelectionMode="None">
+            <CollectionViewSource
+                x:Name="AppListCollectionViewSource"
+                IsSourceGrouped="False"
+                Source="{x:Bind ViewModel.FilteredAppList, Mode=OneWay}" />
+            <ListView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition />
+                    <RepositionThemeTransition />
+                </TransitionCollection>
+            </ListView.ItemContainerTransitions>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="appinfo:AppInfo">
+                    <StackPanel
+                        Padding="4"
+                        Orientation="Horizontal"
+                        Spacing="12">
+                        <Image
+                            Width="24"
+                            Height="24"
+                            Source="{x:Bind AppIcon.Result, Mode=OneWay}" />
+                        <TextBlock
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind DisplayName}"
+                            TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button
+            Grid.Row="3"
+            HorizontalAlignment="Right"
+            api:Uids.Uid="/WindowSill.AppLauncher/AppSelectionFlyout/BrowseMore"
+            Click="BrowseMoreAppButton_Click" />
+    </Grid>
+</UserControl>

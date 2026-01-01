@@ -1,0 +1,6 @@
+files:
+  - source: /src/**/en-US/*.resw
+    ignore:
+      - /**/*.%locale%.%file_extension%
+      - /**/*.%two_letters_code%.%file_extension%
+    translation: /src/**/%locale%/%file_name%.%file_extension%

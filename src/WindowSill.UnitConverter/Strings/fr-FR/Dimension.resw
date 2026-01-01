@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+    <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string"/>
+                            <xsd:attribute name="type" type="xsd:string"/>
+                            <xsd:attribute name="mimetype" type="xsd:string"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string"/>
+                            <xsd:attribute name="name" type="xsd:string"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+                            <xsd:attribute ref="xml:space"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required"/>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DisplayName" xml:space="preserve">
+    <value>Convertisseur de dimensions</value>
+  </data>
+    <data name="Millimeters" xml:space="preserve">
+    <value>Millimètres</value>
+  </data>
+    <data name="Centimeters" xml:space="preserve">
+    <value>Centimètres</value>
+  </data>
+    <data name="Meters" xml:space="preserve">
+    <value>Mètres</value>
+  </data>
+    <data name="Kilometers" xml:space="preserve">
+    <value>Kilomètres</value>
+  </data>
+    <data name="Inches" xml:space="preserve">
+    <value>Pouces</value>
+  </data>
+    <data name="Feet" xml:space="preserve">
+    <value>Pieds</value>
+  </data>
+    <data name="Yards" xml:space="preserve">
+    <value>Yards</value>
+  </data>
+    <data name="Miles" xml:space="preserve">
+    <value>Milliles</value>
+  </data>
+    <data name="Bits" xml:space="preserve">
+    <value>Bits</value>
+  </data>
+    <data name="Bytes" xml:space="preserve">
+    <value>Octets</value>
+  </data>
+    <data name="Kilobytes" xml:space="preserve">
+    <value>Kilooctets</value>
+  </data>
+    <data name="Megabytes" xml:space="preserve">
+    <value>Mégaoctets</value>
+  </data>
+    <data name="Gigabytes" xml:space="preserve">
+    <value>Gigaoctets</value>
+  </data>
+    <data name="Terabytes" xml:space="preserve">
+    <value>Téraoctets</value>
+  </data>
+    <data name="Petabytes" xml:space="preserve">
+    <value>Pétaoctets</value>
+  </data>
+    <data name="Exabytes" xml:space="preserve">
+    <value>Exaoctets</value>
+  </data>
+    <data name="SquareMillimeters" xml:space="preserve">
+    <value>Millimètres carrés</value>
+  </data>
+    <data name="SquareCentimeters" xml:space="preserve">
+    <value>Centimètres carrés</value>
+  </data>
+    <data name="SquareMeters" xml:space="preserve">
+    <value>Mètres carrés</value>
+  </data>
+    <data name="Hectares" xml:space="preserve">
+    <value>Hectares</value>
+  </data>
+    <data name="SquareKilometers" xml:space="preserve">
+    <value>Kilomètres carrés</value>
+  </data>
+    <data name="SquareInches" xml:space="preserve">
+    <value>Pouces carrés</value>
+  </data>
+    <data name="SquareFeet" xml:space="preserve">
+    <value>Pieds carrés</value>
+  </data>
+    <data name="SquareYards" xml:space="preserve">
+    <value>Yards carrés</value>
+  </data>
+    <data name="Acres" xml:space="preserve">
+    <value>Acres</value>
+  </data>
+    <data name="SquareMiles" xml:space="preserve">
+    <value>Milliles carrés</value>
+  </data>
+    <data name="MetersPerSecond" xml:space="preserve">
+    <value>Métres par seconde</value>
+  </data>
+    <data name="KilometersPerHour" xml:space="preserve">
+    <value>Kilomètres par heure</value>
+  </data>
+    <data name="FeetPerSecond" xml:space="preserve">
+    <value>Pieds par seconde</value>
+  </data>
+    <data name="MilesPerHour" xml:space="preserve">
+    <value>Millessiles par heure</value>
+  </data>
+    <data name="Knots" xml:space="preserve">
+    <value>Nœuds</value>
+  </data>
+    <data name="Mach" xml:space="preserve">
+    <value>Mach</value>
+  </data>
+    <data name="Milliliters" xml:space="preserve">
+    <value>Millilitres</value>
+  </data>
+    <data name="Centiliters" xml:space="preserve">
+    <value>Centilitres</value>
+  </data>
+    <data name="Deciliters" xml:space="preserve">
+    <value>Décilitres</value>
+  </data>
+    <data name="Liters" xml:space="preserve">
+    <value>Litres</value>
+  </data>
+    <data name="Hectoliters" xml:space="preserve">
+    <value>Hectolitres</value>
+  </data>
+    <data name="MetricCups" xml:space="preserve">
+    <value>Coupes métriques</value>
+  </data>
+    <data name="UsTeaspoons" xml:space="preserve">
+    <value>Cuillères à café américaines</value>
+  </data>
+    <data name="UsTablespoons" xml:space="preserve">
+    <value>Cuillères à soupe américaines</value>
+  </data>
+    <data name="UsOunces" xml:space="preserve">
+    <value>onces américaines</value>
+  </data>
+    <data name="UsCups" xml:space="preserve">
+    <value>Tasses américaines</value>
+  </data>
+    <data name="UsLegalCups" xml:space="preserve">
+    <value>Tasses légales américaines</value>
+  </data>
+    <data name="UsPints" xml:space="preserve">
+    <value>Pintes américaines</value>
+  </data>
+    <data name="UsQuarts" xml:space="preserve">
+    <value>Quart américains</value>
+  </data>
+    <data name="UsGallons" xml:space="preserve">
+    <value>Gallons américains</value>
+  </data>
+    <data name="CubicInches" xml:space="preserve">
+    <value>Pouces cubes</value>
+  </data>
+    <data name="CubicFeet" xml:space="preserve">
+    <value>Pieds cubes</value>
+  </data>
+    <data name="CubicMeters" xml:space="preserve">
+    <value>Mètres cubes</value>
+  </data>
+    <data name="Milligrams" xml:space="preserve">
+    <value>Milligrammes</value>
+  </data>
+    <data name="Grams" xml:space="preserve">
+    <value>Grammes</value>
+  </data>
+    <data name="Kilograms" xml:space="preserve">
+    <value>Kilogrammes</value>
+  </data>
+    <data name="Tonnes" xml:space="preserve">
+    <value>Tonnes</value>
+  </data>
+    <data name="Ounces" xml:space="preserve">
+    <value>onces</value>
+  </data>
+    <data name="Pounds" xml:space="preserve">
+    <value>livres</value>
+  </data>
+    <data name="ShortTons" xml:space="preserve">
+    <value>Tonnes courtes</value>
+  </data>
+    <data name="Degrees" xml:space="preserve">
+    <value>Degrés</value>
+  </data>
+    <data name="Radians" xml:space="preserve">
+    <value>Radian</value>
+  </data>
+    <data name="Gradians" xml:space="preserve">
+    <value>Gradians</value>
+  </data>
+    <data name="Arcminutes" xml:space="preserve">
+    <value>Minutes d'arc</value>
+  </data>
+    <data name="Arcseconds" xml:space="preserve">
+    <value>Secondes d'arc</value>
+  </data>
+</root>

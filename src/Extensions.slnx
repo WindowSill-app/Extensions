@@ -1,0 +1,48 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".mcp.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="UnitTests/UnitTests.csproj" Id="ce19a5f6-2cb3-4519-abf8-7529c6ae8cb5">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.AppLauncher/WindowSill.AppLauncher.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.ClipboardHistory/WindowSill.ClipboardHistory.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.DevToys/WindowSill.DevToys.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.ImageHelper/WindowSill.ImageHelper.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.MediaControl/WindowSill.MediaControl.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.PerfCounter/WindowSill.PerfCounter.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.ShortTermReminder/WindowSill.ShortTermReminder.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.Teams/WindowSill.Teams.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.UnitConverter/WindowSill.UnitConverter.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.URLHelper/WindowSill.URLHelper.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.WebBrowser/WindowSill.WebBrowser.csproj">
+    <Platform Project="x64" />
+  </Project>
+</Solution>

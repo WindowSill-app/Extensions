@@ -1,0 +1,8 @@
+GetWindowThreadProcessId
+GetForegroundWindow
+AttachThreadInput
+SetForegroundWindow
+IsWindowVisible
+EnumWindows
+IsIconic
+ShowWindow

@@ -1,0 +1,11 @@
+GlobalMemoryStatusEx
+GetSystemTimes
+QueryPerformanceCounter
+QueryPerformanceFrequency
+CreateToolhelp32Snapshot
+Process32First
+Process32Next
+GetSystemInfo
+GetTickCount64
+PDH_MORE_DATA
+PDH_CSTATUS_VALID_DATA

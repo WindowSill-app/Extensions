@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.UnitConverter.Exchange.ExchangeSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WindowSill.UnitConverter.Exchange"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    VerticalAlignment="Stretch"
+    VerticalContentAlignment="Stretch"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+    </UserControl.Resources>
+
+    <Grid
+        MinHeight="200"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        ColumnSpacing="8"
+        RowSpacing="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            api:Uids.Uid="/WindowSill.UnitConverter/Exchange/FavoriteInto"
+            Style="{ThemeResource BodyStrongTextBlockStyle}" />
+        <CommandBar
+            Grid.Row="1"
+            HorizontalAlignment="Left"
+            DefaultLabelPosition="Right"
+            IsOpen="False">
+            <AppBarButton
+                api:Uids.Uid="/WindowSill.UnitConverter/Exchange/Add"
+                Click="AddButton_Click"
+                Icon="Add"
+                IsEnabled="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+        </CommandBar>
+
+        <ProgressRing
+            Grid.Row="2"
+            Width="32"
+            Height="32"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <ListView
+            Grid.Row="2"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            AllowDrop="True"
+            CanDragItems="True"
+            CanReorderItems="True"
+            ItemsSource="{x:Bind ViewModel.FavoriteIsoCurrencyCodes, Mode=OneWay}"
+            SelectionMode="None">
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Padding" Value="0,2,0,0" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:CurrencyValue">
+                    <Border
+                        Height="64"
+                        VerticalAlignment="Top"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
+                        PointerEntered="Border_PointerEntered"
+                        PointerExited="Border_PointerExited"
+                        PointerPressed="Border_PointerPressed">
+                        <Grid HorizontalAlignment="Stretch" ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                                Grid.Column="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe UI Symbol"
+                                FontSize="20"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="&#x283F;" />
+
+                            <StackPanel
+                                Grid.Column="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+
+                                <TextBlock
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind Currency}"
+                                    TextTrimming="CharacterEllipsis" />
+
+                                <TextBlock
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind IsoCurrency}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+
+                            <StackPanel
+                                Grid.Column="2"
+                                Margin="0,0,16,0"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                                <Button
+                                    Width="40"
+                                    Height="32"
+                                    Padding="0"
+                                    api:Uids.Uid="/WindowSill.UnitConverter/Exchange/Delete"
+                                    Click="DeleteButton_Click"
+                                    Content="{ui:FontIcon FontFamily={StaticResource SegoeFluentIcons},
+                                                          Glyph=&#xE74D;,
+                                                          FontSize=16}" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

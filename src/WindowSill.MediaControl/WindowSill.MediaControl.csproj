@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageId>WindowSill.MediaControl</PackageId>
+        <Version>0.7.3</Version>
+        <Authors>Etienne Baudoux</Authors>
+        <Title>Media Control</Title>
+        <Description>
+          Skip and pause your music or video without breaking your concentration.
+          Works seamlessly with Spotify, YouTube, Netflix, Apple Music, Deezer, and virtually any media player on your system.
+        </Description>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/WindowSill-app/WindowSill.MediaControl</RepositoryUrl>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="LICENSE.md" Pack="true" PackagePath="\" />
+        <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Windows.CsWin32">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="NPSMLib" />
+        <PackageReference Include="WindowSill.API" />
+    </ItemGroup>
+</Project>

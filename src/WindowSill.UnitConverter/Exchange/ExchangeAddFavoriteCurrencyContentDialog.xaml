@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="WindowSill.UnitConverter.Exchange.ExchangeAddFavoriteCurrencyContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:api="using:WindowSill.API"
+    xmlns:local="using:WindowSill.UnitConverter.Exchange"
+    mc:Ignorable="d">
+
+    <AutoSuggestBox
+        api:Uids.Uid="/WindowSill.UnitConverter/Exchange/Search"
+        HorizontalAlignment="Stretch"
+        QueryIcon="Find"
+        TextMemberPath="Currency"
+        TextChanged="AutoSuggestBox_TextChanged"
+        QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+        SuggestionChosen="AutoSuggestBox_SuggestionChosen">
+        <AutoSuggestBox.ItemTemplate>
+            <DataTemplate x:DataType="local:CurrencyValue">
+                <Grid
+                    Padding="8"
+                    ColumnSpacing="12"
+                    Background="Transparent">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        Text="{x:Bind Currency}"
+                        TextTrimming="CharacterEllipsis"/>
+
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        Spacing="8"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            Text="{x:Bind IsoCurrency}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+        </AutoSuggestBox.ItemTemplate>
+    </AutoSuggestBox>
+</UserControl>

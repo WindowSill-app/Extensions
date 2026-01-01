@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageId>WindowSill.URLHelper</PackageId>
+        <Version>0.7.1</Version>
+        <Authors>Etienne Baudoux</Authors>
+        <Title>URL Helper</Title>
+        <Description>
+          This WindowSill extension allows to shorten URLs or generate QR Code for them.
+        </Description>
+        <PackageIcon>Assets/link.png</PackageIcon>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/WindowSill-app/WindowSill.URLHelper</RepositoryUrl>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="Assets/link.png" Pack="true" PackagePath="\Assets\" />
+        <None Include="LICENSE.md" Pack="true" PackagePath="\" />
+        <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Magick.NET-Q16-AnyCPU" />
+        <PackageReference Include="Magick.NET.Core" />
+        <PackageReference Include="WindowSill.API" />
+        <PackageReference Include="ZXing.Net.Bindings.Magick" />
+    </ItemGroup>
+</Project>

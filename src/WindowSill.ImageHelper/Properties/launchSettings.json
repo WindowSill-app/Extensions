@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "WindowSill Extension": {
+      "commandName": "Executable",
+      "executablePath": "windowsill.exe",
+      "environmentVariables": {
+        "EXTRAPLUGIN": "$(MSBuildProjectDirectory)\\$(PackageOutputPath)$(PackageId).$(PackageVersion).nupkg"
+      }
+    }
+  }
+}

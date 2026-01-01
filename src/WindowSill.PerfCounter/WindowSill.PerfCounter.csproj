@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <PackageId>WindowSill.PerfCounter</PackageId>
+        <Version>0.6.6</Version>
+        <Authors>Etienne Baudoux</Authors>
+        <Title>Perf Counter</Title>
+        <Description>
+          Monitor your computer performance in real-time with WindowSill Perf Counter. No need to open Task Manager anymore! Just a quick look in a corner of the screen to find out when the CPU spikes.
+
+          Key features:
+
+          - Shows average CPU/GPU/RAM utilization across all system cores
+          - Updates every second in real time
+          - Multiple display modes: percentage view or animation
+          - Click on the sill to quickly open Task Manager
+        </Description>
+        <PackageIcon>Assets/package.png</PackageIcon>
+        <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+        <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/WindowSill-app/WindowSill.PerfCounter</RepositoryUrl>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="Assets/package.png" Pack="true" PackagePath="\Assets\" />
+        <None Include="Assets/memory_slot.svg" Pack="true" PackagePath="\Assets\" />
+        <None Include="Assets/microchip.svg" Pack="true" PackagePath="\Assets\" />
+        <None Include="Assets/video_card.svg" Pack="true" PackagePath="\Assets\" />
+        <None Include="LICENSE.md" Pack="true" PackagePath="\" />
+        <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Windows.CsWin32">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="WindowSill.API" />
+    </ItemGroup>
+</Project>
