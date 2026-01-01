@@ -26,18 +26,15 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore src/Extensions.slnx
 
-    - name: Build unit tests
-      run: msbuild src/UnitTests/UnitTests.csproj /p:Configuration=Release /p:Platform="x64" /p:RestorePackages=false
+    - name: Create NuGet package with MSBuild
+      run: msbuild src/Extensions.slnx /p:Configuration=Release /p:Platform="x64" /p:PackageOutputPath=${{ github.workspace }}/artifacts /p:RestorePackages=false
 
     - name: Run unit tests
       uses: microsoft/vstest-action@v1.0.0
       with:
-        testAssembly: TestProject.dll
+        testAssembly: UnitTests.dll
         searchFolder: .\src\UnitTests\bin
         runInParallel: false
-
-    - name: Create NuGet package with MSBuild
-      run: msbuild src/Extensions.slnx /p:Configuration=Release /p:Platform="x64" /p:PackageOutputPath=${{ github.workspace }}/artifacts /p:RestorePackages=false
 
     - name: Publish to NuGet.org
       run: dotnet nuget push "${{ github.workspace }}\artifacts\*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
