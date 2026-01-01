@@ -33,11 +33,7 @@ jobs:
       run: msbuild src/UnitTests/UnitTests.csproj /p:Configuration=Release /p:Platform="x64" /p:RestorePackages=false
 
     - name: Run unit tests
-      uses: microsoft/vstest-action@v1.0.0
-      with:
-        testAssembly: UnitTests.dll
-        searchFolder: ./src/UnitTests/bin/x64/Release/net10.0-windows10.0.22621/
-        runInParallel: false
+      run: dotnet vstest src/**/bin/**/Release/**/*Tests.dll
 
     - name: Publish extensions to NuGet.org
       run: dotnet nuget push "${{ github.workspace }}\artifacts\*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
