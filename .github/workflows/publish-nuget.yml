@@ -29,11 +29,14 @@ jobs:
     - name: Create NuGet package with MSBuild
       run: msbuild src/Extensions.slnx /p:Configuration=Release /p:Platform="x64" /p:PackageOutputPath=${{ github.workspace }}/artifacts /p:RestorePackages=false
 
+    - name: Build unit tests
+      run: msbuild src/UnitTests/UnitTests.csproj /p:Configuration=Release /p:Platform="x64" /p:RestorePackages=false
+
     - name: Run unit tests
       uses: microsoft/vstest-action@v1.0.0
       with:
         testAssembly: UnitTests.dll
-        searchFolder: ./
+        searchFolder: ./src/UnitTests/bin/x64/Release/
         runInParallel: false
 
     - name: Publish to NuGet.org
