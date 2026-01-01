@@ -3,6 +3,11 @@
     <Platform Name="x64" />
   </Configurations>
   <Folder Name="/Solution Items/">
+    <File Path="../CONTRIBUTING.md" />
+    <File Path="../crowdin.yml" />
+    <File Path="../LICENSE.md" />
+    <File Path="../nuget.config" />
+    <File Path="../README.md" />
     <File Path=".editorconfig" />
     <File Path=".mcp.json" />
     <File Path="Directory.Build.props" />
