@@ -26,8 +26,15 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore src/Extensions.slnx
 
+    - name: Build unit tests
+      run: msbuild src/UnitTests/UnitTests.csproj /p:Configuration=Release /p:Platform="x64" /p:RestorePackages=false
+
     - name: Run unit tests
-      run: msbuild src/UnitTests/UnitTests.csproj /p:Configuration=Release /p:Platform="x64" /t:VSTest /p:RestorePackages=false
+      uses: microsoft/vstest-action@v1.0.0
+      with:
+        testAssembly: TestProject.dll
+        searchFolder: .\src\UnitTests\bin
+        runInParallel: false
 
     - name: Create NuGet package with MSBuild
       run: msbuild src/Extensions.slnx /p:Configuration=Release /p:Platform="x64" /p:PackageOutputPath=${{ github.workspace }}/artifacts /p:RestorePackages=false
