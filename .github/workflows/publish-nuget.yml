@@ -33,7 +33,7 @@ jobs:
       uses: microsoft/vstest-action@v1.0.0
       with:
         testAssembly: UnitTests.dll
-        searchFolder: .\src\UnitTests\bin
+        searchFolder: ./
         runInParallel: false
 
     - name: Publish to NuGet.org
