@@ -286,7 +286,7 @@
     <value>磅</value>
   </data>
     <data name="ShortTons" xml:space="preserve">
-    <value/>
+    <value>Short Tons</value>
   </data>
     <data name="Degrees" xml:space="preserve">
     <value>度</value>

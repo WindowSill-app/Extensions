@@ -241,7 +241,7 @@
     <value>美制湯匙</value>
   </data>
     <data name="UsOunces" xml:space="preserve">
-    <value/>
+    <value>US Ounces</value>
   </data>
     <data name="UsCups" xml:space="preserve">
     <value>美制杯</value>
