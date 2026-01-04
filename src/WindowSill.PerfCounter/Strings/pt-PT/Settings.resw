@@ -133,10 +133,10 @@
     <value>Porcentagem</value>
   </data>
   <data name="DisplayModeRunningMan" xml:space="preserve">
-    <value>Homem Correndo</value>
+    <value>Homem a Correr</value>
   </data>
   <data name="EnableTaskManagerLaunch" xml:space="preserve">
-    <value>Habilitar Início do Gerenciador de Tarefas</value>
+    <value>Habilitar Início do Gestor de Tarefas</value>
   </data>
   <data name="EnableTaskManagerLaunchDescription" xml:space="preserve">
     <value>Permitir abrir o Gerenciador de Tarefas ao clicar no contador de desempenho</value>
