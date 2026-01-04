@@ -124,10 +124,10 @@
     <value>Geral</value>
   </data>
   <data name="HidePasswords.Description" xml:space="preserve">
-    <value>Tentar detectar e esconder textos copiados que pareçam senhas</value>
+    <value>Tentar detetar e esconder os textos copiados que pareçam palavras-passe</value>
   </data>
   <data name="HidePasswords.Header" xml:space="preserve">
-    <value>Esconder senhas</value>
+    <value>Esconder palavras-passe</value>
   </data>
   <data name="MaxItemNumber.Description" xml:space="preserve">
     <value>Quantos itens devem ser mantidos no histórico da área de transferência.</value>
@@ -136,6 +136,6 @@
     <value>Número máximo de itens</value>
   </data>
   <data name="OpenWindowsClipboardHistorySettings" xml:space="preserve">
-    <value>Abrir configurações do histórico da área de transferência do Windows</value>
+    <value>Abrir definições do histórico da área de transferência do Windows</value>
   </data>
 </root>
