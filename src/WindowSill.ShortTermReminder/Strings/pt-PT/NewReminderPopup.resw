@@ -133,6 +133,6 @@
     <value>OK</value>
   </data>
   <data name="ReminderTextBox" xml:space="preserve">
-    <value>Me lembre de:</value>
+    <value>Lembre-me de:</value>
   </data>
 </root>
