@@ -121,12 +121,12 @@
     <value>Selecionar um aplicativo</value>
   </data>
   <data name="Loading.TextProperty" xml:space="preserve">
-    <value>Carregando aplicativos...</value>
+    <value>A carregar aplicações...</value>
   </data>
   <data name="Search.PlaceholderTextProperty" xml:space="preserve">
     <value>Procurar</value>
   </data>
   <data name="BrowseMore.ContentProperty" xml:space="preserve">
-    <value>Pesquisar mais aplicativos</value>
+    <value>Pesquisar mais aplicações</value>
   </data>
 </root>
