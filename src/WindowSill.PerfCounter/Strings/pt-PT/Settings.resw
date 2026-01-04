@@ -139,15 +139,15 @@
     <value>Habilitar Início do Gestor de Tarefas</value>
   </data>
   <data name="EnableTaskManagerLaunchDescription" xml:space="preserve">
-    <value>Permitir abrir o Gerenciador de Tarefas ao clicar no contador de desempenho</value>
+    <value>Permitir abrir o Gestor de Tarefas ao clicar no contador de desempenho</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Geral</value>
   </data>
   <data name="OpenTaskManager" xml:space="preserve">
-    <value>Abrir Gerenciador de Tarefas</value>
+    <value>Abrir Gestor de Tarefas</value>
   </data>
   <data name="OpenTaskManagerDescription" xml:space="preserve">
-    <value>Clique para abrir o Gerenciador de Tarefas do Windows para informações detalhadas do sistema</value>
+    <value>Clica para abrir o Gestor de Tarefas do Windows para informações detalhadas do sistema</value>
   </data>
 </root>
