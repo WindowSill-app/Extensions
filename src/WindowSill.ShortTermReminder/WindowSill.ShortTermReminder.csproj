@@ -8,7 +8,7 @@
     <PackageIcon>Assets/alarm.png</PackageIcon>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/WindowSill-app/WindowSill.ShortTermReminder</RepositoryUrl>
+    <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
     <None Include="Assets/alarm.png" Pack="true" PackagePath="\Assets\" />

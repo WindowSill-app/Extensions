@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+using System.Globalization;
+using System.Runtime.CompilerServices;
 using Microsoft.Recognizers.Text;
 using UnitsNet;
 using UnitsNet.Units;
@@ -181,41 +182,50 @@ internal static class UnitHelper
         {
             foreach (Culture culture in Cultures.OrderedSupportedCultures)
             {
-                List<ModelResult> models = Microsoft.Recognizers.Text.NumberWithUnit.NumberWithUnitRecognizer.RecognizeCurrency(input, culture.CultureName, fallbackToDefaultCulture: true);
-                cancellationToken.ThrowIfCancellationRequested();
-
-                if (models.Count == 1)
+                try
                 {
-                    ModelResult model = models[0];
-                    if (model.TypeName == CurrencyTypeName
-                        && model.Resolution is not null
-                        && model.Resolution.TryGetValue(Value, out object? value)
-                        && value is string valueString
-                        && double.TryParse(valueString, out double valueDouble)
-                        && model.Resolution.TryGetValue(Unit, out object? unit)
-                        && unit is string unitString
-                        && !string.IsNullOrWhiteSpace(unitString))
-                    {
-                        string isoCurrency = string.Empty;
-                        if (model.Resolution.TryGetValue(IsoCurrency, out object? isoCurrencyObject))
-                        {
-                            isoCurrency = isoCurrencyObject as string ?? string.Empty;
-                        }
-                        else if (unitString == "Dollar")
-                        {
-                            isoCurrency = "USD";
-                        }
-                        else if (unitString == "Pound")
-                        {
-                            isoCurrency = "GBP";
-                        }
+                    var cultureInfo = CultureInfo.GetCultureInfo(culture.CultureCode);
+                    List<ModelResult> models = Microsoft.Recognizers.Text.NumberWithUnit.NumberWithUnitRecognizer.RecognizeCurrency(input, culture.CultureName, fallbackToDefaultCulture: true);
+                    cancellationToken.ThrowIfCancellationRequested();
 
-                        if (!string.IsNullOrWhiteSpace(isoCurrency))
+                    if (models.Count == 1)
+                    {
+                        ModelResult model = models[0];
+                        if (model.TypeName == CurrencyTypeName
+                            && model.Resolution is not null
+                            && model.Resolution.TryGetValue(Value, out object? value)
+                            && value is string valueString
+                            && double.TryParse(valueString, cultureInfo, out double valueDouble)
+                            && model.Resolution.TryGetValue(Unit, out object? unit)
+                            && unit is string unitString
+                            && !string.IsNullOrWhiteSpace(unitString))
                         {
-                            currency = new CurrencyValue(double.Parse(valueString), unitString, isoCurrency);
-                            return true;
+                            string isoCurrency = string.Empty;
+                            if (model.Resolution.TryGetValue(IsoCurrency, out object? isoCurrencyObject))
+                            {
+                                isoCurrency = isoCurrencyObject as string ?? string.Empty;
+                            }
+                            else if (unitString == "Dollar")
+                            {
+                                isoCurrency = "USD";
+                            }
+                            else if (unitString == "Pound")
+                            {
+                                isoCurrency = "GBP";
+                            }
+
+                            if (!string.IsNullOrWhiteSpace(isoCurrency))
+                            {
+                                currency = new CurrencyValue(double.Parse(valueString, cultureInfo), unitString, isoCurrency);
+                                return true;
+                            }
                         }
                     }
+                }
+                catch
+                {
+                    // Ignore culture exceptions from RecognizeCurrency
+                    continue;
                 }
             }
         }
