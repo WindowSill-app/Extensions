@@ -222,6 +222,10 @@ internal static class UnitHelper
                         }
                     }
                 }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
                 catch
                 {
                     // Ignore culture exceptions from RecognizeCurrency
