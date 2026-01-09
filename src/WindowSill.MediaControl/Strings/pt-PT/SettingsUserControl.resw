@@ -121,6 +121,6 @@
     <value>Geral</value>
   </data>
   <data name="ShowMediaNameAndThumbnail" xml:space="preserve">
-    <value>Mostrar o nome e a miniatura do mídia</value>
+    <value>Mostrar o nome e a miniatura da multimédia</value>
   </data>
 </root>

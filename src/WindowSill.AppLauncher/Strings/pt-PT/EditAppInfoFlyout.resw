@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AlwaysRunAsAdmin.ContentProperty" xml:space="preserve">
-    <value>Sempre execute como administrador</value>
+    <value>Sempre executar como administrador</value>
   </data>
   <data name="Arguments.HeaderProperty" xml:space="preserve">
     <value>Argumentos</value>

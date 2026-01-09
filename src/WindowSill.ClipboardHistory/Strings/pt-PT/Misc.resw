@@ -121,7 +121,7 @@
     <value>Limpar histórico</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Deletar</value>
+    <value>Apagar</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
     <value>Histórico da área de transferência</value>
@@ -133,7 +133,7 @@
     <value>Ativar o histórico da área de transferência do Windows</value>
   </data>
   <data name="FileError" xml:space="preserve">
-    <value>Falha ao obter informações do arquivo</value>
+    <value>Falha ao obter informações do ficheiro</value>
   </data>
   <data name="ImageSize" xml:space="preserve">
     <value>{0} x {1} pixels</value>
@@ -142,7 +142,7 @@
     <value>Abrir aplicativo</value>
   </data>
   <data name="OpenInFileExplorer" xml:space="preserve">
-    <value>Abrir no Explorador de Arquivos</value>
+    <value>Abrir no Explorador de Ficheiros</value>
   </data>
   <data name="OpenInWebBrowser" xml:space="preserve">
     <value>Abrir no navegador web</value>
