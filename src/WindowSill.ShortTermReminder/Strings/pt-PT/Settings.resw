@@ -129,7 +129,7 @@
     <value>Modo de notificação</value>
   </data>
   <data name="NotificationModeToggle.OffContent" xml:space="preserve">
-    <value>Notificação de toast</value>
+    <value>Notificação estilo torradeira</value>
   </data>
   <data name="NotificationModeToggle.OnContent" xml:space="preserve">
     <value>Notificação em tela cheia</value>
