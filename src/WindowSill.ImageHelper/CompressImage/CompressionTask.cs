@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ImageMagick;
 using WindowSill.API;
 using Windows.Storage;
@@ -33,25 +33,31 @@ internal sealed partial class CompressionTask : ObservableObject
 
     internal async Task LosslessCompressAsync()
     {
+        long finalSize = ByteLengthBeforeCompression;
         try
         {
+            string compressedFilePath = ImageFileNameHelper.GetVariantFilePath(_fileInfo.FullName, "_compressed");
+            File.Copy(_fileInfo.FullName, compressedFilePath);
+
+            var compressedFileInfo = new FileInfo(compressedFilePath);
             var optimizer = new ImageOptimizer
             {
                 IgnoreUnsupportedFormats = true,
                 OptimalCompression = true
             };
-            optimizer.LosslessCompress(_fileInfo);
+            optimizer.LosslessCompress(compressedFileInfo);
+
+            compressedFileInfo.Refresh();
+            finalSize = compressedFileInfo.Length;
         }
         catch (Exception ex)
         {
             // TODO: Log the exception and display it to the user.
         }
 
-        _fileInfo.Refresh();
-
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
-            ByteLengthAfterCompression = _fileInfo.Length;
+            ByteLengthAfterCompression = finalSize;
             int compressionPercentage = (int)Math.Round((1 - (double)ByteLengthAfterCompression / ByteLengthBeforeCompression) * 100, 2);
 
             CompressionPercentage = $"{compressionPercentage}%";
