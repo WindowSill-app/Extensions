@@ -126,6 +126,9 @@
   <data name="AppFolders.TextProperty" xml:space="preserve">
     <value>फ़ोल्डर(ओं) को जोड़ें</value>
   </data>
+  <data name="AppUrls.TextProperty" xml:space="preserve">
+    <value>Add URL(s)</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>रद्द करें</value>
   </data>
