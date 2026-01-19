@@ -126,6 +126,9 @@
   <data name="AppFolders.TextProperty" xml:space="preserve">
     <value>新增資料夾(多個)</value>
   </data>
+  <data name="AppUrls.TextProperty" xml:space="preserve">
+    <value>Add URL(s)</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
