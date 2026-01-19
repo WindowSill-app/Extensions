@@ -127,7 +127,7 @@
     <value>フォルダーを追加(s)</value>
   </data>
   <data name="AppUrls.TextProperty" xml:space="preserve">
-    <value>URLを追加</value>
+    <value>Add URL(s)</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>

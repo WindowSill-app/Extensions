@@ -127,7 +127,7 @@
     <value>添加文件夹</value>
   </data>
   <data name="AppUrls.TextProperty" xml:space="preserve">
-    <value>添加 URL</value>
+    <value>Add URL(s)</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
