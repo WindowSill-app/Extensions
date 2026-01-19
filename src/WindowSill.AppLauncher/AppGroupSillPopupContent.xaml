@@ -39,11 +39,12 @@
             Margin="12"
             Orientation="Horizontal"
             Spacing="8">
-            <Button
+            <api:ShortcutButton
                 Height="32"
                 Background="Transparent"
                 BorderBrush="Transparent"
-                Click="LaunchAllButton_Click">
+                Click="LaunchAllButton_Click"
+                ShortcutBadgeHorizontalAlignment="Left">
                 <StackPanel Orientation="Horizontal" Spacing="8">
                     <FontIcon
                         VerticalAlignment="Center"
@@ -52,7 +53,7 @@
                         Glyph="&#xE8A7;" />
                     <TextBlock api:Uids.Uid="/WindowSill.AppLauncher/AppGroupSillPopupContent/LaunchAll" />
                 </StackPanel>
-            </Button>
+            </api:ShortcutButton>
             <Button
                 Width="32"
                 Height="32"
@@ -69,16 +70,17 @@
             </Button>
         </StackPanel>
 
-        <ListView
+        <local:ShortcutListView
             Grid.Row="1"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             IsItemClickEnabled="True"
-            ItemClick="ListView_ItemClick"
+            ItemClick="ShortcutListView_ItemClick"
+            ItemInvoked="ShortcutListView_ItemInvoked"
             ItemsSource="{x:Bind AppGroup.Items}"
             SelectionMode="None">
-            <ListView.ItemTemplate>
+            <local:ShortcutListView.ItemTemplate>
                 <DataTemplate x:DataType="appinfo:AppInfo">
                     <Grid
                         Height="48"
@@ -129,7 +131,7 @@
                             TextTrimming="CharacterEllipsis" />
                     </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </local:ShortcutListView.ItemTemplate>
+        </local:ShortcutListView>
     </Grid>
 </api:SillPopupContent>

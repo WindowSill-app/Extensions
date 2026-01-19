@@ -1,4 +1,4 @@
-﻿using WindowSill.API;
+using WindowSill.API;
 using WindowSill.AppLauncher.Core;
 using WindowSill.AppLauncher.Core.AppInfo;
 
@@ -19,24 +19,6 @@ public sealed partial class AppGroupSillPopupContent : SillPopupContent
 
     internal AppGroup AppGroup { get; }
 
-    private void Border_PointerEntered(object sender, PointerRoutedEventArgs e)
-    {
-        var element = (Border)sender;
-        element.Background = Application.Current.Resources["ControlFillColorSecondaryBrush"] as Brush;
-    }
-
-    private void Border_PointerExited(object sender, PointerRoutedEventArgs e)
-    {
-        var element = (Border)sender;
-        element.Background = Application.Current.Resources["CardBackgroundFillColorDefaultBrush"] as Brush;
-    }
-
-    private void Border_PointerPressed(object sender, PointerRoutedEventArgs e)
-    {
-        var element = (Border)sender;
-        element.Background = Application.Current.Resources["ControlFillColorTertiaryBrush"] as Brush;
-    }
-
     private void EditButton_Click(object sender, RoutedEventArgs e)
     {
         _settingsProvider.OpenSettingsPageForSill(AppLauncherSill.SillInternalName, null);
@@ -55,13 +37,18 @@ public sealed partial class AppGroupSillPopupContent : SillPopupContent
         Close();
     }
 
-    private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+    private void ShortcutListView_ItemClick(object sender, ItemClickEventArgs e)
     {
         if (e.ClickedItem is AppInfo appInfo)
         {
-            Task.Run(async () => await appInfo.LaunchAsync(asAdmin: false));
-            Close();
+            ShortcutListView_ItemInvoked(sender, appInfo);
         }
+    }
+
+    private void ShortcutListView_ItemInvoked(object sender, AppInfo e)
+    {
+        Task.Run(async () => await e.LaunchAsync(asAdmin: false));
+        Close();
     }
 
     private void LaunchMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
