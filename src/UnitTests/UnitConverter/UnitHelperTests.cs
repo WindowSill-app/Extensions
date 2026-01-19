@@ -37,7 +37,7 @@ public class UnitHelperTests
     [InlineData("invalid")]
     [InlineData("abc degrees")]
     [InlineData("25 meters")]
-    public void TryDetectTemperature_WithInvalidInput_ReturnsFalse(string input)
+    public void TryDetectTemperature_WithInvalidInput_ReturnsFalse(string? input)
     {
         // Arrange
         using var cts = new CancellationTokenSource();
@@ -94,7 +94,7 @@ public class UnitHelperTests
     [InlineData("invalid")]
     [InlineData("abc currency")]
     [InlineData("25 meters")]
-    public void TryDetectCurrency_WithInvalidInput_ReturnsFalse(string input)
+    public void TryDetectCurrency_WithInvalidInput_ReturnsFalse(string? input)
     {
         // Arrange
         using var cts = new CancellationTokenSource();
@@ -293,7 +293,7 @@ public class UnitHelperTests
     [InlineData("abc dimension")]
     [InlineData("$50")]
     [InlineData("25C")]
-    public void TryDetectDimension_WithInvalidInput_ReturnsFalse(string input)
+    public void TryDetectDimension_WithInvalidInput_ReturnsFalse(string? input)
     {
         // Arrange
         using var cts = new CancellationTokenSource();

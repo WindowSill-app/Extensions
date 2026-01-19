@@ -11,7 +11,7 @@ public class StringHelperTests
     [InlineData("hello world", "hello world")]
     [InlineData("hello\rworld", "hello\rworld")]
     [InlineData("hello\\rworld", "hello\rworld")]
-    internal void UnescapeString(string input, string expectedResult)
+    internal void UnescapeString(string? input, string expectedResult)
     {
         StringHelper.UnescapeString(input).Should().Be(expectedResult);
     }
