@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Json;
+using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
@@ -16,6 +16,9 @@ internal static class ExchangeRateHelper
     private const string ExchangeRateUrlTemplate = "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{0}.min.json";
     private const string FallbackExchangeRateUrlTemplate = "https://latest.currency-api.pages.dev/v1/currencies/{0}.min.json";
 
+    private const int MaxRetries = 3;
+    private static readonly TimeSpan initialRetryDelay = TimeSpan.FromSeconds(1);
+
     private static readonly ILogger logger = typeof(ExchangeRateHelper).Log();
     private static Dictionary<string, string>? currencyNameMap;
 
@@ -23,36 +26,27 @@ internal static class ExchangeRateHelper
     {
         using var httpClient = new HttpClient();
 
-        try
-        {
-            string url = string.Format(ExchangeRateUrlTemplate, isoCurrency);
-            ExchangeRateResponse? response = await httpClient.GetFromJsonAsync<ExchangeRateResponse>(url);
+        string url = string.Format(ExchangeRateUrlTemplate, isoCurrency);
+        ExchangeRateResponse? response = await ExecuteWithRetryAsync(
+            () => httpClient.GetFromJsonAsync<ExchangeRateResponse>(url),
+            $"load exchange rates from primary URL for {isoCurrency}");
 
-            if (response?.Rates is not null && response.Rates.Count > 0)
-            {
-                return response.Rates;
-            }
-        }
-        catch
+        if (response?.Rates is not null && response.Rates.Count > 0)
         {
-            // Try fallback URL
+            return response.Rates;
         }
 
-        try
-        {
-            string fallbackUrl = string.Format(FallbackExchangeRateUrlTemplate, isoCurrency);
-            ExchangeRateResponse? response = await httpClient.GetFromJsonAsync<ExchangeRateResponse>(fallbackUrl);
+        string fallbackUrl = string.Format(FallbackExchangeRateUrlTemplate, isoCurrency);
+        response = await ExecuteWithRetryAsync(
+            () => httpClient.GetFromJsonAsync<ExchangeRateResponse>(fallbackUrl),
+            $"load exchange rates from fallback URL for {isoCurrency}");
 
-            if (response?.Rates is not null && response.Rates.Count > 0)
-            {
-                return response.Rates;
-            }
-        }
-        catch (Exception ex)
+        if (response?.Rates is not null && response.Rates.Count > 0)
         {
-            logger.LogError(ex, "Failed to load exchange rates for currency {IsoCurrency}", isoCurrency);
+            return response.Rates;
         }
 
+        logger.LogWarning("Failed to load exchange rates for currency {IsoCurrency} from both primary and fallback URLs.", isoCurrency);
         return null;
     }
 
@@ -87,35 +81,92 @@ internal static class ExchangeRateHelper
     {
         using var httpClient = new HttpClient();
 
-        try
+        Dictionary<string, string>? currencyMap = await ExecuteWithRetryAsync(
+            () => httpClient.GetFromJsonAsync<Dictionary<string, string>>(CurrencyListUrl),
+            "load currency name map from primary URL");
+
+        if (currencyMap is not null)
         {
-            Dictionary<string, string>? currencyMap = await httpClient.GetFromJsonAsync<Dictionary<string, string>>(CurrencyListUrl);
-            if (currencyMap is not null)
-            {
-                currencyNameMap = currencyMap.Where(kvp => !string.IsNullOrEmpty(kvp.Value)).ToDictionary();
-                return;
-            }
-        }
-        catch
-        {
-            // Try fallback URL
+            currencyNameMap = currencyMap.Where(kvp => !string.IsNullOrEmpty(kvp.Value)).ToDictionary();
+            return;
         }
 
-        try
+        currencyMap = await ExecuteWithRetryAsync(
+            () => httpClient.GetFromJsonAsync<Dictionary<string, string>>(FallbackCurrencyListUrl),
+            "load currency name map from fallback URL");
+
+        if (currencyMap is not null)
         {
-            Dictionary<string, string>? currencyMap = await httpClient.GetFromJsonAsync<Dictionary<string, string>>(FallbackCurrencyListUrl);
-            if (currencyMap is not null)
+            currencyNameMap = currencyMap.Where(kvp => !string.IsNullOrEmpty(kvp.Value)).ToDictionary();
+            return;
+        }
+
+        // If both attempts fail, leave the map as null
+        currencyNameMap = null;
+        logger.LogWarning("Failed to load currency name map from both primary and fallback URLs.");
+    }
+
+    private static async Task<T?> ExecuteWithRetryAsync<T>(Func<Task<T?>> operation, string operationDescription)
+    {
+        Exception? lastException = null;
+
+        for (int attempt = 0; attempt <= MaxRetries; attempt++)
+        {
+            try
             {
-                currencyNameMap = currencyMap.Where(kvp => !string.IsNullOrEmpty(kvp.Value)).ToDictionary();
+                return await operation();
+            }
+            catch (HttpRequestException ex)
+            {
+                lastException = ex;
+
+                if (attempt < MaxRetries)
+                {
+                    TimeSpan delay = initialRetryDelay * Math.Pow(2, attempt);
+                    logger.LogWarning(
+                        ex,
+                        "Attempt {Attempt} of {MaxAttempts} to {Operation} failed. Retrying in {Delay}ms...",
+                        attempt + 1,
+                        MaxRetries + 1,
+                        operationDescription,
+                        delay.TotalMilliseconds);
+
+                    await Task.Delay(delay);
+                }
+            }
+            catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
+            {
+                lastException = ex;
+
+                if (attempt < MaxRetries)
+                {
+                    TimeSpan delay = initialRetryDelay * Math.Pow(2, attempt);
+                    logger.LogWarning(
+                        ex,
+                        "Attempt {Attempt} of {MaxAttempts} to {Operation} timed out. Retrying in {Delay}ms...",
+                        attempt + 1,
+                        MaxRetries + 1,
+                        operationDescription,
+                        delay.TotalMilliseconds);
+
+                    await Task.Delay(delay);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Non-transient exception, don't retry
+                logger.LogWarning(ex, "Non-transient error during {Operation}. Will not retry.", operationDescription);
+                return default;
             }
         }
-        catch (Exception ex)
-        {
-            // If both attempts fail, leave the map as null
-            currencyNameMap = new Dictionary<string, string>();
 
-            logger.LogError(ex, "Failed to load currency name map.");
-        }
+        logger.LogWarning(
+            lastException,
+            "All {MaxAttempts} attempts to {Operation} failed.",
+            MaxRetries + 1,
+            operationDescription);
+
+        return default;
     }
 
     private sealed class ExchangeRateResponse
