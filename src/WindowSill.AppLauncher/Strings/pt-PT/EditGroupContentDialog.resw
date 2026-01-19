@@ -126,6 +126,9 @@
   <data name="AppFolders.TextProperty" xml:space="preserve">
     <value>Adicionar pasta(s)</value>
   </data>
+  <data name="AppUrls.TextProperty" xml:space="preserve">
+    <value>Adicionar URL(s)</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
   </data>

@@ -86,6 +86,18 @@ internal sealed partial class EditGroupContentDialogViewModel : ObservableObject
         AddAppInfo(folderAppInfo);
     }
 
+    internal void AddUrl(string url, string displayName)
+    {
+        var urlAppInfo = new UrlAppInfo
+        {
+            DefaultDisplayName = displayName,
+            DisplayName = displayName,
+            Url = url,
+        };
+        urlAppInfo.OnDeserialized();
+        AddAppInfo(urlAppInfo);
+    }
+
     internal void UpdateIcon()
     {
         if (string.IsNullOrWhiteSpace(OverrideGroupIconPath) || !File.Exists(OverrideGroupIconPath))

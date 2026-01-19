@@ -1,4 +1,5 @@
-# 0.1.5
+# 0.2.0
+- You can now launch URLs from the app launcher.
 - You can now use Win+Ctrl within an app group flyout, allowing to launch all or any element using only keyboard shortcuts.
 
 # 0.1.4

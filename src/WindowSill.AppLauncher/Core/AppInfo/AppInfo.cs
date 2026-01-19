@@ -9,6 +9,7 @@ namespace WindowSill.AppLauncher.Core.AppInfo;
 [JsonDerivedType(typeof(UwpAppInfo), typeDiscriminator: "uwp")]
 [JsonDerivedType(typeof(FolderAppInfo), typeDiscriminator: "folder")]
 [JsonDerivedType(typeof(FileAppInfo), typeDiscriminator: "file")]
+[JsonDerivedType(typeof(UrlAppInfo), typeDiscriminator: "url")]
 [DebuggerDisplay("{DisplayName}")]
 internal abstract partial class AppInfo : ObservableObject, IJsonOnDeserialized, IEquatable<AppInfo>
 {
