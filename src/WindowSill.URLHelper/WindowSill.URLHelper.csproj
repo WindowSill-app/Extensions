@@ -10,7 +10,7 @@
         <PackageIcon>Assets/link.png</PackageIcon>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/WindowSill-app/WindowSill.URLHelper</RepositoryUrl>
+      <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
     </PropertyGroup>
     <ItemGroup>
         <None Include="Assets/link.png" Pack="true" PackagePath="\Assets\" />

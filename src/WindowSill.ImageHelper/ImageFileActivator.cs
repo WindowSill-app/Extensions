@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.Composition;
+using System.ComponentModel.Composition;
 using WindowSill.API;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -27,8 +27,16 @@ internal sealed class ImageFileActivator : ISillDragAndDropActivator
             IStorageItem storageItem = storageItems[i];
             if (storageItem is IStorageFile storageFile)
             {
-                string fileType = storageFile.FileType.ToLowerInvariant();
-                return Constants.SupportedExtensions.Contains(fileType);
+                try
+                {
+                    string fileType = storageFile.FileType.ToLowerInvariant();
+                    return Constants.SupportedExtensions.Contains(fileType);
+                }
+                catch (Exception)
+                {
+                    // Path is too long to process, or something else; skip this file
+                    continue;
+                }
             }
         }
 

@@ -10,7 +10,7 @@
         </Description>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/WindowSill-app/WindowSill.MediaControl</RepositoryUrl>
+      <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
     </PropertyGroup>
     <ItemGroup>
         <None Include="LICENSE.md" Pack="true" PackagePath="\" />

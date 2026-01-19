@@ -4,6 +4,18 @@
     "context7": {
       "type": "http",
       "url": "https://mcp.context7.com/mcp"
+    },
+    "Sentry": {
+      "type": "sse",
+      "url": "https://mcp.sentry.dev/mcp"
+    },
+    "microsoftdocs/mcp": {
+      "type": "sse",
+      "url": "https://learn.microsoft.com/api/mcp"
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/"
     }
   }
 }

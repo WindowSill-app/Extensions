@@ -73,6 +73,7 @@ public sealed partial class EditGroupContentDialog : UserControl
         InitializeComponent();
 
         AddAppFlyout.Content = new AppSelectionFlyout(parentWindow, viewModel);
+        AddUrlFlyout.Content = new AddUrlFlyout(viewModel);
     }
 
     internal EditGroupContentDialogViewModel ViewModel { get; }

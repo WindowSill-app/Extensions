@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -32,10 +32,6 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
         _processInteractionService = processInteractionService;
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
-        _settingsProvider.SettingChanged += SettingsProvider_SettingChanged;
-        Clipboard.ContentChanged += Clipboard_ContentChanged;
-        Clipboard.HistoryChanged += Clipboard_HistoryChanged;
-        Clipboard.HistoryEnabledChanged += Clipboard_HistoryEnabledChanged;
 
         UpdateClipboardHistoryAsync().Forget();
     }

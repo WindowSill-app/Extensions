@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using CommunityToolkit.Diagnostics;
@@ -210,7 +210,19 @@ internal static class IconHelper
 
         try
         {
-            // Handle WriteableBitmap (now the primary path)
+            if (imageSource is BitmapImage bitmapImage)
+            {
+                if (bitmapImage.UriSource is not null)
+                {
+                    var streamReference = RandomAccessStreamReference.CreateFromUri(bitmapImage.UriSource);
+                    using IRandomAccessStream stream = await streamReference.OpenReadAsync();
+
+                    return await CanvasBitmap.LoadAsync(device, stream);
+                }
+
+                return null;
+            }
+
             if (imageSource is WriteableBitmap writeableBitmap)
             {
                 byte[] pixels = writeableBitmap.PixelBuffer.ToArray();

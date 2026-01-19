@@ -126,6 +126,9 @@
   <data name="AppFolders.TextProperty" xml:space="preserve">
     <value>Додати папку(и)</value>
   </data>
+  <data name="AppUrls.TextProperty" xml:space="preserve">
+    <value>Додати URL</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Скасувати</value>
   </data>

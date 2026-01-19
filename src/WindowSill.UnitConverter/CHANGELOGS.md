@@ -1,3 +1,9 @@
+# 0.2.6
+- Improved reliability in fetching currency rates.
+
+# 0.2.5
+- Fixed an issue where currency conversion would not follow proper decimal in certain cultures.
+
 # 0.2.4
 - Improved Portuguese translation.
 

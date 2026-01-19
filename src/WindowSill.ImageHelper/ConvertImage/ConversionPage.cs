@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Diagnostics;
+using CommunityToolkit.Diagnostics;
 
 using WindowSill.API;
 
@@ -93,9 +93,9 @@ internal sealed class ConversionPage : XamlLessPage
                                         new GridLength(1, GridUnitType.Star)
                                     )
                                     .Children(
-                                        new Button()
+                                        new ShortcutButton()
                                             .Grid(column: 1)
-                                            .Style(x => x.ThemeResource("LargeButtonStyle"))
+                                            .Style(x => x.ThemeResource("LargeShortcutButtonStyle"))
                                             .ElementSoundMode(ElementSoundMode.FocusOnly)
                                             .Content(x => x.Binding(() => viewModel.CancelButtonText).OneWay())
                                             .Command(() => viewModel.CancelCommand)

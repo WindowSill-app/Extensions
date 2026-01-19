@@ -1,3 +1,6 @@
+# 0.7.8
+- Fixed double treatment of clipboard items.
+
 # 0.7.7
 - Improved Portuguese translation.
 

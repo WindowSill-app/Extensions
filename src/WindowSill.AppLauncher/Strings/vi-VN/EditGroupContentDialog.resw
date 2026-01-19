@@ -126,6 +126,9 @@
   <data name="AppFolders.TextProperty" xml:space="preserve">
     <value>Thêm thư mục</value>
   </data>
+  <data name="AppUrls.TextProperty" xml:space="preserve">
+    <value>Thêm URL</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>Hủy</value>
   </data>

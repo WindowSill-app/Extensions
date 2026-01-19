@@ -89,6 +89,18 @@
                     <TextBlock VerticalAlignment="Center" api:Uids.Uid="/WindowSill.AppLauncher/EditGroupContentDialog/AppFolders" />
                 </StackPanel>
             </Button>
+            <Button Background="Transparent" BorderBrush="Transparent">
+                <Button.Flyout>
+                    <Flyout x:Name="AddUrlFlyout" />
+                </Button.Flyout>
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <FontIcon
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeFluentIcons}"
+                        Glyph="&#xE774;" />
+                    <TextBlock VerticalAlignment="Center" api:Uids.Uid="/WindowSill.AppLauncher/EditGroupContentDialog/AppUrls" />
+                </StackPanel>
+            </Button>
         </controls:WrapPanel>
 
         <ListView

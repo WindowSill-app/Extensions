@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Diagnostics;
+using CommunityToolkit.Diagnostics;
 using CommunityToolkit.WinUI.Controls;
 
 using WindowSill.API;
@@ -38,38 +38,38 @@ internal sealed class MainPage : XamlLessPage
                                             .ColumnSpacing(8)
                                             .RowSpacing(8)
                                             .Children(
-                                                new Button()
-                                                    .Style(x => x.StaticResource("LargeButtonStyle"))
+                                                new ShortcutButton()
+                                                    .Style(x => x.StaticResource("LargeShortcutButtonStyle"))
                                                     .Content("AVIF")
                                                     .CommandParameter(ImageMagick.MagickFormat.Avif)
                                                     .Command(() => viewModel.ConvertCommand),
-                                                new Button()
-                                                    .Style(x => x.StaticResource("LargeButtonStyle"))
+                                                new ShortcutButton()
+                                                    .Style(x => x.StaticResource("LargeShortcutButtonStyle"))
                                                     .Content("BMP")
                                                     .CommandParameter(ImageMagick.MagickFormat.Bmp)
                                                     .Command(() => viewModel.ConvertCommand),
-                                                new Button()
-                                                    .Style(x => x.StaticResource("LargeButtonStyle"))
+                                                new ShortcutButton()
+                                                    .Style(x => x.StaticResource("LargeShortcutButtonStyle"))
                                                     .Content("EPS")
                                                     .CommandParameter(ImageMagick.MagickFormat.Eps)
                                                     .Command(() => viewModel.ConvertCommand),
-                                                new Button()
-                                                    .Style(x => x.StaticResource("LargeButtonStyle"))
+                                                new ShortcutButton()
+                                                    .Style(x => x.StaticResource("LargeShortcutButtonStyle"))
                                                     .Content("GIF")
                                                     .CommandParameter(ImageMagick.MagickFormat.Gif)
                                                     .Command(() => viewModel.ConvertCommand),
-                                                new Button()
-                                                    .Style(x => x.StaticResource("LargeButtonStyle"))
+                                                new ShortcutButton()
+                                                    .Style(x => x.StaticResource("LargeShortcutButtonStyle"))
                                                     .Content("PDF")
                                                     .CommandParameter(ImageMagick.MagickFormat.Pdf)
                                                     .Command(() => viewModel.ConvertCommand),
-                                                new Button()
-                                                    .Style(x => x.StaticResource("LargeButtonStyle"))
+                                                new ShortcutButton()
+                                                    .Style(x => x.StaticResource("LargeShortcutButtonStyle"))
                                                     .Content("TIFF")
                                                     .CommandParameter(ImageMagick.MagickFormat.Tiff)
                                                     .Command(() => viewModel.ConvertCommand),
-                                                new Button()
-                                                    .Style(x => x.StaticResource("LargeButtonStyle"))
+                                                new ShortcutButton()
+                                                    .Style(x => x.StaticResource("LargeShortcutButtonStyle"))
                                                     .Content("WEBP")
                                                     .CommandParameter(ImageMagick.MagickFormat.WebP)
                                                     .Command(() => viewModel.ConvertCommand)
@@ -93,15 +93,15 @@ internal sealed class MainPage : XamlLessPage
                                         new GridLength(1, GridUnitType.Star)
                                     )
                                     .Children(
-                                        new Button()
+                                        new ShortcutButton()
                                             .Grid(column: 0)
-                                            .Style(x => x.StaticResource("LargeButtonStyle"))
+                                            .Style(x => x.StaticResource("LargeShortcutButtonStyle"))
                                             .Content("PNG")
                                             .CommandParameter(ImageMagick.MagickFormat.Png)
                                             .Command(() => viewModel.ConvertCommand),
-                                        new Button()
+                                        new ShortcutButton()
                                             .Grid(column: 1)
-                                            .Style(x => x.StaticResource("LargeButtonStyle"))
+                                            .Style(x => x.StaticResource("LargeShortcutButtonStyle"))
                                             .Content("JPEG")
                                             .CommandParameter(ImageMagick.MagickFormat.Jpeg)
                                             .Command(() => viewModel.ConvertCommand)

@@ -10,7 +10,7 @@
     <PackageIcon>Assets/globe.png</PackageIcon>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/WindowSill-app/WindowSill.WebBrowser</RepositoryUrl>
+    <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
     <None Include="Assets/globe.png" Pack="true" PackagePath="\Assets\" />

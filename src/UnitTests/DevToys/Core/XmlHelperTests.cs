@@ -13,7 +13,7 @@ public class XmlHelperTests
     [InlineData("<root><xml /></root>", "<root>\r\n  <xml />\r\n</root>")]
     [InlineData("<root><xml test=\"true\" /></root>", "<root>\r\n  <xml test=\"true\" />\r\n</root>", false)]
     [InlineData("<root><xml test=\"true\" /></root>", "<root>\r\n  <xml\r\n    test=\"true\" />\r\n</root>", true)]
-    public void FormatTwoSpaces(string input, string expectedResult, bool newLineOnAttributes = false)
+    public void FormatTwoSpaces(string? input, string expectedResult, bool newLineOnAttributes = false)
     {
         expectedResult = expectedResult.Replace("\r\n", Environment.NewLine);
         string actual = XmlHelper.Format(input, Indentation.TwoSpaces, newLineOnAttributes);
@@ -28,7 +28,7 @@ public class XmlHelperTests
     [InlineData("<root><xml /></root>", "<root>\r\n    <xml />\r\n</root>")]
     [InlineData("<root><xml test=\"true\" /></root>", "<root>\r\n    <xml test=\"true\" />\r\n</root>", false)]
     [InlineData("<root><xml test=\"true\" /></root>", "<root>\r\n    <xml\r\n        test=\"true\" />\r\n</root>", true)]
-    public void FormatFourSpaces(string input, string expectedResult, bool newLineOnAttributes = false)
+    public void FormatFourSpaces(string? input, string expectedResult, bool newLineOnAttributes = false)
     {
         expectedResult = expectedResult.Replace("\r\n", Environment.NewLine);
         string actual = XmlHelper.Format(input, Indentation.FourSpaces, newLineOnAttributes);
@@ -43,7 +43,7 @@ public class XmlHelperTests
     [InlineData("<root><xml /></root>", "<root>\r\n\t<xml />\r\n</root>")]
     [InlineData("<root><xml test=\"true\" /></root>", "<root>\r\n\t<xml test=\"true\" />\r\n</root>", false)]
     [InlineData("<root><xml test=\"true\" /></root>", "<root>\r\n\t<xml\r\n\t\ttest=\"true\" />\r\n</root>", true)]
-    public void FormatOneTab(string input, string expectedResult, bool newLineOnAttributes = false)
+    public void FormatOneTab(string? input, string expectedResult, bool newLineOnAttributes = false)
     {
         expectedResult = expectedResult.Replace("\r\n", Environment.NewLine);
         string actual = XmlHelper.Format(input, Indentation.OneTab, newLineOnAttributes);
@@ -62,7 +62,7 @@ public class XmlHelperTests
     [InlineData("<root>\r\n\t<xml />\r\n</root>", "<root><xml /></root>")]
     [InlineData("<root>\r\n\t<xml test=\"true\" />\r\n</root>", "<root><xml test=\"true\" /></root>", false)]
     [InlineData("<root>\r\n\t<xml\r\n\t\ttest=\"true\" />\r\n</root>", "<root><xml test=\"true\" /></root>", true)]
-    public void FormatMinified(string input, string expectedResult, bool newLineOnAttributes = false)
+    public void FormatMinified(string? input, string expectedResult, bool newLineOnAttributes = false)
     {
         string actual = XmlHelper.Format(input, Indentation.Minified, newLineOnAttributes);
         actual.Should().Be(expectedResult);
@@ -76,7 +76,7 @@ public class XmlHelperTests
     [InlineData("<?xml version=\"1.0\" encoding=\"utf-16\"?><Document version=\"0.1\"><Element /></Document>", "<?xml version=\"1.0\" encoding=\"utf-16\"?><Document version=\"0.1\"><Element /></Document>")]
     [InlineData("<?xml version=\"1.0\" encoding=\"test\"?><Document version=\"0.1\"><Element /></Document>", "<?xml version=\"1.0\" encoding=\"test\"?><Document version=\"0.1\"><Element /></Document>")]
     [InlineData("<Document version=\"0.1\"><Element /></Document>", "<Document version=\"0.1\"><Element /></Document>")]
-    public void CheckEncoding(string input, string expectedResult, bool newLineOnAttributes = false)
+    public void CheckEncoding(string? input, string expectedResult, bool newLineOnAttributes = false)
     {
         string actual = XmlHelper.Format(input, Indentation.Minified, newLineOnAttributes);
         actual.Should().Be(expectedResult);

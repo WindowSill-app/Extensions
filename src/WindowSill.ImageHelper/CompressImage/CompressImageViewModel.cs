@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -16,7 +16,7 @@ internal sealed partial class CompressImageViewModel : ObservableObject
 {
     private readonly IReadOnlyList<IStorageFile> _files;
     private readonly SillPopupContent _view;
-    private readonly Button _cancelButton = new();
+    private readonly ShortcutButton _cancelButton = new();
     private readonly FileSizeToFriendlyStringConverter _fileSizeToFriendlyStringConverter = new();
     private readonly BoolToVisibilityConverter _trueToCollapsedConverter = new()
     {
@@ -137,7 +137,7 @@ internal sealed partial class CompressImageViewModel : ObservableObject
                                             .Children(
                                                 _cancelButton
                                                     .Grid(column: 1)
-                                                    .Style(x => x.ThemeResource("LargeButtonStyle"))
+                                                    .Style(x => x.ThemeResource("LargeShortcutButtonStyle"))
                                                     .ElementSoundMode(ElementSoundMode.FocusOnly)
                                                     .Command(() => viewModel.CancelCommand)
                                             )
