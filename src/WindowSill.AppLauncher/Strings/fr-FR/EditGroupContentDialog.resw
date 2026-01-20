@@ -127,7 +127,7 @@
     <value>Ajouter le(s) dossier(s)</value>
   </data>
   <data name="AppUrls.TextProperty" xml:space="preserve">
-    <value>Ajouter une URL</value>
+    <value>Add URL(s)</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Annuler</value>
