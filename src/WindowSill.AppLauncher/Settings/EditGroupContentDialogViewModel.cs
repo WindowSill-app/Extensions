@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Windows.Storage;
 using WindowSill.AppLauncher.Core;
@@ -45,7 +45,8 @@ internal sealed partial class EditGroupContentDialogViewModel : ObservableObject
 
     internal void AddFile(StorageFile file)
     {
-        if (Path.GetExtension(file.Path).Equals(".lnk", StringComparison.OrdinalIgnoreCase))
+        string fileExtension = Path.GetExtension(file.Path);
+        if (fileExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase))
         {
             ShortcutAppInfo? shortcutAppInfo = ShortcutHelper.GetShortcutAppInfo(file.Path);
             if (shortcutAppInfo != null)
@@ -53,7 +54,9 @@ internal sealed partial class EditGroupContentDialogViewModel : ObservableObject
                 AddAppInfo(shortcutAppInfo);
             }
         }
-        else if (Path.GetExtension(file.Path).Equals(".exe", StringComparison.OrdinalIgnoreCase))
+        else if (fileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
+            || fileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase)
+            || fileExtension.Equals(".cmd", StringComparison.OrdinalIgnoreCase))
         {
             ExeAppInfo? exeAppInfo = ExeAppHelper.GetExeAppInfo(file.Path);
             if (exeAppInfo != null)

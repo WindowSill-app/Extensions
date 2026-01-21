@@ -1,4 +1,4 @@
-﻿using Windows.Storage;
+using Windows.Storage;
 using Windows.Storage.Pickers;
 using WindowSill.API;
 using WindowSill.AppLauncher.Core.AppInfo;
@@ -43,6 +43,8 @@ public sealed partial class AppSelectionFlyout : UserControl
             };
             openPicker.FileTypeFilter.Add(".exe");
             openPicker.FileTypeFilter.Add(".lnk");
+            openPicker.FileTypeFilter.Add(".bat");
+            openPicker.FileTypeFilter.Add(".cmd");
 
             nint hwnd = WindowNative.GetWindowHandle(_parentWindow.UnderlyingWindow);
             InitializeWithWindow.Initialize(openPicker, hwnd);

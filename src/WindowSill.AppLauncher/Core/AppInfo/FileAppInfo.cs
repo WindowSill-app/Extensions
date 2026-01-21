@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 
 namespace WindowSill.AppLauncher.Core.AppInfo;
@@ -53,7 +53,8 @@ internal sealed class FileAppInfo : AppInfo, IJsonOnDeserialized, IEquatable<Fil
         var processStartInfo = new ProcessStartInfo
         {
             FileName = FilePath,
-            UseShellExecute = true
+            UseShellExecute = true,
+            WorkingDirectory = System.IO.Path.GetDirectoryName(FilePath)
         };
 
         Process.Start(processStartInfo);

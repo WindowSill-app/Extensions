@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.Text.Json.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -71,7 +71,8 @@ internal sealed partial class ShortcutAppInfo : AppInfo, IEquatable<ShortcutAppI
         {
             FileName = ShortcutFilePath,
             UseShellExecute = true,
-            Verb = asAdmin || AlwaysRunAsAdmin ? "runas" : null
+            Verb = asAdmin || AlwaysRunAsAdmin ? "runas" : null,
+            WorkingDirectory = System.IO.Path.GetDirectoryName(ShortcutFilePath)
         };
 
         try
