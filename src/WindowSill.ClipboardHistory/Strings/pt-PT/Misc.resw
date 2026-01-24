@@ -145,7 +145,7 @@
     <value>Abrir no Explorador de Ficheiros</value>
   </data>
   <data name="OpenInWebBrowser" xml:space="preserve">
-    <value>Abrir no navegador web</value>
+    <value>Abrir no navegador</value>
   </data>
   <data name="UnsupportedFormat" xml:space="preserve">
     <value>Formato não suportado</value>
