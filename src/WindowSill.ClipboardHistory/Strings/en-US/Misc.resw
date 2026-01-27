@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -129,6 +129,9 @@
   <data name="EmptyClipboard" xml:space="preserve">
     <value>The clipboard is empty.</value>
   </data>
+  <data name="EmptyText" xml:space="preserve">
+    <value>(Empty text)</value>
+  </data>
   <data name="EnableClipboardHistory" xml:space="preserve">
     <value>Enable Windows Clipboard history</value>
   </data>
@@ -146,6 +149,9 @@
   </data>
   <data name="OpenInWebBrowser" xml:space="preserve">
     <value>Open in web browser</value>
+  </data>
+  <data name="Paste" xml:space="preserve">
+    <value>Paste</value>
   </data>
   <data name="UnsupportedFormat" xml:space="preserve">
     <value>Unsupported Format</value>

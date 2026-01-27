@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Diagnostics;
+using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -208,6 +208,7 @@ internal sealed partial class ResizeImageViewModel : ObservableObject
     {
         await Task.Run(() =>
         {
+            string resizedFilePath = ImageFileNameHelper.GetVariantFilePath(_file.Path, "_resized");
             MagickGeometry newSize;
 
             switch (ResizeMode)
@@ -249,12 +250,12 @@ internal sealed partial class ResizeImageViewModel : ObservableObject
                     frame.Resize(newSize);
                 }
 
-                collection.Write(_file.Path);
+                collection.Write(resizedFilePath);
             }
             else
             {
                 image.Resize(newSize);
-                image.Write(_file.Path);
+                image.Write(resizedFilePath);
                 image.Dispose();
             }
         });

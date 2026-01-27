@@ -21,6 +21,7 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
     private readonly ISettingsProvider _settingsProvider;
     private readonly IProcessInteractionService _processInteractionService;
     private readonly IPluginInfo _pluginInfo;
+    private ClipboardHistoryMenuViewModel? _menuViewModel;
 
     [ImportingConstructor]
     internal ClipboardHistorySill(
@@ -92,7 +93,6 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
         }
         else if (args.SettingName == Settings.Settings.HidePasswords.Name)
         {
-            ViewList.Clear();
             UpdateClipboardHistoryAsync().Forget();
         }
     }
@@ -124,49 +124,33 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
 
                 await ThreadHelper.RunOnUIThreadAsync(async () =>
                 {
-                    await ViewList.SynchronizeWithAsync(
-                        clipboardItems,
-                        (oldItem, newItem) =>
-                        {
-                            if (oldItem.DataContext is ClipboardHistoryItemViewModelBase oldItemViewModel)
-                            {
-                                return oldItemViewModel.Equals(newItem);
-                            }
-                            throw new Exception($"Unexpected item type in ViewList: {oldItem.DataContext?.GetType().FullName ?? "null"}");
-                        },
-                        async (clipboardItem) =>
-                        {
-                            ClipboardHistoryItemViewModelBase viewModel;
-                            SillListViewItem view;
+                    ViewList.Clear();
 
-                            try
-                            {
-                                DetectedClipboardDataType dataType = await DataHelper.GetDetectedClipboardDataTypeAsync(clipboardItem);
+                    if (!Clipboard.IsHistoryEnabled() || clipboardItems.Count == 0)
+                    {
+                        // Don't add anything - PlaceholderView will be shown
+                        return;
+                    }
 
-                                (viewModel, view) = dataType switch
-                                {
-                                    DetectedClipboardDataType.Image => ImageItemViewModel.CreateView(_processInteractionService, clipboardItem),
-                                    DetectedClipboardDataType.Text => TextItemViewModel.CreateView(_settingsProvider, _processInteractionService, clipboardItem),
-                                    DetectedClipboardDataType.Html => HtmlItemViewModel.CreateView(_processInteractionService, clipboardItem),
-                                    DetectedClipboardDataType.Rtf => RtfItemViewModel.CreateView(_processInteractionService, clipboardItem),
-                                    DetectedClipboardDataType.Uri => UriItemViewModel.CreateView(_processInteractionService, clipboardItem),
-                                    DetectedClipboardDataType.ApplicationLink => ApplicationLinkItemViewModel.CreateView(_processInteractionService, clipboardItem),
-                                    DetectedClipboardDataType.Color => ColorItemViewModel.CreateView(_processInteractionService, clipboardItem),
-                                    DetectedClipboardDataType.UserActivity => UserActivityItemViewModel.CreateView(_processInteractionService, clipboardItem),
-                                    DetectedClipboardDataType.File => FileItemViewModel.CreateView(_processInteractionService, clipboardItem),
-                                    _ => UnknownItemViewModel.CreateView(_processInteractionService, clipboardItem),
-                                };
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.LogError(ex, "Failed to create a view and viewmodel for a clipboard item.");
-                                (viewModel, view) = UnknownItemViewModel.CreateView(_processInteractionService, clipboardItem);
-                            }
+                    // Create or reuse the menu view model
+                    if (_menuViewModel == null)
+                    {
+                        _menuViewModel = new ClipboardHistoryMenuViewModel(
+                            _logger,
+                            _settingsProvider,
+                            _processInteractionService);
+                    }
 
-                            CreateContextMenu(viewModel, view);
+                    // Update menu items
+                    await _menuViewModel.UpdateMenuItemsAsync(clipboardItems);
 
-                            return view;
-                        });
+                    // Create a single menu flyout item that shows all clipboard history
+                    var menuFlyoutItem = new SillListViewMenuFlyoutItem(
+                        $"📋 {clipboardItems.Count} {(clipboardItems.Count == 1 ? "item" : "items")}",
+                        "/WindowSill.ClipboardHistory/Misc/DisplayName".GetLocalizedString(),
+                        _menuViewModel.GetMenuFlyout());
+
+                    ViewList.Add(menuFlyoutItem);
                 });
             }
         });
@@ -193,24 +177,5 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
         }
 
         return Array.Empty<ClipboardHistoryItem>();
-    }
-
-    private static void CreateContextMenu(ClipboardHistoryItemViewModelBase viewModel, SillListViewItem view)
-    {
-        var menuFlyout = new MenuFlyout();
-        menuFlyout.Items.Add(new MenuFlyoutItem
-        {
-            Text = "/WindowSill.ClipboardHistory/Misc/ClearHistory".GetLocalizedString(),
-            Icon = new SymbolIcon(Symbol.Clear),
-            Command = viewModel.ClearCommand
-        });
-        menuFlyout.Items.Add(new MenuFlyoutItem
-        {
-            Text = "/WindowSill.ClipboardHistory/Misc/Delete".GetLocalizedString(),
-            Icon = new SymbolIcon(Symbol.Delete),
-            Command = viewModel.DeleteCommand
-        });
-
-        view.ContextFlyout = menuFlyout;
     }
 }

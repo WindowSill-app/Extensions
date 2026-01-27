@@ -1,5 +1,6 @@
-# 0.7.2
+# 0.8.0
 - You can now use Win+Ctrl within the Compress and Convert flyout.
+- Resized and compressed images will now be saved in separated files to avoid overwriting the original image.
 - Fixed crash happening when dropping a file with a too long path.
 
 # 0.7.1
