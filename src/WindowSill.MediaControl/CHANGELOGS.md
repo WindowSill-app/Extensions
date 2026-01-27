@@ -1,3 +1,7 @@
+# 0.7.4
+- Improved performance.
+- Updated dependencies.
+
 # 0.7.3
 - Added translation for Portuguese.
 - Improved other translations.

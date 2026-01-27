@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.ShortTermReminder</PackageId>
-    <Version>0.7.2</Version>
+    <Version>0.7.3</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>Short Term Reminder</Title>
     <Description>Who needs a way to be reminded about quick things to do in a short period of time? Designed with ADHD in mind, this WindowSill extension delivers bold, full-screen reminders and frictionless task prompts that cut through distraction and keep you centered.</Description>

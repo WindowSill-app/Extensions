@@ -1,4 +1,4 @@
-﻿using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 using System.ComponentModel.Composition;
 
@@ -12,6 +12,7 @@ namespace WindowSill.PerfCounter;
 [Export(typeof(ISill))]
 [Name("Performance Counter")]
 [Priority(Priority.Lowest)]
+//[SupportMultipleMonitors]
 public sealed class PerformanceCounterSill : ISillActivatedByDefault, ISillSingleView
 {
     private readonly IPerformanceMonitorService _performanceMonitorService;

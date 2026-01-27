@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.URLHelper</PackageId>
-        <Version>0.7.1</Version>
+        <Version>0.7.2</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>URL Helper</Title>
         <Description>

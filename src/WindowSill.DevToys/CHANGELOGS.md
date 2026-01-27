@@ -1,3 +1,6 @@
+# 0.7.3
+- Updated dependencies.
+
 # 0.7.2
 - Added translation for Portuguese.
 

@@ -1,3 +1,6 @@
+# 0.2.7
+- Updated dependencies.
+
 # 0.2.6
 - Improved reliability in fetching currency rates.
 

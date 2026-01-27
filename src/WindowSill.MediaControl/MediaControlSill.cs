@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.Composition;
+using System.ComponentModel.Composition;
 
 using WindowSill.API;
 using WindowSill.MediaControl.Settings;
@@ -8,6 +8,7 @@ namespace WindowSill.MediaControl;
 [Export(typeof(ISill))]
 [Name("Media Control")]
 [Priority(Priority.Highest)]
+//[SupportMultipleMonitors()]
 public sealed class MediaControlSill : ISill, ISillSingleView
 {
     private readonly ISettingsProvider _settingsProvider;

@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Diagnostics;
+using CommunityToolkit.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
@@ -30,53 +30,59 @@ internal sealed class TextItemViewModel : ClipboardHistoryItemViewModelBase
 
     private async Task InitializeAsync()
     {
-        try
+        await Task.Run(async () =>
         {
-            Guard.IsNotNull(Data);
-            string? text = null;
+            try
+            {
+                Guard.IsNotNull(Data);
+                string? text = null;
 
-            if (Data.AvailableFormats.Contains(StandardDataFormats.Text))
-            {
-                text = await Data.GetTextAsync();
-            }
-            else if (Data.AvailableFormats.Contains("AnsiText"))
-            {
-                text = await Data.GetDataAsync("AnsiText") as string;
-            }
-            else if (Data.AvailableFormats.Contains("OEMText"))
-            {
-                text = await Data.GetDataAsync("OEMText") as string;
-            }
-            else if (Data.AvailableFormats.Contains("TEXT"))
-            {
-                text = await Data.GetDataAsync("TEXT") as string;
-            }
+                if (Data.AvailableFormats.Contains(StandardDataFormats.Text))
+                {
+                    text = await Data.GetTextAsync();
+                }
+                else if (Data.AvailableFormats.Contains("AnsiText"))
+                {
+                    text = await Data.GetDataAsync("AnsiText") as string;
+                }
+                else if (Data.AvailableFormats.Contains("OEMText"))
+                {
+                    text = await Data.GetDataAsync("OEMText") as string;
+                }
+                else if (Data.AvailableFormats.Contains("TEXT"))
+                {
+                    text = await Data.GetDataAsync("TEXT") as string;
+                }
 
-            text ??= string.Empty;
+                text ??= string.Empty;
 
-            if (_settingsProvider.GetSetting(Settings.Settings.HidePasswords)
-                && IsPassword(text))
-            {
-                _view.Content = new string('•', text.Length);
-            }
-            else
-            {
-                _view.Content
-                    = text
-                    .Substring(0, Math.Min(text.Length, 256))
-                    .Trim()
-                    .Replace("\r\n", "⏎")
-                    .Replace("\n\r", "⏎")
-                    .Replace('\r', '⏎')
-                    .Replace('\n', '⏎');
-            }
+                await ThreadHelper.RunOnUIThreadAsync(() =>
+                {
+                    if (_settingsProvider.GetSetting(Settings.Settings.HidePasswords)
+                        && IsPassword(text))
+                    {
+                        _view.Content = new string('•', text.Length);
+                    }
+                    else
+                    {
+                        _view.Content
+                            = text
+                            .Substring(0, Math.Min(text.Length, 256))
+                            .Trim()
+                            .Replace("\r\n", "⏎")
+                            .Replace("\n\r", "⏎")
+                            .Replace('\r', '⏎')
+                            .Replace('\n', '⏎');
+                    }
 
-            _view.PreviewFlyoutContent = text;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, $"Failed to initialize {nameof(TextItemViewModel)} control.");
-        }
+                    _view.PreviewFlyoutContent = text;
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to initialize {nameof(TextItemViewModel)} control.");
+            }
+        });
     }
 
     private static bool IsPassword(string text)

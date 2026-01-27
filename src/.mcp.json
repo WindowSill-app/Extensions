@@ -2,7 +2,7 @@
   "inputs": [],
   "servers": {
     "context7": {
-      "type": "http",
+      "type": "sse",
       "url": "https://mcp.context7.com/mcp"
     },
     "Sentry": {
@@ -14,8 +14,24 @@
       "url": "https://learn.microsoft.com/api/mcp"
     },
     "github": {
-      "type": "http",
+      "type": "sse",
       "url": "https://api.githubcopilot.com/mcp/"
+    },
+    "baronfel-binlog": {
+      "type": "stdio",
+      "command": "dnx",
+      "args": [
+        "baronfel.binlog.mcp@0.0.12",
+        "--yes"
+      ]
+    },
+    "dotnet-mcp": {
+      "type": "stdio",
+      "command": "dnx",
+      "args": [
+        "Community.Mcp.DotNet@1.0.0",
+        "--yes"
+      ]
     }
   }
 }

@@ -1,3 +1,6 @@
+# 0.7.2
+- Fixed vulnerability in a dependency.
+
 # 0.7.1
 - Added translation for Portuguese.
 

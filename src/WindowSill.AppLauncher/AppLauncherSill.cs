@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using CommunityToolkit.Diagnostics;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -12,6 +12,7 @@ namespace WindowSill.AppLauncher;
 [Name(SillInternalName)]
 [Priority(Priority.Highest)]
 [HideIconInSillListView]
+//[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
 public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView
 {
     internal const string SillInternalName = "WindowSill.AppLauncherSill";
@@ -73,16 +74,27 @@ public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView
     {
         await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
-            using (IDisposable _ = await _disposableSemaphore.WaitAsync(CancellationToken.None))
-            {
-                ViewList.Clear();
-                AppGroup[] groups = _appGroupService.AppGroups.ToArray();
-                for (int i = 0; i < groups.Length; i++)
-                {
-                    AppGroup group = groups[i];
-                    group.GroupIcon.Reset();
-                    Guard.IsNotNull(group.GroupIcon.Task);
+            using IDisposable _ = await _disposableSemaphore.WaitAsync(CancellationToken.None);
 
+            ViewList.Clear();
+            AppGroup[] groups = _appGroupService.AppGroups.ToArray();
+            for (int i = 0; i < groups.Length; i++)
+            {
+                AppGroup group = groups[i];
+                group.GroupIcon.Reset();
+                Guard.IsNotNull(group.GroupIcon.Task);
+
+                if (group.Items.Count == 1)
+                {
+                    ViewList.Add(
+                        new SillListViewButtonItem(
+                            new ImageIcon()
+                                .Source((await group.GroupIcon.Task)!),
+                            group.GroupName,
+                            async () => await group.Items[0].LaunchAsync(asAdmin: false)));
+                }
+                else
+                {
                     ViewList.Add(
                         new SillListViewPopupItem(
                             new ImageIcon()

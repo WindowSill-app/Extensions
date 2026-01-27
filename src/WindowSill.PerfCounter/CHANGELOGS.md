@@ -1,3 +1,6 @@
+# 0.6.7
+- Updated dependencies.
+
 # 0.6.6
 - Added translation for Portuguese.
 - Improved other translations.

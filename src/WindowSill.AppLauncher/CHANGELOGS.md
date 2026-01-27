@@ -1,3 +1,7 @@
+# 0.2.2
+- Groups with only one item are now launched directly when clicking on them instead of opening a flyout.
+- Updated dependencies.
+
 # 0.2.1
 - Fixed working directory when launching shortcuts, files or folders.
 

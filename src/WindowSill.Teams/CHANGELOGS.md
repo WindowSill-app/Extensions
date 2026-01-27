@@ -1,3 +1,6 @@
+# 0.8.1
+- Updated dependencies.
+
 # 0.8.0
 - Following Microsoft's decision to discontinue the API required for integration with Microsoft Teams, the reaction buttons such as Like or Laugh will not work anymore. However, the mute/unmute and leave buttons are still available and work properly.
 - Added translation for Portuguese.

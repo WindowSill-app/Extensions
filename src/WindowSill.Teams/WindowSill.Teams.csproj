@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.Teams</PackageId>
-        <Version>0.8.0</Version>
+        <Version>0.8.1</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>Microsoft Teams</Title>
         <Description>This WindowSill extension allows to control your Microsoft Teams meeting even when it is in background or minimized.</Description>

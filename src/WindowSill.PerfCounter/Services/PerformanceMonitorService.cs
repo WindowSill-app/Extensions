@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.Composition;
+using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
 
 using Windows.Win32;
@@ -16,7 +16,7 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
     private ulong _lastKernelTime;
     private ulong _lastUserTime;
     private readonly object _lockObject = new();
-    private bool _isMonitoring;
+    private int _monitoringCount;
 
     public event EventHandler<PerformanceDataEventArgs>? PerformanceDataUpdated;
 
@@ -39,9 +39,8 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
     {
         lock (_lockObject)
         {
-            if (!_isMonitoring)
+            if (Interlocked.Increment(ref _monitoringCount) == 1)
             {
-                _isMonitoring = true;
                 InitializeCpuUsageTracking();
                 _timer.Change(TimeSpan.Zero, TimeSpan.FromSeconds(1));
             }
@@ -52,9 +51,8 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
     {
         lock (_lockObject)
         {
-            if (_isMonitoring)
+            if (Interlocked.Decrement(ref _monitoringCount) == 0)
             {
-                _isMonitoring = false;
                 _timer.Change(Timeout.Infinite, Timeout.Infinite);
             }
         }
@@ -75,7 +73,7 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
 
     private void OnTimerCallback(object? state)
     {
-        if (!_isMonitoring)
+        if (_monitoringCount == 0)
         {
             return;
         }

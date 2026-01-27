@@ -1,3 +1,6 @@
+# 0.8.1
+- Fixed vulnerability in a dependency.
+
 # 0.7.2
 - You can now use Win+Ctrl within the Compress and Convert flyout.
 - Fixed crash happening when dropping a file with a too long path.

@@ -1,3 +1,7 @@
+# 0.7.9
+- Improved performance.
+- Updated dependencies.
+
 # 0.7.8
 - Fixed double treatment of clipboard items.
 

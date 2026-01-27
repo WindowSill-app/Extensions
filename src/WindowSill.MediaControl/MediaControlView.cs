@@ -1,23 +1,16 @@
-﻿using CommunityToolkit.Labs.WinUI.MarqueeTextRns;
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Converters;
 
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml.Media.Animation;
 
-using System.Reflection;
-
 using WindowSill.API;
+using WindowSill.MediaControl.UI;
 
 namespace WindowSill.MediaControl;
 
 internal class MediaControlView
 {
-    // Use reflection to get the private TextProperty dependency property
-    private static readonly DependencyProperty marqueeTextProperty
-        = typeof(MarqueeText).GetField("TextProperty", BindingFlags.NonPublic | BindingFlags.Static)?.GetValue(null) as DependencyProperty
-        ?? throw new InvalidOperationException("Could not access MarqueeText.TextProperty via reflection");
-
     private static readonly BoolToObjectConverter isPlayingToGlyphConverter
         = new() { FalseValue = "\uF5B0", TrueValue = "\uE62E" };
 
@@ -27,17 +20,12 @@ internal class MediaControlView
     private readonly Image _thumbnailImage = new();
     private readonly TextBlock _songTextBlock = new();
     private readonly TextBlock _artistTextBlock = new();
-    private readonly MarqueeText _songAndArtistNameMarqueeText = new();
+    private readonly Marquee _songAndArtistNameMarqueeText = new();
 
     // PROBLEMS TO FIX:
-    // 1. MarqueText, or any other control that isn't referenced by WindowSill.csproj using PackageReference:
-    //    I might have discover yet another limitation with loading assemblies dynamically. The current extension project
-    //    uses CommunityToolkit.Labs.WinUI.MarqueeText. The program doesn't crash, but MarqueeText control NEVER gets
-    //    its OnApplyTemplate() invoked, whether I instantiate the control manually (using C# markup) or using XamlRead.Load().
-    //    I thought it could be because we miss the PRI file, but nope. Having the PRI file doesn't help.
-    // 2. I'm also unable to make VisualState working. Both, C# Markup and XamlReader.Load(). Works
+    // 1. I'm unable to make VisualState working. Both, C# Markup and XamlReader.Load(). Works
     //    fine if my dll isn't loaded dynamically.
-    // 3. If MediaControlView inherits from SillView, then roughly 50% of the time, we get an error that says
+    // 2. If MediaControlView inherits from SillView, then roughly 50% of the time, we get an error that says
     //    "Cannot apply a Style with TargetType 'WindowSill.API.SillView' to an object of type 'Microsoft.UI.Xaml.Controls.ContentControl'.
 
     public MediaControlView(ISettingsProvider settingsProvider)
@@ -54,15 +42,8 @@ internal class MediaControlView
         _songAndArtistNameMarqueeText.Foreground(x => x.ThemeResource("TextFillColorPrimaryBrush"));
         _songAndArtistNameMarqueeText.RepeatBehavior = RepeatBehavior.Forever;
         _songAndArtistNameMarqueeText.Speed = 25;
-        _songAndArtistNameMarqueeText.SetBinding(
-            marqueeTextProperty,
-            new Binding
-            {
-                Source = _viewModel,
-                Path = new PropertyPath(nameof(MediaControlViewModel.SongAndArtistName)),
-                Mode = BindingMode.OneWay
-            });
         _songAndArtistNameMarqueeText.StopMarquee();
+        _songAndArtistNameMarqueeText.Loaded += SongAndArtistNameMarqueeText_Loaded;
 
         View.DataContext(
             _viewModel,
@@ -96,7 +77,8 @@ internal class MediaControlView
                                             .Source(() => viewModel.Thumbnail)
                                     ),
 
-                                _songAndArtistNameMarqueeText,
+                                _songAndArtistNameMarqueeText
+                                    .Content(x => x.Binding(() => viewModel.SongAndArtistName).OneWay()),
 
                                 _songTextBlock
                                     .Grid(row: 0, column: 1)
@@ -171,6 +153,11 @@ internal class MediaControlView
     private void ThumbnailAndTitlesGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
     {
         _viewModel.SwitchToPlayingSourceWindow();
+    }
+
+    private void SongAndArtistNameMarqueeText_Loaded(object sender, RoutedEventArgs e)
+    {
+        OnIsSillOrientationOrSizeChanged(null, EventArgs.Empty);
     }
 
     private void OnIsSillOrientationOrSizeChanged(object? sender, EventArgs e)

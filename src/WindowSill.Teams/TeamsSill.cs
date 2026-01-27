@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Diagnostics;
+using CommunityToolkit.Diagnostics;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -20,6 +20,7 @@ namespace WindowSill.Teams;
 [Export(typeof(ISill))]
 [Name("Microsoft Teams")]
 [Priority(Priority.Lowest)]
+//[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
 public sealed class TeamsSill : ISillActivatedByDefault, ISillFirstTimeSetup, ISillListView
 {
     private readonly ISettingsProvider _settingsProvider;

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.PerfCounter</PackageId>
-        <Version>0.6.6</Version>
+        <Version>0.6.7</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>Perf Counter</Title>
         <Description>
