@@ -117,37 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ClearHistory" xml:space="preserve">
-    <value>Limpar histórico</value>
+  <data name="AlwaysRunAsAdmin.ContentProperty" xml:space="preserve">
+    <value>Always run as administrator</value>
   </data>
-  <data name="Delete" xml:space="preserve">
-    <value>Apagar</value>
+  <data name="Arguments.HeaderProperty" xml:space="preserve">
+    <value>Arguments</value>
   </data>
-  <data name="DisplayName" xml:space="preserve">
-    <value>Histórico da área de transferência</value>
+  <data name="Name.HeaderProperty" xml:space="preserve">
+    <value>Name</value>
   </data>
-  <data name="EmptyClipboard" xml:space="preserve">
-    <value>A área de transferência está vazia.</value>
-  </data>
-  <data name="EnableClipboardHistory" xml:space="preserve">
-    <value>Ativar o histórico da área de transferência do Windows</value>
-  </data>
-  <data name="FileError" xml:space="preserve">
-    <value>Falha ao obter informações do ficheiro</value>
-  </data>
-  <data name="ImageSize" xml:space="preserve">
-    <value>{0} x {1} pixels</value>
-  </data>
-  <data name="OpenApplication" xml:space="preserve">
-    <value>Abrir aplicativo</value>
-  </data>
-  <data name="OpenInFileExplorer" xml:space="preserve">
-    <value>Abrir no Explorador de Ficheiros</value>
-  </data>
-  <data name="OpenInWebBrowser" xml:space="preserve">
-    <value>Abrir no navegador</value>
-  </data>
-  <data name="UnsupportedFormat" xml:space="preserve">
-    <value>Formato não suportado</value>
+  <data name="Reset.ContentProperty" xml:space="preserve">
+    <value>Reset</value>
   </data>
 </root>
