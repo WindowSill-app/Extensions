@@ -13,7 +13,7 @@ namespace WindowSill.ClipboardHistory;
 [Export(typeof(ISill))]
 [Name("Clipboard History")]
 [Priority(Priority.Low)]
-//[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
+[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
 public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTimeSetup, ISillListView
 {
     private readonly ILogger _logger;

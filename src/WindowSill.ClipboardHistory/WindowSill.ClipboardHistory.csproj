@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.ClipboardHistory</PackageId>
-        <Version>0.7.9</Version>
+        <Version>0.8.0</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>Clipboard History</Title>
         <Description>

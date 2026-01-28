@@ -12,7 +12,7 @@ namespace WindowSill.PerfCounter;
 [Export(typeof(ISill))]
 [Name("Performance Counter")]
 [Priority(Priority.Lowest)]
-//[SupportMultipleMonitors]
+[SupportMultipleMonitors]
 public sealed class PerformanceCounterSill : ISillActivatedByDefault, ISillSingleView
 {
     private readonly IPerformanceMonitorService _performanceMonitorService;

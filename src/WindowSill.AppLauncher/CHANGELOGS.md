@@ -1,3 +1,6 @@
+# 0.3.0
+- Added multiple display support.
+
 # 0.2.2
 - Groups with only one item are now launched directly when clicking on them instead of opening a flyout.
 - Updated dependencies.

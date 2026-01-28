@@ -1,3 +1,6 @@
+# 0.7.0
+- Added multiple display support.
+
 # 0.6.7
 - Updated dependencies.
 

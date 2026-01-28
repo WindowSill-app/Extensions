@@ -12,7 +12,7 @@ namespace WindowSill.AppLauncher;
 [Name(SillInternalName)]
 [Priority(Priority.Highest)]
 [HideIconInSillListView]
-//[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
+[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
 public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView
 {
     internal const string SillInternalName = "WindowSill.AppLauncherSill";

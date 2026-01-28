@@ -8,7 +8,7 @@ namespace WindowSill.MediaControl;
 [Export(typeof(ISill))]
 [Name("Media Control")]
 [Priority(Priority.Highest)]
-//[SupportMultipleMonitors()]
+[SupportMultipleMonitors()]
 public sealed class MediaControlSill : ISill, ISillSingleView
 {
     private readonly ISettingsProvider _settingsProvider;
