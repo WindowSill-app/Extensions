@@ -1,3 +1,7 @@
+# 0.3.1
+- Fixed an issue where we could not scroll in a group.
+- Fixed a crash happening when re-ordering items.
+
 # 0.3.0
 - Added multiple display support.
 

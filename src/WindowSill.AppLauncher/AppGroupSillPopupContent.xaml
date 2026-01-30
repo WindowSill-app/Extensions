@@ -73,6 +73,7 @@
         <local:ShortcutListView
             Grid.Row="1"
             Grid.ColumnSpan="2"
+            MaxHeight="600"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             IsItemClickEnabled="True"
@@ -80,6 +81,19 @@
             ItemInvoked="ShortcutListView_ItemInvoked"
             ItemsSource="{x:Bind AppGroup.Items}"
             SelectionMode="None">
+            <local:ShortcutListView.Template>
+                <ControlTemplate TargetType="local:ShortcutListView">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="4">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </local:ShortcutListView.Template>
             <local:ShortcutListView.ItemTemplate>
                 <DataTemplate x:DataType="appinfo:AppInfo">
                     <Grid

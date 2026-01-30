@@ -56,6 +56,12 @@
             CanReorderItems="True"
             ItemsSource="{x:Bind AppGroups}"
             SelectionMode="None">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <!--  Disable virtualization as it causes crash when reordering items  -->
+                    <StackPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             <ListView.ItemContainerStyle>
                 <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                     <Setter Property="Margin" Value="0" />
