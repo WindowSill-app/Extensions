@@ -117,43 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppApps.TextProperty" xml:space="preserve">
-    <value>Agregar(s) aplicación(es)</value>
+  <data name="Add.LabelProperty" xml:space="preserve">
+    <value>Add</value>
   </data>
-  <data name="AppFiles.TextProperty" xml:space="preserve">
-    <value>Agregar(s) archivo(s)</value>
-  </data>
-  <data name="AppFolders.TextProperty" xml:space="preserve">
-    <value>Agregar(s) carpeta(s)</value>
-  </data>
-  <data name="AppUrls.TextProperty" xml:space="preserve">
-    <value>Agregar URL(s)</value>
+  <data name="AddFavoriteTitle" xml:space="preserve">
+    <value>Add a favorite currency</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="ChangeIcon.TextProperty" xml:space="preserve">
-    <value>Cambiar icono</value>
+    <value>Cancel</value>
   </data>
   <data name="Delete.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Eliminar</value>
+    <value>Delete</value>
   </data>
-  <data name="Edit.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Editar</value>
+  <data name="DisplayName" xml:space="preserve">
+    <value>Currency Converter</value>
   </data>
-  <data name="EditGroup" xml:space="preserve">
-    <value>Editar grupo</value>
+  <data name="FavoriteInto.TextProperty" xml:space="preserve">
+    <value>Favorites currencies</value>
   </data>
-  <data name="GroupName.HeaderProperty" xml:space="preserve">
-    <value>Nombre del grupo</value>
+  <data name="Loading.TextProperty" xml:space="preserve">
+    <value>Loading exchange rates...</value>
   </data>
-  <data name="NewGroup" xml:space="preserve">
-    <value>Nuevo grupo</value>
+  <data name="MoveDown.ToolTipService.ToolTipProperty" xml:space="preserve">
+    <value>Move down</value>
   </data>
-  <data name="Reset.TextProperty" xml:space="preserve">
-    <value>Restablecer</value>
+  <data name="MoveUp.ToolTipService.ToolTipProperty" xml:space="preserve">
+    <value>Move up</value>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Guardar</value>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Search.PlaceholderTextProperty" xml:space="preserve">
+    <value>Search currencies...</value>
   </data>
 </root>

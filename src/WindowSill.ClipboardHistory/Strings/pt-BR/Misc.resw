@@ -117,43 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppApps.TextProperty" xml:space="preserve">
-    <value>Agregar(s) aplicación(es)</value>
+  <data name="ClearHistory" xml:space="preserve">
+    <value>Clear History</value>
   </data>
-  <data name="AppFiles.TextProperty" xml:space="preserve">
-    <value>Agregar(s) archivo(s)</value>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="AppFolders.TextProperty" xml:space="preserve">
-    <value>Agregar(s) carpeta(s)</value>
+  <data name="DisplayName" xml:space="preserve">
+    <value>Clipboard History</value>
   </data>
-  <data name="AppUrls.TextProperty" xml:space="preserve">
-    <value>Agregar URL(s)</value>
+  <data name="EmptyClipboard" xml:space="preserve">
+    <value>The clipboard is empty.</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancelar</value>
+  <data name="EnableClipboardHistory" xml:space="preserve">
+    <value>Enable Windows Clipboard history</value>
   </data>
-  <data name="ChangeIcon.TextProperty" xml:space="preserve">
-    <value>Cambiar icono</value>
+  <data name="FileError" xml:space="preserve">
+    <value>Failed to get file info</value>
   </data>
-  <data name="Delete.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Eliminar</value>
+  <data name="ImageSize" xml:space="preserve">
+    <value>{0} x {1} pixels</value>
   </data>
-  <data name="Edit.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Editar</value>
+  <data name="OpenApplication" xml:space="preserve">
+    <value>Open application</value>
   </data>
-  <data name="EditGroup" xml:space="preserve">
-    <value>Editar grupo</value>
+  <data name="OpenInFileExplorer" xml:space="preserve">
+    <value>Open in File Explorer</value>
   </data>
-  <data name="GroupName.HeaderProperty" xml:space="preserve">
-    <value>Nombre del grupo</value>
+  <data name="OpenInWebBrowser" xml:space="preserve">
+    <value>Open in web browser</value>
   </data>
-  <data name="NewGroup" xml:space="preserve">
-    <value>Nuevo grupo</value>
-  </data>
-  <data name="Reset.TextProperty" xml:space="preserve">
-    <value>Restablecer</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Guardar</value>
+  <data name="UnsupportedFormat" xml:space="preserve">
+    <value>Unsupported Format</value>
   </data>
 </root>
