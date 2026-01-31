@@ -1,6 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ImageMagick;
 using WindowSill.API;
+using WindowSill.ImageHelper.Helpers;
 using Windows.Storage;
 using Path = System.IO.Path;
 
@@ -35,10 +36,10 @@ internal sealed partial class ConversionTask : ObservableObject
         bool isSucceeded = false;
         try
         {
-            string newFileName = Path.GetFileNameWithoutExtension(_fileInfo.FullName) + "." + _format.ToString().ToLowerInvariant();
-            string newFilePath = Path.Combine(_fileInfo.DirectoryName!, newFileName);
+            string newExtension = _format.ToString().ToLowerInvariant();
+            string newFilePath = FilePathHelper.GetUniqueOutputPath(_fileInfo.FullName, "_converted", newExtension);
 
-            if (_fileInfo.Exists && !File.Exists(newFilePath))
+            if (_fileInfo.Exists)
             {
                 using var originalImage = new MagickImage(_fileInfo);
                 originalImage.Format = _format;

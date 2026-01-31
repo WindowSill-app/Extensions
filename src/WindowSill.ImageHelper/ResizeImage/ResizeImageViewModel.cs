@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Diagnostics;
+using CommunityToolkit.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Storage;
 
 using WindowSill.API;
+using WindowSill.ImageHelper.Helpers;
 
 namespace WindowSill.ImageHelper.ResizeImage;
 
@@ -234,6 +235,8 @@ internal sealed partial class ResizeImageViewModel : ObservableObject
             }
 
             var image = new MagickImage(_file.Path);
+            string outputPath = FilePathHelper.GetUniqueOutputPath(_file.Path, "_resized");
+
             if (image.Format == MagickFormat.Gif)
             {
                 image.Dispose();
@@ -249,12 +252,12 @@ internal sealed partial class ResizeImageViewModel : ObservableObject
                     frame.Resize(newSize);
                 }
 
-                collection.Write(_file.Path);
+                collection.Write(outputPath);
             }
             else
             {
                 image.Resize(newSize);
-                image.Write(_file.Path);
+                image.Write(outputPath);
                 image.Dispose();
             }
         });

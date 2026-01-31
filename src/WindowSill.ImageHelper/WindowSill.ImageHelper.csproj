@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.ImageHelper</PackageId>
-        <Version>0.8.1</Version>
+        <Version>0.8.2</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>Image Helper</Title>
         <Description>
