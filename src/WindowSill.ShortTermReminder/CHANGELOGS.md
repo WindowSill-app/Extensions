@@ -1,3 +1,6 @@
+# 0.9.13
+- Updated dependencies.
+
 # 0.7.3
 - Updated dependencies.
 

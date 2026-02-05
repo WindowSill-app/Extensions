@@ -1,10 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.Teams</PackageId>
-        <Version>0.9.0</Version>
+        <Version>0.9.13</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>Microsoft Teams</Title>
-        <Description>This WindowSill extension allows to control your Microsoft Teams meeting even when it is in background or minimized.</Description>
+        <Description>This WindowSill extension allows to control your Microsoft Teams meeting even when it is in background or minimized. When you are in a call, WindowSill will display buttons to mute/unmute yourself along with leaving a call. These buttons are working even when Microsoft Teams is minimized in Windows.
+        
+        This extension only works with Microsoft Teams for Business. It does not work with Microsoft Teams for consumer.</Description>
         <PackageIcon>Assets/microsoft_teams_2019.png</PackageIcon>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>

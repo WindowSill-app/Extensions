@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.ImageHelper</PackageId>
-        <Version>0.8.2</Version>
+      <Version>0.9.13</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>Image Helper</Title>
         <Description>
-          Drag and drop images for instant processing. Convert formats, resize, or compress without opening bulky editing software.
+          Select images in File Explorer or Drag and drop any image into WindowSill for instant processing. Convert formats, resize, or compress without opening bulky editing software.
 
           Handle single images or batch-process dozens at once; all the essential image tools you need, right in your digital window sill.
         </Description>

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.AppLauncher</PackageId>
-    <Version>0.3.1</Version>
+    <Version>0.9.13</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>App Launcher</Title>
     <Description>Group your apps, files and folders your way, personalize icons, and launch one or many of them in a click.</Description>

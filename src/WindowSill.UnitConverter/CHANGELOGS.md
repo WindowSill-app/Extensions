@@ -1,3 +1,6 @@
+# 0.9.13
+- Updated dependencies.
+
 # 0.2.8
 - Fixed a crash happening when re-ordering items.
 

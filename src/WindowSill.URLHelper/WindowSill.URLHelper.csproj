@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.URLHelper</PackageId>
-        <Version>0.7.2</Version>
+        <Version>0.9.13</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>URL Helper</Title>
         <Description>
-          This WindowSill extension allows to shorten URLs or generate QR Code for them.
+          This WindowSill extension allows to shorten URLs or generate QR Code for them. Select a URL anywhere in Windows, and WindowSill will provide you options to shorten the selected URL or generate a QR Code image for it.
         </Description>
         <PackageIcon>Assets/link.png</PackageIcon>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>

@@ -1,3 +1,6 @@
+# 0.9.13
+- Updated dependencies.
+
 # 0.3.1
 - Fixed an issue where we could not scroll in a group.
 - Fixed a crash happening when re-ordering items.
