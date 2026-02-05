@@ -117,43 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AppApps.TextProperty" xml:space="preserve">
-    <value>Agregar(s) aplicación(es)</value>
+  <data name="InHowLong" xml:space="preserve">
+    <value>In</value>
   </data>
-  <data name="AppFiles.TextProperty" xml:space="preserve">
-    <value>Agregar(s) archivo(s)</value>
+  <data name="Minutes" xml:space="preserve">
+    <value>minutes</value>
   </data>
-  <data name="AppFolders.TextProperty" xml:space="preserve">
-    <value>Agregar(s) carpeta(s)</value>
+  <data name="Title" xml:space="preserve">
+    <value>New Short-Term Reminder</value>
   </data>
-  <data name="AppUrls.TextProperty" xml:space="preserve">
-    <value>Agregar URL(s)</value>
+  <data name="WillRemindAt" xml:space="preserve">
+    <value>Will remind you at {0}</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Cancelar</value>
+  <data name="OkButton" xml:space="preserve">
+    <value>OK</value>
   </data>
-  <data name="ChangeIcon.TextProperty" xml:space="preserve">
-    <value>Cambiar icono</value>
-  </data>
-  <data name="Delete.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Eliminar</value>
-  </data>
-  <data name="Edit.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Editar</value>
-  </data>
-  <data name="EditGroup" xml:space="preserve">
-    <value>Editar grupo</value>
-  </data>
-  <data name="GroupName.HeaderProperty" xml:space="preserve">
-    <value>Nombre del grupo</value>
-  </data>
-  <data name="NewGroup" xml:space="preserve">
-    <value>Nuevo grupo</value>
-  </data>
-  <data name="Reset.TextProperty" xml:space="preserve">
-    <value>Restablecer</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Guardar</value>
+  <data name="ReminderTextBox" xml:space="preserve">
+    <value>Remind me to:</value>
   </data>
 </root>
