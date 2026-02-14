@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Short Term Reminders</value>
+    <value>Lembretes de curto prazo</value>
   </data>
   <data name="ToastNotificationTitle" xml:space="preserve">
-    <value>Reminder</value>
+    <value>Lembrete</value>
   </data>
 </root>
