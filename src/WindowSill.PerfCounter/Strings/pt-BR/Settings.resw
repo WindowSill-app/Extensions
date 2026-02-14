@@ -124,30 +124,30 @@
     <value>Which metric to use for animated running man</value>
   </data>
   <data name="DisplayMode" xml:space="preserve">
-    <value>Display Mode</value>
+    <value>Modo de Exibição</value>
   </data>
   <data name="DisplayModeDescription" xml:space="preserve">
-    <value>Choose how to display performance metrics</value>
+    <value>Escolha como exibir as métricas de desempenho</value>
   </data>
   <data name="DisplayModePercentage" xml:space="preserve">
-    <value>Percentage</value>
+    <value>Porcentagem</value>
   </data>
   <data name="DisplayModeRunningMan" xml:space="preserve">
     <value>Running Man</value>
   </data>
   <data name="EnableTaskManagerLaunch" xml:space="preserve">
-    <value>Enable Task Manager Launch</value>
+    <value>Habilitar Iniciar Gerenciador de Tarefas</value>
   </data>
   <data name="EnableTaskManagerLaunchDescription" xml:space="preserve">
-    <value>Allow opening Task Manager when clicking the performance counter</value>
+    <value>Permitir abrir o Gerenciador de Tarefas ao clicar no contador de desempenho</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>General</value>
+    <value>Geral</value>
   </data>
   <data name="OpenTaskManager" xml:space="preserve">
-    <value>Open Task Manager</value>
+    <value>Abrir o Gerenciador de Tarefas</value>
   </data>
   <data name="OpenTaskManagerDescription" xml:space="preserve">
-    <value>Click to open Windows Task Manager for detailed system information</value>
+    <value>Clique para abrir o Gerenciador de Tarefas do Windows para mostrar informações detalhadas do sistema</value>
   </data>
 </root>
