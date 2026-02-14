@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="InHowLong" xml:space="preserve">
-    <value>In</value>
+    <value>Em</value>
   </data>
   <data name="Minutes" xml:space="preserve">
-    <value>minutes</value>
+    <value>minutos</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>New Short-Term Reminder</value>
+    <value>Novo Lembrete de Curto Prazo</value>
   </data>
   <data name="WillRemindAt" xml:space="preserve">
-    <value>Will remind you at {0}</value>
+    <value>Lembrar você em '{0}'</value>
   </data>
   <data name="OkButton" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="ReminderTextBox" xml:space="preserve">
-    <value>Remind me to:</value>
+    <value>Lembre-me de:</value>
   </data>
 </root>
