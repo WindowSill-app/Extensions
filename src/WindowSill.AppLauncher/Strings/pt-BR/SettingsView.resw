@@ -124,9 +124,9 @@
     <value>Edit</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>Group your favorite apps, files and folders and launch them from WindowSill, individually or all at once. Customize their name, icon and order.</value>
+    <value>Agrupe seus aplicativos, arquivos e pastas favoritos e inicie-os a partir do WindowSill, individualmente ou todos de uma vez. Personalize seus nomes, ícones e a ordem.</value>
   </data>
   <data name="NewGroup.LabelProperty" xml:space="preserve">
-    <value>New group</value>
+    <value>Novo grupo</value>
   </data>
 </root>
