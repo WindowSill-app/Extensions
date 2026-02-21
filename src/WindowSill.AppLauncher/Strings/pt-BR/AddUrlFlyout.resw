@@ -71,6 +71,6 @@
     <value>Display name (optional)</value>
   </data>
   <data name="Add.ContentProperty" xml:space="preserve">
-    <value>Add</value>
+    <value>Adicionar</value>
   </data>
 </root>
