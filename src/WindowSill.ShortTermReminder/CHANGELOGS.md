@@ -1,3 +1,6 @@
+# 0.9.16.0
+- Fixed an issue where the remaining time in minutes was not accurate when opening the reminder popup.
+
 # 0.9.13
 - Updated dependencies.
 
