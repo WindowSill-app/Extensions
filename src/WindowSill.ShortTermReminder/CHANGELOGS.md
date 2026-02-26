@@ -1,4 +1,7 @@
-# 0.9.16.0
+# 0.9.17
+- Fixed decimal displayed in  the reminder popup.
+
+# 0.9.16
 - Fixed an issue where the remaining time in minutes was not accurate when opening the reminder popup.
 
 # 0.9.13

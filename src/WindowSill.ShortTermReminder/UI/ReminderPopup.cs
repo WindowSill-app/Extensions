@@ -89,7 +89,7 @@ internal sealed partial class ReminderPopup : ObservableObject
     public void OnOpening()
     {
         TimeSpan remainingTime = _reminder.ReminderTime - DateTime.Now;
-        _exactTimeTextBlock.Text = string.Format("/WindowSill.ShortTermReminder/ReminderSillListViewPopupItem/ReminderRemainingTime".GetLocalizedString(), remainingTime.TotalMinutes + 1, _reminder.ReminderTime.ToString("h:mm tt"));
+        _exactTimeTextBlock.Text = string.Format("/WindowSill.ShortTermReminder/ReminderSillListViewPopupItem/ReminderRemainingTime".GetLocalizedString(), (remainingTime.TotalMinutes + 1).ToString("0"), _reminder.ReminderTime.ToString("h:mm tt"));
     }
 
     [RelayCommand]
