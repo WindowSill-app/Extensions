@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppApps.TextProperty" xml:space="preserve">
-    <value>アプリを追加(s)</value>
+    <value>アプリを追加</value>
   </data>
   <data name="AppFiles.TextProperty" xml:space="preserve">
-    <value>ファイルを追加(s)</value>
+    <value>ファイルを追加</value>
   </data>
   <data name="AppFolders.TextProperty" xml:space="preserve">
-    <value>フォルダーを追加(s)</value>
+    <value>フォルダーを追加</value>
   </data>
   <data name="AppUrls.TextProperty" xml:space="preserve">
-    <value>Add URL(s)</value>
+    <value>URLを追加</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>
