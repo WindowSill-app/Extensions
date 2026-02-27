@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="General" xml:space="preserve">
-    <value>通用</value>
+    <value>一般</value>
   </data>
   <data name="ShowMediaNameAndThumbnail" xml:space="preserve">
     <value>顯示媒體名稱與縮圖</value>
