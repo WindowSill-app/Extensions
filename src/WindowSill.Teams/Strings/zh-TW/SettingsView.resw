@@ -121,10 +121,10 @@
     <value>一般</value>
   </data>
   <data name="Connect.Header" xml:space="preserve">
-    <value>將窗台連接到微軟Teams</value>
+    <value>將 WindowSill 連接到 Teams</value>
   </data>
   <data name="Connect.Description" xml:space="preserve">
-    <value>若要启用微軟Teams整合，請按照連結頁面上的步驟，在微軟Teams中啟用第三方API。</value>
+    <value>若要啟用 Teams 整合，請依照連結頁面上的步驟在 Teams 中啟用第三方 API。</value>
   </data>
   <data name="ConnectGuide" xml:space="preserve">
     <value>設定指南</value>

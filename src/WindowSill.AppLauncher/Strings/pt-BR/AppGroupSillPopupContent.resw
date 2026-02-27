@@ -130,6 +130,6 @@
     <value>Open file location</value>
   </data>
   <data name="RunAsAdmin.TextProperty" xml:space="preserve">
-    <value>Run as administrator</value>
+    <value>Executar como administrador</value>
   </data>
 </root>

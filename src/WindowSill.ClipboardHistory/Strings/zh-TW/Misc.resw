@@ -145,7 +145,7 @@
     <value>在檔案總管中開啟</value>
   </data>
   <data name="OpenInWebBrowser" xml:space="preserve">
-    <value>在網頁瀏覽器中開啟</value>
+    <value>在瀏覽器中開啟</value>
   </data>
   <data name="UnsupportedFormat" xml:space="preserve">
     <value>不支援的格式</value>

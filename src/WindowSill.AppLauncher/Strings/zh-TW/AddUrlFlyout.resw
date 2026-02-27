@@ -59,18 +59,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title.TextProperty" xml:space="preserve">
-    <value>Add a URL</value>
+    <value>新增連結</value>
   </data>
   <data name="Url.HeaderProperty" xml:space="preserve">
-    <value>URL</value>
+    <value>連結</value>
   </data>
   <data name="Url.PlaceholderTextProperty" xml:space="preserve">
     <value>https://example.com</value>
   </data>
   <data name="DisplayName.HeaderProperty" xml:space="preserve">
-    <value>Display name (optional)</value>
+    <value>顯示名稱 (可選)</value>
   </data>
   <data name="Add.ContentProperty" xml:space="preserve">
-    <value>Add</value>
+    <value>新增</value>
   </data>
 </root>

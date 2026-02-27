@@ -59,7 +59,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title.TextProperty" xml:space="preserve">
-    <value>Add a URL</value>
+    <value>URLを追加</value>
   </data>
   <data name="Url.HeaderProperty" xml:space="preserve">
     <value>URL</value>
@@ -68,9 +68,9 @@
     <value>https://example.com</value>
   </data>
   <data name="DisplayName.HeaderProperty" xml:space="preserve">
-    <value>Display name (optional)</value>
+    <value>表示名(オプション)</value>
   </data>
   <data name="Add.ContentProperty" xml:space="preserve">
-    <value>Add</value>
+    <value>追加</value>
   </data>
 </root>
