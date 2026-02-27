@@ -121,9 +121,9 @@
     <value>一般</value>
   </data>
   <data name="NotificationMode.Description" xml:space="preserve">
-    <value>選擇提醒出現的方式。
-• Toast 通知提供一個小的彈出式通知，融入您的工作流程且會停留在 Windows 行動中心。
-• 全螢幕通知會占據整個顯示屏，確保難以被忽略——即使 Windows 處於專注模式時也一樣。適合需要更強視覺提示以保持專注的使用者。</value>
+    <value>選擇提醒的顯示方式。
+• Toast 通知會以小巧的彈出視窗形式呈現，融入您的工作流程，並始終顯示在 Windows 作業中心。
+• 全螢幕通知會佔據整個螢幕，確保您不會錯過任何提醒—即使 Windows 處於專注模式時也是如此。對於需要更醒目視覺提示來保持專注的使用者來說，這是理想之選。</value>
   </data>
   <data name="NotificationMode.Header" xml:space="preserve">
     <value>通知模式</value>
