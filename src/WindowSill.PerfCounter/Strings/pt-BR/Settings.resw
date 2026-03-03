@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AnimationMetric" xml:space="preserve">
-    <value>Animation Metric</value>
+    <value>Métricas de Animação</value>
   </data>
   <data name="AnimationMetricDescription" xml:space="preserve">
-    <value>Which metric to use for animated running man</value>
+    <value>Qual métrica usar para a animação do homem correndo</value>
   </data>
   <data name="DisplayMode" xml:space="preserve">
     <value>Modo de Exibição</value>
@@ -133,7 +133,7 @@
     <value>Porcentagem</value>
   </data>
   <data name="DisplayModeRunningMan" xml:space="preserve">
-    <value>Running Man</value>
+    <value>Homem correndo</value>
   </data>
   <data name="EnableTaskManagerLaunch" xml:space="preserve">
     <value>Habilitar Iniciar Gerenciador de Tarefas</value>
