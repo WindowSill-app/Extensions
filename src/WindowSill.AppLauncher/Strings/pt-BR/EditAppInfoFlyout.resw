@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AlwaysRunAsAdmin.ContentProperty" xml:space="preserve">
-    <value>Always run as administrator</value>
+    <value>Sempre executar como administrador</value>
   </data>
   <data name="Arguments.HeaderProperty" xml:space="preserve">
-    <value>Arguments</value>
+    <value>Argumentos</value>
   </data>
   <data name="Name.HeaderProperty" xml:space="preserve">
-    <value>Name</value>
+    <value>Nome</value>
   </data>
   <data name="Reset.ContentProperty" xml:space="preserve">
     <value>Redefinir</value>
