@@ -118,36 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Convert" xml:space="preserve">
-    <value>Convert To</value>
+    <value>Converter Para</value>
   </data>
   <data name="Decode" xml:space="preserve">
-    <value>Decode</value>
+    <value>Decodificar</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
     <value>DevToys</value>
   </data>
   <data name="Format" xml:space="preserve">
-    <value>Format</value>
+    <value>Formatar</value>
   </data>
   <data name="FourSpaces" xml:space="preserve">
-    <value>4 spaces</value>
+    <value>4 espaços</value>
   </data>
   <data name="Minified" xml:space="preserve">
-    <value>Minified</value>
+    <value>Minificado</value>
   </data>
   <data name="OneTab" xml:space="preserve">
     <value>1 tab</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>Sort</value>
+    <value>Ordenar</value>
   </data>
   <data name="TwoSpaces" xml:space="preserve">
-    <value>2 spaces</value>
+    <value>2 espaços</value>
   </data>
   <data name="Unescape" xml:space="preserve">
-    <value>Unescape</value>
+    <value>Remover escape</value>
   </data>
   <data name="Yaml" xml:space="preserve">
-    <value>Yaml</value>
+    <value>YAML</value>
   </data>
 </root>
