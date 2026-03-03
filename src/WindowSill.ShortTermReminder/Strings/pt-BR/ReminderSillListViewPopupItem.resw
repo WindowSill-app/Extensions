@@ -121,7 +121,7 @@
     <value>Apagar</value>
   </data>
   <data name="ReminderPassed" xml:space="preserve">
-    <value>Reminder time has passed</value>
+    <value>O horário do lembrete passou</value>
   </data>
   <data name="ReminderRemainingTime" xml:space="preserve">
     <value>Em {0} minutos (em {1})</value>
