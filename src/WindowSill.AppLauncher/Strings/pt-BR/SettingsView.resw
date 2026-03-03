@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Delete.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Delete</value>
+    <value>Apagar</value>
   </data>
   <data name="Edit.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Edit</value>
+    <value>Editar</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
     <value>Agrupe seus aplicativos, arquivos e pastas favoritos e inicie-os a partir do WindowSill, individualmente ou todos de uma vez. Personalize seus nomes, ícones e a ordem.</value>
