@@ -40,7 +40,7 @@
 
         <TitleBar
             x:Name="TitleBar"
-            Title="Find / Replace"
+            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Title"
             Grid.Row="0"
             IsBackButtonVisible="False"
             IsPaneToggleButtonVisible="False"
@@ -66,7 +66,7 @@
                         <TextBlock
                             Margin="0,0,0,4"
                             Style="{ThemeResource SubtitleTextBlockStyle}"
-                            Text="Search" />
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Search" />
                         <!--<ui:AdvancedTextBox AcceptsReturn="True" Header="Find">
                             <ui:AdvancedTextBox.Content>
                                 <StackPanel Orientation="Horizontal">
@@ -79,53 +79,53 @@
                         <TextBox
                             MaxHeight="98"
                             AcceptsReturn="True"
-                            Header="Find"
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Find"
                             Text="{x:Bind ViewModel.FindText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBox
                             MaxHeight="98"
                             AcceptsReturn="True"
-                            Header="Replace"
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Replace"
                             Text="{x:Bind ViewModel.ReplaceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 
                         <StackPanel Orientation="Vertical" Spacing="8">
-                            <TextBlock Margin="0,16,0,0" Text="Options" />
+                            <TextBlock Margin="0,16,0,0" api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Options" />
                             <StackPanel Orientation="Vertical" Spacing="0">
                                 <RadioButton
                                     x:Name="LiteralMatchRadioButton"
-                                    Content="Literal match"
+                                    api:Uids.Uid="/WindowSill.TextFinder/FindWindow/LiteralMatch"
                                     GroupName="MatchingOptionRadioButtonsGroup"
                                     IsChecked="{x:Bind ViewModel.SearchMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='LiteralMatch'}" />
                                 <CheckBox
                                     Margin="28,0,0,0"
-                                    Content="Match case"
+                                    api:Uids.Uid="/WindowSill.TextFinder/FindWindow/MatchCase"
                                     IsChecked="{x:Bind ViewModel.MatchCase, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     IsEnabled="{x:Bind ViewModel.SearchMode, Mode=OneWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='LiteralMatch'}" />
                                 <CheckBox
                                     Margin="28,0,0,0"
-                                    Content="Match whole word"
+                                    api:Uids.Uid="/WindowSill.TextFinder/FindWindow/MatchWholeWord"
                                     IsChecked="{x:Bind ViewModel.MatchWholeWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     IsEnabled="{x:Bind ViewModel.SearchMode, Mode=OneWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='LiteralMatch'}" />
                             </StackPanel>
                             <StackPanel Orientation="Vertical" Spacing="0">
                                 <RadioButton
-                                    Content="Regular expression"
+                                    api:Uids.Uid="/WindowSill.TextFinder/FindWindow/RegularExpression"
                                     GroupName="MatchingOptionRadioButtonsGroup"
                                     IsChecked="{x:Bind ViewModel.SearchMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='RegularExpression'}" />
                                 <HyperlinkButton
                                     Margin="28,0,0,0"
                                     Padding="0"
-                                    Content="Cheat sheet"
+                                    api:Uids.Uid="/WindowSill.TextFinder/FindWindow/CheatSheet"
                                     NavigateUri="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions/Cheatsheet" />
                             </StackPanel>
                             <RadioButton
-                                Content="Spelling similarity"
+                                api:Uids.Uid="/WindowSill.TextFinder/FindWindow/SpellingSimilarity"
                                 GroupName="MatchingOptionRadioButtonsGroup"
                                 IsChecked="{x:Bind ViewModel.SearchMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='SpellingSimilarity'}" />
                             <StackPanel Orientation="Vertical" Spacing="0">
                                 <RadioButton
                                     x:Name="MeaningSimilarityRadioButton"
-                                    Content="Meaning similarity"
+                                    api:Uids.Uid="/WindowSill.TextFinder/FindWindow/MeaningSimilarity"
                                     GroupName="MatchingOptionRadioButtonsGroup"
                                     IsChecked="{x:Bind ViewModel.SearchMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='MeaningSimilarity'}" />
                                 <Grid
@@ -142,7 +142,7 @@
                                         VerticalAlignment="Center"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                         Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="Loose" />
+                                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Loose" />
                                     <Slider
                                         Grid.Column="1"
                                         IsEnabled="{x:Bind ViewModel.SearchMode, Mode=OneWay, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='MeaningSimilarity'}"
@@ -154,7 +154,7 @@
                                         VerticalAlignment="Center"
                                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                                         Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="Strict" />
+                                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Strict" />
                                 </Grid>
                             </StackPanel>
                         </StackPanel>
@@ -178,7 +178,7 @@
                         Grid.Row="0"
                         Margin="0,0,0,4"
                         Style="{ThemeResource SubtitleTextBlockStyle}"
-                        Text="Results" />
+                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Results" />
                     <TextBlock
                         Grid.Row="1"
                         HorizontalAlignment="Stretch"
@@ -194,7 +194,7 @@
                         <Button
                             Height="32"
                             Command="{x:Bind ViewModel.SelectPreviousResultCommand}"
-                            ToolTipService.ToolTip="Previous result">
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/PreviousResult">
                             <FontIcon
                                 VerticalAlignment="Center"
                                 FontFamily="{StaticResource SegoeFluentIcons}"
@@ -204,7 +204,7 @@
                         <Button
                             Height="32"
                             Command="{x:Bind ViewModel.SelectNextResultCommand}"
-                            ToolTipService.ToolTip="Next result">
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/NextResult">
                             <FontIcon
                                 VerticalAlignment="Center"
                                 FontFamily="{StaticResource SegoeFluentIcons}"
@@ -214,7 +214,7 @@
                         <Button
                             Height="32"
                             Command="{x:Bind ViewModel.ReplaceAllCommand}"
-                            Content="Replace all" />
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/ReplaceAll" />
                     </controls:WrapPanel>
                     <ListView
                         x:Name="ResultsListView"
@@ -248,7 +248,7 @@
                                             VerticalAlignment="Center"
                                             Command="{Binding Tag.ReplaceResultCommand, ElementName=ResultsListView}"
                                             CommandParameter="{x:Bind}"
-                                            ToolTipService.ToolTip="Replace">
+                                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/ReplaceResult">
                                             <FontIcon
                                                 VerticalAlignment="Center"
                                                 FontFamily="{StaticResource SegoeFluentIcons}"
@@ -259,7 +259,7 @@
                                             VerticalAlignment="Center"
                                             Command="{Binding Tag.DismissResultCommand, ElementName=ResultsListView}"
                                             CommandParameter="{x:Bind}"
-                                            ToolTipService.ToolTip="Dismiss (Delete)">
+                                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/DismissResult">
                                             <FontIcon
                                                 VerticalAlignment="Center"
                                                 FontFamily="{StaticResource SegoeFluentIcons}"
@@ -288,7 +288,7 @@
                             VerticalAlignment="Center"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="Searching..." />
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/Searching" />
                     </StackPanel>
                     <StackPanel
                         Grid.Row="3"
@@ -301,7 +301,7 @@
                             VerticalAlignment="Center"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                             Style="{ThemeResource CaptionTextBlockStyle}"
-                            Text="No result found" />
+                            api:Uids.Uid="/WindowSill.TextFinder/FindWindow/NoResultFound" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -320,7 +320,7 @@
                     <TextBlock
                         Margin="0,0,0,4"
                         Style="{ThemeResource SubtitleTextBlockStyle}"
-                        Text="Source Text" />
+                        api:Uids.Uid="/WindowSill.TextFinder/FindWindow/SourceText" />
                     <ui:FindResultRichEditBox
                         Grid.Row="1"
                         AcceptsReturn="True"

@@ -118,78 +118,78 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Copy.TextProperty" xml:space="preserve">
-    <value>Copy</value>
+    <value>Copier</value>
   </data>
   <data name="ResultCount" xml:space="preserve">
-    <value>{0} results found</value>
+    <value>{0} résultats trouvés</value>
   </data>
   <data name="Title.TitleProperty" xml:space="preserve">
-    <value>Find / Replace</value>
+    <value>Rechercher / Remplacer</value>
   </data>
   <data name="Search.TextProperty" xml:space="preserve">
-    <value>Search</value>
+    <value>Recherche</value>
   </data>
   <data name="Find.HeaderProperty" xml:space="preserve">
-    <value>Find</value>
+    <value>Rechercher</value>
   </data>
   <data name="Replace.HeaderProperty" xml:space="preserve">
-    <value>Replace</value>
+    <value>Remplacer</value>
   </data>
   <data name="Options.TextProperty" xml:space="preserve">
     <value>Options</value>
   </data>
   <data name="LiteralMatch.ContentProperty" xml:space="preserve">
-    <value>Literal match</value>
+    <value>Correspondance littérale</value>
   </data>
   <data name="MatchCase.ContentProperty" xml:space="preserve">
-    <value>Match case</value>
+    <value>Respecter la casse</value>
   </data>
   <data name="MatchWholeWord.ContentProperty" xml:space="preserve">
-    <value>Match whole word</value>
+    <value>Mot entier</value>
   </data>
   <data name="RegularExpression.ContentProperty" xml:space="preserve">
-    <value>Regular expression</value>
+    <value>Expression régulière</value>
   </data>
   <data name="CheatSheet.ContentProperty" xml:space="preserve">
-    <value>Cheat sheet</value>
+    <value>Aide-mémoire</value>
   </data>
   <data name="SpellingSimilarity.ContentProperty" xml:space="preserve">
-    <value>Spelling similarity</value>
+    <value>Similarité orthographique</value>
   </data>
   <data name="MeaningSimilarity.ContentProperty" xml:space="preserve">
-    <value>Meaning similarity</value>
+    <value>Similarité de sens</value>
   </data>
   <data name="Loose.TextProperty" xml:space="preserve">
-    <value>Loose</value>
+    <value>Souple</value>
   </data>
   <data name="Strict.TextProperty" xml:space="preserve">
     <value>Strict</value>
   </data>
   <data name="Results.TextProperty" xml:space="preserve">
-    <value>Results</value>
+    <value>Résultats</value>
   </data>
   <data name="PreviousResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Previous result</value>
+    <value>Résultat précédent</value>
   </data>
   <data name="NextResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Next result</value>
+    <value>Résultat suivant</value>
   </data>
   <data name="ReplaceAll.ContentProperty" xml:space="preserve">
-    <value>Replace all</value>
+    <value>Tout remplacer</value>
   </data>
   <data name="ReplaceResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Replace</value>
+    <value>Remplacer</value>
   </data>
   <data name="DismissResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Dismiss (Delete)</value>
+    <value>Ignorer (Suppr)</value>
   </data>
   <data name="Searching.TextProperty" xml:space="preserve">
-    <value>Searching...</value>
+    <value>Recherche en cours...</value>
   </data>
   <data name="NoResultFound.TextProperty" xml:space="preserve">
-    <value>No result found</value>
+    <value>Aucun résultat trouvé</value>
   </data>
   <data name="SourceText.TextProperty" xml:space="preserve">
-    <value>Source Text</value>
+    <value>Texte source</value>
   </data>
 </root>

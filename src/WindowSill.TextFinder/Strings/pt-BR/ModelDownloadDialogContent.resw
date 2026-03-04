@@ -117,79 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Copy.TextProperty" xml:space="preserve">
-    <value>Copy</value>
+  <data name="Description.TextProperty" xml:space="preserve">
+    <value>Para localizar texto por significado, este recurso precisa de um pequeno modelo de linguagem que é executado inteiramente no seu dispositivo.</value>
   </data>
-  <data name="ResultCount" xml:space="preserve">
-    <value>{0} results found</value>
+  <data name="ModelName.TextProperty" xml:space="preserve">
+    <value>Modelo: all-MiniLM-L6-v2</value>
   </data>
-  <data name="Title.TitleProperty" xml:space="preserve">
-    <value>Find / Replace</value>
+  <data name="DownloadSize.TextProperty" xml:space="preserve">
+    <value>Tamanho do download: aproximadamente 90 MB</value>
   </data>
-  <data name="Search.TextProperty" xml:space="preserve">
-    <value>Search</value>
+  <data name="RunsPrivately.TextProperty" xml:space="preserve">
+    <value>Executado de forma privada no seu computador</value>
   </data>
-  <data name="Find.HeaderProperty" xml:space="preserve">
-    <value>Find</value>
+  <data name="ApacheLicense.ContentProperty" xml:space="preserve">
+    <value>Licença Apache 2.0</value>
   </data>
-  <data name="Replace.HeaderProperty" xml:space="preserve">
-    <value>Replace</value>
+  <data name="LearnMore.ContentProperty" xml:space="preserve">
+    <value>Saiba mais</value>
   </data>
-  <data name="Options.TextProperty" xml:space="preserve">
-    <value>Options</value>
+  <data name="DownloadOnce.TextProperty" xml:space="preserve">
+    <value>Você só precisa baixar uma vez. Ele será armazenado no seu dispositivo para uso futuro.</value>
   </data>
-  <data name="LiteralMatch.ContentProperty" xml:space="preserve">
-    <value>Literal match</value>
+  <data name="Downloading.TextProperty" xml:space="preserve">
+    <value>Baixando modelo de linguagem...</value>
   </data>
-  <data name="MatchCase.ContentProperty" xml:space="preserve">
-    <value>Match case</value>
+  <data name="DownloadFailed.TitleProperty" xml:space="preserve">
+    <value>Falha no download</value>
   </data>
-  <data name="MatchWholeWord.ContentProperty" xml:space="preserve">
-    <value>Match whole word</value>
+  <data name="DownloadFailed.MessageProperty" xml:space="preserve">
+    <value>Não foi possível baixar o modelo. Verifique sua conexão com a Internet e tente novamente.</value>
   </data>
-  <data name="RegularExpression.ContentProperty" xml:space="preserve">
-    <value>Regular expression</value>
+  <data name="DownloadRequired" xml:space="preserve">
+    <value>Download necessário</value>
   </data>
-  <data name="CheatSheet.ContentProperty" xml:space="preserve">
-    <value>Cheat sheet</value>
+  <data name="Download" xml:space="preserve">
+    <value>Baixar</value>
   </data>
-  <data name="SpellingSimilarity.ContentProperty" xml:space="preserve">
-    <value>Spelling similarity</value>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
   </data>
-  <data name="MeaningSimilarity.ContentProperty" xml:space="preserve">
-    <value>Meaning similarity</value>
-  </data>
-  <data name="Loose.TextProperty" xml:space="preserve">
-    <value>Loose</value>
-  </data>
-  <data name="Strict.TextProperty" xml:space="preserve">
-    <value>Strict</value>
-  </data>
-  <data name="Results.TextProperty" xml:space="preserve">
-    <value>Results</value>
-  </data>
-  <data name="PreviousResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Previous result</value>
-  </data>
-  <data name="NextResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Next result</value>
-  </data>
-  <data name="ReplaceAll.ContentProperty" xml:space="preserve">
-    <value>Replace all</value>
-  </data>
-  <data name="ReplaceResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Replace</value>
-  </data>
-  <data name="DismissResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Dismiss (Delete)</value>
-  </data>
-  <data name="Searching.TextProperty" xml:space="preserve">
-    <value>Searching...</value>
-  </data>
-  <data name="NoResultFound.TextProperty" xml:space="preserve">
-    <value>No result found</value>
-  </data>
-  <data name="SourceText.TextProperty" xml:space="preserve">
-    <value>Source Text</value>
+  <data name="TryAgain" xml:space="preserve">
+    <value>Tentar novamente</value>
   </data>
 </root>

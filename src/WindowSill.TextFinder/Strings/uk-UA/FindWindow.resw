@@ -118,78 +118,78 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Copy.TextProperty" xml:space="preserve">
-    <value>Copy</value>
+    <value>Копіювати</value>
   </data>
   <data name="ResultCount" xml:space="preserve">
-    <value>{0} results found</value>
+    <value>{0} результатів знайдено</value>
   </data>
   <data name="Title.TitleProperty" xml:space="preserve">
-    <value>Find / Replace</value>
+    <value>Пошук / Заміна</value>
   </data>
   <data name="Search.TextProperty" xml:space="preserve">
-    <value>Search</value>
+    <value>Пошук</value>
   </data>
   <data name="Find.HeaderProperty" xml:space="preserve">
-    <value>Find</value>
+    <value>Знайти</value>
   </data>
   <data name="Replace.HeaderProperty" xml:space="preserve">
-    <value>Replace</value>
+    <value>Замінити</value>
   </data>
   <data name="Options.TextProperty" xml:space="preserve">
-    <value>Options</value>
+    <value>Параметри</value>
   </data>
   <data name="LiteralMatch.ContentProperty" xml:space="preserve">
-    <value>Literal match</value>
+    <value>Точний збіг</value>
   </data>
   <data name="MatchCase.ContentProperty" xml:space="preserve">
-    <value>Match case</value>
+    <value>Враховувати регістр</value>
   </data>
   <data name="MatchWholeWord.ContentProperty" xml:space="preserve">
-    <value>Match whole word</value>
+    <value>Ціле слово</value>
   </data>
   <data name="RegularExpression.ContentProperty" xml:space="preserve">
-    <value>Regular expression</value>
+    <value>Регулярний вираз</value>
   </data>
   <data name="CheatSheet.ContentProperty" xml:space="preserve">
-    <value>Cheat sheet</value>
+    <value>Шпаргалка</value>
   </data>
   <data name="SpellingSimilarity.ContentProperty" xml:space="preserve">
-    <value>Spelling similarity</value>
+    <value>Схожість написання</value>
   </data>
   <data name="MeaningSimilarity.ContentProperty" xml:space="preserve">
-    <value>Meaning similarity</value>
+    <value>Схожість значення</value>
   </data>
   <data name="Loose.TextProperty" xml:space="preserve">
-    <value>Loose</value>
+    <value>Нечіткий</value>
   </data>
   <data name="Strict.TextProperty" xml:space="preserve">
-    <value>Strict</value>
+    <value>Суворий</value>
   </data>
   <data name="Results.TextProperty" xml:space="preserve">
-    <value>Results</value>
+    <value>Результати</value>
   </data>
   <data name="PreviousResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Previous result</value>
+    <value>Попередній результат</value>
   </data>
   <data name="NextResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Next result</value>
+    <value>Наступний результат</value>
   </data>
   <data name="ReplaceAll.ContentProperty" xml:space="preserve">
-    <value>Replace all</value>
+    <value>Замінити все</value>
   </data>
   <data name="ReplaceResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Replace</value>
+    <value>Замінити</value>
   </data>
   <data name="DismissResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Dismiss (Delete)</value>
+    <value>Відхилити (Delete)</value>
   </data>
   <data name="Searching.TextProperty" xml:space="preserve">
-    <value>Searching...</value>
+    <value>Пошук...</value>
   </data>
   <data name="NoResultFound.TextProperty" xml:space="preserve">
-    <value>No result found</value>
+    <value>Результатів не знайдено</value>
   </data>
   <data name="SourceText.TextProperty" xml:space="preserve">
-    <value>Source Text</value>
+    <value>Вихідний текст</value>
   </data>
 </root>

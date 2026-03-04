@@ -40,9 +40,9 @@ public sealed partial class ModelDownloadDialogContent : UserControl
 
         var dialog = new ContentDialog
         {
-            Title = "Download required",
-            PrimaryButtonText = "Download",
-            CloseButtonText = "Cancel",
+            Title = "/WindowSill.TextFinder/ModelDownloadDialogContent/DownloadRequired".GetLocalizedString(),
+            PrimaryButtonText = "/WindowSill.TextFinder/ModelDownloadDialogContent/Download".GetLocalizedString(),
+            CloseButtonText = "/WindowSill.TextFinder/ModelDownloadDialogContent/Cancel".GetLocalizedString(),
             DefaultButton = ContentDialogButton.Primary,
             PrimaryButtonStyle = Application.Current.Resources["AccentButtonStyle"] as Style,
             XamlRoot = xamlRoot,
@@ -146,7 +146,7 @@ public sealed partial class ModelDownloadDialogContent : UserControl
         {
             // Re-enable buttons for retry
             _parentDialog.IsPrimaryButtonEnabled = true;
-            _parentDialog.PrimaryButtonText = "Try again";
+            _parentDialog.PrimaryButtonText = "/WindowSill.TextFinder/ModelDownloadDialogContent/TryAgain".GetLocalizedString();
         }
     }
 }
