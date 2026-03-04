@@ -13,7 +13,7 @@ namespace WindowSill.AppLauncher;
 [Priority(Priority.Highest)]
 [HideIconInSillListView]
 [SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
-public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView
+public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView, IDisposable
 {
     internal const string SillInternalName = "WindowSill.AppLauncherSill";
 
@@ -54,6 +54,11 @@ public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView
         {
             Source = new SvgImageSource(_iconPath)
         };
+
+    public void Dispose()
+    {
+        _appGroupService.AppGroups.CollectionChanged -= AppGroups_CollectionChanged;
+    }
 
     public ValueTask OnActivatedAsync()
     {
