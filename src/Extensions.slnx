@@ -6,7 +6,6 @@
     <File Path="../CONTRIBUTING.md" />
     <File Path="../crowdin.yml" />
     <File Path="../LICENSE.md" />
-    <File Path="../nuget.config" />
     <File Path="../README.md" />
     <File Path=".editorconfig" />
     <File Path=".mcp.json" />
@@ -48,6 +47,9 @@
     <Platform Project="x64" />
   </Project>
   <Project Path="WindowSill.WebBrowser/WindowSill.WebBrowser.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="WindowSill.TextFinder/WindowSill.TextFinder.csproj">
     <Platform Project="x64" />
   </Project>
 </Solution>

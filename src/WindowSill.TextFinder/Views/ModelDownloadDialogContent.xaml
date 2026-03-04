@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.TextFinder.Views.ModelDownloadDialogContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel
+        MaxWidth="400"
+        Orientation="Vertical"
+        Spacing="16">
+
+        <!--  Initial state: Asking user to download  -->
+        <StackPanel
+            x:Name="PromptPanel"
+            Orientation="Vertical"
+            Spacing="12"
+            Visibility="Visible">
+
+            <TextBlock
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="To find text by meaning, this feature needs a small language model that runs entirely on your device."
+                TextWrapping="Wrap" />
+
+            <StackPanel
+                Padding="12"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                CornerRadius="4"
+                Orientation="Vertical"
+                Spacing="8">
+
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <FontIcon
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeFluentIcons}"
+                        FontSize="14"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Glyph="&#xE950;" />
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True"
+                        Text="Model: all-MiniLM-L6-v2"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <FontIcon
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeFluentIcons}"
+                        FontSize="14"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Glyph="&#xE896;" />
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True"
+                        Text="Download size: approximately 90 MB"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <FontIcon
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SegoeFluentIcons}"
+                        FontSize="14"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Glyph="&#xE72E;" />
+                    <TextBlock
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        IsTextSelectionEnabled="True"
+                        Text="Runs privately on your computer"
+                        TextWrapping="Wrap" />
+                </Grid>
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <HyperlinkButton
+                    Padding="0"
+                    Content="Apache 2.0 License"
+                    NavigateUri="https://huggingface.co/datasets/choosealicense/licenses/blob/main/markdown/apache-2.0.md" />
+                <HyperlinkButton
+                    Padding="0"
+                    Content="Learn more"
+                    NavigateUri="https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2" />
+            </StackPanel>
+
+            <TextBlock
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{ThemeResource CaptionTextBlockStyle}"
+                Text="You only need to download this once. It will be stored on your device for future use."
+                TextWrapping="Wrap" />
+
+        </StackPanel>
+
+        <!--  Downloading state  -->
+        <StackPanel
+            x:Name="DownloadingPanel"
+            Orientation="Vertical"
+            Spacing="12"
+            Visibility="Collapsed">
+
+            <TextBlock
+                Style="{ThemeResource BodyTextBlockStyle}"
+                Text="Downloading language model..."
+                TextWrapping="Wrap" />
+
+            <ProgressBar
+                x:Name="DownloadProgressBar"
+                IsIndeterminate="False"
+                Maximum="100"
+                Minimum="0"
+                Value="0" />
+
+            <TextBlock
+                x:Name="ProgressTextBlock"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{ThemeResource CaptionTextBlockStyle}"
+                Text="0%" />
+
+        </StackPanel>
+
+        <!--  Error state  -->
+        <InfoBar
+            x:Name="ErrorInfoBar"
+            Title="Download failed"
+            IsClosable="False"
+            IsOpen="False"
+            Message="Unable to download the model. Please check your internet connection and try again."
+            Severity="Error" />
+
+    </StackPanel>
+
+</UserControl>
