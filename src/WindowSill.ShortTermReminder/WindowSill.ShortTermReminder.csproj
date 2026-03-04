@@ -4,7 +4,16 @@
     <Version>0.9.17</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>Short Term Reminder</Title>
-    <Description>Who needs a way to be reminded about quick things to do in a short period of time? Designed with ADHD in mind, this WindowSill extension delivers bold, full-screen reminders and frictionless task prompts that cut through distraction and keep you centered.</Description>
+    <Description>
+      Ever set a reminder only to forget you set it? Designed with ADHD in mind, Short-Term Reminder cuts through the noise so nothing slips past you.
+      
+      • Create &amp; manage quick reminders in seconds — no friction, no fuss
+      • Bold, full-screen alerts that demand attention when it matters
+      • Quick-action alarm buttons for one-tap reminder creation
+      • Configurable settings to tailor notifications to your workflow
+      • Active reminder dashboard so you always know what's next
+      
+      Stay on track, stay centered — your brain deserves a backup plan.</Description>
     <PackageIcon>Assets/alarm.png</PackageIcon>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>

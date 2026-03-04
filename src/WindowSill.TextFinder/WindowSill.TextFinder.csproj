@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>WindowSill.TextFinder</PackageId>
+    <Version>0.9.17</Version>
+    <Authors>Etienne Baudoux</Authors>
+    <Title>Text Finder</Title>
+    <Description>
+      Instantly search and replace text you select in any app — no copy-pasting into a separate editor. Drag and drop Word, PDF, or plain-text files from File Explorer to search inside them without even opening them.
+
+      Four powerful search modes let you find exactly what you need:
+      • Literal &amp; Regex — pinpoint exact words or complex patterns.
+      • Spelling Similarity — catch typos and near-matches so nothing slips through the cracks.
+      • Meaning Similarity — powered by a free and local AI model, finds semantically relevant results even when the exact words differ.
+
+      Highlight, navigate, replace one-by-one or all at once. Fast, private, and fully offline.
+    </Description>
+    <PackageIcon>Assets/search.png</PackageIcon>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="UnitTests" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+    <None Include="Assets/search.png" Pack="true" PackagePath="\Assets\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
+    <PackageReference Include="DocumentFormat.OpenXml" />
+    <PackageReference Include="FuzzySharp" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntime" />
+    <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" />
+    <PackageReference Include="PdfPig" />
+    <PackageReference Include="System.Numerics.Tensors" />
+    <PackageReference Include="WindowSill.API" />
+  </ItemGroup>
+</Project>

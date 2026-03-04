@@ -7,7 +7,14 @@
         <Description>
           Never lose what you've copied again. Access your clipboard history instantly and paste any previous item with a single click or keyboard shortcut.
 
-          Supports text, image, URLs, colors, app link, HTML, RTF and more.
+          Key features:
+          • Tracks text, images, URIs, colors &amp; files
+          • Automatically hides passwords for privacy
+          • Delete or clear individual items on demand
+          • Multi-monitor support for seamless workflows
+          • Configurable history limit to stay in control
+
+          Your clipboard, supercharged.
         </Description>
         <PackageIcon>Assets/package.png</PackageIcon>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>

@@ -5,14 +5,14 @@
         <Authors>Etienne Baudoux</Authors>
         <Title>Perf Counter</Title>
         <Description>
-          Monitor your computer performance in real-time with WindowSill Perf Counter. No need to open Task Manager anymore! Just a quick look in a corner of the screen to find out when the CPU spikes.
+          Keep a pulse on your system — right from your desktop. Perf Counter delivers real-time hardware monitoring at a glance.
 
-          Key features:
+          • Live CPU &amp; RAM utilization across all cores
+          • Refreshes every second for up-to-the-moment stats
+          • Configurable display settings to fit your workflow
+          • One-click access to Task Manager when you need to dig deeper
 
-          - Shows average CPU/GPU/RAM utilization across all system cores
-          - Updates every second in real time
-          - Multiple display modes: percentage view or animation
-          - Click on the sill to quickly open Task Manager
+          Lightweight, always visible, and endlessly useful.
         </Description>
         <PackageIcon>Assets/package.png</PackageIcon>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
