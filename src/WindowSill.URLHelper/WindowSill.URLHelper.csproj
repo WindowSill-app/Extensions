@@ -5,7 +5,13 @@
         <Authors>Etienne Baudoux</Authors>
         <Title>URL Helper</Title>
         <Description>
-          This WindowSill extension allows to shorten URLs or generate QR Code for them. Select a URL anywhere in Windows, and WindowSill will provide you options to shorten the selected URL or generate a QR Code image for it.
+          Share links faster. Shorten any URL or turn it into a QR Code in seconds.
+          
+          • Select a URL anywhere in Windows &amp; instantly access shortening or QR Code generation
+          • Two quick-action popup options: shortened link or QR Code image
+          • Activates automatically on URI/URL text selection
+          
+          The easiest way to make long links shareable.
         </Description>
         <PackageIcon>Assets/link.png</PackageIcon>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>

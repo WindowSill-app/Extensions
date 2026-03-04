@@ -5,9 +5,13 @@
         <Authors>Etienne Baudoux</Authors>
         <Title>Image Helper</Title>
         <Description>
-          Select images in File Explorer or Drag and drop any image into WindowSill for instant processing. Convert formats, resize, or compress without opening bulky editing software.
+          Drag &amp; drop images into WindowSill for instant processing — single files or entire batches.
 
-          Handle single images or batch-process dozens at once; all the essential image tools you need, right in your digital window sill.
+          • Convert between PNG, JPG, GIF &amp; more
+          • Resize with custom dimensions
+          • Compress to reduce file size
+
+          All the essential image tools you need, right in your digital window sill.
         </Description>
         <PackageIcon>Assets/image.png</PackageIcon>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>

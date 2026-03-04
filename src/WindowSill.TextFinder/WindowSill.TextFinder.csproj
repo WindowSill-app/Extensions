@@ -5,8 +5,14 @@
     <Authors>Etienne Baudoux</Authors>
     <Title>Text Finder</Title>
     <Description>
-      This WindowSill extension allows to Search and Replace text as you select it in any application. It also allows to search within selected Word, PDF and Text files in File Explorer, without having to open them first.
-      This extension can also use natural language processing to find the most relevant results, even if they don't contain the exact search terms. It also supports searching for similar text, which is useful when looking for typos or trying to find a specific piece of information in a large document.
+      Instantly search and replace text you select in any app — no copy-pasting into a separate editor. Drag and drop Word, PDF, or plain-text files from File Explorer to search inside them without even opening them.
+
+      Four powerful search modes let you find exactly what you need:
+      • Literal &amp; Regex — pinpoint exact words or complex patterns.
+      • Spelling Similarity — catch typos and near-matches so nothing slips through the cracks.
+      • Meaning Similarity — powered by a free and local AI model, finds semantically relevant results even when the exact words differ.
+
+      Highlight, navigate, replace one-by-one or all at once. Fast, private, and fully offline.
     </Description>
     <PackageIcon>Assets/search.png</PackageIcon>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
