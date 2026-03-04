@@ -203,7 +203,7 @@ internal static partial class TextSearchHelper
     /// Returns a value between -1 and 1, where 1 means identical direction (semantically similar),
     /// 0 means orthogonal (unrelated), and -1 means opposite.
     /// </remarks>
-    private static float CosineSimilarity(float[] a, float[] b)
+    internal static float CosineSimilarity(float[] a, float[] b)
     {
         float dot = 0f, normA = 0f, normB = 0f;
 

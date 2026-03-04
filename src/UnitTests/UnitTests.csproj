@@ -27,6 +27,7 @@
     <ProjectReference Include="..\WindowSill.UnitConverter\WindowSill.UnitConverter.csproj" />
     <ProjectReference Include="..\WindowSill.URLHelper\WindowSill.URLHelper.csproj" />
     <ProjectReference Include="..\WindowSill.WebBrowser\WindowSill.WebBrowser.csproj" />
+    <ProjectReference Include="..\WindowSill.TextFinder\WindowSill.TextFinder.csproj" />
   </ItemGroup>
 
   <ItemGroup>
