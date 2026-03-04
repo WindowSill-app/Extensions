@@ -124,7 +124,7 @@
     <value>編輯</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>將您喜愛的應用程式、檔案和資料夾分組，然後從 WindowSill 啟動它們，單獨或全部同時。自訂它們的名稱、圖示和順序。</value>
+    <value>將您最喜愛的應用程式、檔案和資料夾分組，然後從 WindowSill 單獨或一次啟動它們。自訂它們的名稱、圖示和順序。</value>
   </data>
   <data name="NewGroup.LabelProperty" xml:space="preserve">
     <value>新群組</value>

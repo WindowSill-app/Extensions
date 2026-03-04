@@ -121,7 +121,7 @@
     <value>選擇一個應用程式</value>
   </data>
   <data name="Loading.TextProperty" xml:space="preserve">
-    <value>載入應用程式中...</value>
+    <value>正在載入應用程式...</value>
   </data>
   <data name="Search.PlaceholderTextProperty" xml:space="preserve">
     <value>搜尋</value>

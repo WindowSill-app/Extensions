@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AlwaysRunAsAdmin.ContentProperty" xml:space="preserve">
-    <value>始終以管理員身份運行</value>
+    <value>始終以管理員身份執行</value>
   </data>
   <data name="Arguments.HeaderProperty" xml:space="preserve">
     <value>參數</value>

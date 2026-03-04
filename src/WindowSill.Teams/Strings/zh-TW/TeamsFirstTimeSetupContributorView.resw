@@ -121,8 +121,8 @@
     <value>安裝指南</value>
   </data>
   <data name="Intro" xml:space="preserve">
-    <value>WindowSill 讓你可以輕鬆控制你的 Microsoft Teams 通話。要開始使用，請按照以下安裝指南，在你的 Teams 設定中啟用第三方 API。
+    <value>WindowSill 讓您輕鬆掌控 Microsoft Teams 通話。若要開始使用，請依照下列設定指南在 Teams 設定中啟用第三方 API。
 
-注意：需使用工作或學校的 Microsoft Teams 帳戶。</value>
+注意：需要公司或學校的 Microsoft Teams 帳戶。</value>
   </data>
 </root>

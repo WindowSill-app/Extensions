@@ -124,30 +124,30 @@
     <value>解碼</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
-    <value>DevToys</value>
+    <value>開發人員測試工具</value>
   </data>
   <data name="Format" xml:space="preserve">
     <value>格式</value>
   </data>
   <data name="FourSpaces" xml:space="preserve">
-    <value>4 個空格</value>
+    <value>4個空格</value>
   </data>
   <data name="Minified" xml:space="preserve">
     <value>壓縮</value>
   </data>
   <data name="OneTab" xml:space="preserve">
-    <value>1 個制表符</value>
+    <value>1個分頁</value>
   </data>
   <data name="Sort" xml:space="preserve">
     <value>排序</value>
   </data>
   <data name="TwoSpaces" xml:space="preserve">
-    <value>2 個空格</value>
+    <value>2個空格</value>
   </data>
   <data name="Unescape" xml:space="preserve">
     <value>取消轉碼</value>
   </data>
   <data name="Yaml" xml:space="preserve">
-    <value>YAML</value>
+    <value>Yaml</value>
   </data>
 </root>

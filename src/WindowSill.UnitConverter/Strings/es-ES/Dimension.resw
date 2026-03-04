@@ -193,7 +193,7 @@
     <value>Yardas cuadradas</value>
   </data>
     <data name="Acres" xml:space="preserve">
-    <value>Acres</value>
+    <value>Hectáreas</value>
   </data>
     <data name="SquareMiles" xml:space="preserve">
     <value>Millas cuadradas</value>
@@ -295,7 +295,7 @@
     <value>Radianes</value>
   </data>
     <data name="Gradians" xml:space="preserve">
-    <value>Gradians</value>
+    <value>Gradianes</value>
   </data>
     <data name="Arcminutes" xml:space="preserve">
     <value>Minutos de arco</value>

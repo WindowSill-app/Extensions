@@ -124,7 +124,7 @@
     <value>毫米</value>
   </data>
     <data name="Centimeters" xml:space="preserve">
-    <value>釐米</value>
+    <value>公分</value>
   </data>
     <data name="Meters" xml:space="preserve">
     <value>公尺</value>
@@ -151,28 +151,28 @@
     <value>位元組</value>
   </data>
     <data name="Kilobytes" xml:space="preserve">
-    <value>千位元組</value>
+    <value>KB</value>
   </data>
     <data name="Megabytes" xml:space="preserve">
-    <value>兆位元組</value>
+    <value>MB</value>
   </data>
     <data name="Gigabytes" xml:space="preserve">
-    <value>吉位元組</value>
+    <value>GB</value>
   </data>
     <data name="Terabytes" xml:space="preserve">
-    <value>太位元組</value>
+    <value>TB</value>
   </data>
     <data name="Petabytes" xml:space="preserve">
-    <value>快位元組</value>
+    <value>PB</value>
   </data>
     <data name="Exabytes" xml:space="preserve">
-    <value>艾位元組</value>
+    <value>EB</value>
   </data>
     <data name="SquareMillimeters" xml:space="preserve">
     <value>平方毫米</value>
   </data>
     <data name="SquareCentimeters" xml:space="preserve">
-    <value>平方釐米</value>
+    <value>平方公分</value>
   </data>
     <data name="SquareMeters" xml:space="preserve">
     <value>平方公尺</value>
@@ -214,7 +214,7 @@
     <value>節</value>
   </data>
     <data name="Mach" xml:space="preserve">
-    <value>馬赫數</value>
+    <value>馬赫</value>
   </data>
     <data name="Milliliters" xml:space="preserve">
     <value>毫升</value>
@@ -241,7 +241,7 @@
     <value>美制湯匙</value>
   </data>
     <data name="UsOunces" xml:space="preserve">
-    <value>US Ounces</value>
+    <value>美制盎司</value>
   </data>
     <data name="UsCups" xml:space="preserve">
     <value>美制杯</value>
@@ -256,7 +256,7 @@
     <value>美制夸脫</value>
   </data>
     <data name="UsGallons" xml:space="preserve">
-    <value>美国加仑</value>
+    <value>美制加侖</value>
   </data>
     <data name="CubicInches" xml:space="preserve">
     <value>立方英寸</value>
@@ -265,7 +265,7 @@
     <value>立方英尺</value>
   </data>
     <data name="CubicMeters" xml:space="preserve">
-    <value>立方米</value>
+    <value>立方公尺</value>
   </data>
     <data name="Milligrams" xml:space="preserve">
     <value>毫克</value>

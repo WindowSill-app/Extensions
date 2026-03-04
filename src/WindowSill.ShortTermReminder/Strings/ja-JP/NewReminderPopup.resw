@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="InHowLong" xml:space="preserve">
-    <value>동안</value>
+    <value>時間</value>
   </data>
   <data name="Minutes" xml:space="preserve">
-    <value>분</value>
+    <value>分後</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>New Short-Term Reminder</value>
+    <value>新しい短期リマインダー</value>
   </data>
   <data name="WillRemindAt" xml:space="preserve">
-    <value>Will remind you at {0}</value>
+    <value>{0} に通知します</value>
   </data>
   <data name="OkButton" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="ReminderTextBox" xml:space="preserve">
-    <value>Remind me to:</value>
+    <value>次のように通知します：</value>
   </data>
 </root>

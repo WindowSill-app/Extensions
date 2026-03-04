@@ -136,7 +136,7 @@
     <value>收藏貨幣</value>
   </data>
   <data name="Loading.TextProperty" xml:space="preserve">
-    <value>載入匯率中...</value>
+    <value>正在載入匯率...</value>
   </data>
   <data name="MoveDown.ToolTipService.ToolTipProperty" xml:space="preserve">
     <value>向下移動</value>

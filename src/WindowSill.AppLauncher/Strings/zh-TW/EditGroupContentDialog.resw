@@ -118,16 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppApps.TextProperty" xml:space="preserve">
-    <value>新增應用程式(多個)</value>
+    <value>新增應用程式</value>
   </data>
   <data name="AppFiles.TextProperty" xml:space="preserve">
-    <value>新增檔案(多個)</value>
+    <value>新增檔案</value>
   </data>
   <data name="AppFolders.TextProperty" xml:space="preserve">
-    <value>新增資料夾(多個)</value>
+    <value>新增資料夾</value>
   </data>
   <data name="AppUrls.TextProperty" xml:space="preserve">
-    <value>Add URL(s)</value>
+    <value>新增連結</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>取消</value>
@@ -148,10 +148,10 @@
     <value>群組名稱</value>
   </data>
   <data name="NewGroup" xml:space="preserve">
-    <value>新建群組</value>
+    <value>新增群組</value>
   </data>
   <data name="Reset.TextProperty" xml:space="preserve">
-    <value>重置</value>
+    <value>重設</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>儲存</value>
