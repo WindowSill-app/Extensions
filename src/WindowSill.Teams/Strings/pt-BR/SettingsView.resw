@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="General" xml:space="preserve">
-    <value>General</value>
+    <value>Geral</value>
   </data>
   <data name="Connect.Header" xml:space="preserve">
-    <value>Connect WindowSill to Microsoft Teams</value>
+    <value>Conectar WindowSill ao Microsoft Teams</value>
   </data>
   <data name="Connect.Description" xml:space="preserve">
-    <value>To enable Microsoft Teams integration, enable third-party API in Microsoft Teams by following the steps on the linked page.</value>
+    <value>Para habilitar a integração com o Microsoft Teams, ative a API de terceiros no Microsoft Teams seguindo as etapas na página vinculada.</value>
   </data>
   <data name="ConnectGuide" xml:space="preserve">
-    <value>Setup guide</value>
+    <value>Guia de configuração</value>
   </data>
 </root>
