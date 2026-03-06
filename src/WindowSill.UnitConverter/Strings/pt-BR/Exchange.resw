@@ -121,33 +121,33 @@
     <value>Add</value>
   </data>
   <data name="AddFavoriteTitle" xml:space="preserve">
-    <value>Add a favorite currency</value>
+    <value>Adicione uma moeda favorita</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="Delete.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Delete</value>
+    <value>Apagar</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
-    <value>Currency Converter</value>
+    <value>Conversor de Imagem</value>
   </data>
   <data name="FavoriteInto.TextProperty" xml:space="preserve">
-    <value>Favorites currencies</value>
+    <value>Moedas favoritas</value>
   </data>
   <data name="Loading.TextProperty" xml:space="preserve">
-    <value>Loading exchange rates...</value>
+    <value>Carregando taxas de câmbio...</value>
   </data>
   <data name="MoveDown.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Move down</value>
+    <value>Mover para baixo</value>
   </data>
   <data name="MoveUp.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Move up</value>
+    <value>Mover para cima</value>
   </data>
   <data name="Ok" xml:space="preserve">
     <value>Ok</value>
   </data>
   <data name="Search.PlaceholderTextProperty" xml:space="preserve">
-    <value>Search currencies...</value>
+    <value>Pesquisar moedas...</value>
   </data>
 </root>
