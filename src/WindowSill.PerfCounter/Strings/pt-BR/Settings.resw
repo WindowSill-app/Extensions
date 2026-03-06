@@ -150,4 +150,10 @@
   <data name="OpenTaskManagerDescription" xml:space="preserve">
     <value>Clique para abrir o Gerenciador de Tarefas do Windows para mostrar informações detalhadas do sistema</value>
   </data>
+  <data name="ShowTemperature" xml:space="preserve">
+    <value>Show Temperature</value>
+  </data>
+  <data name="ShowTemperatureDescription" xml:space="preserve">
+    <value>Display CPU and GPU temperature alongside usage percentages</value>
+  </data>
 </root>
