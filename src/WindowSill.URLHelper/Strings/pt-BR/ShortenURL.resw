@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Copied" xml:space="preserve">
-    <value>Copied!</value>
+    <value>Copiado!</value>
   </data>
   <data name="CopyButtonToolTip" xml:space="preserve">
-    <value>Copy</value>
+    <value>Copiar</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Shorten URL</value>
+    <value>Encurtar URL</value>
   </data>
   <data name="UrlTextBoxPlaceholderText" xml:space="preserve">
-    <value>Please wait...</value>
+    <value>Por favor, aguarde...</value>
   </data>
 </root>
