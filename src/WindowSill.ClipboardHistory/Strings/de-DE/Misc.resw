@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ClearHistory" xml:space="preserve">
-    <value>Clear History</value>
+    <value>Verlauf löschen</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Löschen</value>
@@ -127,10 +127,10 @@
     <value>Zwischenspeicher Verlauf</value>
   </data>
   <data name="EmptyClipboard.TextProperty" xml:space="preserve">
-    <value>The clipboard is empty.</value>
+    <value>Die Zwischenablage ist leer.</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Windows-Zwischenablageverlauf aktivieren</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>Fehler beim Abrufen der Dateiinformationen</value>
