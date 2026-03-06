@@ -118,20 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Ogólne</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose how reminders appear.
-• Toast notification provide a small pop-up that blends into your workflow and stays in Windows Action Center.
-• Full-screen notification take over the display, ensuring it is impossible to overlook—even when Windows is in Focus mode. Ideal for anyone who benefits from stronger visual cues to stay on track.</value>
+    <value>Wybierz sposób wyświetlania przypomnień.
+• Powiadomienia typu „toast” to małe wyskakujące okienka, które wtapiają się w środowisko pracy i pozostają w Centrum akcji systemu Windows.
+• Powiadomienia pełnoekranowe zajmują cały ekran, dzięki czemu nie da się ich przeoczyć - nawet gdy system Windows jest w trybie Focus. Idealne rozwiązanie dla osób, które potrzebują wyraźniejszych sygnałów wizualnych, aby pozostać na bieżąco.</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
-    <value>Notification mode</value>
+    <value>Tryb powiadomień</value>
   </data>
   <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
-    <value>Toast notification</value>
+    <value>Powiadomienie typu wyskakujące powiadomienia</value>
   </data>
   <data name="NotificationModeToggle.OnContentProperty" xml:space="preserve">
-    <value>Full-screen notification</value>
+    <value>Powiadomienie w trybie pełnoekranowym</value>
   </data>
 </root>
