@@ -4,7 +4,6 @@ using WindowSill.API;
 using WindowSill.MediaControl.Core;
 using WindowSill.MediaControl.Settings;
 using WindowSill.MediaControl.ViewModels;
-using WindowSill.MediaControl.Views;
 
 namespace WindowSill.MediaControl;
 

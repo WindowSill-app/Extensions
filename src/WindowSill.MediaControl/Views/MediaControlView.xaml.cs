@@ -1,7 +1,4 @@
-using CommunityToolkit.WinUI.Converters;
-
 using WindowSill.API;
-using WindowSill.MediaControl.Controls;
 using WindowSill.MediaControl.ViewModels;
 
 namespace WindowSill.MediaControl.Views;
