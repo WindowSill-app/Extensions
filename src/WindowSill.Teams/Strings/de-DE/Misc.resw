@@ -124,9 +124,9 @@
     <value>Anruf verlassen</value>
   </data>
   <data name="Mute" xml:space="preserve">
-    <value>Stummschalten</value>
+    <value>Stumm</value>
   </data>
   <data name="Unmute" xml:space="preserve">
-    <value>Entstummeln</value>
+    <value>Stummschaltung aufheben</value>
   </data>
 </root>
