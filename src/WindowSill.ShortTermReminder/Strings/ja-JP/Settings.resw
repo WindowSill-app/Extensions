@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,21 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="General" xml:space="preserve">
-    <value>一般</value>
+  <data name="General.TextProperty" xml:space="preserve">
+    <value>General</value>
   </data>
-  <data name="NotificationMode.Description" xml:space="preserve">
-    <value>リマインダーの表示方法を選択します。
-• トースト通知は、ワークフローに溶け込み、Windowsアクションセンターに表示される小さなポップアップです。
-• フルスクリーン通知は画面全体を占有し、Windowsがフォーカスモードにあっても見落とすことは不可能です。より強い視覚的キューで軌道修正に役立つ方に理想的です。</value>
+  <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
+    <value>Choose how reminders appear.
+• Toast notification provide a small pop-up that blends into your workflow and stays in Windows Action Center.
+• Full-screen notification take over the display, ensuring it is impossible to overlook—even when Windows is in Focus mode. Ideal for anyone who benefits from stronger visual cues to stay on track.</value>
   </data>
-  <data name="NotificationMode.Header" xml:space="preserve">
-    <value>通知モード</value>
+  <data name="NotificationMode.HeaderProperty" xml:space="preserve">
+    <value>Notification mode</value>
   </data>
-  <data name="NotificationModeToggle.OffContent" xml:space="preserve">
-    <value>トースト通知</value>
+  <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
+    <value>Toast notification</value>
   </data>
-  <data name="NotificationModeToggle.OnContent" xml:space="preserve">
-    <value>フルスクリーン通知</value>
+  <data name="NotificationModeToggle.OnContentProperty" xml:space="preserve">
+    <value>Full-screen notification</value>
   </data>
 </root>
