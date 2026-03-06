@@ -118,24 +118,24 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Włącz historię schowka systemu Windows</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Ogólne</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
-    <value>Try to detect and hide copied text that look like passwords</value>
+    <value>Spróbuj wykryć i ukryć skopiowany tekst, który wygląda jak hasło</value>
   </data>
   <data name="HidePasswords.HeaderProperty" xml:space="preserve">
-    <value>Hide passwords</value>
+    <value>Ukryj hasła</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>How many items should be kept in the clipboard history.</value>
+    <value>Ile elementów powinno być przechowywanych w historii schowka.</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
-    <value>Maximum number of items</value>
+    <value>Maksymalna liczba pozycji</value>
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
-    <value>Open Windows Clipboard history settings</value>
+    <value>Otwórz ustawienia historii schowka systemu Windows</value>
   </data>
 </root>
