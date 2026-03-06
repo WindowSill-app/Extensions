@@ -138,4 +138,10 @@
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
     <value>Abrir configurações de histórico de área de transferência do Windows</value>
   </data>
+  <data name="CompactMode.HeaderProperty" xml:space="preserve">
+    <value>Compact mode</value>
+  </data>
+  <data name="CompactMode.DescriptionProperty" xml:space="preserve">
+    <value>Display all clipboard items in a single popup instead of individual items in the bar</value>
+  </data>
 </root>
