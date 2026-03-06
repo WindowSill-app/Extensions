@@ -118,42 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AnimationMetric" xml:space="preserve">
-    <value>Animation Metric</value>
+    <value>Metryka animacji</value>
   </data>
   <data name="AnimationMetricDescription" xml:space="preserve">
-    <value>Which metric to use for animated running man</value>
+    <value>Wybierz, który wskaźnik wydajności ma być pokazywany</value>
   </data>
   <data name="DisplayMode" xml:space="preserve">
-    <value>Display Mode</value>
+    <value>Tryb wyświetlania</value>
   </data>
   <data name="DisplayModeDescription" xml:space="preserve">
-    <value>Choose how to display performance metrics</value>
+    <value>Wybierz sposób wyświetlania wskaźników wydajności</value>
   </data>
   <data name="DisplayModePercentage" xml:space="preserve">
-    <value>Percentage</value>
+    <value>Procent</value>
   </data>
   <data name="DisplayModeRunningMan" xml:space="preserve">
-    <value>Running Man</value>
+    <value>Animowany wskaźnik</value>
   </data>
   <data name="EnableTaskManagerLaunch" xml:space="preserve">
-    <value>Enable Task Manager Launch</value>
+    <value>Włącz uruchamianie Menedżera zadań</value>
   </data>
   <data name="EnableTaskManagerLaunchDescription" xml:space="preserve">
-    <value>Allow opening Task Manager when clicking the performance counter</value>
+    <value>Zezwól na otwarcie Menedżera zadań po kliknięciu licznika wydajności</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>General</value>
+    <value>Ogólne</value>
   </data>
   <data name="OpenTaskManager" xml:space="preserve">
-    <value>Open Task Manager</value>
+    <value>Otwórz Menedżera zadań</value>
   </data>
   <data name="OpenTaskManagerDescription" xml:space="preserve">
-    <value>Click to open Windows Task Manager for detailed system information</value>
+    <value>Kliknij, aby otworzyć Menedżera zadań systemu Windows i uzyskać szczegółowe informacje o systemie</value>
   </data>
   <data name="ShowTemperature" xml:space="preserve">
-    <value>Show Temperature</value>
+    <value>Pokaż temperaturę</value>
   </data>
   <data name="ShowTemperatureDescription" xml:space="preserve">
-    <value>Display CPU and GPU temperature alongside usage percentages</value>
+    <value>Wyświetlaj temperaturę procesora i karty graficznej wraz z procentowym wykorzystaniem zasobów</value>
   </data>
 </root>
