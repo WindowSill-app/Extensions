@@ -117,25 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AbsoluteSizeBarItem" xml:space="preserve">
+  <data name="AbsoluteSizeBarItem.TextProperty" xml:space="preserve">
     <value>मात्रा आकार</value>
   </data>
-  <data name="AspectRatio" xml:space="preserve">
+  <data name="AspectRatio.ContentProperty" xml:space="preserve">
     <value>आस्पेक्ट अनुपात बनाए रखें</value>
   </data>
-  <data name="Height" xml:space="preserve">
+  <data name="Height.HeaderProperty" xml:space="preserve">
     <value>ऊंचाई</value>
   </data>
-  <data name="PercentageBarItem" xml:space="preserve">
+  <data name="PercentageBarItem.TextProperty" xml:space="preserve">
     <value>प्रतिशत</value>
   </data>
-  <data name="ResizeButton" xml:space="preserve">
+  <data name="ResizeButton.ContentProperty" xml:space="preserve">
     <value>आकार बदलें</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>छवि का आकार बदलें</value>
   </data>
-  <data name="Width" xml:space="preserve">
+  <data name="Width.HeaderProperty" xml:space="preserve">
     <value>चौड़ाई</value>
   </data>
 </root>
