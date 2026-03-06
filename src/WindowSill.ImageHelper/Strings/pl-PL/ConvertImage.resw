@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Anuluj</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done</value>
+    <value>Gotowe</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Convert Image</value>
+    <value>Konwertuj obraz</value>
   </data>
 </root>
