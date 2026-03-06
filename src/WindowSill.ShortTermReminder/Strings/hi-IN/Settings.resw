@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,21 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="General" xml:space="preserve">
-    <value>सामान्य</value>
+  <data name="General.TextProperty" xml:space="preserve">
+    <value>General</value>
   </data>
-  <data name="NotificationMode.Description" xml:space="preserve">
-    <value>सुनिश्चित करें कि अनुस्मारक कैसे दिखाई देते हैं।
-• टोस्ट अधिसूचना एक छोटे पॉप-अप प्रदान करती है जो आपके कार्यप्रवाह में मिला होता है और Windows स्वरूप केंद्र में रहता है।
-• पूर्ण-स्क्रीन अधिसूचना प्रदर्शन पर कब्जा कर लेती है, यह सुनिश्चित करते हुए कि इसे नजरअंदाज करना असंभव है—यह भी जब Windows फ़ोकस मोड में हो। उन लोगों के लिए आदर्श है जो ट्रैक पर रहने के लिए मजबूत दृश्य संकेतों से लाभान्वित होते हैं।</value>
+  <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
+    <value>Choose how reminders appear.
+• Toast notification provide a small pop-up that blends into your workflow and stays in Windows Action Center.
+• Full-screen notification take over the display, ensuring it is impossible to overlook—even when Windows is in Focus mode. Ideal for anyone who benefits from stronger visual cues to stay on track.</value>
   </data>
-  <data name="NotificationMode.Header" xml:space="preserve">
-    <value>अधिसूचना मोड</value>
+  <data name="NotificationMode.HeaderProperty" xml:space="preserve">
+    <value>Notification mode</value>
   </data>
-  <data name="NotificationModeToggle.OffContent" xml:space="preserve">
-    <value>टोस्ट अधिसूचना</value>
+  <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
+    <value>Toast notification</value>
   </data>
-  <data name="NotificationModeToggle.OnContent" xml:space="preserve">
-    <value>पूर्ण-स्क्रीन अधिसूचना</value>
+  <data name="NotificationModeToggle.OnContentProperty" xml:space="preserve">
+    <value>Full-screen notification</value>
   </data>
 </root>
