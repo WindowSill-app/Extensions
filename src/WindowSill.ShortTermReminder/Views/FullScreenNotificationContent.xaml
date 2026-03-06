@@ -12,24 +12,24 @@
     <Grid>
         <MediaPlayerElement
             x:Name="BackgroundMediaPlayer"
-            AreTransportControlsEnabled="False"
-            IsFullWindow="False"
+            Width="0"
+            Height="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Stretch="None"
-            Height="0"
-            Width="0"
-            Loaded="BackgroundMediaPlayer_Loaded" />
+            AreTransportControlsEnabled="False"
+            IsFullWindow="False"
+            Loaded="BackgroundMediaPlayer_Loaded"
+            Stretch="None" />
 
         <Border
-            BorderThickness="1"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+            MaxWidth="1200"
+            Margin="72"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            CornerRadius="{ThemeResource OverlayCornerRadius}"
-            Margin="72"
-            MaxWidth="1200">
+            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource OverlayCornerRadius}">
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -37,71 +37,61 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- Reminder content -->
+                <!--  Reminder content  -->
                 <StackPanel
                     Grid.Row="0"
                     Padding="36,40,36,40"
-                    Spacing="16"
-                    Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}">
+                    Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                    Spacing="16">
                     <StackPanel.ChildrenTransitions>
                         <EntranceThemeTransition IsStaggeringEnabled="True" />
                     </StackPanel.ChildrenTransitions>
 
                     <TextBlock
-                        Style="{ThemeResource BodyTextBlockStyle}"
+                        HorizontalAlignment="Stretch"
+                        api:Uids.Uid="/WindowSill.ShortTermReminder/FullScreenNotificationWindow/Title"
+                        CharacterSpacing="200"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         HorizontalTextAlignment="Center"
-                        HorizontalAlignment="Stretch"
-                        CharacterSpacing="200"
-                        api:Uids.Uid="/WindowSill.ShortTermReminder/FullScreenNotificationWindow/Title" />
+                        Style="{ThemeResource BodyTextBlockStyle}" />
 
                     <RichTextBlock
+                        HorizontalAlignment="Stretch"
+                        views:RichTextBlockLinkBehavior.LinkClickedCommand="{x:Bind ViewModel.OpenLinkAndDismissCommand}"
+                        views:RichTextBlockLinkBehavior.LinkedText="{x:Bind ViewModel.ReminderTitle, Mode=OneTime}"
                         FontSize="40"
                         FontWeight="SemiBold"
                         MaxLines="5"
-                        TextWrapping="WrapWholeWords"
-                        TextTrimming="WordEllipsis"
-                        HorizontalAlignment="Stretch"
                         TextAlignment="Center"
-                        views:RichTextBlockLinkBehavior.LinkedText="{x:Bind ViewModel.ReminderTitle, Mode=OneTime}"
-                        views:RichTextBlockLinkBehavior.LinkClickedCommand="{x:Bind ViewModel.OpenLinkAndDismissCommand}" />
+                        TextTrimming="WordEllipsis"
+                        TextWrapping="WrapWholeWords" />
                 </StackPanel>
 
-                <!-- Actions footer -->
+                <!--  Actions footer  -->
                 <Border
                     Grid.Row="1"
+                    Padding="36,40,36,40"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
-                    Padding="36,40,36,40"
-                    BorderThickness="0,1,0,0"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}">
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="0,1,0,0">
 
                     <StackPanel
+                        HorizontalAlignment="Center"
                         Orientation="Horizontal"
-                        Spacing="8"
-                        HorizontalAlignment="Center">
+                        Spacing="8">
 
                         <Button Command="{x:Bind ViewModel.DismissCommand}">
-                            <StackPanel
-                                Orientation="Horizontal"
-                                Spacing="8">
-                                <FontIcon
-                                    FontSize="16"
-                                    Glyph="&#xE894;" />
-                                <TextBlock
-                                    api:Uids.Uid="/WindowSill.ShortTermReminder/FullScreenNotificationWindow/Dismiss" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE894;" />
+                                <TextBlock api:Uids.Uid="/WindowSill.ShortTermReminder/FullScreenNotificationWindow/Dismiss" />
                             </StackPanel>
                         </Button>
 
                         <Button Command="{x:Bind ViewModel.SnoozeCommand}">
-                            <StackPanel
-                                Orientation="Horizontal"
-                                Spacing="8">
-                                <FontIcon
-                                    FontSize="16"
-                                    Glyph="&#xF4BD;" />
-                                <TextBlock
-                                    api:Uids.Uid="/WindowSill.ShortTermReminder/FullScreenNotificationWindow/Snooze" />
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xF4BD;" />
+                                <TextBlock api:Uids.Uid="/WindowSill.ShortTermReminder/FullScreenNotificationWindow/Snooze" />
                             </StackPanel>
                         </Button>
                     </StackPanel>

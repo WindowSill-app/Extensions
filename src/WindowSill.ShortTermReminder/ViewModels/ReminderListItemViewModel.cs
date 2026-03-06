@@ -83,6 +83,14 @@ internal sealed partial class ReminderListItemViewModel : ObservableObject, IDis
     /// </summary>
     internal Action? StartFlashingAction { get; set; }
 
+    /// <summary>
+    /// Refreshes the displayed title from the underlying reminder data.
+    /// </summary>
+    internal void RefreshTitle()
+    {
+        ReminderTitle = Reminder.Title;
+    }
+
     /// <inheritdoc />
     public void Dispose()
     {

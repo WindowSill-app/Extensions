@@ -89,6 +89,21 @@ internal sealed class ReminderService : IReminderService
     }
 
     /// <inheritdoc />
+    public void UpdateReminderTitle(Reminder reminder)
+    {
+        ThreadHelper.ThrowIfNotOnUIThread();
+        Guard.IsNotNull(_settingsProvider);
+
+        ViewModels.ReminderListItemViewModel? listItemViewModel
+            = ViewList.Select(v => v.DataContext)
+            .OfType<ViewModels.ReminderListItemViewModel>()
+            .FirstOrDefault(r => r.Reminder == reminder);
+        listItemViewModel?.RefreshTitle();
+
+        SaveReminders();
+    }
+
+    /// <inheritdoc />
     public void DeleteReminder(Guid reminderId)
     {
         ThreadHelper.ThrowIfNotOnUIThread();

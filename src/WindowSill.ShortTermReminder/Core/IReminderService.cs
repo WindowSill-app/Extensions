@@ -30,6 +30,12 @@ internal interface IReminderService
     void AddNewReminder(string reminderText, TimeSpan originalReminderDuration, DateTime reminderTime);
 
     /// <summary>
+    /// Updates the title of a reminder and persists the change.
+    /// </summary>
+    /// <param name="reminder">The reminder whose title was updated.</param>
+    void UpdateReminderTitle(Reminder reminder);
+
+    /// <summary>
     /// Deletes a reminder by its unique identifier.
     /// </summary>
     /// <param name="reminderId">The unique identifier of the reminder to delete.</param>

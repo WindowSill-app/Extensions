@@ -31,6 +31,12 @@ internal sealed partial class ReminderPopupViewModel : ObservableObject
     internal Reminder Reminder { get; }
 
     /// <summary>
+    /// Gets or sets the editable reminder title.
+    /// </summary>
+    [ObservableProperty]
+    internal partial string Title { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets the formatted text showing the remaining time until the reminder fires.
     /// </summary>
     [ObservableProperty]
@@ -42,15 +48,26 @@ internal sealed partial class ReminderPopupViewModel : ObservableObject
     internal Action? CloseAction { get; set; }
 
     /// <summary>
-    /// Updates the remaining time display when the popup opens.
+    /// Updates the remaining time display and title when the popup opens.
     /// </summary>
     internal void OnOpening()
     {
+        Title = Reminder.Title;
+
         TimeSpan remainingTime = Reminder.ReminderTime - DateTime.Now;
         RemainingTimeText = string.Format(
             "/WindowSill.ShortTermReminder/ReminderSillListViewPopupItem/ReminderRemainingTime".GetLocalizedString(),
             (remainingTime.TotalMinutes + 1).ToString("0"),
             Reminder.ReminderTime.ToString("h:mm tt"));
+    }
+
+    partial void OnTitleChanged(string value)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            Reminder.Title = value;
+            _reminderService.UpdateReminderTitle(Reminder);
+        }
     }
 
     /// <summary>

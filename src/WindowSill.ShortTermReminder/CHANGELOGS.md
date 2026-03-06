@@ -1,5 +1,6 @@
 # 0.9.18
 - Added support of links in reminder's title. Links will be opened in the default browser when clicked.
+- Reminder's title can now be edited.
 
 # 0.9.17
 - Fixed decimal displayed in  the reminder popup.
