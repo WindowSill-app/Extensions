@@ -1,4 +1,4 @@
-namespace WindowSill.MediaControl.UI;
+namespace WindowSill.MediaControl.Controls;
 
 /// <summary>
 /// How the Marquee moves.

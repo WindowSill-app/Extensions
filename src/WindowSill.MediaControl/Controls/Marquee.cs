@@ -1,7 +1,7 @@
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
 
-namespace WindowSill.MediaControl.UI;
+namespace WindowSill.MediaControl.Controls;
 
 /// <summary>
 /// A Control that displays Text in a Marquee style.

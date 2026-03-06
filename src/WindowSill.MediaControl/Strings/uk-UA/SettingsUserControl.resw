@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="General" xml:space="preserve">
+  <data name="General.TextProperty" xml:space="preserve">
     <value>Загальне</value>
   </data>
-  <data name="ShowMediaNameAndThumbnail" xml:space="preserve">
+  <data name="ShowMediaNameAndThumbnail.HeaderProperty" xml:space="preserve">
     <value>Показати назву медіа та мініатюру</value>
   </data>
 </root>
