@@ -121,7 +121,7 @@
     <value>Allgemein</value>
   </data>
   <data name="Connect.Header" xml:space="preserve">
-    <value>Connect WindowSill to Microsoft Teams</value>
+    <value>Anwendung mit Microsoft Teams verbinden</value>
   </data>
   <data name="Connect.Description" xml:space="preserve">
     <value>Um die Microsoft Teams-Integration zu aktivieren, aktivieren Sie die API von Drittanbietern in Microsoft Teams, indem Sie die Schritte auf der verlinkten Seite befolgen.</value>
