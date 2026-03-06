@@ -136,7 +136,7 @@
     <value>Nie udało się uzyskać informacji o pliku</value>
   </data>
   <data name="ImageSize" xml:space="preserve">
-    <value>pikseli</value>
+    <value>{0} x {1} pikseli</value>
   </data>
   <data name="OpenApplication" xml:space="preserve">
     <value>Otwórz aplikację</value>
