@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,25 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="EnableClipboardHistory" xml:space="preserve">
-    <value>Увімкнути історію буфера обміну Windows</value>
+  <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
+    <value>Enable Windows Clipboard history</value>
   </data>
-  <data name="General" xml:space="preserve">
-    <value>Загальні</value>
+  <data name="General.TextProperty" xml:space="preserve">
+    <value>General</value>
   </data>
-  <data name="HidePasswords.Description" xml:space="preserve">
-    <value>Спробуйте визначити та приховати скопійований текст, що схожий на паролі</value>
+  <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
+    <value>Try to detect and hide copied text that look like passwords</value>
   </data>
-  <data name="HidePasswords.Header" xml:space="preserve">
-    <value>Приховати паролі</value>
+  <data name="HidePasswords.HeaderProperty" xml:space="preserve">
+    <value>Hide passwords</value>
   </data>
-  <data name="MaxItemNumber.Description" xml:space="preserve">
-    <value>Скільки елементів слід зберігати в історії буфера обміну.</value>
+  <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
+    <value>How many items should be kept in the clipboard history.</value>
   </data>
-  <data name="MaxItemNumber.Header" xml:space="preserve">
-    <value>Максимальна кількість елементів</value>
+  <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
+    <value>Maximum number of items</value>
   </data>
-  <data name="OpenWindowsClipboardHistorySettings" xml:space="preserve">
-    <value>Відкрити налаштування історії буфера обміну Windows</value>
+  <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
+    <value>Open Windows Clipboard history settings</value>
   </data>
 </root>
