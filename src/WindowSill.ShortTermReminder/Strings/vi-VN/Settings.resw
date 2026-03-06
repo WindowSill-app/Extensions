@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,21 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="General" xml:space="preserve">
-    <value>Chung</value>
+  <data name="General.TextProperty" xml:space="preserve">
+    <value>General</value>
   </data>
-  <data name="NotificationMode.Description" xml:space="preserve">
-    <value>Chọn cách thức hiển thị lời nhắc.
-• Thông báo dạng phù hợp thể hiện một cửa sổ nhỏ nổi bật phù hợp với quy trình làm việc của bạn và ở trong Trung tâm hành động của Windows.
-• Thông báo toàn màn hình chiếm lĩnh màn hình, đảm bảo không thể bỏ qua—ngay cả khi Windows đang ở chế độ Tập Trung. Lý tưởng cho những ai hưởng lợi từ các chỉ dẫn thị giác mạnh mẽ hơn để duy trì đúng hướng.</value>
+  <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
+    <value>Choose how reminders appear.
+• Toast notification provide a small pop-up that blends into your workflow and stays in Windows Action Center.
+• Full-screen notification take over the display, ensuring it is impossible to overlook—even when Windows is in Focus mode. Ideal for anyone who benefits from stronger visual cues to stay on track.</value>
   </data>
-  <data name="NotificationMode.Header" xml:space="preserve">
-    <value>Chế độ thông báo</value>
+  <data name="NotificationMode.HeaderProperty" xml:space="preserve">
+    <value>Notification mode</value>
   </data>
-  <data name="NotificationModeToggle.OffContent" xml:space="preserve">
-    <value>Thông báo dạng phù hợp</value>
+  <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
+    <value>Toast notification</value>
   </data>
-  <data name="NotificationModeToggle.OnContent" xml:space="preserve">
-    <value>Thông báo toàn màn hình</value>
+  <data name="NotificationModeToggle.OnContentProperty" xml:space="preserve">
+    <value>Full-screen notification</value>
   </data>
 </root>
