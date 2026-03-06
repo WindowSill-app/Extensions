@@ -150,4 +150,10 @@
   <data name="OpenTaskManagerDescription" xml:space="preserve">
     <value>विंडोज टास्क मैनेजर खोलने के लिए क्लिक करें, ताकि विस्तृत सिस्टम जानकारी प्राप्त हो सके</value>
   </data>
+  <data name="ShowTemperature" xml:space="preserve">
+    <value>Show Temperature</value>
+  </data>
+  <data name="ShowTemperatureDescription" xml:space="preserve">
+    <value>Display CPU and GPU temperature alongside usage percentages</value>
+  </data>
 </root>
