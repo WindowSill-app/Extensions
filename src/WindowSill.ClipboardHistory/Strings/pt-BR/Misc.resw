@@ -127,10 +127,10 @@
     <value>Histórico da Área de Transferência</value>
   </data>
   <data name="EmptyClipboard.TextProperty" xml:space="preserve">
-    <value>The clipboard is empty.</value>
+    <value>A área de transferência está vazia.</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Habilitar o histórico da Área de Transferência do Windows</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>Falha ao obter informações do arquivo</value>
