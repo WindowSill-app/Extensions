@@ -150,4 +150,10 @@
   <data name="OpenTaskManagerDescription" xml:space="preserve">
     <value>点击以打开 Windows 任务管理器，获取详细系统信息</value>
   </data>
+  <data name="ShowTemperature" xml:space="preserve">
+    <value>Show Temperature</value>
+  </data>
+  <data name="ShowTemperatureDescription" xml:space="preserve">
+    <value>Display CPU and GPU temperature alongside usage percentages</value>
+  </data>
 </root>
