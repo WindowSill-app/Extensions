@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -126,11 +126,11 @@
   <data name="DisplayName" xml:space="preserve">
     <value>クリップボードの履歴</value>
   </data>
-  <data name="EmptyClipboard" xml:space="preserve">
-    <value>クリップボードは空です。</value>
+  <data name="EmptyClipboard.TextProperty" xml:space="preserve">
+    <value>The clipboard is empty.</value>
   </data>
-  <data name="EnableClipboardHistory" xml:space="preserve">
-    <value>Windowsクリップボード履歴を有効にする</value>
+  <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
+    <value>Enable Windows Clipboard history</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>ファイル情報の取得に失敗しました</value>
