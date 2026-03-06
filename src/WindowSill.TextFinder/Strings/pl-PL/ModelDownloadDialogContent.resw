@@ -118,45 +118,45 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Description.TextProperty" xml:space="preserve">
-    <value>To find text by meaning, this feature needs a small language model that runs entirely on your device.</value>
+    <value>Aby znaleźć tekst według znaczenia, ta funkcja wymaga małego modelu językowego, który działa w całości na Twoim urządzeniu.</value>
   </data>
   <data name="ModelName.TextProperty" xml:space="preserve">
     <value>Model: all-MiniLM-L6-v2</value>
   </data>
   <data name="DownloadSize.TextProperty" xml:space="preserve">
-    <value>Download size: approximately 90 MB</value>
+    <value>Rozmiar pliku do pobrania: około 90 MB</value>
   </data>
   <data name="RunsPrivately.TextProperty" xml:space="preserve">
-    <value>Runs privately on your computer</value>
+    <value>Działa prywatnie na Twoim komputerze</value>
   </data>
   <data name="ApacheLicense.ContentProperty" xml:space="preserve">
-    <value>Apache 2.0 License</value>
+    <value/>
   </data>
   <data name="LearnMore.ContentProperty" xml:space="preserve">
-    <value>Learn more</value>
+    <value>Dowiedz się więcej</value>
   </data>
   <data name="DownloadOnce.TextProperty" xml:space="preserve">
-    <value>You only need to download this once. It will be stored on your device for future use.</value>
+    <value>Wystarczy pobrać ten plik tylko raz. Zostanie on zapisany na Twoim urządzeniu do wykorzystania w przyszłości.</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
-    <value>Downloading language model...</value>
+    <value>Pobieranie modelu językowego...</value>
   </data>
   <data name="DownloadFailed.TitleProperty" xml:space="preserve">
-    <value>Download failed</value>
+    <value>Pobieranie nie powiodło się</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
-    <value>Unable to download the model. Please check your internet connection and try again.</value>
+    <value>Nie można pobrać modelu. Sprawdź połączenie internetowe i spróbuj ponownie.</value>
   </data>
   <data name="DownloadRequired" xml:space="preserve">
-    <value>Download required</value>
+    <value>Pobierz wymagane</value>
   </data>
   <data name="Download" xml:space="preserve">
-    <value>Download</value>
+    <value>Pobierz</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Anuluj</value>
   </data>
   <data name="TryAgain" xml:space="preserve">
-    <value>Try again</value>
+    <value>Spróbuj ponownie</value>
   </data>
 </root>
