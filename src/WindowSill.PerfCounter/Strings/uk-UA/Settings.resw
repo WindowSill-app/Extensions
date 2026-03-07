@@ -151,9 +151,9 @@
     <value>Клацніть, щоб відкрити диспетчер задач Windows для детальної інформації про систему</value>
   </data>
   <data name="ShowTemperature" xml:space="preserve">
-    <value>Show Temperature</value>
+    <value>Показати температуру</value>
   </data>
   <data name="ShowTemperatureDescription" xml:space="preserve">
-    <value>Display CPU and GPU temperature alongside usage percentages</value>
+    <value>Відобразити температуру ЦП та ГП поруч із відсотками використання</value>
   </data>
 </root>
