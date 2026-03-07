@@ -21,6 +21,12 @@ internal static class Settings
     /// </summary>
     internal static readonly SettingDefinition<bool> EnableTaskManagerLaunch
         = new(true, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether to show CPU and GPU temperature alongside usage percentages
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowTemperature
+        = new(true, typeof(Settings).Assembly);
 }
 
 public enum PerformanceDisplayMode

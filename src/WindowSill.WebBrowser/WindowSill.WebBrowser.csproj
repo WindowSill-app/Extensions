@@ -1,11 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.WebBrowser</PackageId>
-    <Version>0.7.2</Version>
+    <Version>0.9.13</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>Web Browser</Title>
     <Description>
-      This WindowSill extension allows to control zoom of your favorite web browsers. Supports Google Chrome, Microsoft Edge, Mozilla Firefox, Brave, Opera, Vivaldi and Zen Browser.
+      Instantly adjust zoom levels in your favorite web browsers — right from your desk controller.
+      
+      • Zoom In, Zoom Out &amp; Reset Zoom with a single tap
+      • Supports Chrome, Edge, Firefox, Brave, Opera, Vivaldi &amp; Zen Browser
+      
+      Perfect for presentations, accessibility, or anyone who wants effortless browser zoom control.
     </Description>
     <PackageIcon>Assets/globe.png</PackageIcon>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>

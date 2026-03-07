@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
-    <value>Lịch sử Bảng tạm của Windows được bật</value>
+    <value>Bật lịch sử Bảng tạm của Windows</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
     <value>Chung</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
-    <value>Cố gắng phát hiện và ẩn văn bản đã sao chép trông như mật khẩu</value>
+    <value>Cố gắng phát hiện và ẩn văn bản đã sao chép trông giống như mật khẩu</value>
   </data>
   <data name="HidePasswords.HeaderProperty" xml:space="preserve">
     <value>Ẩn mật khẩu</value>
@@ -139,9 +139,9 @@
     <value>Mở cài đặt lịch sử bảng tạm của Windows</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
-    <value>Chế độ nhỏ gọn</value>
+    <value>Chế độ thu gọn</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Hiển thị tất cả mục trong bảng tạm trong một cửa sổ nổi thay vì các mục riêng lẻ trong thanh</value>
+    <value>Hiển thị tất cả các mục bảng tạm trong một cửa sổ bật lên duy nhất thay vì các mục riêng lẻ trên thanh</value>
   </data>
 </root>

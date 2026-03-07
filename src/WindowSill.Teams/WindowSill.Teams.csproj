@@ -1,10 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.Teams</PackageId>
-        <Version>0.8.1</Version>
+        <Version>0.9.13</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>Microsoft Teams</Title>
-        <Description>This WindowSill extension allows to control your Microsoft Teams meeting even when it is in background or minimized.</Description>
+        <Description>
+          Control your Microsoft Teams meetings without switching windows. Stay focused on your work while managing calls directly from WindowSill.
+          
+          • Mute &amp; unmute your microphone instantly
+          • Leave a call with a single click
+          • Real-time sync with Teams for accurate meeting state
+          
+          Built for Microsoft Teams for Business. The perfect companion for multitaskers who live in meetings.</Description>
         <PackageIcon>Assets/microsoft_teams_2019.png</PackageIcon>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>

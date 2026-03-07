@@ -118,20 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>Allgemeines</value>
+    <value>Allgemein</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>Wählen Sie, wie Erinnerungen angezeigt werden.
-Die Toast-Benachrichtigung bietet ein kleines Popup, das sich in Ihren Arbeitsablauf einfügt und im Windows-Aktionszentrum bleibt.
-Die Vollbildbenachrichtigung übernimmt das Display und sorgt dafür, dass sie nicht übersehen werden kann – selbst wenn Windows im Fokusmodus ist. Ideal für alle, die von stärkeren visuellen Hinweisen profitieren, um auf Kurs zu bleiben.</value>
+    <value>Wählen Sie aus, wie Erinnerungen angezeigt werden sollen.
+• Toast-Benachrichtigungen bieten ein kleines Pop-up, das in Ihren Arbeitsablauf integriert ist und im Windows-Aktionscenter verbleibt.
+• Vollbildbenachrichtigungen übernehmen den Bildschirm, sodass es unmöglich ist, sie zu übersehen—selbst wenn Windows im Fokusmodus ist. Ideal für alle, die stärkere visuelle Hinweise benötigen, um auf Kurs zu bleiben.</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
-    <value>Mitteilung</value>
+    <value>Benachrichtigungsmodus</value>
   </data>
   <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
     <value>Toast-Benachrichtigung</value>
   </data>
   <data name="NotificationModeToggle.OnContentProperty" xml:space="preserve">
-    <value>Vollbild-Benachrichtigung</value>
+    <value>Vollbildbenachrichtigung</value>
   </data>
 </root>

@@ -154,6 +154,6 @@
     <value>顯示溫度</value>
   </data>
   <data name="ShowTemperatureDescription" xml:space="preserve">
-    <value>在使用百分比旁邊顯示 CPU 和 GPU 溫度</value>
+    <value>在使用率百分比旁顯示 CPU 和 GPU 溫度</value>
   </data>
 </root>

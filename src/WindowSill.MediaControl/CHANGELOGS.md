@@ -1,3 +1,9 @@
+# 0.9.13
+- Updated dependencies.
+
+# 0.8.0
+- Added multiple display support.
+
 # 0.7.4
 - Improved performance.
 - Updated dependencies.

@@ -154,6 +154,6 @@
     <value>Afficher la température</value>
   </data>
   <data name="ShowTemperatureDescription" xml:space="preserve">
-    <value>Afficher la température du CPU et du GPU côte à côte avec les pourcentages d'utilisation</value>
+    <value>Afficher la température du processeur et du GPU à côté des pourcentages d'utilisation</value>
   </data>
 </root>

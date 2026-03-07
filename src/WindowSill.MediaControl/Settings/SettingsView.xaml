@@ -1,0 +1,22 @@
+<UserControl
+    x:Class="WindowSill.MediaControl.Settings.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:ctk="using:CommunityToolkit.WinUI.Controls">
+
+    <StackPanel Spacing="2">
+        <TextBlock
+            Margin="0,0,0,8"
+            api:Uids.Uid="/WindowSill.MediaControl/SettingsUserControl/General"
+            Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+        <ctk:SettingsCard api:Uids.Uid="/WindowSill.MediaControl/SettingsUserControl/ShowMediaNameAndThumbnail">
+            <ctk:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="Segoe Fluent Icons,Segoe MDL2 Assets" Glyph="&#xE8B9;" />
+            </ctk:SettingsCard.HeaderIcon>
+            <ToggleSwitch IsOn="{x:Bind ViewModel.ShowTitleArtistAndThumbnail, Mode=TwoWay}" />
+        </ctk:SettingsCard>
+    </StackPanel>
+
+</UserControl>

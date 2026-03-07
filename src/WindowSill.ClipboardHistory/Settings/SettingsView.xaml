@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.ClipboardHistory.Settings.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <StackPanel Spacing="2">
+        <TextBlock
+            Margin="0,0,0,8"
+            api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/General"
+            Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+        <controls:SettingsCard api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/CompactMode">
+            <controls:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE14C;" />
+            </controls:SettingsCard.HeaderIcon>
+            <ToggleSwitch IsOn="{x:Bind ViewModel.CompactMode, Mode=TwoWay}" />
+        </controls:SettingsCard>
+
+        <controls:SettingsCard api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/MaxItemNumber">
+            <controls:SettingsCard.HeaderIcon>
+                <FontIcon FontFamily="Segoe UI" Glyph="&#x0023;" />
+            </controls:SettingsCard.HeaderIcon>
+            <NumberBox
+                Width="150"
+                Maximum="25"
+                Minimum="1"
+                SpinButtonPlacementMode="Inline"
+                Value="{x:Bind ViewModel.MaximumHistoryCount, Mode=TwoWay}" />
+        </controls:SettingsCard>
+
+        <controls:SettingsCard api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/HidePasswords">
+            <controls:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE9A9;" />
+            </controls:SettingsCard.HeaderIcon>
+            <ToggleSwitch IsOn="{x:Bind ViewModel.HidePasswords, Mode=TwoWay}" />
+        </controls:SettingsCard>
+
+        <controls:SettingsCard
+            api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/OpenWindowsClipboardHistorySettings"
+            Click="OpenWindowsClipboardHistorySettingsCard_Click"
+            IsClickEnabled="True"
+            Visibility="{x:Bind ViewModel.IsClipboardHistoryEnabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+            <controls:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE713;" />
+            </controls:SettingsCard.HeaderIcon>
+            <controls:SettingsCard.ActionIcon>
+                <FontIcon Glyph="&#xE8A7;" />
+            </controls:SettingsCard.ActionIcon>
+        </controls:SettingsCard>
+
+        <controls:SettingsCard
+            api:Uids.Uid="/WindowSill.ClipboardHistory/SettingsUserControl/EnableClipboardHistory"
+            Click="OpenWindowsClipboardHistorySettingsCard_Click"
+            IsClickEnabled="True"
+            Visibility="{x:Bind ViewModel.IsClipboardHistoryDisabled, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+            <controls:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE713;" />
+            </controls:SettingsCard.HeaderIcon>
+            <controls:SettingsCard.ActionIcon>
+                <FontIcon Glyph="&#xE8A7;" />
+            </controls:SettingsCard.ActionIcon>
+        </controls:SettingsCard>
+    </StackPanel>
+</UserControl>

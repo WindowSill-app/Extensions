@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -7,17 +7,23 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
 using WindowSill.API;
-using WindowSill.ImageHelper.CompressImage;
-using WindowSill.ImageHelper.ConvertImage;
-using WindowSill.ImageHelper.ResizeImage;
+using WindowSill.ImageHelper.Core;
+using WindowSill.ImageHelper.ViewModels;
+using WindowSill.ImageHelper.Views;
 
 namespace WindowSill.ImageHelper;
 
+/// <summary>
+/// Entry point for the Image Helper extension.
+/// </summary>
 [Export(typeof(ISill))]
 [Name("Image Helper")]
 public sealed class ImageHelperSill : ISillActivatedByDragAndDrop, ISillListView
 {
     private readonly IPluginInfo _pluginInfo;
+    private readonly IImageCompressor _compressor = new MagickImageCompressor();
+    private readonly IImageConverter _converter = new MagickImageConverter();
+    private readonly IImageResizer _resizer = new MagickImageResizer();
 
     [ImportingConstructor]
     internal ImageHelperSill(IPluginInfo pluginInfo)
@@ -66,29 +72,56 @@ public sealed class ImageHelperSill : ISillActivatedByDragAndDrop, ISillListView
             ViewList.Clear();
             if (compatibleFiles.Count == 1)
             {
+                var resizePopup = CreateResizePopup(compatibleFiles[0]);
                 ViewList.Add(
                     new SillListViewPopupItem(
                         "/WindowSill.ImageHelper/ResizeImage/Title".GetLocalizedString(),
                         null,
-                        ResizeImageViewModel.CreateView(compatibleFiles[0])));
+                        resizePopup));
             }
 
+            var convertPopup = CreateConvertPopup(compatibleFiles);
             ViewList.Add(
                 new SillListViewPopupItem(
                     "/WindowSill.ImageHelper/ConvertImage/Title".GetLocalizedString(),
                     null,
-                    ConvertImageViewModel.CreateView(compatibleFiles)));
+                    convertPopup));
 
+            var compressPopup = CreateCompressPopup(compatibleFiles);
             ViewList.Add(
                 new SillListViewPopupItem(
                     "/WindowSill.ImageHelper/CompressImage/Title".GetLocalizedString(),
                     null,
-                    CompressImageViewModel.CreateView(compatibleFiles)));
+                    compressPopup));
         });
     }
 
     public ValueTask OnDeactivatedAsync()
     {
         throw new NotImplementedException();
+    }
+
+    private CompressImagePopup CreateCompressPopup(IReadOnlyList<IStorageFile> files)
+    {
+        CompressImagePopup? popup = null;
+        var viewModel = new CompressImageViewModel(files, _compressor, () => popup?.Close());
+        popup = new CompressImagePopup(viewModel);
+        return popup;
+    }
+
+    private ConvertImagePopup CreateConvertPopup(IReadOnlyList<IStorageFile> files)
+    {
+        ConvertImagePopup? popup = null;
+        var viewModel = new ConvertImageViewModel(files, _converter, () => popup?.Close());
+        popup = new ConvertImagePopup(viewModel);
+        return popup;
+    }
+
+    private ResizeImagePopup CreateResizePopup(IStorageFile file)
+    {
+        ResizeImagePopup? popup = null;
+        var viewModel = new ResizeImageViewModel(file, _resizer, () => popup?.Close());
+        popup = new ResizeImagePopup(viewModel);
+        return popup;
     }
 }

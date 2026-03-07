@@ -151,7 +151,7 @@
     <value>Nhấp để mở Trình quản lý tác vụ của Windows để xem chi tiết thông tin hệ thống</value>
   </data>
   <data name="ShowTemperature" xml:space="preserve">
-    <value>Hiển thị Nhiệt độ</value>
+    <value>Hiển thị nhiệt độ</value>
   </data>
   <data name="ShowTemperatureDescription" xml:space="preserve">
     <value>Hiển thị nhiệt độ CPU và GPU cùng với phần trăm sử dụng</value>

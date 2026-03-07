@@ -1,3 +1,12 @@
+# 0.9.17.0
+- Added CPU & GPU temperature monitoring.
+
+# 0.9.13
+- Updated dependencies.
+
+# 0.7.0
+- Added multiple display support.
+
 # 0.6.7
 - Updated dependencies.
 

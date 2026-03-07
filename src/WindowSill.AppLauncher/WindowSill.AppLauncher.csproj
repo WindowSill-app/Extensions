@@ -1,10 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.AppLauncher</PackageId>
-    <Version>0.2.2</Version>
+    <Version>0.9.13</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>App Launcher</Title>
-    <Description>Group your apps, files and folders your way, personalize icons, and launch one or many of them in a click.</Description>
+    <Description>
+      Cut through desktop clutter &amp; launch what you need instantly.
+      
+      • Group apps, files &amp; folders into custom collections
+      • Launch a single app or an entire group in one click
+      • Auto-generated group icons with full customization
+      • Manage groups easily from settings.
+      
+      Your shortcuts, organized your way.
+    </Description>
     <PackageIcon>Assets/package.png</PackageIcon>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>

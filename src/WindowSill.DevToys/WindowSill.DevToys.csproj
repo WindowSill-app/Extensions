@@ -1,10 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.DevToys</PackageId>
-        <Version>0.7.3</Version>
+        <Version>0.9.13</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>DevToys</Title>
-        <Description>Format, sort and convert JSON, format XML, decode Base64 and unescape text just by selecting it in any app! This extension was made in the same spirit than DevToys https://devtoys.app</Description>
+        <Description>
+          Boost your developer productivity without leaving the app you're working in. Select any text and instantly transform it with powerful everyday tools:
+          
+          • JSON formatting, sorting &amp; conversion to YAML or XML
+          • XML formatting &amp; pretty-printing
+          • Base64 decoding
+          • Text unescaping (HTML, URL &amp; more)
+          
+          Inspired by DevToys, this extension brings essential developer utilities right to your fingertips — no context-switching required.</Description>
         <PackageIcon>Assets/devtoys.png</PackageIcon>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
         <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>

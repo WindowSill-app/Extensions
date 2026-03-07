@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -127,7 +127,7 @@
     <value>Buscar / Reemplazar</value>
   </data>
   <data name="Search.TextProperty" xml:space="preserve">
-    <value>Buscar</value>
+    <value>Búsqueda</value>
   </data>
   <data name="Find.HeaderProperty" xml:space="preserve">
     <value>Buscar</value>
@@ -142,25 +142,25 @@
     <value>Coincidencia literal</value>
   </data>
   <data name="MatchCase.ContentProperty" xml:space="preserve">
-    <value>Coincidir con mayúsculas y minúsculas</value>
+    <value>Coincidir mayúsculas y minúsculas</value>
   </data>
   <data name="MatchWholeWord.ContentProperty" xml:space="preserve">
-    <value>Coincidir con la palabra completa</value>
+    <value>Palabra completa</value>
   </data>
   <data name="RegularExpression.ContentProperty" xml:space="preserve">
-    <value>Expresiones regulares</value>
+    <value>Expresión regular</value>
   </data>
   <data name="CheatSheet.ContentProperty" xml:space="preserve">
-    <value>Hoja de trucos</value>
+    <value>Guía rápida</value>
   </data>
   <data name="SpellingSimilarity.ContentProperty" xml:space="preserve">
-    <value>Similitud de ortografía</value>
+    <value>Similitud ortográfica</value>
   </data>
   <data name="MeaningSimilarity.ContentProperty" xml:space="preserve">
     <value>Similitud de significado</value>
   </data>
   <data name="Loose.TextProperty" xml:space="preserve">
-    <value>Flojo</value>
+    <value>Flexible</value>
   </data>
   <data name="Strict.TextProperty" xml:space="preserve">
     <value>Estricto</value>
@@ -172,7 +172,7 @@
     <value>Resultado anterior</value>
   </data>
   <data name="NextResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Siguiente resultado</value>
+    <value>Resultado siguiente</value>
   </data>
   <data name="ReplaceAll.ContentProperty" xml:space="preserve">
     <value>Reemplazar todo</value>
@@ -181,7 +181,7 @@
     <value>Reemplazar</value>
   </data>
   <data name="DismissResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Dismiss (Delete)</value>
+    <value>Descartar (Supr)</value>
   </data>
   <data name="Searching.TextProperty" xml:space="preserve">
     <value>Buscando...</value>
@@ -190,6 +190,6 @@
     <value>No se encontraron resultados</value>
   </data>
   <data name="SourceText.TextProperty" xml:space="preserve">
-    <value>Texto fuente</value>
+    <value>Texto de origen</value>
   </data>
 </root>

@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Dismiss.TextProperty" xml:space="preserve">
-    <value>關閉</value>
+    <value>取消</value>
   </data>
   <data name="Snooze.TextProperty" xml:space="preserve">
-    <value>5分鐘後提醒</value>
+    <value>稍後通知，5分鐘後提醒</value>
   </data>
   <data name="Title.TextProperty" xml:space="preserve">
     <value>提醒事項</value>

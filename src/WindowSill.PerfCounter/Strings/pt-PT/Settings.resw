@@ -151,9 +151,9 @@
     <value>Clica para abrir o Gestor de Tarefas do Windows para informações detalhadas do sistema</value>
   </data>
   <data name="ShowTemperature" xml:space="preserve">
-    <value>Mostrar Temperatura</value>
+    <value>Mostrar temperatura</value>
   </data>
   <data name="ShowTemperatureDescription" xml:space="preserve">
-    <value>Exiba a temperatura da CPU e GPU juntamente com as porcentagens de uso</value>
+    <value>Apresentar a temperatura do CPU e GPU junto com as percentagens de utilização</value>
   </data>
 </root>

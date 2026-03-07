@@ -121,10 +121,10 @@
     <value>In</value>
   </data>
   <data name="Minutes.TextProperty" xml:space="preserve">
-    <value>Protokolle</value>
+    <value>Minuten</value>
   </data>
   <data name="Title.TextProperty" xml:space="preserve">
-    <value>Neue kurzfristige Erinnerung</value>
+    <value>Kurze Erinnerungsnotiz</value>
   </data>
   <data name="WillRemindAt" xml:space="preserve">
     <value>Erinnert dich um {0}</value>
@@ -133,6 +133,6 @@
     <value>OK</value>
   </data>
   <data name="ReminderTextBox.HeaderProperty" xml:space="preserve">
-    <value>Erinnere mich daran, dass ich:</value>
+    <value>Erinnere mich an:</value>
   </data>
 </root>

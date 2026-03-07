@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,25 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="EnableClipboardHistory" xml:space="preserve">
+  <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
     <value>Enable Windows Clipboard history</value>
   </data>
-  <data name="General" xml:space="preserve">
+  <data name="General.TextProperty" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="HidePasswords.Description" xml:space="preserve">
+  <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
     <value>Try to detect and hide copied text that look like passwords</value>
   </data>
-  <data name="HidePasswords.Header" xml:space="preserve">
+  <data name="HidePasswords.HeaderProperty" xml:space="preserve">
     <value>Hide passwords</value>
   </data>
-  <data name="MaxItemNumber.Description" xml:space="preserve">
+  <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
     <value>How many items should be kept in the clipboard history.</value>
   </data>
-  <data name="MaxItemNumber.Header" xml:space="preserve">
+  <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
     <value>Maximum number of items</value>
   </data>
-  <data name="OpenWindowsClipboardHistorySettings" xml:space="preserve">
+  <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
     <value>Open Windows Clipboard history settings</value>
+  </data>
+  <data name="CompactMode.HeaderProperty" xml:space="preserve">
+    <value>Compact mode</value>
+  </data>
+  <data name="CompactMode.DescriptionProperty" xml:space="preserve">
+    <value>Display all clipboard items in a single popup instead of individual items in the bar</value>
   </data>
 </root>

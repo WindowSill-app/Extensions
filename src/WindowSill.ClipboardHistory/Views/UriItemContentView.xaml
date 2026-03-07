@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.ClipboardHistory.Views.UriItemContentView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid
+        Margin="8,0,0,0"
+        ColumnSpacing="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <ImageIcon
+            Grid.Column="0"
+            MaxWidth="16"
+            MaxHeight="16"
+            Source="{x:Bind ViewModel.Favicon, Mode=OneWay}" />
+
+        <TextBlock
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            Text="{x:Bind ViewModel.Url, Mode=OneWay}"
+            TextTrimming="CharacterEllipsis"
+            TextWrapping="NoWrap" />
+
+        <Button
+            Grid.Column="2"
+            MaxWidth="24"
+            Command="{x:Bind ViewModel.OpenInBrowserCommand}"
+            Content="&#xE8A7;"
+            Style="{StaticResource IconButton}"
+            ToolTipService.ToolTip="{x:Bind OpenInBrowserTooltip}" />
+    </Grid>
+</UserControl>

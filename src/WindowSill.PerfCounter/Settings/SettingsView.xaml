@@ -1,0 +1,72 @@
+<UserControl
+    x:Class="WindowSill.PerfCounter.Settings.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctk="using:CommunityToolkit.WinUI.Controls">
+
+    <StackPanel Spacing="2">
+        <TextBlock
+            Style="{ThemeResource BodyStrongTextBlockStyle}"
+            Margin="0,0,0,8"
+            x:Name="GeneralHeader" />
+
+        <!-- Display Mode -->
+        <ctk:SettingsCard
+            x:Name="DisplayModeCard">
+            <ctk:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE7C4;" />
+            </ctk:SettingsCard.HeaderIcon>
+            <ComboBox
+                Width="150"
+                SelectedItem="{x:Bind ViewModel.SelectedDisplayModeItem, Mode=TwoWay}"
+                ItemsSource="{x:Bind ViewModel.AvailableDisplayModeItems}" />
+        </ctk:SettingsCard>
+
+        <!-- Animation Metric (visibility managed in code-behind) -->
+        <ctk:SettingsCard
+            x:Name="AnimationMetricCard"
+            Visibility="Collapsed">
+            <ctk:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE768;" />
+            </ctk:SettingsCard.HeaderIcon>
+            <ComboBox
+                Width="150"
+                SelectedItem="{x:Bind ViewModel.AnimationMetric, Mode=TwoWay}"
+                ItemsSource="{x:Bind ViewModel.AvailableMetrics}" />
+        </ctk:SettingsCard>
+
+        <!-- Enable Task Manager Launch -->
+        <ctk:SettingsCard
+            x:Name="EnableTaskManagerCard">
+            <ctk:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE7EF;" />
+            </ctk:SettingsCard.HeaderIcon>
+            <ToggleSwitch
+                IsOn="{x:Bind ViewModel.EnableTaskManagerLaunch, Mode=TwoWay}" />
+        </ctk:SettingsCard>
+
+        <!-- Show Temperature -->
+        <ctk:SettingsCard
+            x:Name="ShowTemperatureCard">
+            <ctk:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE9CA;" />
+            </ctk:SettingsCard.HeaderIcon>
+            <ToggleSwitch
+                IsOn="{x:Bind ViewModel.ShowTemperature, Mode=TwoWay}" />
+        </ctk:SettingsCard>
+
+        <!-- Open Task Manager -->
+        <ctk:SettingsCard
+            x:Name="OpenTaskManagerCard"
+            IsClickEnabled="True"
+            Click="OpenTaskManagerCard_Click">
+            <ctk:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE7EF;" />
+            </ctk:SettingsCard.HeaderIcon>
+            <ctk:SettingsCard.ActionIcon>
+                <FontIcon Glyph="&#xE8A7;" />
+            </ctk:SettingsCard.ActionIcon>
+        </ctk:SettingsCard>
+    </StackPanel>
+
+</UserControl>

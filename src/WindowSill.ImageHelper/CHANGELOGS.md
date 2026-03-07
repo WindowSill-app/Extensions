@@ -1,3 +1,9 @@
+# 0.9.13
+- Updated dependencies.
+
+# 0.8.2
+- Resized and compressed files are now saved with a different name to avoid overwriting the original file.
+
 # 0.8.1
 - Fixed vulnerability in a dependency.
 

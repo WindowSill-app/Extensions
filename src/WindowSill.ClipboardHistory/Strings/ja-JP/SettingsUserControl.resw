@@ -121,7 +121,7 @@
     <value>Windowsクリップボードの履歴を有効にする</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>一般的な</value>
+    <value>一般</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
     <value>パスワードのように見えるコピーされたテキストを検出して非表示にしようとします</value>
@@ -142,6 +142,6 @@
     <value>コンパクトモード</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>個々のアイテムの代わりにポップアップ1つにすべてのクリップボードアイテムを表示します</value>
+    <value>バーの個別アイテムの代わりに、すべてのクリップボードアイテムを1つのポップアップに表示します</value>
   </data>
 </root>

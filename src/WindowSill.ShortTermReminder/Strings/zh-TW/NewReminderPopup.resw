@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="InHowLong.TextProperty" xml:space="preserve">
-    <value>再</value>
+    <value>In</value>
   </data>
   <data name="Minutes.TextProperty" xml:space="preserve">
-    <value>分鐘</value>
+    <value>minutes</value>
   </data>
   <data name="Title.TextProperty" xml:space="preserve">
-    <value>新增短期提醒</value>
+    <value>New Short-Term Reminder</value>
   </data>
   <data name="WillRemindAt" xml:space="preserve">
-    <value>將在 {0} 提醒您</value>
+    <value>Will remind you at {0}</value>
   </data>
   <data name="OkButton.ContentProperty" xml:space="preserve">
-    <value>確定</value>
+    <value>OK</value>
   </data>
   <data name="ReminderTextBox.HeaderProperty" xml:space="preserve">
-    <value>提醒我：</value>
+    <value>Remind me to:</value>
   </data>
 </root>

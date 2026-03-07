@@ -1,11 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.MediaControl</PackageId>
-        <Version>0.7.4</Version>
+        <Version>0.9.13</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>Media Control</Title>
         <Description>
-          Skip and pause your music or video without breaking your concentration.
+          Control your music &amp; video without breaking your concentration.
+          • Play, pause, skip &amp; go back
+          • See the current track &amp; artist
+          • View album artwork — all from your sill.
           Works seamlessly with Spotify, YouTube, Netflix, Apple Music, Deezer, and virtually any media player on your system.
         </Description>
         <PackageLicenseFile>LICENSE.md</PackageLicenseFile>

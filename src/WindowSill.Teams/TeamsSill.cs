@@ -20,7 +20,7 @@ namespace WindowSill.Teams;
 [Export(typeof(ISill))]
 [Name("Microsoft Teams")]
 [Priority(Priority.Lowest)]
-//[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
+[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
 public sealed class TeamsSill : ISillActivatedByDefault, ISillFirstTimeSetup, ISillListView
 {
     private readonly ISettingsProvider _settingsProvider;

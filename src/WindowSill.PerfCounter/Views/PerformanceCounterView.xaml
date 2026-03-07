@@ -1,0 +1,91 @@
+<UserControl
+    x:Class="WindowSill.PerfCounter.Views.PerformanceCounterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:vm="using:WindowSill.PerfCounter.ViewModels">
+
+    <Button
+        x:Name="MainButton"
+        Padding="4"
+        Command="{x:Bind ViewModel.OpenTaskManagerCommand}"
+        Style="{StaticResource SillButtonStyle}">
+        <Grid>
+            <!--  Percentage mode: CPU / Memory / GPU rows  -->
+            <!--  Visibility managed in code-behind based on IsPercentageMode  -->
+            <api:SillOrientedStackPanel
+                x:Name="PercentagePanel"
+                VerticalAlignment="Center"
+                Spacing="8">
+
+                <!--  CPU  -->
+                <StackPanel
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <ImageIcon
+                        x:Name="CpuIcon"
+                        Height="{ThemeResource SillIconSize}"
+                        MaxWidth="{ThemeResource SillIconSize}" />
+                    <TextBlock
+                        MinWidth="32"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind ViewModel.CpuText, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="CpuTemperatureText"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                        Text="{x:Bind ViewModel.CpuTemperatureText, Mode=OneWay}"
+                        Visibility="Collapsed" />
+                </StackPanel>
+
+                <!--  Memory  -->
+                <StackPanel
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <ImageIcon
+                        x:Name="MemoryIcon"
+                        Height="{ThemeResource SillIconSize}"
+                        MaxWidth="{ThemeResource SillIconSize}" />
+                    <TextBlock
+                        MinWidth="32"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind ViewModel.MemoryText, Mode=OneWay}" />
+                </StackPanel>
+
+                <!--  GPU (visible only when GPU data is available)  -->
+                <StackPanel
+                    x:Name="GpuPanel"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4"
+                    Visibility="Collapsed">
+                    <ImageIcon
+                        x:Name="GpuIcon"
+                        Height="{ThemeResource SillIconSize}"
+                        MaxWidth="{ThemeResource SillIconSize}" />
+                    <TextBlock
+                        MinWidth="32"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind ViewModel.GpuText, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="GpuTemperatureText"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                        Text="{x:Bind ViewModel.GpuTemperatureText, Mode=OneWay}"
+                        Visibility="Collapsed" />
+                </StackPanel>
+            </api:SillOrientedStackPanel>
+
+            <!--  Running Man animation mode (starts collapsed, toggled in code-behind)  -->
+            <AnimatedVisualPlayer
+                x:Name="AnimationPlayer"
+                Width="24"
+                AutoPlay="True"
+                PlaybackRate="{x:Bind ViewModel.AnimationSpeed, Mode=OneWay}"
+                Visibility="Collapsed" />
+        </Grid>
+    </Button>
+
+</UserControl>

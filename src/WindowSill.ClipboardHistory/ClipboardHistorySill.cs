@@ -1,26 +1,35 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Factories;
 using WindowSill.ClipboardHistory.FirstTimeSetup;
 using WindowSill.ClipboardHistory.Services;
 using WindowSill.ClipboardHistory.Settings;
-using WindowSill.ClipboardHistory.UI;
+using WindowSill.ClipboardHistory.ViewModels;
+using WindowSill.ClipboardHistory.Views;
 
 namespace WindowSill.ClipboardHistory;
 
 [Export(typeof(ISill))]
 [Name("Clipboard History")]
 [Priority(Priority.Low)]
-//[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
-public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTimeSetup, ISillListView
+[HideIconInSillListView]
+[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
+public sealed partial class ClipboardHistorySill : ObservableObject, ISillActivatedByDefault, ISillFirstTimeSetup, ISillListView
 {
     private readonly ILogger _logger;
-    private readonly ISettingsProvider _settingsProvider;
-    private readonly IProcessInteractionService _processInteractionService;
     private readonly IPluginInfo _pluginInfo;
+    private readonly ISettingsProvider _settingsProvider;
     private readonly ClipboardHistoryDataService _clipboardDataService;
+    private readonly ClipboardItemViewFactory _viewFactory;
+
+    private ClipboardHistoryPopupViewModel? _popupViewModel;
+    private SillListViewMenuFlyoutItem? _iconItem;
 
     [ImportingConstructor]
     internal ClipboardHistorySill(
@@ -30,13 +39,16 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
         ClipboardHistoryDataService clipboardDataService)
     {
         _logger = this.Log();
-        _processInteractionService = processInteractionService;
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _clipboardDataService = clipboardDataService;
+        _viewFactory = new ClipboardItemViewFactory(_pluginInfo, settingsProvider, processInteractionService);
+        PlaceholderView = _viewFactory.CreatePlaceholderView();
     }
 
     public string DisplayName => "/WindowSill.ClipboardHistory/Misc/DisplayName".GetLocalizedString();
+
+    private bool IsCompactMode => _settingsProvider.GetSetting(Settings.Settings.CompactMode);
 
     public IconElement CreateIcon()
         => new ImageIcon
@@ -53,7 +65,7 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
 
     public ObservableCollection<SillListViewItem> ViewList { get; } = new();
 
-    public SillView? PlaceholderView { get; } = EmptyOrDisabledItemViewModel.CreateView();
+    public SillView? PlaceholderView { get; }
 
     public IFirstTimeSetupContributor[] GetFirstTimeSetupContributors()
     {
@@ -79,6 +91,7 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
         _settingsProvider.SettingChanged -= SettingsProvider_SettingChanged;
         _clipboardDataService.DataUpdated -= ClipboardDataService_DataUpdated;
         _clipboardDataService.Unsubscribe();
+        _popupViewModel = null;
         return ValueTask.CompletedTask;
     }
 
@@ -91,7 +104,14 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
         else if (args.SettingName == Settings.Settings.HidePasswords.Name)
         {
             ViewList.Clear();
+            _popupViewModel = null;
             _clipboardDataService.ClearCache();
+            RefreshClipboardDataAsync().Forget();
+        }
+        else if (args.SettingName == Settings.Settings.CompactMode.Name)
+        {
+            ViewList.Clear();
+            _popupViewModel = null;
             RefreshClipboardDataAsync().Forget();
         }
     }
@@ -105,15 +125,94 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
     {
         int maxItems = _settingsProvider.GetSetting(Settings.Settings.MaximumHistoryCount);
         await _clipboardDataService.RefreshAsync(maxItems);
-        await UpdateViewListAsync();
+
+        if (IsCompactMode)
+        {
+            await UpdatePopupViewModelAsync();
+        }
+        else
+        {
+            await UpdateViewListAsync();
+        }
     }
 
+    /// <summary>
+    /// Updates the popup ViewModel's items collection for compact mode.
+    /// Creates the popup SillListViewPopupItem on first call.
+    /// </summary>
+    private async Task UpdatePopupViewModelAsync()
+    {
+        IReadOnlyList<ClipboardItemData> cachedItems = _clipboardDataService.GetCachedItems();
+
+        await ThreadHelper.RunOnUIThreadAsync(() =>
+        {
+            if (_popupViewModel is null)
+            {
+                _popupViewModel = new ClipboardHistoryPopupViewModel();
+                var popupContent = new ClipboardHistoryPopupContent(_popupViewModel);
+                var popupItem = new SillListViewPopupItem(
+                    new ImageIcon
+                    {
+                        Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "clipboard.svg")))
+                    },
+                    DisplayName,
+                    popupContent);
+
+                ViewList.Clear();
+                ViewList.Add(popupItem);
+            }
+
+            _popupViewModel.Items.SynchronizeWith(
+                cachedItems,
+                (existingVm, newItemData) => existingVm.Equals(newItemData.Item),
+                (itemData) =>
+                {
+                    try
+                    {
+                        return _viewFactory.CreateViewModel(itemData);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Failed to create a viewmodel for a clipboard item in compact mode.");
+                        return _viewFactory.CreateViewModel(new ClipboardItemData(itemData.Item, DetectedClipboardDataType.Unknown));
+                    }
+                });
+        });
+    }
+
+    /// <summary>
+    /// Updates the ViewList with individual SillListViewButtonItems for normal (expanded) mode.
+    /// </summary>
     private async Task UpdateViewListAsync()
     {
         IReadOnlyList<ClipboardItemData> cachedItems = _clipboardDataService.GetCachedItems();
 
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
+            if (_iconItem is null)
+            {
+                _iconItem = new SillListViewMenuFlyoutItem(
+                    new ImageIcon
+                    {
+                        Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "clipboard.svg")))
+                    },
+                    null,
+                    new MenuFlyout
+                    {
+                        Items =
+                        {
+                            new MenuFlyoutItem
+                            {
+                                Text = "/WindowSill.ClipboardHistory/Misc/ClearHistory".GetLocalizedString(),
+                                Icon = new SymbolIcon(Symbol.Clear),
+                                Command = ClearCommand
+                            }
+                        }
+                    });
+            }
+
+            ViewList.Remove(_iconItem);
+
             ViewList.SynchronizeWith(
                 cachedItems,
                 (oldItem, newItem) =>
@@ -131,30 +230,32 @@ public sealed class ClipboardHistorySill : ISillActivatedByDefault, ISillFirstTi
 
                     try
                     {
-                        (viewModel, view) = itemData.DataType switch
-                        {
-                            DetectedClipboardDataType.Image => ImageItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.Text => TextItemViewModel.CreateView(_settingsProvider, _processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.Html => HtmlItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.Rtf => RtfItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.Uri => UriItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.ApplicationLink => ApplicationLinkItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.Color => ColorItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.UserActivity => UserActivityItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            DetectedClipboardDataType.File => FileItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                            _ => UnknownItemViewModel.CreateView(_processInteractionService, itemData.Item),
-                        };
+                        (viewModel, view) = _viewFactory.Create(itemData);
                     }
                     catch (Exception ex)
                     {
                         _logger.LogError(ex, "Failed to create a view and viewmodel for a clipboard item.");
-                        (viewModel, view) = UnknownItemViewModel.CreateView(_processInteractionService, itemData.Item);
+                        (viewModel, view) = _viewFactory.Create(new ClipboardItemData(itemData.Item, DetectedClipboardDataType.Unknown));
                     }
 
                     CreateContextMenu(viewModel, view);
 
                     return view;
                 });
+
+            if (cachedItems.Count > 0)
+            {
+                ViewList.Insert(0, _iconItem);
+            }
+        });
+    }
+
+    [RelayCommand]
+    private async Task ClearAsync()
+    {
+        await ThreadHelper.RunOnUIThreadAsync(() =>
+        {
+            Clipboard.ClearHistory();
         });
     }
 

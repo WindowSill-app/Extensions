@@ -1,3 +1,16 @@
+# 0.9.18
+- Added support of links in reminder's title. Links will be opened in the default browser when clicked.
+- Reminder's title can now be edited.
+
+# 0.9.17
+- Fixed decimal displayed in  the reminder popup.
+
+# 0.9.16
+- Fixed an issue where the remaining time in minutes was not accurate when opening the reminder popup.
+
+# 0.9.13
+- Updated dependencies.
+
 # 0.7.3
 - Updated dependencies.
 

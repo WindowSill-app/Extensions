@@ -121,7 +121,9 @@
     <value>常规</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>选择提醒的显示方式。\n• 弹窗通知会显示一个小型弹窗，融入您的工作流程，并保留在 Windows 操作中心。\n• 全屏通知会占据整个屏幕，确保不被忽略——即使 Windows 处于专注模式下也不会错过。非常适合需要更强烈视觉提示以保持专注的人士使用。</value>
+    <value>选择提醒的显示方式。
+• 弹窗通知会显示一个小型弹窗，融入您的工作流程，并保留在 Windows 操作中心。
+• 全屏通知会占据整个屏幕，确保不被忽略——即使 Windows 处于专注模式下也不会错过。非常适合需要更强烈视觉提示以保持专注的人士使用。</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
     <value>通知模式</value>

@@ -1,0 +1,55 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="CONTRIBUTING.md" />
+    <File Path="crowdin.yml" />
+    <File Path="LICENSE.md" />
+    <File Path="README.md" />
+    <File Path=".editorconfig" />
+    <File Path=".vscode/mcp.json" />
+    <File Path="src/Directory.Build.props" />
+    <File Path="src/Directory.Build.targets" />
+    <File Path="src/Directory.Packages.props" />
+  </Folder>
+  <Project Path="src/UnitTests/UnitTests.csproj" Id="ce19a5f6-2cb3-4519-abf8-7529c6ae8cb5">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.AppLauncher/WindowSill.AppLauncher.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.ClipboardHistory/WindowSill.ClipboardHistory.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.DevToys/WindowSill.DevToys.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.ImageHelper/WindowSill.ImageHelper.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.MediaControl/WindowSill.MediaControl.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.PerfCounter/WindowSill.PerfCounter.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.ShortTermReminder/WindowSill.ShortTermReminder.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.Teams/WindowSill.Teams.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.UnitConverter/WindowSill.UnitConverter.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.URLHelper/WindowSill.URLHelper.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.WebBrowser/WindowSill.WebBrowser.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.TextFinder/WindowSill.TextFinder.csproj">
+    <Platform Project="x64" />
+  </Project>
+</Solution>

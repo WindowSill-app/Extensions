@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.ClipboardHistory.FirstTimeSetup.ClipboardHistoryFirstTimeSetupContributorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="16">
+        <TextBlock
+            TextWrapping="WrapWholeWords"
+            Text="WindowSill's clipboard history leverage Windows Clipboard history feature to work. The Windows Clipboard history needs to be enabled." />
+
+        <controls:SettingsCard
+            x:Name="EnableClipboardHistoryCard"
+            Click="EnableClipboardHistoryCard_Click"
+            Header="Enable Windows Clipboard history"
+            IsClickEnabled="True">
+            <controls:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE713;" />
+            </controls:SettingsCard.HeaderIcon>
+            <controls:SettingsCard.ActionIcon>
+                <FontIcon Glyph="&#xE8A7;" />
+            </controls:SettingsCard.ActionIcon>
+        </controls:SettingsCard>
+    </StackPanel>
+</UserControl>

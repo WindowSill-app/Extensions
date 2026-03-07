@@ -5,14 +5,18 @@ using System.ComponentModel.Composition;
 using WindowSill.API;
 using WindowSill.PerfCounter.Services;
 using WindowSill.PerfCounter.Settings;
-using WindowSill.PerfCounter.UI;
+using WindowSill.PerfCounter.ViewModels;
+using WindowSill.PerfCounter.Views;
 
 namespace WindowSill.PerfCounter;
 
+/// <summary>
+/// Entry point for the Performance Counter extension.
+/// </summary>
 [Export(typeof(ISill))]
 [Name("Performance Counter")]
 [Priority(Priority.Lowest)]
-//[SupportMultipleMonitors]
+[SupportMultipleMonitors]
 public sealed class PerformanceCounterSill : ISillActivatedByDefault, ISillSingleView
 {
     private readonly IPerformanceMonitorService _performanceMonitorService;
@@ -31,24 +35,32 @@ public sealed class PerformanceCounterSill : ISillActivatedByDefault, ISillSingl
         _settingsProvider = settingsProvider;
         _pluginInfo = pluginInfo;
 
-        // Create the performance counter view
-        (PerformanceCounterViewModel? viewModel, SillView? perfView) = PerformanceCounterViewModel.CreateView(
+        _viewModel = new PerformanceCounterViewModel(
             _performanceMonitorService,
-            _settingsProvider,
-            _pluginInfo);
+            _settingsProvider);
 
-        _viewModel = viewModel;
-        View = perfView;
+        var sillView = new SillView();
+        sillView.Content = new PerformanceCounterView(sillView, _pluginInfo, _viewModel);
+        View = sillView;
     }
 
+    /// <summary>
+    /// Gets the display name of this extension.
+    /// </summary>
     public string DisplayName => "/WindowSill.PerfCounter/Misc/DisplayName".GetLocalizedString();
 
+    /// <summary>
+    /// Creates the icon for this extension.
+    /// </summary>
     public IconElement CreateIcon()
         => new ImageIcon
         {
             Source = new SvgImageSource(new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "microchip.svg")))
         };
 
+    /// <summary>
+    /// Gets the settings views for this extension.
+    /// </summary>
     public SillSettingsView[]? SettingsViews =>
         [
         new SillSettingsView(
@@ -56,18 +68,25 @@ public sealed class PerformanceCounterSill : ISillActivatedByDefault, ISillSingl
             new(() => new SettingsView(_settingsProvider)))
         ];
 
+    /// <summary>
+    /// Gets the main view for this extension.
+    /// </summary>
     public SillView? View { get; private set; }
 
+    /// <summary>
+    /// Called when the extension is activated.
+    /// </summary>
     public ValueTask OnActivatedAsync()
     {
-        // Start monitoring performance
         _performanceMonitorService.StartMonitoring();
         return ValueTask.CompletedTask;
     }
 
+    /// <summary>
+    /// Called when the extension is deactivated.
+    /// </summary>
     public ValueTask OnDeactivatedAsync()
     {
-        // Stop monitoring performance
         _performanceMonitorService.StopMonitoring();
 
         View = null;

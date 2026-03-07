@@ -12,6 +12,7 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
 {
     private readonly Timer _timer;
     private readonly GpuMonitorService _gpuMonitor;
+    private readonly TemperatureMonitorService _temperatureMonitor;
     private ulong _lastIdleTime;
     private ulong _lastKernelTime;
     private ulong _lastUserTime;
@@ -25,6 +26,7 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
     {
         _timer = new Timer(OnTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
         _gpuMonitor = new GpuMonitorService();
+        _temperatureMonitor = new TemperatureMonitorService();
         InitializeCpuUsageTracking();
     }
 
@@ -33,6 +35,7 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
         StopMonitoring();
         _timer?.Dispose();
         _gpuMonitor?.Dispose();
+        _temperatureMonitor?.Dispose();
     }
 
     public void StartMonitoring()
@@ -63,11 +66,15 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
         double cpuUsage = GetCpuUsage();
         double memoryUsage = GetMemoryUsage();
         double? gpuUsage = _gpuMonitor.GetGpuUsage();
+        double? cpuTemperature = _temperatureMonitor.GetCpuTemperature();
+        double? gpuTemperature = _temperatureMonitor.GetGpuTemperature();
 
         return new PerformanceData(
             cpuUsage,
             memoryUsage,
-            gpuUsage
+            gpuUsage,
+            cpuTemperature,
+            gpuTemperature
         );
     }
 

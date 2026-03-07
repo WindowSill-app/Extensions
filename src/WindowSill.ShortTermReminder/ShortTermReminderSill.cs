@@ -1,9 +1,10 @@
-﻿using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 
 using WindowSill.API;
+using WindowSill.ShortTermReminder.Core;
 using WindowSill.ShortTermReminder.Settings;
 
 namespace WindowSill.ShortTermReminder;
@@ -15,12 +16,17 @@ public sealed class ShortTermReminderSill : ISillActivatedByDefault, ISillListVi
 {
     private readonly ISettingsProvider _settingsProvider;
     private readonly IPluginInfo _pluginInfo;
+    private readonly Lazy<IReminderService> _reminderService;
 
     [ImportingConstructor]
-    internal ShortTermReminderSill(ISettingsProvider settingsProvider, IPluginInfo pluginInfo)
+    internal ShortTermReminderSill(
+        ISettingsProvider settingsProvider,
+        IPluginInfo pluginInfo,
+        Lazy<IReminderService> reminderService)
     {
         _settingsProvider = settingsProvider;
         _pluginInfo = pluginInfo;
+        _reminderService = reminderService;
     }
 
     public string DisplayName => "/WindowSill.ShortTermReminder/Misc/DisplayName".GetLocalizedString();
@@ -38,13 +44,13 @@ public sealed class ShortTermReminderSill : ISillActivatedByDefault, ISillListVi
             new(() => new SettingsView(_settingsProvider)))
         ];
 
-    public ObservableCollection<SillListViewItem> ViewList => ShortTermReminderService.Instance.ViewList;
+    public ObservableCollection<SillListViewItem> ViewList => _reminderService.Value.ViewList;
 
     public SillView? PlaceholderView => null;
 
     public async ValueTask OnActivatedAsync()
     {
-        await ShortTermReminderService.Instance.InitializeAsync(_settingsProvider);
+        await _reminderService.Value.InitializeAsync(_settingsProvider);
     }
 
     public ValueTask OnDeactivatedAsync()

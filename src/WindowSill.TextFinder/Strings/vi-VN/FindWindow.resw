@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -121,7 +121,7 @@
     <value>Sao chép</value>
   </data>
   <data name="ResultCount" xml:space="preserve">
-    <value>{0} kết quả tìm thấy</value>
+    <value>Tìm thấy {0} kết quả</value>
   </data>
   <data name="Title.TitleProperty" xml:space="preserve">
     <value>Tìm / Thay thế</value>
@@ -139,40 +139,40 @@
     <value>Tùy chọn</value>
   </data>
   <data name="LiteralMatch.ContentProperty" xml:space="preserve">
-    <value>Trùng khớp kiểu chữ</value>
+    <value>Khớp chính xác</value>
   </data>
   <data name="MatchCase.ContentProperty" xml:space="preserve">
     <value>Phân biệt chữ hoa chữ thường</value>
   </data>
   <data name="MatchWholeWord.ContentProperty" xml:space="preserve">
-    <value>Trùng khớp toàn bộ từ</value>
+    <value>Khớp toàn bộ từ</value>
   </data>
   <data name="RegularExpression.ContentProperty" xml:space="preserve">
     <value>Biểu thức chính quy</value>
   </data>
   <data name="CheatSheet.ContentProperty" xml:space="preserve">
-    <value>Bảng cheat</value>
+    <value>Bảng tham chiếu</value>
   </data>
   <data name="SpellingSimilarity.ContentProperty" xml:space="preserve">
-    <value>Tương đồng chính tả</value>
+    <value>Tương tự chính tả</value>
   </data>
   <data name="MeaningSimilarity.ContentProperty" xml:space="preserve">
-    <value>Tương đồng nghĩa</value>
+    <value>Tương tự ngữ nghĩa</value>
   </data>
   <data name="Loose.TextProperty" xml:space="preserve">
-    <value>Lỏng lẻo</value>
+    <value>Lỏng</value>
   </data>
   <data name="Strict.TextProperty" xml:space="preserve">
-    <value>Chặt chẽ</value>
+    <value>Chặt</value>
   </data>
   <data name="Results.TextProperty" xml:space="preserve">
     <value>Kết quả</value>
   </data>
   <data name="PreviousResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Kết quả trước đó</value>
+    <value>Kết quả trước</value>
   </data>
   <data name="NextResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Kết quả tiếp theo</value>
+    <value>Kết quả tiếp</value>
   </data>
   <data name="ReplaceAll.ContentProperty" xml:space="preserve">
     <value>Thay thế tất cả</value>
@@ -181,7 +181,7 @@
     <value>Thay thế</value>
   </data>
   <data name="DismissResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Bỏ qua (Xóa)</value>
+    <value>Bỏ qua (Delete)</value>
   </data>
   <data name="Searching.TextProperty" xml:space="preserve">
     <value>Đang tìm kiếm...</value>

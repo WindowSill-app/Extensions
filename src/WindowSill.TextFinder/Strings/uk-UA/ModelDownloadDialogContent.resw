@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Description.TextProperty" xml:space="preserve">
-    <value>Щоб знайти текст за значенням, ця функція потребує невелику мовну модель, яка повністю працює на вашому пристрої.</value>
+    <value>Для пошуку тексту за значенням цій функції потрібна невелика мовна модель, яка повністю працює на вашому пристрої.</value>
   </data>
   <data name="ModelName.TextProperty" xml:space="preserve">
     <value>Модель: all-MiniLM-L6-v2</value>
@@ -127,7 +127,7 @@
     <value>Розмір завантаження: приблизно 90 МБ</value>
   </data>
   <data name="RunsPrivately.TextProperty" xml:space="preserve">
-    <value>Виконується конфіденційно на вашому комп’ютері</value>
+    <value>Працює приватно на вашому комп'ютері</value>
   </data>
   <data name="ApacheLicense.ContentProperty" xml:space="preserve">
     <value>Ліцензія Apache 2.0</value>
@@ -136,16 +136,16 @@
     <value>Дізнатися більше</value>
   </data>
   <data name="DownloadOnce.TextProperty" xml:space="preserve">
-    <value>Вам потрібно лише один раз завантажити це. Воно зберігатиметься на вашому пристрої для майбутнього використання.</value>
+    <value>Завантажити потрібно лише один раз. Модель буде збережена на вашому пристрої для подальшого використання.</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
     <value>Завантаження мовної моделі...</value>
   </data>
   <data name="DownloadFailed.TitleProperty" xml:space="preserve">
-    <value>Завантаження не вдалося</value>
+    <value>Помилка завантаження</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
-    <value>Не вдалося завантажити модель. Будь ласка, перевірте підключення до Інтернету та спробуйте ще раз.</value>
+    <value>Не вдалося завантажити модель. Перевірте підключення до Інтернету та спробуйте ще раз.</value>
   </data>
   <data name="DownloadRequired" xml:space="preserve">
     <value>Потрібне завантаження</value>
@@ -154,9 +154,9 @@
     <value>Завантажити</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Відміна</value>
+    <value>Скасувати</value>
   </data>
   <data name="TryAgain" xml:space="preserve">
-    <value>Спробуйте ще раз</value>
+    <value>Спробувати ще раз</value>
   </data>
 </root>

@@ -24,5 +24,7 @@ public class PerformanceDataEventArgs : EventArgs
 public record PerformanceData(
     double CpuUsage,
     double MemoryUsage, 
-    double? GpuUsage
+    double? GpuUsage,
+    double? CpuTemperature,
+    double? GpuTemperature
 );

@@ -154,6 +154,6 @@
     <value>Temperatur anzeigen</value>
   </data>
   <data name="ShowTemperatureDescription" xml:space="preserve">
-    <value>CPU- und GPU-Temperatur zusammen mit den Nutzungsprozentsätzen anzeigen</value>
+    <value>CPU- und GPU-Temperatur neben den Auslastungsprozenten anzeigen</value>
   </data>
 </root>

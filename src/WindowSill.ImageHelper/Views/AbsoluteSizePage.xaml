@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="WindowSill.ImageHelper.Views.AbsoluteSizePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid ColumnSpacing="8" RowSpacing="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <NumberBox
+            Grid.Row="0"
+            Grid.Column="0"
+            api:Uids.Uid="/WindowSill.ImageHelper/ResizeImage/Width"
+            Minimum="1"
+            Value="{x:Bind ViewModel.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <NumberBox
+            Grid.Row="0"
+            Grid.Column="1"
+            api:Uids.Uid="/WindowSill.ImageHelper/ResizeImage/Height"
+            Minimum="1"
+            Value="{x:Bind ViewModel.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <CheckBox
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            api:Uids.Uid="/WindowSill.ImageHelper/ResizeImage/AspectRatio"
+            IsChecked="{x:Bind ViewModel.MaintainAspectRatio, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+    </Grid>
+</Page>

@@ -1,3 +1,12 @@
+# 0.9.17
+- The clipboard can now be compacted into a popup window instead of having all clipboard items displayed in the WindowSill bar.
+
+# 0.9.13
+- Updated dependencies.
+
+# 0.8.0
+- Added multiple display support.
+
 # 0.7.9
 - Improved performance.
 - Updated dependencies.

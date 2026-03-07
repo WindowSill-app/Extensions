@@ -3,42 +3,58 @@
 ## Project Overview
 
 - **Framework**: WinUI 3 with Windows App SDK
-- **Target**: Windows 10/11 desktop extensions
+- **Target**: Windows 10/11 desktop (x64)
 - **Architecture**: MVVM with MEF (Managed Extensibility Framework)
-- **Language**: C# 14
-- **Testing**: xUnit, FluentAssertions, Moq
-
-## Detailed Instructions
-
-Context-specific guidelines are in `.github/instructions/`. These are auto-applied based on file patterns:
-
-| Instruction File | Applies To | Description |
-|------------------|------------|-------------|
-| `csharp.instructions.md` | `**/*.cs` | C# conventions, formatting, nullable types |
-| `winui3.instructions.md` | `**/app/**/*.xaml, **/app/**/*.cs` | MVVM, dependency properties, MEF |
-| `xaml-styling.instructions.md` | `**/*.xaml` | XAML layout, binding, accessibility |
-| `testing.instructions.md` | `**/*Tests*/**/*.cs` | xUnit, FluentAssertions, Moq patterns |
-| `github-actions-ci-cd-best-practices.instructions.md` | `.github/workflows/*.yml` | CI/CD security and optimization |
-| `self-explanatory-code-commenting.instructions.md` | `**` | Comment only WHY, not WHAT |
+- **Language**: C# (latest preview via `LangVersion preview`)
+- **Runtime**: .NET 10 (`net10.0-windows10.0.22621`)
+- **Testing**: xUnit, FluentAssertions
+- **Package Management**: Central Package Management (`Directory.Packages.props`)
+- **Solution**: `Extensions.slnx`
 
 ## Project Structure
 
 ```
 src/
+├── Directory.Build.props          # Shared build properties
+├── Directory.Build.targets        # Shared build targets
+├── Directory.Packages.props       # Central package versions
 ├── WindowSill.{ExtensionName}/
-│   ├── Assets/
-│   ├── Settings/
-│   ├── Strings/
-│   ├── ViewModels/
-│   ├── {ExtensionName}Sill.cs    # Entry point
+│   ├── {ExtensionName}Sill.cs     # Entry point (ISill export)
+│   ├── Assets/                    # Icons (SVG), images
+│   ├── Core/                      # Business logic
+│   ├── Views/                     # XAML UI components
+│   ├── ViewModels/                # MVVM view models
+│   ├── Settings/                  # Extension settings
+│   ├── Strings/                   # Localization resources
 │   └── WindowSill.{ExtensionName}.csproj
-└── UnitTests/
+└── UnitTests/                     # Shared test project
 ```
 
-## Quick Reference
+## Extensions
 
-### Creating Extensions
+Current extensions: AppLauncher, ClipboardHistory, DevToys, ImageHelper, MediaControl, PerfCounter, ShortTermReminder, Teams, TextFinder, UnitConverter, URLHelper, WebBrowser.
 
-1. Create `{ExtensionName}Sill.cs` as entry point
-2. Use `[Export]`/`[Import]` for MEF
-3. Add localization in `Strings/`
+## Key Patterns
+
+### Entry Point
+
+Every extension has a `{ExtensionName}Sill.cs` class that:
+
+- Exports `ISill` via MEF: `[Export(typeof(ISill))]`
+- Uses metadata attributes: `[Name("...")]`, `[Priority(...)]`
+- Optionally implements activation interfaces: `ISillListView`, `ISillActivatedByDefault`, `ISillActivatedByTextSelection`, `ISillActivatedByDragAndDrop`
+- Uses `[ImportingConstructor]` for dependency injection
+
+### Conventions
+
+- Localized strings: `"/WindowSill.ExtensionName/Category/Key".GetLocalizedString()`
+- SVG icons: `new SvgImageSource(new Uri("ms-appx:///WindowSill.ExtensionName/Assets/icon.svg"))`
+- Async: prefer `ValueTask`, use `ForgetSafely()` for fire-and-forget
+- MVVM: `ObservableObject` base class, `RelayCommand` for commands
+- Nullable reference types are enabled globally
+
+### Build
+
+- Never build the full solution; build only the modified `.csproj`
+- Use `msbuild -t:build <ProjectPath>` to build a specific project
+- Platform is x64 only

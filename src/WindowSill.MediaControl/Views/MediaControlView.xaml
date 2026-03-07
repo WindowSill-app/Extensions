@@ -1,0 +1,212 @@
+<UserControl
+    x:Class="WindowSill.MediaControl.Views.MediaControlView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:controls="using:WindowSill.MediaControl.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:BoolToObjectConverter
+            x:Key="IsPlayingToGlyphConverter"
+            FalseValue="&#xF5B0;"
+            TrueValue="&#xE62E;" />
+
+        <!--
+            When HasArtistName is true → RowSpan = 1 (song on top, artist below).
+            When HasArtistName is false → RowSpan = 2 (song centered).
+        -->
+        <converters:BoolToObjectConverter
+            x:Key="ArtistRowSpanConverter"
+            FalseValue="2"
+            TrueValue="1" />
+    </UserControl.Resources>
+
+    <Grid>
+        <api:SillOrientedStackPanel
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Spacing="8">
+
+            <!--  Thumbnail and song/artist titles  -->
+            <Grid
+                x:Name="ThumbnailAndTitlesGrid"
+                Width="190"
+                Background="Transparent"
+                ColumnSpacing="8"
+                IsHitTestVisible="True"
+                PointerPressed="ThumbnailAndTitlesGrid_PointerPressed"
+                Visibility="{x:Bind ViewModel.ShowTitleArtistAndThumbnail, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  Album art thumbnail  -->
+                <Grid
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="0"
+                    CornerRadius="{ThemeResource ControlCornerRadius}">
+                    <Image
+                        x:Name="ThumbnailImage"
+                        Source="{x:Bind ViewModel.Thumbnail, Mode=OneWay}"
+                        Stretch="Uniform" />
+                </Grid>
+
+                <!--  Marquee (compact mode only)  -->
+                <controls:Marquee
+                    x:Name="MarqueeText"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    MinHeight="16"
+                    VerticalAlignment="Center"
+                    Behavior="Looping"
+                    Content="{x:Bind ViewModel.SongAndArtistName, Mode=OneWay}"
+                    Direction="Left"
+                    FontSize="{ThemeResource SillFontSize}"
+                    Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                    Loaded="MarqueeText_Loaded"
+                    RepeatBehavior="Forever"
+                    Speed="25"
+                    Visibility="Collapsed" />
+
+                <!--  Song name  -->
+                <TextBlock
+                    x:Name="SongTextBlock"
+                    Grid.Row="0"
+                    Grid.RowSpan="{x:Bind ViewModel.HasArtistName, Mode=OneWay, Converter={StaticResource ArtistRowSpanConverter}}"
+                    Grid.Column="1"
+                    VerticalAlignment="Bottom"
+                    FontSize="16"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    Text="{x:Bind ViewModel.SongName, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap" />
+
+                <!--  Artist name  -->
+                <TextBlock
+                    x:Name="ArtistTextBlock"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Top"
+                    FontSize="12"
+                    FontWeight="SemiLight"
+                    Opacity="0.5"
+                    Style="{ThemeResource CaptionTextBlockStyle}"
+                    Text="{x:Bind ViewModel.ArtistName, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap" />
+
+            </Grid>
+
+            <!--  Playback controls  -->
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="8">
+                <Button
+                    Command="{x:Bind ViewModel.PreviousCommand}"
+                    Content="&#xE622;"
+                    IsEnabled="{x:Bind ViewModel.IsPreviousAvailable, Mode=OneWay}"
+                    Style="{StaticResource IconButton}" />
+                <Button
+                    Command="{x:Bind ViewModel.PlayPauseCommand}"
+                    Content="{x:Bind ViewModel.IsPlaying, Mode=OneWay, Converter={StaticResource IsPlayingToGlyphConverter}}"
+                    IsEnabled="{x:Bind ViewModel.IsPlayPauseAvailable, Mode=OneWay}"
+                    Style="{StaticResource IconButton}" />
+                <Button
+                    Command="{x:Bind ViewModel.NextCommand}"
+                    Content="&#xE623;"
+                    IsEnabled="{x:Bind ViewModel.IsNextAvailable, Mode=OneWay}"
+                    Style="{StaticResource IconButton}" />
+            </StackPanel>
+
+        </api:SillOrientedStackPanel>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SillOrientationStates">
+
+                <!--  Default state: HorizontalLarge  -->
+                <VisualState x:Name="HorizontalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="MarqueeText.Visibility" Value="Collapsed" />
+                        <Setter Target="SongTextBlock.Visibility" Value="Visible" />
+                        <Setter Target="ArtistTextBlock.Visibility" Value="Visible" />
+                        <Setter Target="ThumbnailImage.Visibility" Value="Visible" />
+                        <Setter Target="ArtistTextBlock.FontSize" Value="12" />
+                        <Setter Target="SongTextBlock.FontSize" Value="16" />
+                        <Setter Target="ThumbnailAndTitlesGrid.Width" Value="190" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="HorizontalMedium">
+                    <VisualState.Setters>
+                        <Setter Target="MarqueeText.Visibility" Value="Collapsed" />
+                        <Setter Target="SongTextBlock.Visibility" Value="Visible" />
+                        <Setter Target="ArtistTextBlock.Visibility" Value="Visible" />
+                        <Setter Target="ThumbnailImage.Visibility" Value="Visible" />
+                        <Setter Target="ArtistTextBlock.FontSize" Value="10" />
+                        <Setter Target="SongTextBlock.FontSize" Value="10" />
+                        <Setter Target="ThumbnailAndTitlesGrid.Width" Value="160" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="HorizontalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="MarqueeText.Visibility" Value="Visible" />
+                        <Setter Target="SongTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="ArtistTextBlock.Visibility" Value="Collapsed" />
+                        <Setter Target="ThumbnailImage.Visibility" Value="Visible" />
+                        <Setter Target="ArtistTextBlock.FontSize" Value="12" />
+                        <Setter Target="SongTextBlock.FontSize" Value="{ThemeResource SillFontSize}" />
+                        <Setter Target="ThumbnailAndTitlesGrid.Width" Value="140" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="VerticalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="MarqueeText.Visibility" Value="Collapsed" />
+                        <Setter Target="SongTextBlock.Visibility" Value="Visible" />
+                        <Setter Target="ArtistTextBlock.Visibility" Value="Visible" />
+                        <Setter Target="ThumbnailImage.Visibility" Value="Visible" />
+                        <Setter Target="ArtistTextBlock.FontSize" Value="12" />
+                        <Setter Target="SongTextBlock.FontSize" Value="16" />
+                        <Setter Target="ThumbnailAndTitlesGrid.Width" Value="NaN" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="VerticalMedium">
+                    <VisualState.Setters>
+                        <Setter Target="MarqueeText.Visibility" Value="Collapsed" />
+                        <Setter Target="SongTextBlock.Visibility" Value="Visible" />
+                        <Setter Target="ArtistTextBlock.Visibility" Value="Visible" />
+                        <Setter Target="ThumbnailImage.Visibility" Value="Visible" />
+                        <Setter Target="ArtistTextBlock.FontSize" Value="12" />
+                        <Setter Target="SongTextBlock.FontSize" Value="{ThemeResource SillFontSize}" />
+                        <Setter Target="ThumbnailAndTitlesGrid.Width" Value="NaN" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="VerticalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="MarqueeText.Visibility" Value="Collapsed" />
+                        <Setter Target="SongTextBlock.Visibility" Value="Visible" />
+                        <Setter Target="ArtistTextBlock.Visibility" Value="Visible" />
+                        <Setter Target="ThumbnailImage.Visibility" Value="Collapsed" />
+                        <Setter Target="ArtistTextBlock.FontSize" Value="12" />
+                        <Setter Target="SongTextBlock.FontSize" Value="{ThemeResource SillFontSize}" />
+                        <Setter Target="ThumbnailAndTitlesGrid.Width" Value="NaN" />
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+
+</UserControl>
