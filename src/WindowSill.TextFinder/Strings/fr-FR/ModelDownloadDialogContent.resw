@@ -118,45 +118,45 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Description.TextProperty" xml:space="preserve">
-    <value>To find text by meaning, this feature needs a small language model that runs entirely on your device.</value>
+    <value>Pour trouver du texte par sens, cette fonctionnalité nécessite un petit modèle linguistique qui s'exécute entièrement sur votre appareil.</value>
   </data>
   <data name="ModelName.TextProperty" xml:space="preserve">
-    <value>Model: all-MiniLM-L6-v2</value>
+    <value>Modèle : all-MiniLM-L6-v2</value>
   </data>
   <data name="DownloadSize.TextProperty" xml:space="preserve">
-    <value>Download size: approximately 90 MB</value>
+    <value>Taille du téléchargement : environ 90 Mo</value>
   </data>
   <data name="RunsPrivately.TextProperty" xml:space="preserve">
-    <value>Runs privately on your computer</value>
+    <value>Fonctionne en privé sur votre ordinateur</value>
   </data>
   <data name="ApacheLicense.ContentProperty" xml:space="preserve">
-    <value>Apache 2.0 License</value>
+    <value>Licence Apache 2.0</value>
   </data>
   <data name="LearnMore.ContentProperty" xml:space="preserve">
-    <value>Learn more</value>
+    <value>En savoir plus</value>
   </data>
   <data name="DownloadOnce.TextProperty" xml:space="preserve">
-    <value>You only need to download this once. It will be stored on your device for future use.</value>
+    <value>Vous n'avez besoin de le télécharger qu'une seule fois. Il sera stocké sur votre appareil pour une utilisation future.</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
-    <value>Downloading language model...</value>
+    <value>Téléchargement du modèle linguistique...</value>
   </data>
   <data name="DownloadFailed.TitleProperty" xml:space="preserve">
-    <value>Download failed</value>
+    <value>Échec du téléchargement</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
-    <value>Unable to download the model. Please check your internet connection and try again.</value>
+    <value>Impossible de télécharger le modèle. Veuillez vérifier votre connexion Internet et réessayer.</value>
   </data>
   <data name="DownloadRequired" xml:space="preserve">
-    <value>Download required</value>
+    <value>Téléchargement requis</value>
   </data>
   <data name="Download" xml:space="preserve">
-    <value>Download</value>
+    <value>Télécharger</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuler</value>
   </data>
   <data name="TryAgain" xml:space="preserve">
-    <value>Try again</value>
+    <value>Réessayer</value>
   </data>
 </root>
