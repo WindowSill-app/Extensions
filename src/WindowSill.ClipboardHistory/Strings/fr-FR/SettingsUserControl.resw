@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Activer l0&lt;h&gt;historique du presse-papiers Windows&lt;/h3&gt;</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>G</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
-    <value>Try to detect and hide copied text that look like passwords</value>
+    <value>D</value>
   </data>
   <data name="HidePasswords.HeaderProperty" xml:space="preserve">
-    <value>Hide passwords</value>
+    <value>Masquer les mots de passe</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>How many items should be kept in the clipboard history.</value>
+    <value>Combien d0&lt;e&gt;lect</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
-    <value>Maximum number of items</value>
+    <value>Nombre maximum d0&lt;e&gt;l</value>
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
-    <value>Open Windows Clipboard history settings</value>
+    <value>Ouvrir les param</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
-    <value>Compact mode</value>
+    <value>Mode compact</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Display all clipboard items in a single popup instead of individual items in the bar</value>
+    <value>Afficher tous les0&lt;e&gt;l</value>
   </data>
 </root>
