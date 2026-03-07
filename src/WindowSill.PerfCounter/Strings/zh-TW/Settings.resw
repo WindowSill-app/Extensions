@@ -151,9 +151,9 @@
     <value>點選開啟 Windows 任務管理員以取得詳細系統資訊</value>
   </data>
   <data name="ShowTemperature" xml:space="preserve">
-    <value>Show Temperature</value>
+    <value>顯示溫度</value>
   </data>
   <data name="ShowTemperatureDescription" xml:space="preserve">
-    <value>Display CPU and GPU temperature alongside usage percentages</value>
+    <value>在使用百分比旁邊顯示 CPU 和 GPU 溫度</value>
   </data>
 </root>
