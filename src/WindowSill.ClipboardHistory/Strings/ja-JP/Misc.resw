@@ -127,10 +127,10 @@
     <value>クリップボードの履歴</value>
   </data>
   <data name="EmptyClipboard.TextProperty" xml:space="preserve">
-    <value>The clipboard is empty.</value>
+    <value>クリップボードは空です。</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Windowsクリップボードの履歴を有効にする</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>ファイル情報の取得に失敗しました</value>
