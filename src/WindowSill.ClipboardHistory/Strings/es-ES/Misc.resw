@@ -127,10 +127,10 @@
     <value>Historial del portapapeles</value>
   </data>
   <data name="EmptyClipboard.TextProperty" xml:space="preserve">
-    <value>The clipboard is empty.</value>
+    <value>El portapapeles está vacío.</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Habilitar el historial del portapapeles de Windows</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>No se pudo obtener la información del archivo</value>
