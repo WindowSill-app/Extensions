@@ -130,7 +130,7 @@
     <value>The clipboard is empty.</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>啟用 Windows 剪貼簿歷史記錄</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>取得檔案資訊失敗</value>
