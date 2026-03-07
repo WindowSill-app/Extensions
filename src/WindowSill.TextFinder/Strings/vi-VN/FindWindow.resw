@@ -118,78 +118,78 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Copy.TextProperty" xml:space="preserve">
-    <value>Copy</value>
+    <value>Sao chép</value>
   </data>
   <data name="ResultCount" xml:space="preserve">
-    <value>{0} results found</value>
+    <value>{0} kết quả tìm thấy</value>
   </data>
   <data name="Title.TitleProperty" xml:space="preserve">
-    <value>Find / Replace</value>
+    <value>Tìm / Thay thế</value>
   </data>
   <data name="Search.TextProperty" xml:space="preserve">
-    <value>Search</value>
+    <value>Tìm kiếm</value>
   </data>
   <data name="Find.HeaderProperty" xml:space="preserve">
-    <value>Find</value>
+    <value>Tìm</value>
   </data>
   <data name="Replace.HeaderProperty" xml:space="preserve">
-    <value>Replace</value>
+    <value>Thay thế</value>
   </data>
   <data name="Options.TextProperty" xml:space="preserve">
-    <value>Options</value>
+    <value>Tùy chọn</value>
   </data>
   <data name="LiteralMatch.ContentProperty" xml:space="preserve">
-    <value>Literal match</value>
+    <value>Trùng khớp kiểu chữ</value>
   </data>
   <data name="MatchCase.ContentProperty" xml:space="preserve">
-    <value>Match case</value>
+    <value>Phân biệt chữ hoa chữ thường</value>
   </data>
   <data name="MatchWholeWord.ContentProperty" xml:space="preserve">
-    <value>Match whole word</value>
+    <value>Trùng khớp toàn bộ từ</value>
   </data>
   <data name="RegularExpression.ContentProperty" xml:space="preserve">
-    <value>Regular expression</value>
+    <value>Biểu thức chính quy</value>
   </data>
   <data name="CheatSheet.ContentProperty" xml:space="preserve">
-    <value>Cheat sheet</value>
+    <value>Bảng cheat</value>
   </data>
   <data name="SpellingSimilarity.ContentProperty" xml:space="preserve">
-    <value>Spelling similarity</value>
+    <value>Tương đồng chính tả</value>
   </data>
   <data name="MeaningSimilarity.ContentProperty" xml:space="preserve">
-    <value>Meaning similarity</value>
+    <value>Tương đồng nghĩa</value>
   </data>
   <data name="Loose.TextProperty" xml:space="preserve">
-    <value>Loose</value>
+    <value>Lỏng lẻo</value>
   </data>
   <data name="Strict.TextProperty" xml:space="preserve">
-    <value>Strict</value>
+    <value>Chặt chẽ</value>
   </data>
   <data name="Results.TextProperty" xml:space="preserve">
-    <value>Results</value>
+    <value>Kết quả</value>
   </data>
   <data name="PreviousResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Previous result</value>
+    <value>Kết quả trước đó</value>
   </data>
   <data name="NextResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Next result</value>
+    <value>Kết quả tiếp theo</value>
   </data>
   <data name="ReplaceAll.ContentProperty" xml:space="preserve">
-    <value>Replace all</value>
+    <value>Thay thế tất cả</value>
   </data>
   <data name="ReplaceResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Replace</value>
+    <value>Thay thế</value>
   </data>
   <data name="DismissResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Dismiss (Delete)</value>
+    <value>Bỏ qua (Xóa)</value>
   </data>
   <data name="Searching.TextProperty" xml:space="preserve">
-    <value>Searching...</value>
+    <value>Đang tìm kiếm...</value>
   </data>
   <data name="NoResultFound.TextProperty" xml:space="preserve">
-    <value>No result found</value>
+    <value>Không tìm thấy kết quả</value>
   </data>
   <data name="SourceText.TextProperty" xml:space="preserve">
-    <value>Source Text</value>
+    <value>Văn bản nguồn</value>
   </data>
 </root>
