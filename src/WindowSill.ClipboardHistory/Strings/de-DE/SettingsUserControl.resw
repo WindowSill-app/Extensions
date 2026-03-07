@@ -139,9 +139,9 @@
     <value>Einstellungen für den Windows-Zwischenablageverlauf öffnen</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
-    <value>Compact mode</value>
+    <value>Kompaktmodus</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Display all clipboard items in a single popup instead of individual items in the bar</value>
+    <value>Alle Zwischenablage-Elemente in einem einzigen Popup anzeigen, anstatt einzelne Elemente in der Leiste</value>
   </data>
 </root>
