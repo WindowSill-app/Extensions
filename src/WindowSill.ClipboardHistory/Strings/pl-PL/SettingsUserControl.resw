@@ -139,9 +139,9 @@
     <value>Otwórz ustawienia historii schowka systemu Windows</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
-    <value>Compact mode</value>
+    <value>Tryb kompaktowy</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Display all clipboard items in a single popup instead of individual items in the bar</value>
+    <value>Wyświetl wszystkie elementy schowka w jednym wyskakującym okienku zamiast pojedynczych elementów na pasku.</value>
   </data>
 </root>
