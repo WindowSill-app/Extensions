@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Microsoft Teams</value>
+    <value>微软团体</value>
   </data>
   <data name="Leave" xml:space="preserve">
     <value>离开通话</value>
