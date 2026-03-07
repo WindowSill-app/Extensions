@@ -118,78 +118,78 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Copy.TextProperty" xml:space="preserve">
-    <value>Copy</value>
+    <value>प्रतिलिपि बनाएँ</value>
   </data>
   <data name="ResultCount" xml:space="preserve">
-    <value>{0} results found</value>
+    <value>{0} परिणाम मिले</value>
   </data>
   <data name="Title.TitleProperty" xml:space="preserve">
-    <value>Find / Replace</value>
+    <value>खोज / बदलें</value>
   </data>
   <data name="Search.TextProperty" xml:space="preserve">
-    <value>Search</value>
+    <value>खोजें</value>
   </data>
   <data name="Find.HeaderProperty" xml:space="preserve">
-    <value>Find</value>
+    <value>खोजें</value>
   </data>
   <data name="Replace.HeaderProperty" xml:space="preserve">
-    <value>Replace</value>
+    <value>बदलें</value>
   </data>
   <data name="Options.TextProperty" xml:space="preserve">
-    <value>Options</value>
+    <value>विकल्प</value>
   </data>
   <data name="LiteralMatch.ContentProperty" xml:space="preserve">
-    <value>Literal match</value>
+    <value>मिलान सीधा</value>
   </data>
   <data name="MatchCase.ContentProperty" xml:space="preserve">
-    <value>Match case</value>
+    <value>मिलान केस</value>
   </data>
   <data name="MatchWholeWord.ContentProperty" xml:space="preserve">
-    <value>Match whole word</value>
+    <value>पूर्ण शब्द का मिलान</value>
   </data>
   <data name="RegularExpression.ContentProperty" xml:space="preserve">
-    <value>Regular expression</value>
+    <value>नियमित अभिव्यक्ति</value>
   </data>
   <data name="CheatSheet.ContentProperty" xml:space="preserve">
-    <value>Cheat sheet</value>
+    <value>चिट्ठी पत्रक</value>
   </data>
   <data name="SpellingSimilarity.ContentProperty" xml:space="preserve">
-    <value>Spelling similarity</value>
+    <value>वर्तनी समानता</value>
   </data>
   <data name="MeaningSimilarity.ContentProperty" xml:space="preserve">
-    <value>Meaning similarity</value>
+    <value>अर्थ समानता</value>
   </data>
   <data name="Loose.TextProperty" xml:space="preserve">
-    <value>Loose</value>
+    <value>ढीला</value>
   </data>
   <data name="Strict.TextProperty" xml:space="preserve">
-    <value>Strict</value>
+    <value>कठोर</value>
   </data>
   <data name="Results.TextProperty" xml:space="preserve">
-    <value>Results</value>
+    <value>परिणाम</value>
   </data>
   <data name="PreviousResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Previous result</value>
+    <value>पिछला परिणाम</value>
   </data>
   <data name="NextResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Next result</value>
+    <value>अगला परिणाम</value>
   </data>
   <data name="ReplaceAll.ContentProperty" xml:space="preserve">
-    <value>Replace all</value>
+    <value>सभी बदलें</value>
   </data>
   <data name="ReplaceResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Replace</value>
+    <value>बदलें</value>
   </data>
   <data name="DismissResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Dismiss (Delete)</value>
+    <value>रद्द करें (हटा दें)</value>
   </data>
   <data name="Searching.TextProperty" xml:space="preserve">
-    <value>Searching...</value>
+    <value>खोज रहे हैं...</value>
   </data>
   <data name="NoResultFound.TextProperty" xml:space="preserve">
-    <value>No result found</value>
+    <value>कोई परिणाम नहीं मिला</value>
   </data>
   <data name="SourceText.TextProperty" xml:space="preserve">
-    <value>Source Text</value>
+    <value>स्रोत पाठ</value>
   </data>
 </root>
