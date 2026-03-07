@@ -127,10 +127,10 @@
     <value>剪贴板历史</value>
   </data>
   <data name="EmptyClipboard.TextProperty" xml:space="preserve">
-    <value>The clipboard is empty.</value>
+    <value>剪贴板为空。</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>启用 Windows 剪贴板历史记录</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>获取文件信息失败</value>
