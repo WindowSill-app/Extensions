@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Увімкнути історію буфера обміну Windows</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Загальне</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
-    <value>Try to detect and hide copied text that look like passwords</value>
+    <value>Спробуйте визначити та приховати скопійований текст, що схожий на паролі</value>
   </data>
   <data name="HidePasswords.HeaderProperty" xml:space="preserve">
-    <value>Hide passwords</value>
+    <value>Приховати паролі</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>How many items should be kept in the clipboard history.</value>
+    <value>Скільки елементів слід зберігати в історії буфера обміну.</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
-    <value>Maximum number of items</value>
+    <value>Максимальна кількість елементів</value>
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
-    <value>Open Windows Clipboard history settings</value>
+    <value>Відкрити налаштування історії буфера обміну Windows</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
-    <value>Compact mode</value>
+    <value>Компактний режим</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Display all clipboard items in a single popup instead of individual items in the bar</value>
+    <value>Відображати всі елементи буфера обміну у одному спливаючому вікні замість окремих елементів у стрічці</value>
   </data>
 </root>
