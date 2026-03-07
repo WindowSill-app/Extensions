@@ -127,10 +127,10 @@
     <value>Historique du presse-papiers</value>
   </data>
   <data name="EmptyClipboard.TextProperty" xml:space="preserve">
-    <value>The clipboard is empty.</value>
+    <value>Le presse-papiers est vide.</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Activer lhistoire du presse-papiers Windows</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>Échec</value>
