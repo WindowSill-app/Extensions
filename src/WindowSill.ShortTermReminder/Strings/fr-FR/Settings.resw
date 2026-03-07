@@ -118,20 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Général</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose how reminders appear.
-• Toast notification provide a small pop-up that blends into your workflow and stays in Windows Action Center.
-• Full-screen notification take over the display, ensuring it is impossible to overlook—even when Windows is in Focus mode. Ideal for anyone who benefits from stronger visual cues to stay on track.</value>
+    <value>Choisir comment les rappels apparaissent.
+• La notification toast fournit une petite fenêtre contextuelle qui s’intègre à votre flux de travail et reste dans le Centre d’action de Windows.
+• La notification plein écran prend le contrôle de l’affichage, garantissant qu’il est impossible de la manquer, même lorsque Windows est en mode Focus. Idéal pour toute personne ayant besoin d’indices visuels plus forts pour rester sur la bonne voie.</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
-    <value>Notification mode</value>
+    <value>Mode de notification</value>
   </data>
   <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
-    <value>Toast notification</value>
+    <value>Notification toast</value>
   </data>
   <data name="NotificationModeToggle.OnContentProperty" xml:space="preserve">
-    <value>Full-screen notification</value>
+    <value>Notification plein écran</value>
   </data>
 </root>
