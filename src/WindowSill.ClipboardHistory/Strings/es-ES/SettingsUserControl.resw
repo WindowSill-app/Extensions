@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Habilitar el historial del portapapeles de Windows</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
     <value>General</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
-    <value>Try to detect and hide copied text that look like passwords</value>
+    <value>Intentar detectar y ocultar el texto copiado que parece una contraseña</value>
   </data>
   <data name="HidePasswords.HeaderProperty" xml:space="preserve">
-    <value>Hide passwords</value>
+    <value>Ocultar contraseñas</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>How many items should be kept in the clipboard history.</value>
+    <value>Cuantos elementos deben mantenerse en el historial del portapapeles.</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
-    <value>Maximum number of items</value>
+    <value>Número máximo de elementos</value>
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
-    <value>Open Windows Clipboard history settings</value>
+    <value>Abrir la configuración del historial del portapapeles de Windows</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
-    <value>Compact mode</value>
+    <value>Modo compacto</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Display all clipboard items in a single popup instead of individual items in the bar</value>
+    <value>Mostrar todos los elementos del portapapeles en una sola ventana emergente en lugar de elementos individuales en la barra</value>
   </data>
 </root>
