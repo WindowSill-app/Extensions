@@ -121,17 +121,17 @@
     <value>General</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose how reminders appear.
-• Toast notification provide a small pop-up that blends into your workflow and stays in Windows Action Center.
-• Full-screen notification take over the display, ensuring it is impossible to overlook—even when Windows is in Focus mode. Ideal for anyone who benefits from stronger visual cues to stay on track.</value>
+    <value>Elige cómo aparecen los recordatorios.
+• La notificación en forma de mensaje emergente ofrece una pequeña ventana emergente que se integra en tu flujo de trabajo y permanece en el Centro de actividades de Windows.
+• La notificación en pantalla completa ocupa toda la pantalla, asegurando que sea imposible pasarla por alto, incluso cuando Windows está en modo de enfoque. Ideal para quienes se benefician de señales visuales más fuertes para mantenerse en camino.</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
-    <value>Notification mode</value>
+    <value>Modo de notificación</value>
   </data>
   <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
-    <value>Toast notification</value>
+    <value>Notificación en forma de mensaje emergente</value>
   </data>
   <data name="NotificationModeToggle.OnContentProperty" xml:space="preserve">
-    <value>Full-screen notification</value>
+    <value>Notificación en pantalla completa</value>
   </data>
 </root>
