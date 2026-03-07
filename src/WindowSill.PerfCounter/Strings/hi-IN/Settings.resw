@@ -151,9 +151,9 @@
     <value>विंडोज टास्क मैनेजर खोलने के लिए क्लिक करें, ताकि विस्तृत सिस्टम जानकारी प्राप्त हो सके</value>
   </data>
   <data name="ShowTemperature" xml:space="preserve">
-    <value>Show Temperature</value>
+    <value>तापमान प्रदर्शित करें</value>
   </data>
   <data name="ShowTemperatureDescription" xml:space="preserve">
-    <value>Display CPU and GPU temperature alongside usage percentages</value>
+    <value>सीपीयू और जीपीयू तापमान को उपयोग प्रतिशत के साथ दर्शाएं</value>
   </data>
 </root>
