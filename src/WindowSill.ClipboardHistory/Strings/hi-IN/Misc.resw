@@ -127,10 +127,10 @@
     <value>क्लिपबोर्ड इतिहास</value>
   </data>
   <data name="EmptyClipboard.TextProperty" xml:space="preserve">
-    <value>The clipboard is empty.</value>
+    <value>क्लिपबोर्ड खाली है।</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>विंडोज क्लिपबोर्ड इतिहास सक्षम करें</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>फ़ाइल जानकारी प्राप्त करने में विफल</value>
