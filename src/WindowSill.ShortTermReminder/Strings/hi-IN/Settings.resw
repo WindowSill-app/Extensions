@@ -118,20 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>सामान्य</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose how reminders appear.
-• Toast notification provide a small pop-up that blends into your workflow and stays in Windows Action Center.
-• Full-screen notification take over the display, ensuring it is impossible to overlook—even when Windows is in Focus mode. Ideal for anyone who benefits from stronger visual cues to stay on track.</value>
+    <value>निर्धारित करें कि अनुस्मारक कैसे दिखाई देते हैं।
+• टोस्ट अधिसूचना एक छोटा पॉप-अप प्रदान करती है जो आपके कार्यप्रवाह में मिल जाता है और Windows Action Center में रहता है।
+• पूर्ण-स्क्रीन अधिसूचना प्रदर्शन पर कब्जा कर लेती है, यह सुनिश्चित करते हुए कि इसे नजरअंदाज करना नामुमकिन है—यह भी जब Windows फ़ोकस मोड में हो। उन लोगों के लिए आदर्श है जो मजबूत दृश्य संकेतों से लाभान्वित होते हैं ताकि ट्रैक पर रह सकें।</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
-    <value>Notification mode</value>
+    <value>अधिसूचना मोड</value>
   </data>
   <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
-    <value>Toast notification</value>
+    <value>टोस्ट अधिसूचना</value>
   </data>
   <data name="NotificationModeToggle.OnContentProperty" xml:space="preserve">
-    <value>Full-screen notification</value>
+    <value>पूर्ण-स्क्रीन अधिसूचना</value>
   </data>
 </root>
