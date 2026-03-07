@@ -127,10 +127,10 @@
     <value>Історія буфера обміну</value>
   </data>
   <data name="EmptyClipboard.TextProperty" xml:space="preserve">
-    <value>The clipboard is empty.</value>
+    <value>Буфер обміну порожній.</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Увімкнути історію буфера обміну Windows</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>Не вдалося отримати інформацію про файл</value>
