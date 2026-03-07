@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="InHowLong.TextProperty" xml:space="preserve">
-    <value>In</value>
+    <value>में</value>
   </data>
   <data name="Minutes.TextProperty" xml:space="preserve">
-    <value>minutes</value>
+    <value>मिनट</value>
   </data>
   <data name="Title.TextProperty" xml:space="preserve">
-    <value>New Short-Term Reminder</value>
+    <value>नई लघु-अवधि अनुस्मारक</value>
   </data>
   <data name="WillRemindAt" xml:space="preserve">
     <value>तुमसे {0} पर याद दिलाएगा</value>
   </data>
   <data name="OkButton.ContentProperty" xml:space="preserve">
-    <value>OK</value>
+    <value>ठीक है</value>
   </data>
   <data name="ReminderTextBox.HeaderProperty" xml:space="preserve">
-    <value>Remind me to:</value>
+    <value>मुझे याद दिलाएँ:</value>
   </data>
 </root>
