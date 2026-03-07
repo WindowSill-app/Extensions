@@ -151,9 +151,9 @@
     <value>詳細なシステム情報のためにWindowsのタスクマネージャーを開くにはクリックしてください</value>
   </data>
   <data name="ShowTemperature" xml:space="preserve">
-    <value>Show Temperature</value>
+    <value>温度を表示する</value>
   </data>
   <data name="ShowTemperatureDescription" xml:space="preserve">
-    <value>Display CPU and GPU temperature alongside usage percentages</value>
+    <value>CPU と GPU の温度を使用率の横に表示します</value>
   </data>
 </root>
