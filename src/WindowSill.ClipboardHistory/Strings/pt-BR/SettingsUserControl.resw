@@ -139,9 +139,9 @@
     <value>Abrir configurações de histórico de área de transferência do Windows</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
-    <value>Compact mode</value>
+    <value>Modo compacto</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Display all clipboard items in a single popup instead of individual items in the bar</value>
+    <value>Exiba todos os itens da área de transferência em uma única janela pop-up, em vez de itens individuais na barra</value>
   </data>
 </root>
