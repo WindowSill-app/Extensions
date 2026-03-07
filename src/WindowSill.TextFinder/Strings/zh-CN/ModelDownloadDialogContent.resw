@@ -118,45 +118,45 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Description.TextProperty" xml:space="preserve">
-    <value>To find text by meaning, this feature needs a small language model that runs entirely on your device.</value>
+    <value>为了根据意义查找文本，该功能需要一个完全在您的设备上运行的小型语言模型。</value>
   </data>
   <data name="ModelName.TextProperty" xml:space="preserve">
-    <value>Model: all-MiniLM-L6-v2</value>
+    <value>模型：all-MiniLM-L6-v2</value>
   </data>
   <data name="DownloadSize.TextProperty" xml:space="preserve">
-    <value>Download size: approximately 90 MB</value>
+    <value>下载大小：大约 90 MB</value>
   </data>
   <data name="RunsPrivately.TextProperty" xml:space="preserve">
-    <value>Runs privately on your computer</value>
+    <value>在您的计算机上私密运行</value>
   </data>
   <data name="ApacheLicense.ContentProperty" xml:space="preserve">
-    <value>Apache 2.0 License</value>
+    <value>Apache 2.0 许可证</value>
   </data>
   <data name="LearnMore.ContentProperty" xml:space="preserve">
-    <value>Learn more</value>
+    <value>了解更多</value>
   </data>
   <data name="DownloadOnce.TextProperty" xml:space="preserve">
-    <value>You only need to download this once. It will be stored on your device for future use.</value>
+    <value>您只需下载一次。它会存储在您的设备上以供将来使用。</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
-    <value>Downloading language model...</value>
+    <value>正在下载语言模型……</value>
   </data>
   <data name="DownloadFailed.TitleProperty" xml:space="preserve">
-    <value>Download failed</value>
+    <value>下载失败</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
-    <value>Unable to download the model. Please check your internet connection and try again.</value>
+    <value>无法下载模型。请检查您的互联网连接并重试。</value>
   </data>
   <data name="DownloadRequired" xml:space="preserve">
-    <value>Download required</value>
+    <value>需要下载</value>
   </data>
   <data name="Download" xml:space="preserve">
-    <value>Download</value>
+    <value>下载</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="TryAgain" xml:space="preserve">
-    <value>Try again</value>
+    <value>重试</value>
   </data>
 </root>
