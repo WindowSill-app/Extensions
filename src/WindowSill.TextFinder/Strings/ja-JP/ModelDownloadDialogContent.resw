@@ -118,45 +118,45 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Description.TextProperty" xml:space="preserve">
-    <value>To find text by meaning, this feature needs a small language model that runs entirely on your device.</value>
+    <value>意味によるテキスト検索には、完全にデバイス上で動作する小さな言語モデルが必要です。</value>
   </data>
   <data name="ModelName.TextProperty" xml:space="preserve">
-    <value>Model: all-MiniLM-L6-v2</value>
+    <value>モデル: all-MiniLM-L6-v2</value>
   </data>
   <data name="DownloadSize.TextProperty" xml:space="preserve">
-    <value>Download size: approximately 90 MB</value>
+    <value>ダウンロードサイズ: 約90 MB</value>
   </data>
   <data name="RunsPrivately.TextProperty" xml:space="preserve">
-    <value>Runs privately on your computer</value>
+    <value>プライベートにコンピューター上で実行します</value>
   </data>
   <data name="ApacheLicense.ContentProperty" xml:space="preserve">
-    <value>Apache 2.0 License</value>
+    <value>Apache 2.0 ライセンス</value>
   </data>
   <data name="LearnMore.ContentProperty" xml:space="preserve">
-    <value>Learn more</value>
+    <value>詳細情報</value>
   </data>
   <data name="DownloadOnce.TextProperty" xml:space="preserve">
-    <value>You only need to download this once. It will be stored on your device for future use.</value>
+    <value>これを一度だけダウンロードすればよいです。今後の使用のためにデバイスに保存されます。</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
-    <value>Downloading language model...</value>
+    <value>言語モデルをダウンロード中...</value>
   </data>
   <data name="DownloadFailed.TitleProperty" xml:space="preserve">
-    <value>Download failed</value>
+    <value>ダウンロードに失敗しました</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
-    <value>Unable to download the model. Please check your internet connection and try again.</value>
+    <value>モデルをダウンロードできません。インターネット接続を確認して、もう一度お試しください。</value>
   </data>
   <data name="DownloadRequired" xml:space="preserve">
-    <value>Download required</value>
+    <value>ダウンロードが必要です</value>
   </data>
   <data name="Download" xml:space="preserve">
-    <value>Download</value>
+    <value>ダウンロード</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>キャンセル</value>
   </data>
   <data name="TryAgain" xml:space="preserve">
-    <value>Try again</value>
+    <value>再試行</value>
   </data>
 </root>
