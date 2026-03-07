@@ -139,13 +139,13 @@
     <value>Pieds</value>
   </data>
     <data name="Yards" xml:space="preserve">
-    <value>Yards</value>
+    <value>verres</value>
   </data>
     <data name="Miles" xml:space="preserve">
     <value>Milliles</value>
   </data>
     <data name="Bits" xml:space="preserve">
-    <value>Bits</value>
+    <value>bits</value>
   </data>
     <data name="Bytes" xml:space="preserve">
     <value>Octets</value>
@@ -178,7 +178,7 @@
     <value>Mètres carrés</value>
   </data>
     <data name="Hectares" xml:space="preserve">
-    <value>Hectares</value>
+    <value>hectares</value>
   </data>
     <data name="SquareKilometers" xml:space="preserve">
     <value>Kilomètres carrés</value>
@@ -193,7 +193,7 @@
     <value>Yards carrés</value>
   </data>
     <data name="Acres" xml:space="preserve">
-    <value>Acres</value>
+    <value>acres</value>
   </data>
     <data name="SquareMiles" xml:space="preserve">
     <value>Milliles carrés</value>
@@ -277,7 +277,7 @@
     <value>Kilogrammes</value>
   </data>
     <data name="Tonnes" xml:space="preserve">
-    <value>Tonnes</value>
+    <value>tonnes</value>
   </data>
     <data name="Ounces" xml:space="preserve">
     <value>onces</value>
@@ -295,7 +295,7 @@
     <value>Radian</value>
   </data>
     <data name="Gradians" xml:space="preserve">
-    <value>Gradians</value>
+    <value>gradians</value>
   </data>
     <data name="Arcminutes" xml:space="preserve">
     <value>Minutes d'arc</value>
