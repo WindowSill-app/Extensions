@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Lịch sử Bảng tạm của Windows được bật</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Chung</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
-    <value>Try to detect and hide copied text that look like passwords</value>
+    <value>Cố gắng phát hiện và ẩn văn bản đã sao chép trông như mật khẩu</value>
   </data>
   <data name="HidePasswords.HeaderProperty" xml:space="preserve">
-    <value>Hide passwords</value>
+    <value>Ẩn mật khẩu</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>How many items should be kept in the clipboard history.</value>
+    <value>Bạn muốn giữ bao nhiêu mục trong lịch sử bảng tạm.</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
-    <value>Maximum number of items</value>
+    <value>Số lượng tối đa các mục</value>
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
-    <value>Open Windows Clipboard history settings</value>
+    <value>Mở cài đặt lịch sử bảng tạm của Windows</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
-    <value>Compact mode</value>
+    <value>Chế độ nhỏ gọn</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Display all clipboard items in a single popup instead of individual items in the bar</value>
+    <value>Hiển thị tất cả mục trong bảng tạm trong một cửa sổ nổi thay vì các mục riêng lẻ trong thanh</value>
   </data>
 </root>
