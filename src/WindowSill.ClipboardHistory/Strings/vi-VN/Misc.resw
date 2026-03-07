@@ -127,10 +127,10 @@
     <value>Lịch sử bảng tạm</value>
   </data>
   <data name="EmptyClipboard.TextProperty" xml:space="preserve">
-    <value>The clipboard is empty.</value>
+    <value>Bảng tạm đang trống.</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Bật lịch sử Bảng tạm của Windows</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>Không thể lấy thông tin tập tin</value>
