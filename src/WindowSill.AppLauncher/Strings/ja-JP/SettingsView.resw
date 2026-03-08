@@ -126,7 +126,7 @@
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
     <value>お気に入りのアプリ、ファイル、フォルダーをグループ化して、WindowSill から個別にまたは一括で起動します。名前、アイコン、順序をカスタマイズしてください。</value>
   </data>
-  <data name="NewGroup.LabelProperty" xml:space="preserve">
-    <value>新しいグループ</value>
+  <data name="NewGroup.TextProperty" xml:space="preserve">
+    <value>New group</value>
   </data>
 </root>
