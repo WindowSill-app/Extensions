@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.UniversalCommands.Core.UI.ShortcutRecorderControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WindowSill.UniversalCommands.Core.UI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    AllowFocusOnInteraction="True"
+    GotFocus="OnGotFocus"
+    IsTabStop="True"
+    LostFocus="OnLostFocus"
+    PreviewKeyDown="OnPreviewKeyDown"
+    PreviewKeyUp="OnPreviewKeyUp"
+    mc:Ignorable="d">
+
+    <Grid
+        x:Name="RecorderGrid"
+        MinWidth="200"
+        MinHeight="32"
+        Padding="8,4"
+        Background="{ThemeResource ControlFillColorDefaultBrush}"
+        BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+        BorderThickness="1"
+        CornerRadius="4"
+        PointerPressed="OnGridPointerPressed">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Recorded keys display  -->
+        <ItemsRepeater
+            x:Name="KeysRepeater"
+            Grid.Column="0"
+            IsHitTestVisible="False">
+            <ItemsRepeater.Layout>
+                <StackLayout Orientation="Horizontal" Spacing="4" />
+            </ItemsRepeater.Layout>
+            <ItemsRepeater.ItemTemplate>
+                <local:KeyDisplayTemplateSelector>
+                    <local:KeyDisplayTemplateSelector.KeyTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Border
+                                Padding="6,2"
+                                Background="{ThemeResource AccentFillColorDefaultBrush}"
+                                CornerRadius="4">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
+                                    Text="{x:Bind}" />
+                            </Border>
+                        </DataTemplate>
+                    </local:KeyDisplayTemplateSelector.KeyTemplate>
+                    <local:KeyDisplayTemplateSelector.SeparatorTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Text="," />
+                        </DataTemplate>
+                    </local:KeyDisplayTemplateSelector.SeparatorTemplate>
+                </local:KeyDisplayTemplateSelector>
+            </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+
+        <!--  Placeholder text  -->
+        <TextBlock
+            x:Name="PlaceholderText"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+            IsHitTestVisible="False"
+            Text="{x:Bind Placeholder, Mode=OneWay}"
+            Visibility="Visible" />
+
+        <!--  Clear button  -->
+        <Button
+            x:Name="ClearButton"
+            Grid.Column="1"
+            Margin="4,0,0,0"
+            Padding="4,2"
+            api:Uids.Uid="/WindowSill.UniversalCommands/ShortcutRecorderControl/ClearButton"
+            Background="Transparent"
+            BorderThickness="0"
+            Click="OnClearClicked"
+            Content="&#xE711;"
+            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+            FontSize="10"
+            Visibility="Collapsed" />
+    </Grid>
+</UserControl>

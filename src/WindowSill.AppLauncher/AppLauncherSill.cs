@@ -62,6 +62,7 @@ public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView, ID
         _appGroupService.AppGroups.CollectionChanged -= AppGroups_CollectionChanged;
         _debounceCts?.Cancel();
         _debounceCts?.Dispose();
+        _disposableSemaphore.Dispose();
     }
 
     public ValueTask OnActivatedAsync()
@@ -82,9 +83,6 @@ public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView, ID
         DebounceUpdateSillsAsync(cts.Token).ForgetSafely();
     }
 
-    /// <summary>
-    /// Delays the update by 100ms to coalesce rapid collection changes into a single refresh.
-    /// </summary>
     private async Task DebounceUpdateSillsAsync(CancellationToken cancellationToken)
     {
         await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
