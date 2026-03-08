@@ -126,7 +126,7 @@
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
     <value>Gruppieren Sie Ihre Lieblings-Apps, -Dateien und -Ordner und starten Sie sie aus WindowSill, einzeln oder alle auf einmal. Passen Sie deren Namen, Symbole und Reihenfolge an.</value>
   </data>
-  <data name="NewGroup.LabelProperty" xml:space="preserve">
-    <value>Neue Gruppe</value>
+  <data name="NewGroup.TextProperty" xml:space="preserve">
+    <value>New group</value>
   </data>
 </root>
