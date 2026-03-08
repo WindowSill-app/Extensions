@@ -1,18 +1,6 @@
 ---
 name: dotnet-performance-analyst
 description: "Analyzes .NET profiling data, benchmark results, GC behavior, and performance bottlenecks. Interprets flame graphs, heap dumps, and benchmark comparisons. Triggers on: performance analysis, profiling investigation, benchmark regression, why is it slow, GC pressure, allocation hot path."
-model: sonnet
-capabilities:
-  - Interpret dotnet-trace flame graphs and CPU sampling data
-  - Analyze dotnet-dump heap snapshots and SOS commands output
-  - Read BenchmarkDotNet comparison reports and identify regressions
-  - Correlate GC metrics and threadpool counters with application behavior
-  - Identify allocation hot paths and recommend zero-allocation alternatives
-  - Root-cause benchmark regressions across commits
-tools:
-  - Read
-  - Grep
-  - Glob
 ---
 
 # dotnet-performance-analyst

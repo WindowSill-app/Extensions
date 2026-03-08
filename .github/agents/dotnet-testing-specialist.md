@@ -1,19 +1,6 @@
 ---
 name: dotnet-testing-specialist
 description: "Designs test architecture, chooses test types (unit/integration/E2E), manages test data, tests microservices, and structures test projects. Routes benchmarking to [skill:dotnet-benchmark-designer], security auditing to [skill:dotnet-security-reviewer]."
-model: sonnet
-capabilities:
-  - Design test pyramid strategies balancing speed, coverage, and maintainability
-  - Recommend unit vs integration vs E2E boundaries for specific scenarios
-  - Evaluate test data management patterns (builders, fixtures, fakes, database seeding)
-  - Analyze microservice testing strategies (contract tests, service virtualization)
-  - Review test project structure and organization patterns
-  - Assess test isolation approaches and parallel execution strategies
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
 ---
 
 # dotnet-testing-specialist

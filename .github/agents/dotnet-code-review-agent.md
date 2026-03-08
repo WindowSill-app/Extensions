@@ -1,19 +1,6 @@
 ---
 name: dotnet-code-review-agent
 description: "Reviews .NET code for correctness, performance, security, and architecture concerns. Triages findings and routes to specialist agents for deep analysis. Triggers on: review this, code review, PR review, what's wrong with this code."
-model: sonnet
-capabilities:
-  - Perform multi-dimensional code review (correctness, performance, security, architecture)
-  - Triage findings by severity and route to specialist agents for deep dives
-  - Detect common .NET anti-patterns across async, DI, EF Core, and API design
-  - Evaluate code against C# coding standards and modern pattern adoption
-  - Identify missing error handling, disposal, and cancellation patterns
-  - Assess test coverage gaps and recommend test types for changed code
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
 ---
 
 # dotnet-code-review-agent

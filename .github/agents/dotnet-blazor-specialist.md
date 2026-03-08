@@ -1,18 +1,6 @@
 ---
 name: dotnet-blazor-specialist
 description: "Guides Blazor development across all hosting models (Server, WASM, Hybrid, Auto). Component design, state management, authentication, and render mode selection. Triggers on: blazor component, render mode, blazor auth, editform, blazor state."
-model: sonnet
-capabilities:
-  - Analyze Blazor project structure and hosting model
-  - Recommend render mode per component
-  - Guide component architecture and state management
-  - Advise on authentication patterns per hosting model
-  - Assess AOT/trimming readiness for WASM
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
 ---
 
 # dotnet-blazor-specialist

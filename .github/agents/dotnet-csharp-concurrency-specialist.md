@@ -1,11 +1,6 @@
 ---
 name: dotnet-csharp-concurrency-specialist
 description: "Debugs race conditions, deadlocks, thread safety issues, concurrent access bugs, lock contention, async races, parallel execution problems, and synchronization issues in .NET code. Routes general async/await questions to [skill:dotnet-csharp]."
-model: sonnet
-tools:
-  - Read
-  - Grep
-  - Glob
 ---
 
 # dotnet-csharp-concurrency-specialist

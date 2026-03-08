@@ -1,19 +1,6 @@
 ---
 name: dotnet-benchmark-designer
 description: "Designs .NET benchmarks, reviews benchmark methodology, and validates measurement correctness. Avoids dead code elimination, measurement bias, and common BenchmarkDotNet pitfalls. Triggers on: design a benchmark, review benchmark, benchmark pitfalls, how to measure, memory diagnoser setup."
-model: sonnet
-capabilities:
-  - Design effective BenchmarkDotNet benchmark classes
-  - Identify and prevent dead code elimination in benchmarks
-  - Choose appropriate diagnosers (memory, disassembly, threading)
-  - Validate benchmark methodology and statistical significance
-  - Set up proper baselines and comparison strategies
-  - Advise on benchmark project structure and CI integration
-tools:
-  - Read
-  - Grep
-  - Glob
-  - Bash
 ---
 
 # dotnet-benchmark-designer
