@@ -34,6 +34,7 @@ internal sealed partial class SettingsViewModel : ObservableObject
         {
             _settingsProvider.SetSetting(Settings.Settings.DisplayMode, value);
             OnPropertyChanged(nameof(IsAnimatedGifMode));
+            OnPropertyChanged(nameof(IsPercentageMode));
             OnPropertyChanged(nameof(SelectedDisplayModeItem));
         }
     }
@@ -81,9 +82,41 @@ internal sealed partial class SettingsViewModel : ObservableObject
     }
 
     /// <summary>
+    /// Gets or sets whether to show CPU usage in percentage mode.
+    /// </summary>
+    public bool ShowCpu
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.ShowCpu);
+        set => _settingsProvider.SetSetting(Settings.Settings.ShowCpu, value);
+    }
+
+    /// <summary>
+    /// Gets or sets whether to show GPU usage in percentage mode.
+    /// </summary>
+    public bool ShowGpu
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.ShowGpu);
+        set => _settingsProvider.SetSetting(Settings.Settings.ShowGpu, value);
+    }
+
+    /// <summary>
+    /// Gets or sets whether to show RAM usage in percentage mode.
+    /// </summary>
+    public bool ShowRam
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.ShowRam);
+        set => _settingsProvider.SetSetting(Settings.Settings.ShowRam, value);
+    }
+
+    /// <summary>
     /// Gets whether the animated running man mode is active.
     /// </summary>
     public bool IsAnimatedGifMode => DisplayMode == PerformanceDisplayMode.RunningMan;
+
+    /// <summary>
+    /// Gets whether percentage display mode is active.
+    /// </summary>
+    public bool IsPercentageMode => DisplayMode == PerformanceDisplayMode.Percentage;
 
     /// <summary>
     /// Gets the available display mode options.

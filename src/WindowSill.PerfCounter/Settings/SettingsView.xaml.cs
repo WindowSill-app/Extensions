@@ -23,30 +23,10 @@ internal sealed partial class SettingsView : UserControl
 
         InitializeComponent();
 
-        SetLocalizedStrings();
         UpdateAnimationMetricVisibility();
+        UpdatePercentageOptionsVisibility();
 
         ViewModel.PropertyChanged += OnViewModelPropertyChanged;
-    }
-
-    private void SetLocalizedStrings()
-    {
-        GeneralHeader.Text = "/WindowSill.PerfCounter/Settings/General".GetLocalizedString();
-
-        DisplayModeCard.Header = "/WindowSill.PerfCounter/Settings/DisplayMode".GetLocalizedString();
-        DisplayModeCard.Description = "/WindowSill.PerfCounter/Settings/DisplayModeDescription".GetLocalizedString();
-
-        AnimationMetricCard.Header = "/WindowSill.PerfCounter/Settings/AnimationMetric".GetLocalizedString();
-        AnimationMetricCard.Description = "/WindowSill.PerfCounter/Settings/AnimationMetricDescription".GetLocalizedString();
-
-        EnableTaskManagerCard.Header = "/WindowSill.PerfCounter/Settings/EnableTaskManagerLaunch".GetLocalizedString();
-        EnableTaskManagerCard.Description = "/WindowSill.PerfCounter/Settings/EnableTaskManagerLaunchDescription".GetLocalizedString();
-
-        ShowTemperatureCard.Header = "/WindowSill.PerfCounter/Settings/ShowTemperature".GetLocalizedString();
-        ShowTemperatureCard.Description = "/WindowSill.PerfCounter/Settings/ShowTemperatureDescription".GetLocalizedString();
-
-        OpenTaskManagerCard.Header = "/WindowSill.PerfCounter/Settings/OpenTaskManager".GetLocalizedString();
-        OpenTaskManagerCard.Description = "/WindowSill.PerfCounter/Settings/OpenTaskManagerDescription".GetLocalizedString();
     }
 
     private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -55,11 +35,24 @@ internal sealed partial class SettingsView : UserControl
         {
             UpdateAnimationMetricVisibility();
         }
+
+        if (e.PropertyName == nameof(SettingsViewModel.IsPercentageMode))
+        {
+            UpdatePercentageOptionsVisibility();
+        }
     }
 
     private void UpdateAnimationMetricVisibility()
     {
         AnimationMetricCard.Visibility = ViewModel.IsAnimatedGifMode ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private void UpdatePercentageOptionsVisibility()
+    {
+        Visibility vis = ViewModel.IsPercentageMode ? Visibility.Visible : Visibility.Collapsed;
+        ShowCpuCard.Visibility = vis;
+        ShowGpuCard.Visibility = vis;
+        ShowRamCard.Visibility = vis;
     }
 
     private void OpenTaskManagerCard_Click(object sender, RoutedEventArgs e)

@@ -2,64 +2,83 @@
     x:Class="WindowSill.PerfCounter.Settings.SettingsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
     xmlns:ctk="using:CommunityToolkit.WinUI.Controls">
 
     <StackPanel Spacing="2">
         <TextBlock
-            Style="{ThemeResource BodyStrongTextBlockStyle}"
             Margin="0,0,0,8"
-            x:Name="GeneralHeader" />
+            api:Uids.Uid="/WindowSill.PerfCounter/Settings/General"
+            Style="{ThemeResource BodyStrongTextBlockStyle}" />
 
-        <!-- Display Mode -->
-        <ctk:SettingsCard
-            x:Name="DisplayModeCard">
-            <ctk:SettingsCard.HeaderIcon>
+        <!--  Display Mode (expander with mode-specific child items)  -->
+        <ctk:SettingsExpander x:Name="DisplayModeExpander" api:Uids.Uid="/WindowSill.PerfCounter/Settings/DisplayMode">
+            <ctk:SettingsExpander.HeaderIcon>
                 <FontIcon Glyph="&#xE7C4;" />
-            </ctk:SettingsCard.HeaderIcon>
+            </ctk:SettingsExpander.HeaderIcon>
             <ComboBox
                 Width="150"
-                SelectedItem="{x:Bind ViewModel.SelectedDisplayModeItem, Mode=TwoWay}"
-                ItemsSource="{x:Bind ViewModel.AvailableDisplayModeItems}" />
-        </ctk:SettingsCard>
+                ItemsSource="{x:Bind ViewModel.AvailableDisplayModeItems}"
+                SelectedItem="{x:Bind ViewModel.SelectedDisplayModeItem, Mode=TwoWay}" />
+            <ctk:SettingsExpander.Items>
+                <!--  Animation Metric (visible only in RunningMan mode)  -->
+                <ctk:SettingsCard
+                    x:Name="AnimationMetricCard"
+                    api:Uids.Uid="/WindowSill.PerfCounter/Settings/AnimationMetric"
+                    Visibility="Collapsed">
+                    <ComboBox
+                        Width="150"
+                        ItemsSource="{x:Bind ViewModel.AvailableMetrics}"
+                        SelectedItem="{x:Bind ViewModel.AnimationMetric, Mode=TwoWay}" />
+                </ctk:SettingsCard>
 
-        <!-- Animation Metric (visibility managed in code-behind) -->
-        <ctk:SettingsCard
-            x:Name="AnimationMetricCard"
-            Visibility="Collapsed">
-            <ctk:SettingsCard.HeaderIcon>
-                <FontIcon Glyph="&#xE768;" />
-            </ctk:SettingsCard.HeaderIcon>
-            <ComboBox
-                Width="150"
-                SelectedItem="{x:Bind ViewModel.AnimationMetric, Mode=TwoWay}"
-                ItemsSource="{x:Bind ViewModel.AvailableMetrics}" />
-        </ctk:SettingsCard>
+                <!--  Show CPU (visible only in Percentage mode)  -->
+                <ctk:SettingsCard
+                    x:Name="ShowCpuCard"
+                    api:Uids.Uid="/WindowSill.PerfCounter/Settings/ShowCpu"
+                    Visibility="Collapsed">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowCpu, Mode=TwoWay}" />
+                </ctk:SettingsCard>
 
-        <!-- Enable Task Manager Launch -->
-        <ctk:SettingsCard
-            x:Name="EnableTaskManagerCard">
+                <!--  Show GPU (visible only in Percentage mode)  -->
+                <ctk:SettingsCard
+                    x:Name="ShowGpuCard"
+                    api:Uids.Uid="/WindowSill.PerfCounter/Settings/ShowGpu"
+                    Visibility="Collapsed">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowGpu, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Show RAM (visible only in Percentage mode)  -->
+                <ctk:SettingsCard
+                    x:Name="ShowRamCard"
+                    api:Uids.Uid="/WindowSill.PerfCounter/Settings/ShowRam"
+                    Visibility="Collapsed">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowRam, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+            </ctk:SettingsExpander.Items>
+        </ctk:SettingsExpander>
+
+        <!--  Enable Task Manager Launch  -->
+        <ctk:SettingsCard api:Uids.Uid="/WindowSill.PerfCounter/Settings/EnableTaskManagerLaunch">
             <ctk:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE7EF;" />
             </ctk:SettingsCard.HeaderIcon>
-            <ToggleSwitch
-                IsOn="{x:Bind ViewModel.EnableTaskManagerLaunch, Mode=TwoWay}" />
+            <ToggleSwitch IsOn="{x:Bind ViewModel.EnableTaskManagerLaunch, Mode=TwoWay}" />
         </ctk:SettingsCard>
 
-        <!-- Show Temperature -->
-        <ctk:SettingsCard
-            x:Name="ShowTemperatureCard">
+        <!--  Show Temperature  -->
+        <ctk:SettingsCard api:Uids.Uid="/WindowSill.PerfCounter/Settings/ShowTemperature">
             <ctk:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE9CA;" />
             </ctk:SettingsCard.HeaderIcon>
-            <ToggleSwitch
-                IsOn="{x:Bind ViewModel.ShowTemperature, Mode=TwoWay}" />
+            <ToggleSwitch IsOn="{x:Bind ViewModel.ShowTemperature, Mode=TwoWay}" />
         </ctk:SettingsCard>
 
-        <!-- Open Task Manager -->
+        <!--  Open Task Manager  -->
         <ctk:SettingsCard
-            x:Name="OpenTaskManagerCard"
-            IsClickEnabled="True"
-            Click="OpenTaskManagerCard_Click">
+            api:Uids.Uid="/WindowSill.PerfCounter/Settings/OpenTaskManager"
+            Click="OpenTaskManagerCard_Click"
+            IsClickEnabled="True">
             <ctk:SettingsCard.HeaderIcon>
                 <FontIcon Glyph="&#xE7EF;" />
             </ctk:SettingsCard.HeaderIcon>

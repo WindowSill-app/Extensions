@@ -44,6 +44,15 @@ public partial class PerformanceCounterViewModel : ObservableObject
     public partial bool ShowTemperature { get; set; }
 
     [ObservableProperty]
+    public partial bool ShowCpu { get; set; }
+
+    [ObservableProperty]
+    public partial bool ShowGpu { get; set; }
+
+    [ObservableProperty]
+    public partial bool ShowRam { get; set; }
+
+    [ObservableProperty]
     public partial double AnimationSpeed { get; set; }
 
     /// <summary>
@@ -72,6 +81,26 @@ public partial class PerformanceCounterViewModel : ObservableObject
     public string GpuTemperatureText => GpuTemperature.HasValue ? $"{GpuTemperature:F0}°C" : "";
 
     /// <summary>
+    /// Gets whether the animated running man mode is active.
+    /// </summary>
+    public bool IsAnimatedGifMode => !IsPercentageMode;
+
+    /// <summary>
+    /// Gets whether the GPU panel should be visible.
+    /// </summary>
+    public bool IsGpuPanelVisible => ShowGpu && GpuUsage.HasValue;
+
+    /// <summary>
+    /// Gets whether CPU temperature should be visible.
+    /// </summary>
+    public bool IsCpuTemperatureVisible => ShowTemperature && CpuTemperature.HasValue;
+
+    /// <summary>
+    /// Gets whether GPU temperature should be visible.
+    /// </summary>
+    public bool IsGpuTemperatureVisible => ShowTemperature && GpuTemperature.HasValue;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="PerformanceCounterViewModel"/> class.
     /// </summary>
     /// <param name="performanceMonitorService">The performance data provider.</param>
@@ -85,6 +114,9 @@ public partial class PerformanceCounterViewModel : ObservableObject
 
         IsPercentageMode = true;
         ShowTemperature = true;
+        ShowCpu = true;
+        ShowGpu = true;
+        ShowRam = true;
         AnimationSpeed = 1.0;
 
         _performanceMonitorService.PerformanceDataUpdated += OnPerformanceDataUpdated;
@@ -92,6 +124,7 @@ public partial class PerformanceCounterViewModel : ObservableObject
 
         UpdateDisplayMode();
         UpdateShowTemperature();
+        UpdateMetricVisibility();
     }
 
     /// <summary>
@@ -120,6 +153,9 @@ public partial class PerformanceCounterViewModel : ObservableObject
             OnPropertyChanged(nameof(GpuText));
             OnPropertyChanged(nameof(CpuTemperatureText));
             OnPropertyChanged(nameof(GpuTemperatureText));
+            OnPropertyChanged(nameof(IsGpuPanelVisible));
+            OnPropertyChanged(nameof(IsCpuTemperatureVisible));
+            OnPropertyChanged(nameof(IsGpuTemperatureVisible));
         });
     }
 
@@ -135,17 +171,35 @@ public partial class PerformanceCounterViewModel : ObservableObject
         {
             UpdateShowTemperature();
         }
+        else if (args.SettingName is { } name &&
+            (name == Settings.Settings.ShowCpu.Name ||
+             name == Settings.Settings.ShowGpu.Name ||
+             name == Settings.Settings.ShowRam.Name))
+        {
+            UpdateMetricVisibility();
+        }
     }
 
     private void UpdateDisplayMode()
     {
         PerformanceDisplayMode displayMode = _settingsProvider.GetSetting(Settings.Settings.DisplayMode);
         IsPercentageMode = displayMode == PerformanceDisplayMode.Percentage;
+        OnPropertyChanged(nameof(IsAnimatedGifMode));
     }
 
     private void UpdateShowTemperature()
     {
         ShowTemperature = _settingsProvider.GetSetting(Settings.Settings.ShowTemperature);
+        OnPropertyChanged(nameof(IsCpuTemperatureVisible));
+        OnPropertyChanged(nameof(IsGpuTemperatureVisible));
+    }
+
+    private void UpdateMetricVisibility()
+    {
+        ShowCpu = _settingsProvider.GetSetting(Settings.Settings.ShowCpu);
+        ShowGpu = _settingsProvider.GetSetting(Settings.Settings.ShowGpu);
+        ShowRam = _settingsProvider.GetSetting(Settings.Settings.ShowRam);
+        OnPropertyChanged(nameof(IsGpuPanelVisible));
     }
 
     private void UpdateAnimationSpeed()

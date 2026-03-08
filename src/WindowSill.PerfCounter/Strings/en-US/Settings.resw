@@ -117,43 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnimationMetric" xml:space="preserve">
-    <value>Animation Metric</value>
-  </data>
-  <data name="AnimationMetricDescription" xml:space="preserve">
-    <value>Which metric to use for animated running man</value>
-  </data>
-  <data name="DisplayMode" xml:space="preserve">
-    <value>Display Mode</value>
-  </data>
-  <data name="DisplayModeDescription" xml:space="preserve">
-    <value>Choose how to display performance metrics</value>
-  </data>
   <data name="DisplayModePercentage" xml:space="preserve">
     <value>Percentage</value>
   </data>
   <data name="DisplayModeRunningMan" xml:space="preserve">
     <value>Running Man</value>
   </data>
-  <data name="EnableTaskManagerLaunch" xml:space="preserve">
+  <data name="AnimationMetric.HeaderProperty" xml:space="preserve">
+    <value>Animation Metric</value>
+  </data>
+  <data name="AnimationMetric.DescriptionProperty" xml:space="preserve">
+    <value>Which metric to use for animated running man</value>
+  </data>
+  <data name="DisplayMode.HeaderProperty" xml:space="preserve">
+    <value>Display Mode</value>
+  </data>
+  <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
+    <value>Choose how to display performance metrics</value>
+  </data>
+  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
     <value>Enable Task Manager Launch</value>
   </data>
-  <data name="EnableTaskManagerLaunchDescription" xml:space="preserve">
+  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
     <value>Allow opening Task Manager when clicking the performance counter</value>
   </data>
-  <data name="General" xml:space="preserve">
+  <data name="General.TextProperty" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="OpenTaskManager" xml:space="preserve">
+  <data name="OpenTaskManager.HeaderProperty" xml:space="preserve">
     <value>Open Task Manager</value>
   </data>
-  <data name="OpenTaskManagerDescription" xml:space="preserve">
+  <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
     <value>Click to open Windows Task Manager for detailed system information</value>
   </data>
-  <data name="ShowTemperature" xml:space="preserve">
+  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
     <value>Show Temperature</value>
   </data>
-  <data name="ShowTemperatureDescription" xml:space="preserve">
+  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
     <value>Display CPU and GPU temperature alongside usage percentages</value>
+  </data>
+  <data name="ShowCpu.HeaderProperty" xml:space="preserve">
+    <value>Show CPU</value>
+  </data>
+  <data name="ShowGpu.HeaderProperty" xml:space="preserve">
+    <value>Show GPU</value>
+  </data>
+  <data name="ShowRam.HeaderProperty" xml:space="preserve">
+    <value>Show RAM</value>
   </data>
 </root>

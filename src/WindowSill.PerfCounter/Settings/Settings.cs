@@ -27,6 +27,24 @@ internal static class Settings
     /// </summary>
     internal static readonly SettingDefinition<bool> ShowTemperature
         = new(true, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether to show CPU usage in percentage mode
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowCpu
+        = new(true, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether to show GPU usage in percentage mode
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowGpu
+        = new(true, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether to show RAM usage in percentage mode
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowRam
+        = new(true, typeof(Settings).Assembly);
 }
 
 public enum PerformanceDisplayMode

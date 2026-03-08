@@ -1,3 +1,6 @@
+# 0.9.18
+- Added the option to hide individual performance counters.
+
 # 0.9.17
 - Added CPU & GPU temperature monitoring.
 - Improved many translations.

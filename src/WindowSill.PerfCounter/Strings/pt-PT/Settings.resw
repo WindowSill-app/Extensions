@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -117,43 +117,52 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnimationMetric" xml:space="preserve">
-    <value>Métrica de Animação</value>
-  </data>
-  <data name="AnimationMetricDescription" xml:space="preserve">
-    <value>Qual métrica usar para o homem correndo animado</value>
-  </data>
-  <data name="DisplayMode" xml:space="preserve">
-    <value>Modo de Exibição</value>
-  </data>
-  <data name="DisplayModeDescription" xml:space="preserve">
-    <value>Escolha como exibir métricas de desempenho</value>
-  </data>
   <data name="DisplayModePercentage" xml:space="preserve">
     <value>Porcentagem</value>
   </data>
   <data name="DisplayModeRunningMan" xml:space="preserve">
     <value>Homem a Correr</value>
   </data>
-  <data name="EnableTaskManagerLaunch" xml:space="preserve">
+  <data name="AnimationMetric.HeaderProperty" xml:space="preserve">
+    <value>Métrica de Animação</value>
+  </data>
+  <data name="AnimationMetric.DescriptionProperty" xml:space="preserve">
+    <value>Qual métrica usar para o homem correndo animado</value>
+  </data>
+  <data name="DisplayMode.HeaderProperty" xml:space="preserve">
+    <value>Modo de Exibição</value>
+  </data>
+  <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
+    <value>Escolha como exibir métricas de desempenho</value>
+  </data>
+  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
     <value>Habilitar Início do Gestor de Tarefas</value>
   </data>
-  <data name="EnableTaskManagerLaunchDescription" xml:space="preserve">
+  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
     <value>Permitir abrir o Gestor de Tarefas ao clicar no contador de desempenho</value>
   </data>
-  <data name="General" xml:space="preserve">
+  <data name="General.TextProperty" xml:space="preserve">
     <value>Geral</value>
   </data>
-  <data name="OpenTaskManager" xml:space="preserve">
+  <data name="OpenTaskManager.HeaderProperty" xml:space="preserve">
     <value>Abrir Gestor de Tarefas</value>
   </data>
-  <data name="OpenTaskManagerDescription" xml:space="preserve">
+  <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
     <value>Clica para abrir o Gestor de Tarefas do Windows para informações detalhadas do sistema</value>
   </data>
-  <data name="ShowTemperature" xml:space="preserve">
+  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
     <value>Mostrar temperatura</value>
   </data>
-  <data name="ShowTemperatureDescription" xml:space="preserve">
+  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
     <value>Apresentar a temperatura do CPU e GPU junto com as percentagens de utilização</value>
+  </data>
+  <data name="ShowCpu.HeaderProperty" xml:space="preserve">
+    <value>Show CPU</value>
+  </data>
+  <data name="ShowGpu.HeaderProperty" xml:space="preserve">
+    <value>Show GPU</value>
+  </data>
+  <data name="ShowRam.HeaderProperty" xml:space="preserve">
+    <value>Show RAM</value>
   </data>
 </root>
