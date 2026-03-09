@@ -127,6 +127,6 @@
     <value>Nhóm các ứng dụng yêu thích, tập tin, thư mục của bạn và khởi chạy chúng từ WindowSill, riêng lẻ hoặc tất cả cùng một lúc. Tùy chỉnh tên, biểu tượng và thứ tự của chúng.</value>
   </data>
   <data name="NewGroup.TextProperty" xml:space="preserve">
-    <value>New group</value>
+    <value>Nhóm mới</value>
   </data>
 </root>
