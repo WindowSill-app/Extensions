@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="InHowLong.TextProperty" xml:space="preserve">
-    <value>Dans</value>
+    <value>In</value>
   </data>
   <data name="Minutes.TextProperty" xml:space="preserve">
     <value>minutes</value>
   </data>
   <data name="Title.TextProperty" xml:space="preserve">
-    <value>Nouveau rappel à court terme</value>
+    <value>New Short-Term Reminder</value>
   </data>
   <data name="WillRemindAt" xml:space="preserve">
     <value>Vous serez rappelé à {0}</value>
@@ -133,6 +133,6 @@
     <value>OK</value>
   </data>
   <data name="ReminderTextBox.HeaderProperty" xml:space="preserve">
-    <value>Me rappeler de :</value>
+    <value>Remind me to:</value>
   </data>
 </root>
