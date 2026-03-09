@@ -121,8 +121,8 @@
     <value>General</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>Seleccione cómo aparecen los recordatorios.
-• La notificación en forma de mensaje emergente ofrece una pequeña ventana emergente que se integra en su flujo de trabajo y permanece en el Centro de actividades de Windows.
+    <value>Elige cómo aparecen los recordatorios.
+• La notificación en forma de mensaje emergente ofrece una pequeña ventana emergente que se integra en tu flujo de trabajo y permanece en el Centro de actividades de Windows.
 • La notificación en pantalla completa ocupa toda la pantalla, asegurando que sea imposible pasarla por alto, incluso cuando Windows está en modo de enfoque. Ideal para quienes se benefician de señales visuales más fuertes para mantenerse en camino.</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
