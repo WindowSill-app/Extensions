@@ -124,45 +124,45 @@
     <value>Animowany wskaźnik</value>
   </data>
   <data name="AnimationMetric.HeaderProperty" xml:space="preserve">
-    <value>Animation Metric</value>
+    <value>Metryka animacji},{</value>
   </data>
   <data name="AnimationMetric.DescriptionProperty" xml:space="preserve">
-    <value>Which metric to use for animated running man</value>
+    <value>Wybierz, który wskaźnik wydajności ma być pokazywany</value>
   </data>
   <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>Display Mode</value>
+    <value>Tryb wyświetlania</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose how to display performance metrics</value>
+    <value>Wybierz sposób wyświetlania wskaźników wydajności</value>
   </data>
   <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>Enable Task Manager Launch</value>
+    <value>Włącz uruchamianie Menedżera zadań</value>
   </data>
   <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>Allow opening Task Manager when clicking the performance counter</value>
+    <value>Zezwól na otwarcie Menedżera zadań po kliknięciu licznika wydajności</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Ogólne</value>
   </data>
   <data name="OpenTaskManager.HeaderProperty" xml:space="preserve">
-    <value>Open Task Manager</value>
+    <value>Otwórz Menedżera zadań</value>
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
-    <value>Click to open Windows Task Manager for detailed system information</value>
+    <value>Kliknij, aby otworzyć Menedżera zadań systemu Windows i uzyskać szczegółowe informacje o systemie</value>
   </data>
   <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>Show Temperature</value>
+    <value>Pokaż temperaturę</value>
   </data>
   <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>Display CPU and GPU temperature alongside usage percentages</value>
+    <value>Wyświetlaj temperaturę procesora i karty graficznej wraz z procentowym wykorzystaniem zasobów</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
-    <value>Show CPU</value>
+    <value>Pokaż CPU</value>
   </data>
   <data name="ShowGpu.HeaderProperty" xml:space="preserve">
-    <value>Show GPU</value>
+    <value>Pokaż GPU</value>
   </data>
   <data name="ShowRam.HeaderProperty" xml:space="preserve">
-    <value>Show RAM</value>
+    <value>Pokaż RAM</value>
   </data>
 </root>
