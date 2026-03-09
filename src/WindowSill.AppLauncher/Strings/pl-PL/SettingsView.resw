@@ -127,6 +127,6 @@
     <value>Grupuj swoje ulubione aplikacje, pliki i foldery i uruchamiaj je z poziomu WindowSill, pojedynczo lub wszystkie naraz. Dostosuj ich nazwy, ikony i kolejność.</value>
   </data>
   <data name="NewGroup.TextProperty" xml:space="preserve">
-    <value>New group</value>
+    <value>Nowa grupa</value>
   </data>
 </root>
