@@ -124,45 +124,45 @@
     <value>Người chạy bộ</value>
   </data>
   <data name="AnimationMetric.HeaderProperty" xml:space="preserve">
-    <value>Animation Metric</value>
+    <value>Chỉ số Hoạt hình</value>
   </data>
   <data name="AnimationMetric.DescriptionProperty" xml:space="preserve">
-    <value>Which metric to use for animated running man</value>
+    <value>Chỉ số nào để sử dụng cho hoạt ảnh người chạy bộ</value>
   </data>
   <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>Display Mode</value>
+    <value>Chế độ Hiển thị</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose how to display performance metrics</value>
+    <value>Chọn cách hiển thị các chỉ số hiệu suất</value>
   </data>
   <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>Enable Task Manager Launch</value>
+    <value>Bật Khởi động Trình Quản lý tác vụ</value>
   </data>
   <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>Allow opening Task Manager when clicking the performance counter</value>
+    <value>Cho phép mở Trình quản lý tác vụ khi nhấp vào bộ đếm hiệu suất</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Chung</value>
   </data>
   <data name="OpenTaskManager.HeaderProperty" xml:space="preserve">
-    <value>Open Task Manager</value>
+    <value>Mở Trình quản lý tác vụ</value>
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
-    <value>Click to open Windows Task Manager for detailed system information</value>
+    <value>Nhấp để mở Trình quản lý tác vụ của Windows để xem chi tiết thông tin hệ thống</value>
   </data>
   <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>Show Temperature</value>
+    <value>Hiển thị Nhiệt độ</value>
   </data>
   <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>Display CPU and GPU temperature alongside usage percentages</value>
+    <value>Hiển thị nhiệt độ CPU và GPU bên cạnh phần trăm sử dụng</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
-    <value>Show CPU</value>
+    <value>Hiển thị CPU</value>
   </data>
   <data name="ShowGpu.HeaderProperty" xml:space="preserve">
-    <value>Show GPU</value>
+    <value>Hiển thị GPU</value>
   </data>
   <data name="ShowRam.HeaderProperty" xml:space="preserve">
-    <value>Show RAM</value>
+    <value>Hiển thị RAM</value>
   </data>
 </root>
