@@ -127,6 +127,6 @@
     <value>Agrupa as tuas aplicações, arquivos e pastas favorit@s e iniciá-los no WindowSill, individualmente ou todos de uma vez. Personaliza o seu nome, ícone e ordem.</value>
   </data>
   <data name="NewGroup.TextProperty" xml:space="preserve">
-    <value>New group</value>
+    <value>Novo grupo</value>
   </data>
 </root>
