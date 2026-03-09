@@ -130,7 +130,7 @@
     <value>剪貼簿是空的。</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>啟用 Windows 剪貼簿歷史紀錄</value>
+    <value>啟用 Windows 剪貼簿歷史記錄</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>取得檔案資訊失敗</value>
@@ -145,7 +145,7 @@
     <value>在檔案總管中開啟</value>
   </data>
   <data name="OpenInWebBrowser" xml:space="preserve">
-    <value>在網頁瀏覽器中開啟</value>
+    <value>在瀏覽器中開啟</value>
   </data>
   <data name="UnsupportedFormat" xml:space="preserve">
     <value>不支援的格式</value>
