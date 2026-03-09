@@ -127,6 +127,6 @@
     <value>Agrupa tus aplicaciones, archivos y carpetas favoritas y ejecútalas desde WindowSill, individualmente o todas a la vez. Personaliza su nombre, icono y orden.</value>
   </data>
   <data name="NewGroup.TextProperty" xml:space="preserve">
-    <value>New group</value>
+    <value>Nuevo grupo</value>
   </data>
 </root>
