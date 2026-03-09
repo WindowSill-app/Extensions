@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>一般</value>
+    <value>一般的な</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
     <value>リマインダーの表示方法を選択します。
