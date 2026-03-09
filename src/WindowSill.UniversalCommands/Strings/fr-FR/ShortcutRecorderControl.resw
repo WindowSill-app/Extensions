@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ClearButton.TooltipService.ToolTipProperty" xml:space="preserve">
-    <value>Clear</value>
+    <value>Effacer</value>
   </data>
   <data name="PlaceholderDefault" xml:space="preserve">
-    <value>Click here and press a shortcut</value>
+    <value>Cliquez ici et appuyez sur un raccourci</value>
   </data>
   <data name="PlaceholderRecording" xml:space="preserve">
-    <value>Recording... (press keys to set shortcut, Esc to clear)</value>
+    <value>Enregistrement... (appuyez sur les touches pour définir le raccourci, Esc pour effacer)</value>
   </data>
   <data name="KeyCtrl" xml:space="preserve">
     <value>Ctrl</value>
@@ -133,16 +133,16 @@
     <value>Alt</value>
   </data>
   <data name="KeyShift" xml:space="preserve">
-    <value>Shift</value>
+    <value>Maj</value>
   </data>
   <data name="KeyWin" xml:space="preserve">
     <value>Win</value>
   </data>
   <data name="KeyBackspace" xml:space="preserve">
-    <value>Backspace</value>
+    <value>Retour arrière</value>
   </data>
   <data name="KeyDel" xml:space="preserve">
-    <value>Del</value>
+    <value>Suppr</value>
   </data>
   <data name="KeyEsc" xml:space="preserve">
     <value>Esc</value>
@@ -151,13 +151,13 @@
     <value>Ins</value>
   </data>
   <data name="KeySpace" xml:space="preserve">
-    <value>Space</value>
+    <value>Espace</value>
   </data>
   <data name="KeyTab" xml:space="preserve">
-    <value>Tab</value>
+    <value>Tabulation</value>
   </data>
   <data name="KeyEnter" xml:space="preserve">
-    <value>Enter</value>
+    <value>Entrée</value>
   </data>
   <data name="KeyLeft" xml:space="preserve">
     <value>←</value>
@@ -193,10 +193,10 @@
     <value>Pause</value>
   </data>
   <data name="KeyCapsLock" xml:space="preserve">
-    <value>CapsLock</value>
+    <value>Verr Maj</value>
   </data>
   <data name="KeyNumLock" xml:space="preserve">
-    <value>NumLock</value>
+    <value>Verr Num</value>
   </data>
   <data name="KeyNum0" xml:space="preserve">
     <value>Num 0</value>
