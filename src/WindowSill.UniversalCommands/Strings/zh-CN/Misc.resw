@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GlobalDisplayName" xml:space="preserve">
-    <value>Universal Commands</value>
+    <value>通用命令},{</value>
   </data>
   <data name="ProcessDisplayName" xml:space="preserve">
-    <value>Universal Commands (app-specific)</value>
+    <value>通用命令（应用特定）</value>
   </data>
 </root>
