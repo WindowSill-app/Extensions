@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -118,40 +118,40 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Description.TextProperty" xml:space="preserve">
-    <value>Para localizar texto por significado, esta funcionalidade necessita de um pequeno modelo linguístico que é executado inteiramente no seu dispositivo.</value>
+    <value>Para encontrar texto por significado, esse recurso precisa de um pequeno modelo de linguagem que rode completamente no seu dispositivo.</value>
   </data>
   <data name="ModelName.TextProperty" xml:space="preserve">
     <value>Modelo: all-MiniLM-L6-v2</value>
   </data>
   <data name="DownloadSize.TextProperty" xml:space="preserve">
-    <value>Tamanho da transferência: aproximadamente 90 MB</value>
+    <value>Tamanho da instalação: aproximadamente 90 MB</value>
   </data>
   <data name="RunsPrivately.TextProperty" xml:space="preserve">
-    <value>Executado de forma privada no seu computador</value>
+    <value>Executa de forma privada no seu computador</value>
   </data>
   <data name="ApacheLicense.ContentProperty" xml:space="preserve">
     <value>Licença Apache 2.0</value>
   </data>
   <data name="LearnMore.ContentProperty" xml:space="preserve">
-    <value>Saber mais</value>
+    <value>Saiba mais</value>
   </data>
   <data name="DownloadOnce.TextProperty" xml:space="preserve">
-    <value>Só precisa de transferir uma vez. Será armazenado no seu dispositivo para utilização futura.</value>
+    <value>Você só precisa baixar isso uma vez. Ele será armazenado no seu dispositivo para uso futuro.</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
-    <value>A transferir modelo linguístico...</value>
+    <value>Baixando modelo de linguagem...</value>
   </data>
   <data name="DownloadFailed.TitleProperty" xml:space="preserve">
-    <value>Falha na transferência</value>
+    <value>Falha ao fazer o download</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
-    <value>Não foi possível transferir o modelo. Verifique a sua ligação à Internet e tente novamente.</value>
+    <value>Não foi possível fazer o download do modelo. Por favor, verifique sua conexão com a internet e tente novamente.</value>
   </data>
   <data name="DownloadRequired" xml:space="preserve">
-    <value>Transferência necessária</value>
+    <value>Download necessário</value>
   </data>
   <data name="Download" xml:space="preserve">
-    <value>Transferir</value>
+    <value>Baixar</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
