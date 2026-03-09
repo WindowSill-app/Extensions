@@ -142,6 +142,6 @@
     <value>Modo compacto</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Mostrar todos os itens da área de transferência num único popup em vez de itens individuais na barra</value>
+    <value>Exibir todos os itens da área de transferência em uma única janela popup em vez de itens individuais na barra</value>
   </data>
 </root>
