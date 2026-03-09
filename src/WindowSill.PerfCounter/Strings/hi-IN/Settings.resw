@@ -124,7 +124,7 @@
     <value>रनिंग मैन</value>
   </data>
   <data name="AnimationMetric.HeaderProperty" xml:space="preserve">
-    <value>Animation Metric</value>
+    <value>एनिमेशन मेट्रिक},{</value>
   </data>
   <data name="AnimationMetric.DescriptionProperty" xml:space="preserve">
     <value>Which metric to use for animated running man</value>
