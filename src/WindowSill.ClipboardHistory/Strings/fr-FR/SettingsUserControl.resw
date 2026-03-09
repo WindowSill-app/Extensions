@@ -118,30 +118,30 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
-    <value>Activer l’historique du presse-papiers Windows</value>
+    <value>Activer l0&lt;h&gt;historique du presse-papiers Windows&lt;/h3&gt;</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>Général</value>
+    <value>G</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
-    <value>Détecter et masquer les textes copiés qui ressemblent à des mots de passe</value>
+    <value>D</value>
   </data>
   <data name="HidePasswords.HeaderProperty" xml:space="preserve">
     <value>Masquer les mots de passe</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>Combien d’éléments doivent être conservés dans l’historique du presse-papiers.</value>
+    <value>Combien d0&lt;e&gt;lect</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
-    <value>Nombre maximum d’éléments</value>
+    <value>Nombre maximum d0&lt;e&gt;l</value>
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
-    <value>Ouvrir les paramètres de l’historique du presse-papiers Windows</value>
+    <value>Ouvrir les param</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
     <value>Mode compact</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Afficher tous les éléments du presse-papiers dans une seule fenêtre contextuelle au lieu d’éléments individuels dans la barre</value>
+    <value>Afficher tous les0&lt;e&gt;l</value>
   </data>
 </root>
