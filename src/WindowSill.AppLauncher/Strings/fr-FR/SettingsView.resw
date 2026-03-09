@@ -127,6 +127,6 @@
     <value>Regroupez vos applications, fichiers et dossiers favoris et lancez-les depuis WindowSill, individuellement ou tous en même temps. Personnalisez leur nom, leur icône et leur ordre.</value>
   </data>
   <data name="NewGroup.TextProperty" xml:space="preserve">
-    <value>New group</value>
+    <value>Nouveau groupe</value>
   </data>
 </root>
