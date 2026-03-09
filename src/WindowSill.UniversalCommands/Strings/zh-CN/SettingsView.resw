@@ -118,96 +118,96 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GeneralHeader.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>常规},{</value>
   </data>
   <data name="ActionsHeader.TextProperty" xml:space="preserve">
-    <value>Commands</value>
+    <value>命令},{</value>
   </data>
   <data name="IconLabel.TextProperty" xml:space="preserve">
-    <value>Icon</value>
+    <value>图标},{</value>
   </data>
   <data name="AddAction.ContentProperty" xml:space="preserve">
-    <value>Add command</value>
+    <value>添加命令},{</value>
   </data>
   <data name="AddActionText.TextProperty" xml:space="preserve">
-    <value>Add command</value>
+    <value>添加命令},{</value>
   </data>
   <data name="ActionEditorTitle.TitleProperty" xml:space="preserve">
-    <value>Command</value>
+    <value>命令},{</value>
   </data>
   <data name="ActionName.HeaderProperty" xml:space="preserve">
-    <value>Name</value>
+    <value>名称</value>
   </data>
   <data name="ActionName.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter a name for this command</value>
+    <value>为此命令输入名称</value>
   </data>
   <data name="ActionType.HeaderProperty" xml:space="preserve">
-    <value>Command type</value>
+    <value>命令类型</value>
   </data>
   <data name="ShortcutLabel.TextProperty" xml:space="preserve">
-    <value>Keyboard shortcut</value>
+    <value>键盘快捷键</value>
   </data>
   <data name="ShortcutPlaceholder" xml:space="preserve">
-    <value>Click here and press a shortcut</value>
+    <value>单击此处并按下快捷键</value>
   </data>
   <data name="PowerShellLabel.TextProperty" xml:space="preserve">
-    <value>PowerShell command</value>
+    <value>PowerShell 命令</value>
   </data>
   <data name="PowerShellCommand.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter a PowerShell command</value>
+    <value>输入 PowerShell 命令</value>
   </data>
   <data name="TargetAppLabel.TextProperty" xml:space="preserve">
-    <value>Target application</value>
+    <value>目标应用程序</value>
   </data>
   <data name="GlobalAction.ContentProperty" xml:space="preserve">
-    <value>Show for all applications</value>
+    <value>在所有应用程序中显示</value>
   </data>
   <data name="TargetAppProcessName.HeaderProperty" xml:space="preserve">
-    <value>Process name</value>
+    <value>进程名称</value>
   </data>
   <data name="TargetAppProcessName.PlaceholderTextProperty" xml:space="preserve">
-    <value>e.g. devenv, code, notepad</value>
+    <value>例如 devenv, code, notepad</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>Create commands that can run PowerShell or a set of Keyboard Shortcuts on your favorite apps or globally to automate your workflow. Customize their name, icon and order.</value>
+    <value>创建命令，可在你喜爱的应用中或全局范围内运行 PowerShell 或一组键盘快捷键，以自动化你的工作流程。自定义其名称、图标和顺序。</value>
   </data>
   <data name="Glyph.ContentProperty" xml:space="preserve">
-    <value>Glyph</value>
+    <value>字形</value>
   </data>
   <data name="ImageFile.ContentProperty" xml:space="preserve">
-    <value>Image file</value>
+    <value>图像文件</value>
   </data>
   <data name="ChooseGlyph.ContentProperty" xml:space="preserve">
-    <value>Choose glyph...</value>
+    <value>选择字形...</value>
   </data>
   <data name="Browse.ContentProperty" xml:space="preserve">
-    <value>Browse...</value>
+    <value>浏览...</value>
   </data>
   <data name="ActionTypeKeyboardShortcut.ContentProperty" xml:space="preserve">
-    <value>Keyboard shortcut</value>
+    <value>键盘快捷键</value>
   </data>
   <data name="ActionTypePowerShell.ContentProperty" xml:space="preserve">
-    <value>PowerShell Command</value>
+    <value>PowerShell 命令</value>
   </data>
   <data name="NewCommand" xml:space="preserve">
-    <value>New Command</value>
+    <value>新建命令</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>保存</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="EditCommand" xml:space="preserve">
-    <value>Edit Command</value>
+    <value>编辑命令</value>
   </data>
   <data name="EditButton.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Edit</value>
+    <value>编辑</value>
   </data>
   <data name="DeleteButton.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Delete</value>
+    <value>删除</value>
   </data>
   <data name="NoFileSelected" xml:space="preserve">
-    <value>No file selected</value>
+    <value>未选择文件</value>
   </data>
 </root>
