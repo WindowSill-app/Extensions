@@ -118,96 +118,96 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GeneralHeader.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>General},{</value>
   </data>
   <data name="ActionsHeader.TextProperty" xml:space="preserve">
-    <value>Commands</value>
+    <value>Comandos</value>
   </data>
   <data name="IconLabel.TextProperty" xml:space="preserve">
-    <value>Icon</value>
+    <value>Icono</value>
   </data>
   <data name="AddAction.ContentProperty" xml:space="preserve">
-    <value>Add command</value>
+    <value>Agregar comando</value>
   </data>
   <data name="AddActionText.TextProperty" xml:space="preserve">
-    <value>Add command</value>
+    <value>Agregar comando</value>
   </data>
   <data name="ActionEditorTitle.TitleProperty" xml:space="preserve">
-    <value>Command</value>
+    <value>Comando</value>
   </data>
   <data name="ActionName.HeaderProperty" xml:space="preserve">
-    <value>Name</value>
+    <value>Nombre</value>
   </data>
   <data name="ActionName.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter a name for this command</value>
+    <value>Escriba un nombre para este comando</value>
   </data>
   <data name="ActionType.HeaderProperty" xml:space="preserve">
-    <value>Command type</value>
+    <value>Tipo de comando</value>
   </data>
   <data name="ShortcutLabel.TextProperty" xml:space="preserve">
-    <value>Keyboard shortcut</value>
+    <value>Atajo de teclado</value>
   </data>
   <data name="ShortcutPlaceholder" xml:space="preserve">
-    <value>Click here and press a shortcut</value>
+    <value>Haga clic aquí y pulse un atajo de teclado</value>
   </data>
   <data name="PowerShellLabel.TextProperty" xml:space="preserve">
-    <value>PowerShell command</value>
+    <value>Comando de PowerShell</value>
   </data>
   <data name="PowerShellCommand.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter a PowerShell command</value>
+    <value>Escriba un comando de PowerShell</value>
   </data>
   <data name="TargetAppLabel.TextProperty" xml:space="preserve">
-    <value>Target application</value>
+    <value>Aplicación de destino</value>
   </data>
   <data name="GlobalAction.ContentProperty" xml:space="preserve">
-    <value>Show for all applications</value>
+    <value>Mostrar en todas las aplicaciones</value>
   </data>
   <data name="TargetAppProcessName.HeaderProperty" xml:space="preserve">
-    <value>Process name</value>
+    <value>Nombre del proceso</value>
   </data>
   <data name="TargetAppProcessName.PlaceholderTextProperty" xml:space="preserve">
-    <value>e.g. devenv, code, notepad</value>
+    <value>p. ej. devenv, code, notepad</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>Create commands that can run PowerShell or a set of Keyboard Shortcuts on your favorite apps or globally to automate your workflow. Customize their name, icon and order.</value>
+    <value>Cree comandos que puedan ejecutar PowerShell o un conjunto de atajos de teclado en sus aplicaciones favoritas o de forma global para automatizar su flujo de trabajo. Personalice su nombre, icono y orden.</value>
   </data>
   <data name="Glyph.ContentProperty" xml:space="preserve">
-    <value>Glyph</value>
+    <value>Glifo</value>
   </data>
   <data name="ImageFile.ContentProperty" xml:space="preserve">
-    <value>Image file</value>
+    <value>Archivo de imagen</value>
   </data>
   <data name="ChooseGlyph.ContentProperty" xml:space="preserve">
-    <value>Choose glyph...</value>
+    <value>Elegir glifo...</value>
   </data>
   <data name="Browse.ContentProperty" xml:space="preserve">
-    <value>Browse...</value>
+    <value>Examinar...</value>
   </data>
   <data name="ActionTypeKeyboardShortcut.ContentProperty" xml:space="preserve">
-    <value>Keyboard shortcut</value>
+    <value>Atajo de teclado</value>
   </data>
   <data name="ActionTypePowerShell.ContentProperty" xml:space="preserve">
-    <value>PowerShell Command</value>
+    <value>Comando de PowerShell</value>
   </data>
   <data name="NewCommand" xml:space="preserve">
-    <value>New Command</value>
+    <value>Nuevo comando</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Guardar</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="EditCommand" xml:space="preserve">
-    <value>Edit Command</value>
+    <value>Editar comando</value>
   </data>
   <data name="EditButton.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Edit</value>
+    <value>Editar</value>
   </data>
   <data name="DeleteButton.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Delete</value>
+    <value>Eliminar</value>
   </data>
   <data name="NoFileSelected" xml:space="preserve">
-    <value>No file selected</value>
+    <value>Ningún archivo seleccionado</value>
   </data>
 </root>
