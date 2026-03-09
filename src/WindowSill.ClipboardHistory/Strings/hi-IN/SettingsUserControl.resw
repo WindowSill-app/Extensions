@@ -142,6 +142,6 @@
     <value>कॉम्पैक्ट मोड</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>बार में अलग-अलग आइटम के बजाय सभी क्लिपबोर्ड आइटम को एक पॉपअप में प्रदर्शित करें</value>
+    <value>बार में व्यक्तिगत आइटमों के बजाय एक ही पॉपअप में सभी क्लिपबोर्ड आइटम दिखाएँ</value>
   </data>
 </root>
