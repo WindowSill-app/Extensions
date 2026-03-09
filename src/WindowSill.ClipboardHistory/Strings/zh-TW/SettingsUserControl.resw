@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -121,27 +121,27 @@
     <value>啟用 Windows 剪貼簿歷史記錄</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>通用</value>
+    <value>一般</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
-    <value>嘗試偵測並隱藏看起來像密碼的複製內容</value>
+    <value>嘗試偵測並隱藏類似密碼的文字</value>
   </data>
   <data name="HidePasswords.HeaderProperty" xml:space="preserve">
     <value>隱藏密碼</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>剪貼簿歷史記錄中應保留多少項目。</value>
+    <value>剪貼簿歷史記錄中保留的項目數量</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
     <value>最大項目數量</value>
   </data>
   <data name="OpenWindowsClipboardHistorySettings.HeaderProperty" xml:space="preserve">
-    <value>開啟 Windows 剪貼簿歷史記錄設定</value>
+    <value>開啟 Windows 剪貼簿設定</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
     <value>精簡模式</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>在單一彈出視窗中顯示所有剪貼簿項目，而不是在列中顯示個別項目</value>
+    <value>在單一彈出視窗中顯示所有剪貼簿項目，而非在工具條中以個別項目顯示</value>
   </data>
 </root>
