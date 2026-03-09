@@ -130,7 +130,7 @@
     <value>A área de transferência está vazia.</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Ativar o histórico da área de transferência do Windows</value>
+    <value>Habilitar o histórico da área de transferência do Windows</value>
   </data>
   <data name="FileError" xml:space="preserve">
     <value>Falha ao obter informações do ficheiro</value>
