@@ -118,96 +118,96 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GeneralHeader.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Chung </value>
   </data>
   <data name="ActionsHeader.TextProperty" xml:space="preserve">
-    <value>Commands</value>
+    <value>Lệnh </value>
   </data>
   <data name="IconLabel.TextProperty" xml:space="preserve">
-    <value>Icon</value>
+    <value>Biểu tượng </value>
   </data>
   <data name="AddAction.ContentProperty" xml:space="preserve">
-    <value>Add command</value>
+    <value>Thêm lệnh </value>
   </data>
   <data name="AddActionText.TextProperty" xml:space="preserve">
-    <value>Add command</value>
+    <value>Thêm lệnh </value>
   </data>
   <data name="ActionEditorTitle.TitleProperty" xml:space="preserve">
-    <value>Command</value>
+    <value>Lệnh </value>
   </data>
   <data name="ActionName.HeaderProperty" xml:space="preserve">
-    <value>Name</value>
+    <value>Tên </value>
   </data>
   <data name="ActionName.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter a name for this command</value>
+    <value>Nhập tên cho lệnh này </value>
   </data>
   <data name="ActionType.HeaderProperty" xml:space="preserve">
-    <value>Command type</value>
+    <value>Loại lệnh </value>
   </data>
   <data name="ShortcutLabel.TextProperty" xml:space="preserve">
-    <value>Keyboard shortcut</value>
+    <value>Phím tắt </value>
   </data>
   <data name="ShortcutPlaceholder" xml:space="preserve">
-    <value>Click here and press a shortcut</value>
+    <value>Nhấp vào đây và nhấn phím tắt </value>
   </data>
   <data name="PowerShellLabel.TextProperty" xml:space="preserve">
-    <value>PowerShell command</value>
+    <value>Lệnh PowerShell </value>
   </data>
   <data name="PowerShellCommand.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter a PowerShell command</value>
+    <value>Nhập lệnh PowerShell </value>
   </data>
   <data name="TargetAppLabel.TextProperty" xml:space="preserve">
-    <value>Target application</value>
+    <value>Ứng dụng đích </value>
   </data>
   <data name="GlobalAction.ContentProperty" xml:space="preserve">
-    <value>Show for all applications</value>
+    <value>Hiển thị cho tất cả ứng dụng </value>
   </data>
   <data name="TargetAppProcessName.HeaderProperty" xml:space="preserve">
-    <value>Process name</value>
+    <value>Tên tiến trình </value>
   </data>
   <data name="TargetAppProcessName.PlaceholderTextProperty" xml:space="preserve">
-    <value>e.g. devenv, code, notepad</value>
+    <value>ví dụ: devenv, code, notepad </value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>Create commands that can run PowerShell or a set of Keyboard Shortcuts on your favorite apps or globally to automate your workflow. Customize their name, icon and order.</value>
+    <value>Tạo các lệnh có thể chạy PowerShell hoặc một tập hợp phím tắt trên các ứng dụng yêu thích của bạn hoặc ở phạm vi toàn cục để tự động hóa quy trình làm việc của bạn. Tùy chỉnh tên, biểu tượng và thứ tự của chúng. </value>
   </data>
   <data name="Glyph.ContentProperty" xml:space="preserve">
-    <value>Glyph</value>
+    <value>Ký tự </value>
   </data>
   <data name="ImageFile.ContentProperty" xml:space="preserve">
-    <value>Image file</value>
+    <value>Tập tin hình ảnh </value>
   </data>
   <data name="ChooseGlyph.ContentProperty" xml:space="preserve">
-    <value>Choose glyph...</value>
+    <value>Chọn ký tự... </value>
   </data>
   <data name="Browse.ContentProperty" xml:space="preserve">
-    <value>Browse...</value>
+    <value>Duyệt... </value>
   </data>
   <data name="ActionTypeKeyboardShortcut.ContentProperty" xml:space="preserve">
-    <value>Keyboard shortcut</value>
+    <value>Phím tắt </value>
   </data>
   <data name="ActionTypePowerShell.ContentProperty" xml:space="preserve">
-    <value>PowerShell Command</value>
+    <value>Lệnh PowerShell </value>
   </data>
   <data name="NewCommand" xml:space="preserve">
-    <value>New Command</value>
+    <value>Lệnh mới </value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Lưu </value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Hủy bỏ </value>
   </data>
   <data name="EditCommand" xml:space="preserve">
-    <value>Edit Command</value>
+    <value>Chỉnh sửa lệnh </value>
   </data>
   <data name="EditButton.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Edit</value>
+    <value>Chỉnh sửa </value>
   </data>
   <data name="DeleteButton.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Delete</value>
+    <value>Xóa </value>
   </data>
   <data name="NoFileSelected" xml:space="preserve">
-    <value>No file selected</value>
+    <value>Chưa chọn tập tin </value>
   </data>
 </root>
