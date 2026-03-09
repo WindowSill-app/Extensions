@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -118,40 +118,40 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Description.TextProperty" xml:space="preserve">
-    <value>अर्थ के आधार पर पाठ खोजने के लिए, इस सुविधा को एक छोटे भाषा मॉडल की आवश्यकता है जो पूरी तरह से आपके डिवाइस पर चलता है।</value>
+    <value>टेक्स्ट को अर्थ के आधार पर खोजने के लिए, इस विशेषता के लिए एक छोटे भाषा मॉडल की आवश्यकता है जो पूरी तरह से आपके डिवाइस पर चलता है।</value>
   </data>
   <data name="ModelName.TextProperty" xml:space="preserve">
     <value>मॉडल: all-MiniLM-L6-v2</value>
   </data>
   <data name="DownloadSize.TextProperty" xml:space="preserve">
-    <value>डाउनलोड आकार: लगभग 90 MB</value>
+    <value>डाउनलोड आकार: लगभग 90 एमबी</value>
   </data>
   <data name="RunsPrivately.TextProperty" xml:space="preserve">
-    <value>आपके कंप्यूटर पर निजी रूप से चलता है</value>
+    <value>खुद के कंप्यूटर पर निजी रूप से चलता है</value>
   </data>
   <data name="ApacheLicense.ContentProperty" xml:space="preserve">
-    <value>Apache 2.0 लाइसेंस</value>
+    <value>ऐप्पाच 2.0 लाइसेंस</value>
   </data>
   <data name="LearnMore.ContentProperty" xml:space="preserve">
-    <value>और जानें</value>
+    <value>अधिक जानें</value>
   </data>
   <data name="DownloadOnce.TextProperty" xml:space="preserve">
-    <value>आपको इसे केवल एक बार डाउनलोड करना होगा। यह भविष्य में उपयोग के लिए आपके डिवाइस पर संग्रहीत किया जाएगा।</value>
+    <value>आपको इसे केवल एक बार डाउनलोड करने की आवश्यकता है। यह आपके डिवाइस पर भविष्य के उपयोग के लिए संग्रहित किया जाएगा।</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
-    <value>भाषा मॉडल डाउनलोड हो रहा है...</value>
+    <value>भाषा मॉडल डाउनलोड किया जा रहा है...</value>
   </data>
   <data name="DownloadFailed.TitleProperty" xml:space="preserve">
     <value>डाउनलोड विफल</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
-    <value>मॉडल डाउनलोड करने में असमर्थ। कृपया अपना इंटरनेट कनेक्शन जाँचें और पुनः प्रयास करें।</value>
+    <value>मॉडल डाउनलोड करने में असमर्थ। कृपया अपने इंटरनेट कनेक्शन की जाँच करें और पुनः प्रयास करें।</value>
   </data>
   <data name="DownloadRequired" xml:space="preserve">
-    <value>डाउनलोड आवश्यक</value>
+    <value>डाउनलोड आवश्यक है</value>
   </data>
   <data name="Download" xml:space="preserve">
-    <value>डाउनलोड करें</value>
+    <value>डाउनलोड</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>रद्द करें</value>
