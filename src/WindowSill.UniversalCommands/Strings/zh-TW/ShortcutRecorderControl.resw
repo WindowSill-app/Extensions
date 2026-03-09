@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ClearButton.TooltipService.ToolTipProperty" xml:space="preserve">
-    <value>Clear</value>
+    <value>清除</value>
   </data>
   <data name="PlaceholderDefault" xml:space="preserve">
-    <value>Click here and press a shortcut</value>
+    <value>按一下此處並按下捷徑鍵</value>
   </data>
   <data name="PlaceholderRecording" xml:space="preserve">
-    <value>Recording... (press keys to set shortcut, Esc to clear)</value>
+    <value>錄製中...（按鍵以設定捷徑，按 Esc 以清除）</value>
   </data>
   <data name="KeyCtrl" xml:space="preserve">
     <value>Ctrl</value>
