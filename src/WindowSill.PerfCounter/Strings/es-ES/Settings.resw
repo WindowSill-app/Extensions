@@ -124,45 +124,45 @@
     <value>Hombre corriendo</value>
   </data>
   <data name="AnimationMetric.HeaderProperty" xml:space="preserve">
-    <value>Animation Metric</value>
+    <value>Métrica de animación</value>
   </data>
   <data name="AnimationMetric.DescriptionProperty" xml:space="preserve">
-    <value>Which metric to use for animated running man</value>
+    <value>Qué métrica usar para el hombre corriendo animado</value>
   </data>
   <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>Display Mode</value>
+    <value>Modo de visualización</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose how to display performance metrics</value>
+    <value>Elegir cómo mostrar las métricas de rendimiento</value>
   </data>
   <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>Enable Task Manager Launch</value>
+    <value>Habilitar el arranque del Administrador de tareas</value>
   </data>
   <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>Allow opening Task Manager when clicking the performance counter</value>
+    <value>Permitir abrir el Administrador de tareas al hacer clic en el contador de rendimiento</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
     <value>General</value>
   </data>
   <data name="OpenTaskManager.HeaderProperty" xml:space="preserve">
-    <value>Open Task Manager</value>
+    <value>Abrir Administrador de tareas</value>
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
-    <value>Click to open Windows Task Manager for detailed system information</value>
+    <value>Haz clic para abrir el Administrador de tareas de Windows para obtener información detallada del sistema</value>
   </data>
   <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>Show Temperature</value>
+    <value>Mostrar temperatura</value>
   </data>
   <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>Display CPU and GPU temperature alongside usage percentages</value>
+    <value>Mostrar la temperatura de la CPU y la GPU junto a los porcentajes de uso</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
-    <value>Show CPU</value>
+    <value>Mostrar CPU</value>
   </data>
   <data name="ShowGpu.HeaderProperty" xml:space="preserve">
-    <value>Show GPU</value>
+    <value>Mostrar GPU</value>
   </data>
   <data name="ShowRam.HeaderProperty" xml:space="preserve">
-    <value>Show RAM</value>
+    <value>Mostrar RAM</value>
   </data>
 </root>
