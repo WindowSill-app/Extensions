@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ClearButton.TooltipService.ToolTipProperty" xml:space="preserve">
-    <value>Clear</value>
+    <value>Làm trống},{</value>
   </data>
   <data name="PlaceholderDefault" xml:space="preserve">
-    <value>Click here and press a shortcut</value>
+    <value>Nhấp vào đây và nhấn tổ hợp phím</value>
   </data>
   <data name="PlaceholderRecording" xml:space="preserve">
-    <value>Recording... (press keys to set shortcut, Esc to clear)</value>
+    <value>Đang ghi... (nhấn các phím để đặt phím tắt, Esc để làm trống)</value>
   </data>
   <data name="KeyCtrl" xml:space="preserve">
     <value>Ctrl</value>
