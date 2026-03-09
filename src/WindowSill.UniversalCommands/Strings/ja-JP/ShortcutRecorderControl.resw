@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ClearButton.TooltipService.ToolTipProperty" xml:space="preserve">
-    <value>Clear</value>
+    <value>クリア</value>
   </data>
   <data name="PlaceholderDefault" xml:space="preserve">
-    <value>Click here and press a shortcut</value>
+    <value>ここをクリックしてショートカットを押してください</value>
   </data>
   <data name="PlaceholderRecording" xml:space="preserve">
-    <value>Recording... (press keys to set shortcut, Esc to clear)</value>
+    <value>記録中…（ショートカットを設定するにはキーを押し、クリアするにはEscを押してください）</value>
   </data>
   <data name="KeyCtrl" xml:space="preserve">
     <value>Ctrl</value>
@@ -151,7 +151,7 @@
     <value>Ins</value>
   </data>
   <data name="KeySpace" xml:space="preserve">
-    <value>Space</value>
+    <value>スペース</value>
   </data>
   <data name="KeyTab" xml:space="preserve">
     <value>Tab</value>
