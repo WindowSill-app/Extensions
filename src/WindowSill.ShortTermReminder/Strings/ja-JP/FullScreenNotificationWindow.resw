@@ -121,7 +121,7 @@
     <value>閉じる</value>
   </data>
   <data name="Snooze.TextProperty" xml:space="preserve">
-    <value>5分間の場合は後回しにする</value>
+    <value>5分間の後に再通知</value>
   </data>
   <data name="Title.TextProperty" xml:space="preserve">
     <value>リマインダー</value>
