@@ -121,7 +121,7 @@
     <value>Увімкнути історію буфера обміну Windows</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>Загальні</value>
+    <value>Загальне</value>
   </data>
   <data name="HidePasswords.DescriptionProperty" xml:space="preserve">
     <value>Спробуйте визначити та приховати скопійований текст, що схожий на паролі</value>
@@ -142,6 +142,6 @@
     <value>Компактний режим</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>Відображати всі елементи буфера обміну в одному спливаючому вікні замість окремих елементів на панелі</value>
+    <value>Відображати всі елементи буфера обміну у одному спливаючому вікні замість окремих елементів у стрічці</value>
   </data>
 </root>
