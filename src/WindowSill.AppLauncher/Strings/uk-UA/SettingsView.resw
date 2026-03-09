@@ -127,6 +127,6 @@
     <value>Згрупуйте свої улюблені додатки, файли та папки та запускати їх із WindowSill, окремо або всі разом. Налаштуйте їхню назву, іконку та порядок.</value>
   </data>
   <data name="NewGroup.TextProperty" xml:space="preserve">
-    <value>New group</value>
+    <value>Нова група</value>
   </data>
 </root>
