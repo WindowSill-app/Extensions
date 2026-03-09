@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Dismiss.TextProperty" xml:space="preserve">
-    <value>Ignorer</value>
+    <value>ignorer</value>
   </data>
   <data name="Snooze.TextProperty" xml:space="preserve">
     <value>Rappel dans 5 minutes</value>
