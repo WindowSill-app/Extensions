@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Dismiss.TextProperty" xml:space="preserve">
-    <value>Schließen</value>
+    <value>Abweisen</value>
   </data>
   <data name="Snooze.TextProperty" xml:space="preserve">
-    <value>Für 5 Minuten snoozen</value>
+    <value>5 Minuten lang snoozen</value>
   </data>
   <data name="Title.TextProperty" xml:space="preserve">
     <value>ERINNERUNG</value>
