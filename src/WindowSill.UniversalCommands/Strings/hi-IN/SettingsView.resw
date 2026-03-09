@@ -118,96 +118,96 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GeneralHeader.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>सामान्य</value>
   </data>
   <data name="ActionsHeader.TextProperty" xml:space="preserve">
-    <value>Commands</value>
+    <value>कमांड</value>
   </data>
   <data name="IconLabel.TextProperty" xml:space="preserve">
-    <value>Icon</value>
+    <value>आइकन</value>
   </data>
   <data name="AddAction.ContentProperty" xml:space="preserve">
-    <value>Add command</value>
+    <value>कमांड जोड़ें</value>
   </data>
   <data name="AddActionText.TextProperty" xml:space="preserve">
-    <value>Add command</value>
+    <value>कमांड जोड़ें</value>
   </data>
   <data name="ActionEditorTitle.TitleProperty" xml:space="preserve">
-    <value>Command</value>
+    <value>कमान्ड</value>
   </data>
   <data name="ActionName.HeaderProperty" xml:space="preserve">
-    <value>Name</value>
+    <value>नाम</value>
   </data>
   <data name="ActionName.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter a name for this command</value>
+    <value>इस कमांड के लिए एक नाम दर्ज करें</value>
   </data>
   <data name="ActionType.HeaderProperty" xml:space="preserve">
-    <value>Command type</value>
+    <value>कमांड प्रकार</value>
   </data>
   <data name="ShortcutLabel.TextProperty" xml:space="preserve">
-    <value>Keyboard shortcut</value>
+    <value>कीबोर्ड शॉर्टकट</value>
   </data>
   <data name="ShortcutPlaceholder" xml:space="preserve">
-    <value>Click here and press a shortcut</value>
+    <value>यहाँ क्लिक करें और शॉर्टकट दबाएँ</value>
   </data>
   <data name="PowerShellLabel.TextProperty" xml:space="preserve">
-    <value>PowerShell command</value>
+    <value>PowerShell कमांड</value>
   </data>
   <data name="PowerShellCommand.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter a PowerShell command</value>
+    <value>एक PowerShell कमांड दर्ज करें</value>
   </data>
   <data name="TargetAppLabel.TextProperty" xml:space="preserve">
-    <value>Target application</value>
+    <value>लक्ष्य एप्लिकेशन</value>
   </data>
   <data name="GlobalAction.ContentProperty" xml:space="preserve">
-    <value>Show for all applications</value>
+    <value>सभी एप्लिकेशन के लिए दिखाएँ</value>
   </data>
   <data name="TargetAppProcessName.HeaderProperty" xml:space="preserve">
-    <value>Process name</value>
+    <value>प्रोसेस का नाम</value>
   </data>
   <data name="TargetAppProcessName.PlaceholderTextProperty" xml:space="preserve">
-    <value>e.g. devenv, code, notepad</value>
+    <value>उदा.: devenv, code, notepad</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>Create commands that can run PowerShell or a set of Keyboard Shortcuts on your favorite apps or globally to automate your workflow. Customize their name, icon and order.</value>
+    <value>ऐसे कमांड बनाएँ जो PowerShell या कीबोर्ड शॉर्टकट का सेट आपके पसंदीदा ऐप्स पर या वैश्विक रूप से चला सकें ताकि आपका कार्यप्रवाह स्वचालित हो सके। उनका नाम, आइकन और क्रम अनुकूलित करें।</value>
   </data>
   <data name="Glyph.ContentProperty" xml:space="preserve">
-    <value>Glyph</value>
+    <value>ग्लिफ</value>
   </data>
   <data name="ImageFile.ContentProperty" xml:space="preserve">
-    <value>Image file</value>
+    <value>छवि फ़ाइल</value>
   </data>
   <data name="ChooseGlyph.ContentProperty" xml:space="preserve">
-    <value>Choose glyph...</value>
+    <value>ग्लिफ चुनें...</value>
   </data>
   <data name="Browse.ContentProperty" xml:space="preserve">
-    <value>Browse...</value>
+    <value>ब्राउज़...</value>
   </data>
   <data name="ActionTypeKeyboardShortcut.ContentProperty" xml:space="preserve">
-    <value>Keyboard shortcut</value>
+    <value>कीबोर्ड शॉर्टकट</value>
   </data>
   <data name="ActionTypePowerShell.ContentProperty" xml:space="preserve">
-    <value>PowerShell Command</value>
+    <value>PowerShell कमांड</value>
   </data>
   <data name="NewCommand" xml:space="preserve">
-    <value>New Command</value>
+    <value>नया कमांड</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>सहेजें</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>रद्द करें</value>
   </data>
   <data name="EditCommand" xml:space="preserve">
-    <value>Edit Command</value>
+    <value>कमांड संपादित करें</value>
   </data>
   <data name="EditButton.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Edit</value>
+    <value>संपादित करें</value>
   </data>
   <data name="DeleteButton.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Delete</value>
+    <value>हटाएँ</value>
   </data>
   <data name="NoFileSelected" xml:space="preserve">
-    <value>No file selected</value>
+    <value>कोई फ़ाइल चयनित नहीं</value>
   </data>
 </root>
