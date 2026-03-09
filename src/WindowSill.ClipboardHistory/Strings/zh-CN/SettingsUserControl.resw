@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -139,9 +139,9 @@
     <value>打开 Windows 剪贴板历史记录设置</value>
   </data>
   <data name="CompactMode.HeaderProperty" xml:space="preserve">
-    <value>紧凑模式</value>
+    <value>紧凑模式},{</value>
   </data>
   <data name="CompactMode.DescriptionProperty" xml:space="preserve">
-    <value>在单个弹出窗口中显示所有剪贴板项目，而不是在栏中显示单独的项目</value>
+    <value>在单个弹出窗口中显示所有剪贴板项目，而不是在栏中分别显示每个项目</value>
   </data>
 </root>
