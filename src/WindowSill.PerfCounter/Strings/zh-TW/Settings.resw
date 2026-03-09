@@ -124,16 +124,16 @@
     <value>跑步人物</value>
   </data>
   <data name="AnimationMetric.HeaderProperty" xml:space="preserve">
-    <value>Animation Metric</value>
+    <value>動畫指標},{</value>
   </data>
   <data name="AnimationMetric.DescriptionProperty" xml:space="preserve">
-    <value>Which metric to use for animated running man</value>
+    <value>用於動畫跑步人物的指標},{</value>
   </data>
   <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>Display Mode</value>
+    <value>顯示模式},{</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose how to display performance metrics</value>
+    <value>選擇如何顯示性能指標},{</value>
   </data>
   <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
     <value>Enable Task Manager Launch</value>
