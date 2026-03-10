@@ -35,7 +35,7 @@ internal sealed partial class ReminderListItemContent : UserControl
 
         var previewFlyout = new ReminderPreviewFlyoutContent(content.ViewModel);
 
-        var viewItem = new SillListViewPopupItem()
+        SillListViewPopupItem viewItem = new SillListViewPopupItem()
             .PreviewFlyoutContent(previewFlyout);
 
         viewItem.DataContext = content.ViewModel;
