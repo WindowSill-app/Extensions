@@ -28,6 +28,7 @@
     <ProjectReference Include="..\WindowSill.URLHelper\WindowSill.URLHelper.csproj" />
     <ProjectReference Include="..\WindowSill.WebBrowser\WindowSill.WebBrowser.csproj" />
     <ProjectReference Include="..\WindowSill.TextFinder\WindowSill.TextFinder.csproj" />
+    <ProjectReference Include="..\WindowSill.UniversalCommands\WindowSill.UniversalCommands.csproj" />
   </ItemGroup>
 
   <ItemGroup>
