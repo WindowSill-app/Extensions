@@ -34,10 +34,11 @@
                         Height="{ThemeResource SillIconSize}"
                         MaxWidth="{ThemeResource SillIconSize}" />
                     <TextBlock
-                        MinWidth="32"
+                        MinWidth="24"
                         VerticalAlignment="Center"
                         Text="{x:Bind ViewModel.CpuText, Mode=OneWay}" />
                     <TextBlock
+                        MinWidth="24"
                         VerticalAlignment="Center"
                         Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                         Text="{x:Bind ViewModel.CpuTemperatureText, Mode=OneWay}"
@@ -55,7 +56,7 @@
                         Height="{ThemeResource SillIconSize}"
                         MaxWidth="{ThemeResource SillIconSize}" />
                     <TextBlock
-                        MinWidth="32"
+                        MinWidth="24"
                         VerticalAlignment="Center"
                         Text="{x:Bind ViewModel.MemoryText, Mode=OneWay}" />
                 </StackPanel>
@@ -71,10 +72,11 @@
                         Height="{ThemeResource SillIconSize}"
                         MaxWidth="{ThemeResource SillIconSize}" />
                     <TextBlock
-                        MinWidth="32"
+                        MinWidth="24"
                         VerticalAlignment="Center"
                         Text="{x:Bind ViewModel.GpuText, Mode=OneWay}" />
                     <TextBlock
+                        MinWidth="24"
                         VerticalAlignment="Center"
                         Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
                         Text="{x:Bind ViewModel.GpuTemperatureText, Mode=OneWay}"

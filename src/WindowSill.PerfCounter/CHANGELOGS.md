@@ -1,3 +1,6 @@
+# 0.9.19
+- Adjusted temperature alignment.
+
 # 0.9.18
 - Added the option to hide individual performance counters.
 
