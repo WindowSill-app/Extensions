@@ -13,7 +13,7 @@
     <File Path="src/Directory.Build.targets" />
     <File Path="src/Directory.Packages.props" />
   </Folder>
-  <Project Path="src/UnitTests/UnitTests.csproj" Id="ce19a5f6-2cb3-4519-abf8-7529c6ae8cb5">
+  <Project Path="src/UnitTests/UnitTests.csproj">
     <Platform Project="x64" />
   </Project>
   <Project Path="src/WindowSill.AppLauncher/WindowSill.AppLauncher.csproj">
@@ -46,10 +46,13 @@
   <Project Path="src/WindowSill.UnitConverter/WindowSill.UnitConverter.csproj">
     <Platform Project="x64" />
   </Project>
-  <Project Path="src/WindowSill.UniversalCommands/WindowSill.UniversalCommands.csproj" Id="a1da9935-de5a-473b-9c3f-d870a4b5e385">
+  <Project Path="src/WindowSill.UniversalCommands/WindowSill.UniversalCommands.csproj">
     <Platform Project="x64" />
   </Project>
   <Project Path="src/WindowSill.URLHelper/WindowSill.URLHelper.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="src/WindowSill.VideoHelper/WindowSill.VideoHelper.csproj">
     <Platform Project="x64" />
   </Project>
   <Project Path="src/WindowSill.WebBrowser/WindowSill.WebBrowser.csproj">
