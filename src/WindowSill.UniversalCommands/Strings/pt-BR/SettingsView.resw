@@ -187,7 +187,7 @@
     <value>Atalho de teclado</value>
   </data>
   <data name="ActionTypePowerShell.ContentProperty" xml:space="preserve">
-    <value>Comando PowerShell</value>
+    <value>Comando do PowerShell</value>
   </data>
   <data name="NewCommand" xml:space="preserve">
     <value>Novo comando</value>
