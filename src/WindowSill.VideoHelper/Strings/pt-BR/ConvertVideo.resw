@@ -77,7 +77,7 @@
     <value>WebM</value>
   </data>
   <data name="FormatWebmDescription.TextProperty" xml:space="preserve">
-    <value>Web-optimized (VP9)</value>
+    <value>Otimizado para “web” (VP9)</value>
   </data>
   <data name="FormatMovTitle.TextProperty" xml:space="preserve">
     <value>MOV</value>
