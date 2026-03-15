@@ -1,3 +1,6 @@
+# 0.9.20
+- Added ARM64 support.
+
 # 0.9.18
 - Fixed an issue where groups orders were not saved after re-ordering them.
 - Improved loading time of the app launcher when it contains many items.

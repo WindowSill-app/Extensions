@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.UniversalCommands</PackageId>
-    <Version>0.9.18</Version>
+    <Version>0.9.20</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>Universal Commands</Title>
     <Description>Automate your workflow by creating custom commands that live on your sill — trigger keyboard shortcuts or run PowerShell scripts with a single click.

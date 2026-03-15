@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.UnitConverter</PackageId>
-    <Version>0.9.18</Version>
+    <Version>0.9.20</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>Unit &amp; Currency Converter</Title>
     <Description>
