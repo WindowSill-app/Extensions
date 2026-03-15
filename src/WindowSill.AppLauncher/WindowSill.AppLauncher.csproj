@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.AppLauncher</PackageId>
-    <Version>0.9.18</Version>
+    <Version>0.9.20</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>App Launcher</Title>
     <Description>

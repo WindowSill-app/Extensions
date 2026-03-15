@@ -1,4 +1,5 @@
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 
 using Path = System.IO.Path;
 
@@ -13,8 +14,16 @@ namespace WindowSill.VideoHelper.Core;
 /// </remarks>
 internal static class FFmpegManager
 {
-    private const string FFmpegDownloadUrl
-        = "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip";
+    /// <summary>
+    /// Gets the FFmpeg download URL based on the current system architecture.
+    /// </summary>
+    /// <returns>Download URL for either ARM64 or x64 FFmpeg build.</returns>
+    private static string GetFFmpegDownloadUrl()
+    {
+        return RuntimeInformation.ProcessArchitecture == Architecture.Arm64
+            ? "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-winarm64-gpl.zip"
+            : "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip";
+    }
 
     /// <summary>
     /// Checks whether FFmpeg binaries are available in the specified directory.
@@ -74,7 +83,7 @@ internal static class FFmpegManager
         {
             // Download the zip (90% of progress)
             await DownloadFileAsync(
-                FFmpegDownloadUrl,
+                GetFFmpegDownloadUrl(),
                 zipPath,
                 progress is not null ? new Progress<double>(p => progress.Report(p * 0.9)) : null,
                 cancellationToken);

@@ -3,7 +3,7 @@
 ## Project Overview
 
 - **Framework**: WinUI 3 with Windows App SDK
-- **Target**: Windows 10/11 desktop (x64)
+- **Target**: Windows 10/11 desktop (x64, ARM64)
 - **Architecture**: MVVM with MEF (Managed Extensibility Framework)
 - **Language**: C# (latest preview via `LangVersion preview`)
 - **Runtime**: .NET 10 (`net10.0-windows10.0.22621`)
@@ -57,4 +57,4 @@ Every extension has a `{ExtensionName}Sill.cs` class that:
 
 - Never build the full solution; build only the modified `.csproj`
 - Use `msbuild -t:build <ProjectPath>` to build a specific project
-- Platform is x64 only
+- Platform is x64 and ARM64

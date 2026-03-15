@@ -1,3 +1,6 @@
+# 0.9.20
+- Added ARM64 support.
+
 # 0.9.18
 - Changed icon of the Clear History button in compact mode.
 
