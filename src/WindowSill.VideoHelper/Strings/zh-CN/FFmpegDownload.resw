@@ -118,27 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DialogTitle" xml:space="preserve">
-    <value>Download required</value>
+    <value>下载所需</value>
   </data>
   <data name="DialogDescription.TextProperty" xml:space="preserve">
-    <value>Video Helper requires FFmpeg to compress and convert videos. FFmpeg will be downloaded from the internet (approximately 210 MB). This is a one-time download.</value>
+    <value>Video Helper 需要 FFmpeg 来压缩和转换视频。FFmpeg 将从互联网下载（大约 210 MB）。这是一次性下载。</value>
   </data>
   <data name="LicenseNotice.TextProperty" xml:space="preserve">
-    <value>FFmpeg is licensed under the GPL. Learn more at ffmpeg.org.</value>
+    <value>FFmpeg 采用 GPL 许可证。了解更多信息，请访问 ffmpeg.org。</value>
   </data>
   <data name="DownloadButton" xml:space="preserve">
-    <value>Download</value>
+    <value>下载</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
-    <value>Cancel</value>
+    <value>取消</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
-    <value>Downloading FFmpeg...</value>
+    <value>正在下载 FFmpeg...</value>
   </data>
   <data name="Extracting" xml:space="preserve">
-    <value>Extracting FFmpeg...</value>
+    <value>正在解压FFmpeg...</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
-    <value>Download failed. Please check your internet connection and try again.</value>
+    <value>下载失败。请检查网络连接后重试。</value>
   </data>
 </root>
