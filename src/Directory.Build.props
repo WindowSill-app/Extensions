@@ -7,8 +7,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>preview</LangVersion>
-    <Platforms>x64</Platforms>
+    <Platforms>AnyCPU</Platforms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+
+    <!-- Suppress architecture mismatch error for the WindowSill.API NuGet reference.
+         The API NuGet contains an AnyCPU DLL, but older versions shipped as x64.
+         This suppression ensures extensions and tests build regardless of API DLL architecture,
+         since the app provides its own architecture-matching API DLL at runtime. -->
+    <ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 
     <!-- Enable Central Package Management -->
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
