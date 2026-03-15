@@ -27,10 +27,10 @@ jobs:
       run: dotnet restore Extensions.slnx
 
     - name: Pack extensions
-      run: msbuild Extensions.slnx /p:Configuration=Release /p:Platform="Any CPU" /p:PackageOutputPath=${{ github.workspace }}/artifacts /p:RestorePackages=false
+      run: msbuild Extensions.slnx /p:Configuration=Release /p:Platform="AnyCPU" /p:PackageOutputPath=${{ github.workspace }}/artifacts /p:RestorePackages=false
 
     - name: Build unit tests
-      run: msbuild src/UnitTests/UnitTests.csproj /p:Configuration=Release /p:Platform="Any CPU" /p:RestorePackages=false
+      run: msbuild src/UnitTests/UnitTests.csproj /p:Configuration=Release /p:Platform="AnyCPU" /p:RestorePackages=false
 
     - name: Run unit tests
       run: dotnet vstest src/**/bin/**/Release/**/*Tests.dll
