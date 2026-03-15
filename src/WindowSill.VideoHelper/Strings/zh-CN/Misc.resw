@@ -118,18 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CompressingFiles" xml:space="preserve">
-    <value>Compressing {0} files...</value>
+    <value>正在压缩 {0} 个文件……</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Completed!</value>
+    <value>已完成！</value>
   </data>
   <data name="ConvertingFiles" xml:space="preserve">
-    <value>Converting {0} files...</value>
+    <value>正在转换 {0} 个文件...</value>
   </data>
   <data name="ConversionCompleted" xml:space="preserve">
-    <value>Completed!</value>
+    <value>已完成！</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
-    <value>Video Helper</value>
+    <value>视频助手</value>
   </data>
 </root>
