@@ -49,6 +49,9 @@
   <Project Path="src/WindowSill.UniversalCommands/WindowSill.UniversalCommands.csproj">
     <Platform Project="Any CPU" />
   </Project>
+  <Project Path="src/WindowSill.Terminal/WindowSill.Terminal.csproj">
+    <Platform Project="Any CPU" />
+  </Project>
   <Project Path="src/WindowSill.URLHelper/WindowSill.URLHelper.csproj">
     <Platform Project="Any CPU" />
   </Project>
