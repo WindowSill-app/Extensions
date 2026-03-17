@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using Microsoft.UI.Xaml.Media.Imaging;
 using WindowSill.API;
 using WindowSill.Terminal.Core;
+using WindowSill.Terminal.Parsers;
 using WindowSill.Terminal.ViewModels;
 using WindowSill.Terminal.Views;
 using Path = System.IO.Path;
@@ -60,23 +61,61 @@ public sealed class TerminalSill : ISillActivatedByTextSelection, ISillActivated
     /// <inheritdoc />
     public async ValueTask OnActivatedAsync(string textSelectionActivatorTypeName, WindowTextSelection currentSelection)
     {
+        // Available shells
         IReadOnlyList<ShellInfo> shells = _shellDetectionService.GetAvailableShells();
         if (shells.Count == 0)
         {
             return;
         }
 
-        var viewModel = new CommandItemViewModel(
-            currentSelection.SelectedText.Trim(),
-            shells,
-            _commandExecutionService);
+        // Command input from selection
+        string? terminalCommand = TerminalCommandParser.GetFirstTerminalCommand(currentSelection.SelectedText);
+        if (terminalCommand is null)
+        {
+            return;
+        }
 
+        // Command data/display -- shown to user on sill, used to drive popup.
+        var viewModel = new CommandItemViewModel(terminalCommand, shells, _commandExecutionService);
+
+        // Working directory from selection
+        string? workingDirectory = TerminalCommandParser.GetFirstWorkingDirectory(currentSelection.SelectedText);
+        if (workingDirectory is not null)
+        {
+            viewModel.WorkingDirectory = workingDirectory;
+        }
+
+        // ShellInfo preference hints from selection
+        ShellInfo? preferredTerminalShell = null;
+        if (TerminalCommandParser.HasPowerShellHint(currentSelection.SelectedText))
+        {
+            preferredTerminalShell = shells.First(x => x.ExecutablePath.Contains("powershell.exe"));
+        }
+        else if (TerminalCommandParser.HasPwshHint(currentSelection.SelectedText))
+        {
+            preferredTerminalShell = shells.First(x => x.ExecutablePath.Contains("pwsh.exe"));
+        }
+        else if (TerminalCommandParser.HasCmdHint(currentSelection.SelectedText))
+        {
+            preferredTerminalShell = shells.First(x => x.ExecutablePath.Contains("cmd.exe"));
+        }
+        else if (TerminalCommandParser.HasWslHint(currentSelection.SelectedText) && false) // Disabled until implemented
+        {
+            throw new NotImplementedException(); // TODO
+        }
+
+        if (preferredTerminalShell is not null)
+        {
+            viewModel.SelectedShell = preferredTerminalShell;
+        }
+
+        // Add to sill ui as button with popup
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
             var popup = new TerminalPopup(viewModel);
 
             var listItem = new SillListViewPopupItem(
-                currentSelection.SelectedText.Trim(),
+                terminalCommand,
                 null,
                 popup);
 

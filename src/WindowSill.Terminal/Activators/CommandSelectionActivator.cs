@@ -1,6 +1,6 @@
 using System.ComponentModel.Composition;
 using WindowSill.API;
-using Path = System.IO.Path;
+using WindowSill.Terminal.Parsers;
 
 namespace WindowSill.Terminal.Activators;
 
@@ -13,8 +13,6 @@ namespace WindowSill.Terminal.Activators;
 internal sealed class CommandSelectionActivator : ISillTextSelectionActivator
 {
     internal const string ActivatorName = "CommandSelection";
-
-    private static readonly string[] executableExtensions = [".exe", ".cmd", ".bat", ".ps1", ".com"];
 
     /// <summary>
     /// Returns <see langword="true"/> when the first token of
@@ -30,42 +28,15 @@ internal sealed class CommandSelectionActivator : ISillTextSelectionActivator
             return new ValueTask<bool>(false);
         }
 
-        string token = selectedText.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries)[0];
-
         try
         {
-            string? pathValue = Environment.GetEnvironmentVariable("PATH");
-            if (string.IsNullOrEmpty(pathValue))
+            string? firstCommandWithoutDecorators = TerminalCommandParser.GetFirstTerminalCommand(selectedText);
+            if (firstCommandWithoutDecorators is null)
             {
                 return new ValueTask<bool>(false);
             }
 
-            string[] directories = pathValue.Split(Path.PathSeparator);
-
-            foreach (string directory in directories)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                if (string.IsNullOrWhiteSpace(directory))
-                {
-                    continue;
-                }
-
-                // Check the token as-is (may already include an extension).
-                if (File.Exists(Path.Combine(directory, token)))
-                {
-                    return new ValueTask<bool>(true);
-                }
-
-                // Check with each known executable extension.
-                foreach (string ext in executableExtensions)
-                {
-                    if (File.Exists(Path.Combine(directory, token + ext)))
-                    {
-                        return new ValueTask<bool>(true);
-                    }
-                }
-            }
+            return new ValueTask<bool>(true);
         }
         catch (OperationCanceledException)
         {
