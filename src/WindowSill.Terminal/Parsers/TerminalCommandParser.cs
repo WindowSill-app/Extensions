@@ -115,7 +115,7 @@ internal class TerminalCommandParser
 
         // Find the first line that contains the PS prefix
         // Get individual lines (without clobbering between newline types)
-        string[] lines = selectedText.Split(["\r\n", "\n\n", "\n"], StringSplitOptions.RemoveEmptyEntries);
+        string[] lines = selectedText.Split(["\r\n", "\n\n", "\n"], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
         // Iterate lines
         foreach (string line in lines)
