@@ -148,10 +148,10 @@
     <value>Smallest file using HEVC (H.265)</value>
   </data>
   <data name="VideoCodec.HeaderProperty" xml:space="preserve">
-    <value>Video codec</value>
+    <value>Codec de vídeo</value>
   </data>
   <data name="QualityLabel.TextProperty" xml:space="preserve">
-    <value>Quality (CRF)</value>
+    <value>Qualidade (CRF)</value>
   </data>
   <data name="EncodingSpeed.HeaderProperty" xml:space="preserve">
     <value>Encoding speed</value>
