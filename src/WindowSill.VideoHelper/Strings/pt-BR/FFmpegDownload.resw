@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DialogTitle" xml:space="preserve">
-    <value>Download required</value>
+    <value>Download necessário</value>
   </data>
   <data name="DialogDescription.TextProperty" xml:space="preserve">
     <value>Video Helper requires FFmpeg to compress and convert videos. FFmpeg will be downloaded from the internet (approximately 210 MB). This is a one-time download.</value>
