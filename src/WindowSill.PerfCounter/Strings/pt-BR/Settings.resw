@@ -154,7 +154,7 @@
     <value>Mostrar Temperatura</value>
   </data>
   <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>Exibir a temperatura da CPU e da GPU juntamente com as porcentagens de uso</value>
+    <value>Exibir temperatura da CPU e da GPU lado a lado com percentagens de uso</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
     <value>Mostrar CPU</value>
