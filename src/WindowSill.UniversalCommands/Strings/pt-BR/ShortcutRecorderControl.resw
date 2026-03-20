@@ -181,7 +181,7 @@
     <value>Home</value>
   </data>
   <data name="KeyEnd" xml:space="preserve">
-    <value>Fim</value>
+    <value>End</value>
   </data>
   <data name="KeyPrtSc" xml:space="preserve">
     <value>PrtSc</value>
