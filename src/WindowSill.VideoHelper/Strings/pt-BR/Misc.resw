@@ -121,7 +121,7 @@
     <value>Comprimindo {0} arquivos...</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
-    <value>Completed!</value>
+    <value>Concluído!</value>
   </data>
   <data name="ConvertingFiles" xml:space="preserve">
     <value>Converting {0} files...</value>
