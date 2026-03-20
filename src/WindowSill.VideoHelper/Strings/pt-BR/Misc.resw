@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CompressingFiles" xml:space="preserve">
-    <value>Compressing {0} files...</value>
+    <value>Comprimindo {0} arquivos...</value>
   </data>
   <data name="CompressionCompleted" xml:space="preserve">
     <value>Completed!</value>
