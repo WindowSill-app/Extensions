@@ -181,7 +181,7 @@
     <value>Substituir</value>
   </data>
   <data name="DismissResult.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Omitir (Excluir)</value>
+    <value>Descartar (Excluir)</value>
   </data>
   <data name="Searching.TextProperty" xml:space="preserve">
     <value>Buscando...</value>
