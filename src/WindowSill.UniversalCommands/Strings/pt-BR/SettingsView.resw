@@ -154,7 +154,7 @@
     <value>Comando PowerShell</value>
   </data>
   <data name="PowerShellCommand.PlaceholderTextProperty" xml:space="preserve">
-    <value>Digite um comando PowerShell</value>
+    <value>Digite um comando do PowerShell</value>
   </data>
   <data name="TargetAppLabel.TextProperty" xml:space="preserve">
     <value>Aplicativo de destino</value>
