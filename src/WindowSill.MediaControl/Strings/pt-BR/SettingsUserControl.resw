@@ -121,6 +121,6 @@
     <value>Geral</value>
   </data>
   <data name="ShowMediaNameAndThumbnail.HeaderProperty" xml:space="preserve">
-    <value>Mostrar o nome e a miniatura da mídia</value>
+    <value>Mostrar o nome e a miniatura do que está sendo reproduzido</value>
   </data>
 </root>
