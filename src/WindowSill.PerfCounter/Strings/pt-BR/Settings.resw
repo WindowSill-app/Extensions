@@ -163,6 +163,6 @@
     <value>Mostrar GPU</value>
   </data>
   <data name="ShowRam.HeaderProperty" xml:space="preserve">
-    <value>Mostrar RAM</value>
+    <value>Exibir RAM</value>
   </data>
 </root>
