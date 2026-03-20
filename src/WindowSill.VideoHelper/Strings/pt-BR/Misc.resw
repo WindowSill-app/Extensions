@@ -127,7 +127,7 @@
     <value>Converting {0} files...</value>
   </data>
   <data name="ConversionCompleted" xml:space="preserve">
-    <value>Completed!</value>
+    <value>Concluído!</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
     <value>Assistente de Vídeo</value>
