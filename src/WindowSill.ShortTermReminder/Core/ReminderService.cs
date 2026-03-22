@@ -40,7 +40,7 @@ internal sealed class ReminderService : IReminderService
 
         ViewList.Add(
             new SillListViewPopupItem(
-                '\uF8AA',
+                new NewReminderListItemContent(),
                 "/WindowSill.ShortTermReminder/NewReminderSillListViewPopupItem/NewReminderTooltip".GetLocalizedString(),
                 NewReminderPopup.CreateView(this)));
     }

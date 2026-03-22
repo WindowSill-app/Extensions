@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.ShortTermReminder.Views.NewReminderListItemContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WindowSill.ShortTermReminder.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border Width="{ThemeResource SillHeight}" Height="{ThemeResource SillHeight}">
+        <Path
+            Width="{ThemeResource SillFontIconSize}"
+            Height="{ThemeResource SillFontIconSize}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Data="F1 M 10 4.039999 C 10.213333 4.040001 10.393332 4.113335 10.54 4.26 C 10.686666 4.406666 10.76 4.586666 10.76 4.799999 L 10.76 11.039999 L 17 11.039999 C 17.213333 11.039999 17.393333 11.113333 17.539999 11.259999 C 17.686665 11.406667 17.759998 11.586666 17.76 11.799999 C 17.759998 12.013333 17.686665 12.193334 17.539999 12.339999 C 17.393333 12.486667 17.213333 12.559999 17 12.559999 L 10.76 12.559999 L 10.76 18.799999 C 10.76 19.013332 10.686666 19.193333 10.54 19.34 C 10.393332 19.486666 10.213333 19.559999 10 19.559999 C 9.786666 19.559999 9.606666 19.486666 9.46 19.34 C 9.313333 19.193333 9.24 19.013332 9.24 18.799999 L 9.24 12.559999 L 3 12.559999 C 2.786666 12.559999 2.606667 12.486667 2.46 12.339999 C 2.313333 12.193334 2.24 12.013333 2.24 11.799999 C 2.24 11.586666 2.313333 11.406667 2.46 11.259999 C 2.606667 11.113333 2.786666 11.039999 3 11.039999 L 9.24 11.039999 L 9.24 4.799999 C 9.24 4.586666 9.313333 4.406666 9.46 4.26 C 9.606666 4.113335 9.786666 4.040001 10 4.039999 Z "
+            Fill="{ThemeResource TextFillColorPrimaryBrush}"
+            Stretch="Uniform" />
+    </Border>
+</UserControl>
