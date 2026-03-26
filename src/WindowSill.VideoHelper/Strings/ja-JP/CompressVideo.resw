@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PresetTab.TextProperty" xml:space="preserve">
-    <value>Preset</value>
+    <value>プリセット</value>
   </data>
   <data name="CustomTab.TextProperty" xml:space="preserve">
-    <value>Custom</value>
+    <value>カスタム</value>
   </data>
   <data name="PresetQualityTitle.TextProperty" xml:space="preserve">
     <value>Quality</value>
