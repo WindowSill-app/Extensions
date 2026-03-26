@@ -37,16 +37,22 @@ internal sealed partial class UriItemViewModel : ClipboardHistoryItemViewModelBa
     public partial string PageTitle { get; set; } = string.Empty;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(OpenInBrowserCommand))]
+    public partial bool HasError { get; set; }
+
+    [ObservableProperty]
     public partial BitmapImage? Favicon { get; set; }
 
     [ObservableProperty]
     public partial BitmapImage? LargerFavicon { get; set; }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanOpenInBrowser))]
     private async Task OpenInBrowserAsync()
     {
         await Launcher.LaunchUriAsync(new Uri(Url));
     }
+
+    private bool CanOpenInBrowser() => !HasError;
 
     private async Task InitializeAsync()
     {
@@ -96,7 +102,9 @@ internal sealed partial class UriItemViewModel : ClipboardHistoryItemViewModelBa
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, $"Failed to initialize {nameof(UriItemViewModel)} control.");
+            _logger.LogWarning(ex, $"Failed to initialize {nameof(UriItemViewModel)} control.");
+            Url = "/WindowSill.ClipboardHistory/Misc/LinkError".GetLocalizedString();
+            HasError = true;
         }
     }
 

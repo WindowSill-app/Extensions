@@ -33,7 +33,7 @@ public sealed partial class AppGroupSillPopupContent : SillPopupContent
             {
                 await AppGroup.Items[i].LaunchAsync(asAdmin: false);
             }
-        });
+        }).ForgetSafely();
         Close();
     }
 
@@ -47,7 +47,7 @@ public sealed partial class AppGroupSillPopupContent : SillPopupContent
 
     private void ShortcutListView_ItemInvoked(object sender, AppInfo e)
     {
-        Task.Run(async () => await e.LaunchAsync(asAdmin: false));
+        Task.Run(async () => await e.LaunchAsync(asAdmin: false)).ForgetSafely();
         Close();
     }
 
@@ -55,7 +55,7 @@ public sealed partial class AppGroupSillPopupContent : SillPopupContent
     {
         if (sender is MenuFlyoutItem menuItem && menuItem.Tag is AppInfo appInfo)
         {
-            Task.Run(async () => await appInfo.LaunchAsync(asAdmin: false));
+            Task.Run(async () => await appInfo.LaunchAsync(asAdmin: false)).ForgetSafely();
             Close();
         }
     }
@@ -64,7 +64,7 @@ public sealed partial class AppGroupSillPopupContent : SillPopupContent
     {
         if (sender is MenuFlyoutItem menuItem && menuItem.Tag is AppInfo appInfo)
         {
-            Task.Run(async () => await appInfo.LaunchAsync(asAdmin: true));
+            Task.Run(async () => await appInfo.LaunchAsync(asAdmin: true)).ForgetSafely();
             Close();
         }
     }

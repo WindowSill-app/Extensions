@@ -1,3 +1,6 @@
+# 0.9.21
+- Fixed crash when copying some URL.
+
 # 0.9.20
 - Added ARM64 support.
 

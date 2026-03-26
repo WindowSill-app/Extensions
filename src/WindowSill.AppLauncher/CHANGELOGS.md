@@ -1,3 +1,6 @@
+# 0.9.21
+- Fixed crash with some UWP apps.
+
 # 0.9.20
 - Added ARM64 support.
 

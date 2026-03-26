@@ -142,7 +142,13 @@ internal sealed class UwpAppInfo : AppInfo, IEquatable<UwpAppInfo>
 
     public override async ValueTask LaunchAsync(bool asAdmin)
     {
-        Guard.IsNotNull(Package, nameof(Package));
+        if (Package is null)
+        {
+            typeof(UwpAppInfo).Log().LogWarning(
+                "Cannot launch UWP app because the package is not installed: {AppUserModelId}",
+                AppUserModelId);
+            return;
+        }
 
         try
         {
