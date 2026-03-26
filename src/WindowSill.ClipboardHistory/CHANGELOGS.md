@@ -1,5 +1,8 @@
-# 0.9.21
+# 0.9.22
 - Fixed crash when copying some URL.
+
+# 0.9.21
+- Updated icons to be more consistent with the new Windows 11 design.
 
 # 0.9.20
 - Added ARM64 support.
