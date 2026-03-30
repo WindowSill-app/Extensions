@@ -148,7 +148,7 @@
     <value>Abrir Task Manager</value>
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
-    <value>Clique para abrir o Task Manager do Windows para obter informações detalhadas do sistema</value>
+    <value>Clique para abrir o Gerenciador de Tarefas do Windows e obter informações detalhadas do sistema</value>
   </data>
   <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
     <value>Mostrar Temperatura</value>
