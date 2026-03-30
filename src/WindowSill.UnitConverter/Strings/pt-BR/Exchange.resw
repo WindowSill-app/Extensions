@@ -130,7 +130,7 @@
     <value>Apagar</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
-    <value>Conversor de Imagem</value>
+    <value>Conversor de Moedas</value>
   </data>
   <data name="FavoriteInto.TextProperty" xml:space="preserve">
     <value>Moedas favoritas</value>
