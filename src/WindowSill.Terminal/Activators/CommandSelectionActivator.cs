@@ -23,7 +23,7 @@ internal sealed class CommandSelectionActivator : ISillTextSelectionActivator
         bool isReadOnly,
         CancellationToken cancellationToken)
     {
-        if (string.IsNullOrWhiteSpace(selectedText) || selectedText.Length > 500)
+        if (string.IsNullOrWhiteSpace(selectedText))
         {
             return new ValueTask<bool>(false);
         }

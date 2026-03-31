@@ -1,5 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
 using WindowSill.API;
 using WindowSill.Terminal.Core;
@@ -28,6 +30,9 @@ public sealed class TerminalSill : ISillActivatedByTextSelection, ISillActivated
 
     [Import]
     private ICommandExecutionService _commandExecutionService = null!;
+
+    [Import]
+    private IProcessInteractionService _processInteractionService = null!;
 
     /// <inheritdoc />
     public string DisplayName => "/WindowSill.Terminal/TerminalSill/DisplayName".GetLocalizedString();
@@ -76,7 +81,7 @@ public sealed class TerminalSill : ISillActivatedByTextSelection, ISillActivated
         }
 
         // Command data/display -- shown to user on sill, used to drive popup.
-        var viewModel = new CommandItemViewModel(terminalCommand, shells, _commandExecutionService);
+        var viewModel = new CommandItemViewModel(terminalCommand, currentSelection.SelectedText, shells, _commandExecutionService, _processInteractionService);
 
         // Working directory from selection
         string? workingDirectory = TerminalCommandParser.GetFirstWorkingDirectory(currentSelection.SelectedText);
@@ -125,7 +130,19 @@ public sealed class TerminalSill : ISillActivatedByTextSelection, ISillActivated
                 {
                     ViewList.Remove(listItem);
                     _activeCommands.Remove(viewModel);
+
+                    ThreadHelper.RunOnUIThreadAsync(RebuildViewList);
                 }).ForgetSafely();
+            };
+
+            viewModel.ExecutionStarted += (_, _) =>
+            {
+                ThreadHelper.RunOnUIThreadAsync(RebuildViewList);
+            };
+
+            viewModel.ExecutionCompleted += (_, _) =>
+            {
+                ThreadHelper.RunOnUIThreadAsync(RebuildViewList);
             };
 
             CreateContextMenu(viewModel, listItem);
@@ -178,21 +195,164 @@ public sealed class TerminalSill : ISillActivatedByTextSelection, ISillActivated
         }
     }
 
-    private static void CreateContextMenu(CommandItemViewModel viewModel, SillListViewItem view)
+    private void CreateContextMenu(CommandItemViewModel viewModel, SillListViewItem view)
     {
+        int horizontalCharacterLimit = 25;
+        bool alreadyRan = viewModel.State is CommandState.Completed or CommandState.Failed or CommandState.Cancelled;
+        bool currentlyRunning = viewModel.State is CommandState.Running or CommandState.LaunchedElevated;
+        string runOrRerunDisplayText = alreadyRan ? "Rerun" : "Run";
+
         var menuFlyout = new MenuFlyout();
+
         menuFlyout.Items.Add(new MenuFlyoutItem
         {
-            Text = "Run",
-            Icon = new SymbolIcon(Symbol.Go),
+            IsEnabled = false,
+            Text = $"Detected run settings:",
+        });
+
+        var commandTextFlyoutItem = new MenuFlyoutItem
+        {
+            Opacity = 0.33,
+            Text = $"{new string(viewModel.CommandText.Take(horizontalCharacterLimit).ToArray())}{(viewModel.CommandText.Length > horizontalCharacterLimit ? "..." : string.Empty)}",
+            Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE950" },
+        };
+
+        menuFlyout.Items.Add(commandTextFlyoutItem);
+        ToolTipService.SetToolTip(commandTextFlyoutItem, viewModel.CommandText);
+
+        var workingDirectoryFlyoutItem = new MenuFlyoutItem
+        {
+            Opacity = 0.33,
+            Text = $"{new string(viewModel.WorkingDirectory.Take(horizontalCharacterLimit).ToArray())}{(viewModel.WorkingDirectory.Length > horizontalCharacterLimit ? "..." : string.Empty)}",
+            Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE62F" },
+        };
+
+        menuFlyout.Items.Add(workingDirectoryFlyoutItem);
+        ToolTipService.SetToolTip(workingDirectoryFlyoutItem, viewModel.WorkingDirectory);
+
+        var shellInfoFlyoutItem = new MenuFlyoutItem
+        {
+            Opacity = 0.33,
+            Text = $"{viewModel.SelectedShell.DisplayName}",
+            Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE756" }, // TODO adjust rendered image to match shell
+        };
+
+        menuFlyout.Items.Add(shellInfoFlyoutItem);
+        ToolTipService.SetToolTip(shellInfoFlyoutItem, viewModel.SelectedShell.ExecutablePath);
+
+        menuFlyout.Items.Add(new MenuFlyoutSeparator());
+
+        /* TODO: Need to be able to open this TerminalPopup programatically.
+        menuFlyout.Items.Add(new MenuFlyoutItem
+        {
+            Text = "Configure run",
+            Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uF8A6" },
+        });
+        */
+
+        menuFlyout.Items.Add(new MenuFlyoutItem
+        {
+            Text = $"{runOrRerunDisplayText} now",
+            Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE76C" },
             Command = viewModel.RunCommand,
         });
         menuFlyout.Items.Add(new MenuFlyoutItem
         {
-            Text = "Run and copy",
-            Icon = new SymbolIcon(Symbol.Import),
+            Text = $"{runOrRerunDisplayText} now + copy output",
+            Icon = new SymbolIcon(Symbol.Copy),
             Command = viewModel.RunAndCopyCommand,
         });
+        menuFlyout.Items.Add(new MenuFlyoutItem
+        {
+            Text = $"{runOrRerunDisplayText} now + append selection",
+            Icon = new SymbolIcon(Symbol.Import),
+            Command = viewModel.RunAndCopyAndPasteAppendedCommand,
+        });
+        menuFlyout.Items.Add(new MenuFlyoutItem
+        {
+            Text = $"{runOrRerunDisplayText} now + replace selection",
+            Icon = new SymbolIcon(Symbol.ImportAll),
+            Command = viewModel.RunAndCopyAndPasteReplaceCommand,
+        });
+
+        bool afterCopySeparatedAdded = false;
+
+        if (alreadyRan)
+        {
+            menuFlyout.Items.Add(new MenuFlyoutItem
+            {
+                Text = "Copy output",
+                Icon = new SymbolIcon(Symbol.Copy),
+                Command = viewModel.CopyOutputCommand,
+            });
+
+            menuFlyout.Items.Add(new MenuFlyoutSeparator());
+            afterCopySeparatedAdded = true;
+        }
+
+        if (currentlyRunning)
+        {
+            if (!afterCopySeparatedAdded)
+            {
+                menuFlyout.Items.Add(new MenuFlyoutSeparator());
+            }
+
+            menuFlyout.Items.Add(new MenuFlyoutItem
+            {
+                Text = $"Cancel ({viewModel.State.ToString().ToLowerInvariant()})",
+                Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE711" },
+                Command = viewModel.CancelCommand,
+            });
+        }
+
+        // If more than one can be dismissed, show "Dismiss all"
+        var allSillItemsThatCanBeDismissed = _activeCommands.Where(x => x.State is CommandState.Completed or CommandState.Failed or CommandState.Cancelled).ToList();
+        if (allSillItemsThatCanBeDismissed.Count > 0 && (allSillItemsThatCanBeDismissed.Count != 1 || !ReferenceEquals(allSillItemsThatCanBeDismissed.First(), viewModel)))
+        {
+            if (!afterCopySeparatedAdded)
+            {
+                menuFlyout.Items.Add(new MenuFlyoutSeparator());
+            }
+
+            int completedCount = allSillItemsThatCanBeDismissed.Count(x => x.State is CommandState.Completed);
+            bool completedIncludesSelf = allSillItemsThatCanBeDismissed.Any(x => x.State is CommandState.Completed && ReferenceEquals(x, viewModel));
+
+            int cancelledCount = allSillItemsThatCanBeDismissed.Count(x => x.State is CommandState.Cancelled);
+            bool cancelledIncludesSelf = allSillItemsThatCanBeDismissed.Any(x => x.State is CommandState.Cancelled && ReferenceEquals(x, viewModel));
+
+            int failedCount = allSillItemsThatCanBeDismissed.Count(x => x.State is CommandState.Failed);
+            bool failedIncludesSelf = allSillItemsThatCanBeDismissed.Any(x => x.State is CommandState.Failed && ReferenceEquals(x, viewModel));
+
+            menuFlyout.Items.Add(new MenuFlyoutItem
+            {
+                Text = $"Dismiss {(completedCount > 0 ? $"{completedCount}{(!completedIncludesSelf ? $" other" : string.Empty)} completed{(failedCount + cancelledCount > 0 ? ", " : string.Empty)}" : string.Empty)}{(failedCount > 0 ? $"{failedCount}{(!failedIncludesSelf ? $" other" : string.Empty)} failed{(cancelledCount > 0 ? ", " : string.Empty)}" : string.Empty)}{(cancelledCount > 0 ? $"{cancelledCount}{(!cancelledIncludesSelf ? $" other" : string.Empty)} cancelled" : string.Empty)} run{(allSillItemsThatCanBeDismissed.Count > 1 ? "s" : string.Empty)}",
+                Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE711" },
+                Command = new RelayCommand(() =>
+                {
+                    foreach (CommandItemViewModel item in allSillItemsThatCanBeDismissed)
+                    {
+                        if (item.DismissCommand.CanExecute(null))
+                        {
+                            item.DismissCommand.Execute(null);
+                        }
+                    }
+                },
+                canExecute: () =>
+                {
+                    return allSillItemsThatCanBeDismissed.Any(x => x.DismissCommand.CanExecute(null));
+                }),
+            });
+        }
+
+        if (alreadyRan)
+        {
+            menuFlyout.Items.Add(new MenuFlyoutItem
+            {
+                Text = $"Dismiss this run ({viewModel.State.ToString().ToLowerInvariant()})",
+                Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE711" },
+                Command = viewModel.DismissCommand,
+            });
+        }
 
         view.ContextFlyout = menuFlyout;
     }

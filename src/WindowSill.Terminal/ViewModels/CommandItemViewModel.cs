@@ -1,6 +1,7 @@
 using System.Text;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Windows.System;
 using WindowSill.API;
 using WindowSill.Terminal.Core;
 
@@ -14,24 +15,32 @@ internal sealed partial class CommandItemViewModel : ObservableObject
     private const int MaxDisplayedLines = 500;
 
     private readonly ICommandExecutionService _commandExecutionService;
+    private readonly IProcessInteractionService _processInteractionService;
     private readonly List<string> _allOutputLines = [];
     private CancellationTokenSource? _cancellationTokenSource;
     private bool _showFullOutput;
 
     internal CommandItemViewModel(
         string commandText,
+        string selectedText,
         IReadOnlyList<ShellInfo> availableShells,
-        ICommandExecutionService commandExecutionService)
+        ICommandExecutionService commandExecutionService,
+        IProcessInteractionService processInteractionService)
     {
         CommandText = commandText;
+        SelectedText = selectedText;
         AvailableShells = availableShells;
         SelectedShell = availableShells[0];
         WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         _commandExecutionService = commandExecutionService;
+        _processInteractionService = processInteractionService;
     }
 
     [ObservableProperty]
     public partial string CommandText { get; set; }
+
+    [ObservableProperty]
+    public partial string SelectedText { get; set; }
 
     [ObservableProperty]
     public partial string WorkingDirectory { get; set; }
@@ -87,12 +96,30 @@ internal sealed partial class CommandItemViewModel : ObservableObject
         OnPropertyChanged(nameof(ExitCodeDisplayText));
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(RunAsyncCanExecute))]
+    private async Task RunAndCopyAndPasteAppendedAsync()
+    {
+        await RunAsync();
+        CopyOutputAppendedToInput();
+        await PasteToLastActiveWindowAsync();
+    }
+
+    [RelayCommand(CanExecute = nameof(RunAsyncCanExecute))]
+    private async Task RunAndCopyAndPasteReplaceAsync()
+    {
+        await RunAsync();
+        CopyOutput();
+        await PasteToLastActiveWindowAsync();
+    }
+
+    [RelayCommand(CanExecute = nameof(RunAsyncCanExecute))]
     private async Task RunAndCopyAsync()
     {
         await RunAsync();
         CopyOutput();
     }
+
+    private bool RunAsyncCanExecute() => RunCommand.CanExecute(null);
 
     [RelayCommand]
     private async Task RunAsync()
@@ -175,6 +202,27 @@ internal sealed partial class CommandItemViewModel : ObservableObject
         var package = new Windows.ApplicationModel.DataTransfer.DataPackage();
         package.SetText(sb.ToString());
         Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(package);
+    }
+
+    [RelayCommand]
+    private void CopyOutputAppendedToInput()
+    {
+        var sb = new StringBuilder(SelectedText);
+        sb.Append(Environment.NewLine);
+        foreach (string line in _allOutputLines)
+        {
+            sb.AppendLine(line);
+        }
+
+        var package = new Windows.ApplicationModel.DataTransfer.DataPackage();
+        package.SetText(sb.ToString());
+        Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(package);
+    }
+
+    [RelayCommand]
+    private async Task PasteToLastActiveWindowAsync()
+    {
+        await _processInteractionService.SimulateKeysOnLastActiveWindow(VirtualKey.Control, VirtualKey.V);
     }
 
     [RelayCommand]
