@@ -121,31 +121,31 @@
     <value>Predefinição</value>
   </data>
   <data name="CustomTab.TextProperty" xml:space="preserve">
-    <value>Custom</value>
+    <value>Personalizado</value>
   </data>
   <data name="PresetQualityTitle.TextProperty" xml:space="preserve">
-    <value>Quality</value>
+    <value>Qualidade</value>
   </data>
   <data name="PresetQualityDescription.TextProperty" xml:space="preserve">
-    <value>High quality, moderate size reduction (H.264)</value>
+    <value>Redução de tamanho moderado de alta qualidade (H.264)</value>
   </data>
   <data name="PresetBalancedTitle.TextProperty" xml:space="preserve">
-    <value>Balanced</value>
+    <value>Balanceado</value>
   </data>
   <data name="PresetBalancedDescription.TextProperty" xml:space="preserve">
-    <value>Good balance of quality and size (H.264)</value>
+    <value>Bom equilíbrio de qualidade e tamanho (H.264)</value>
   </data>
   <data name="PresetSmallFileTitle.TextProperty" xml:space="preserve">
-    <value>Small File</value>
+    <value>Arquivo pequeno</value>
   </data>
   <data name="PresetSmallFileDescription.TextProperty" xml:space="preserve">
-    <value>Smaller file, noticeable quality loss (H.264)</value>
+    <value>Arquivo menor, perda de qualidade perceptível (H.264)</value>
   </data>
   <data name="PresetMaxCompressionTitle.TextProperty" xml:space="preserve">
-    <value>Max Compression</value>
+    <value>Compressão máxima</value>
   </data>
   <data name="PresetMaxCompressionDescription.TextProperty" xml:space="preserve">
-    <value>Smallest file using HEVC (H.265)</value>
+    <value>Menor arquivo usando HEVC (H.265)</value>
   </data>
   <data name="VideoCodec.HeaderProperty" xml:space="preserve">
     <value>Codec de vídeo</value>
@@ -154,33 +154,33 @@
     <value>Qualidade (CRF)</value>
   </data>
   <data name="EncodingSpeed.HeaderProperty" xml:space="preserve">
-    <value>Encoding speed</value>
+    <value>Velocidade de codificação</value>
   </data>
   <data name="AudioBitrate.HeaderProperty" xml:space="preserve">
-    <value>Audio bitrate</value>
+    <value>Taxa de bits do áudio</value>
   </data>
   <data name="Resolution.HeaderProperty" xml:space="preserve">
-    <value>Resolution</value>
+    <value>Resolução</value>
   </data>
   <data name="FrameRate.HeaderProperty" xml:space="preserve">
-    <value>Max frame rate</value>
+    <value>Taxa máxima de quadros</value>
   </data>
   <data name="CompressButton.ContentProperty" xml:space="preserve">
-    <value>Compress</value>
+    <value>Comprimir</value>
   </data>
   <data name="CancelButton.ContentProperty" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="ResultTitle.TextProperty" xml:space="preserve">
-    <value>Compression complete</value>
+    <value>Compressão completa</value>
   </data>
   <data name="ResultSummary" xml:space="preserve">
-    <value>{0} of {1} files compressed successfully</value>
+    <value>Arquivos {0} de {1} compactados com sucesso</value>
   </data>
   <data name="OpenFolderButton.ContentProperty" xml:space="preserve">
-    <value>Open folder</value>
+    <value>Abrir pasta</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Compress video</value>
+    <value>Comprimir vídeo</value>
   </data>
 </root>
