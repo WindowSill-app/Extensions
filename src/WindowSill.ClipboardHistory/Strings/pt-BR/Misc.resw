@@ -151,6 +151,6 @@
     <value>Formato não suportado</value>
   </data>
   <data name="LinkError" xml:space="preserve">
-    <value>Unable to load link</value>
+    <value>Não foi possível carregar o link</value>
   </data>
 </root>
