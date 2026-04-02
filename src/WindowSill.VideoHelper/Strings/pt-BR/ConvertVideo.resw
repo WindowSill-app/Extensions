@@ -59,19 +59,19 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>Convert video</value>
+    <value>Converter Vídeo</value>
   </data>
   <data name="FormatMp4Title.TextProperty" xml:space="preserve">
     <value>MP4</value>
   </data>
   <data name="FormatMp4Description.TextProperty" xml:space="preserve">
-    <value>Universal compatibility (H.264)</value>
+    <value>Compatibilidade universal (H.264)</value>
   </data>
   <data name="FormatMkvTitle.TextProperty" xml:space="preserve">
     <value>MKV</value>
   </data>
   <data name="FormatMkvDescription.TextProperty" xml:space="preserve">
-    <value>Flexible container (H.264)</value>
+    <value>Container flexível (H.264)</value>
   </data>
   <data name="FormatWebmTitle.TextProperty" xml:space="preserve">
     <value>WebM</value>
@@ -83,30 +83,30 @@
     <value>MOV</value>
   </data>
   <data name="FormatMovDescription.TextProperty" xml:space="preserve">
-    <value>Apple ecosystem (H.264)</value>
+    <value>Ecossistema da Apple (H.264)</value>
   </data>
   <data name="FormatAviTitle.TextProperty" xml:space="preserve">
     <value>AVI</value>
   </data>
   <data name="FormatAviDescription.TextProperty" xml:space="preserve">
-    <value>Legacy compatibility (H.264)</value>
+    <value>Compatibilidade com legado (H.264)</value>
   </data>
   <data name="FormatGifTitle.TextProperty" xml:space="preserve">
     <value>GIF</value>
   </data>
   <data name="FormatGifDescription.TextProperty" xml:space="preserve">
-    <value>Animated image (no audio)</value>
+    <value>Imagem animada (sem áudio)</value>
   </data>
   <data name="CancelButton.ContentProperty" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="ResultTitle.TextProperty" xml:space="preserve">
-    <value>Conversion complete</value>
+    <value>Conversão concluída</value>
   </data>
   <data name="ResultSummary" xml:space="preserve">
-    <value>{0} of {1} files converted successfully</value>
+    <value>{0} de {1} arquivos convertidos com sucesso</value>
   </data>
   <data name="OpenFolderButton.ContentProperty" xml:space="preserve">
-    <value>Open folder</value>
+    <value>Abrir pasta</value>
   </data>
 </root>
