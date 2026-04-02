@@ -124,7 +124,7 @@
     <value>Concluído!</value>
   </data>
   <data name="ConvertingFiles" xml:space="preserve">
-    <value>Converting {0} files...</value>
+    <value>Convertendo {0} arquivos...</value>
   </data>
   <data name="ConversionCompleted" xml:space="preserve">
     <value>Concluído!</value>
