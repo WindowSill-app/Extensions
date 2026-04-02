@@ -121,22 +121,22 @@
     <value>Download necessário</value>
   </data>
   <data name="DialogDescription.TextProperty" xml:space="preserve">
-    <value>Video Helper requires FFmpeg to compress and convert videos. FFmpeg will be downloaded from the internet (approximately 210 MB). This is a one-time download.</value>
+    <value>O Assistente de Vídeo requer que o FFmpeg comprima e converta vídeos. O FFmpeg será baixado da internet (aproximadamente 210 MB). Este é um download único.</value>
   </data>
   <data name="LicenseNotice.TextProperty" xml:space="preserve">
-    <value>FFmpeg is licensed under the GPL. Learn more at ffmpeg.org.</value>
+    <value>FFmpeg está licenciado sob a GPL. Saiba mais em ffmpeg.org.</value>
   </data>
   <data name="DownloadButton" xml:space="preserve">
-    <value>Download</value>
+    <value>Baixar</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
-    <value>Downloading FFmpeg...</value>
+    <value>Baixando FFmpeg...</value>
   </data>
   <data name="Extracting" xml:space="preserve">
-    <value>Extracting FFmpeg...</value>
+    <value>Extraindo FFmpeg...</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
     <value>Falha no download. Verifique sua conexão com a internet e tente novamente.</value>
