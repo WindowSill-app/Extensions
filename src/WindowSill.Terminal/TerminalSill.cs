@@ -1,36 +1,52 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 using WindowSill.API;
-using WindowSill.Terminal.Core;
-using WindowSill.Terminal.Parsers;
-using WindowSill.Terminal.ViewModels;
-using WindowSill.Terminal.Views;
+using WindowSill.Terminal.Activators;
+using WindowSill.Terminal.Core.Commands;
+using WindowSill.Terminal.Sill;
 using Path = System.IO.Path;
 
 namespace WindowSill.Terminal;
 
-/// <summary>
-/// WindowSill Terminal extension entry point. Detects command-like text selections
-/// and offers to execute them in a user-chosen shell.
-/// </summary>
 [Export(typeof(ISill))]
 [Name("Terminal")]
-public sealed class TerminalSill : ISillActivatedByTextSelection, ISillActivatedByDefault, ISillListView
+[SupportMultipleMonitors(true)]
+internal sealed class TerminalSill
+    : ISillActivatedByTextSelection,
+    ISillActivatedByDragAndDrop,
+    ISillActivatedByDefault,
+    ISillListView
 {
-    private readonly List<CommandItemViewModel> _activeCommands = [];
+    private readonly Lock _lock = new();
+    private readonly IPluginInfo _pluginInfo;
+    private readonly SillFactory _sillFactory;
+    private readonly CommandExecutionService _commandExecutionService;
 
-    [Import]
-    private IPluginInfo _pluginInfo = null!;
+    private bool _isDynamicallyActivated;
+    private bool _ignoreRebuildViewList;
+    private WindowTextSelection? _currentWindowTextSelection;
+    private string[]? _currentDroppedFiles;
 
-    [Import]
-    private IShellDetectionService _shellDetectionService = null!;
-
-    [Import]
-    private ICommandExecutionService _commandExecutionService = null!;
+    [ImportingConstructor]
+    public TerminalSill(IPluginInfo pluginInfo, SillFactory sillFactory, CommandExecutionService commandExecutionService)
+    {
+        _pluginInfo = pluginInfo;
+        _sillFactory = sillFactory;
+        _commandExecutionService = commandExecutionService;
+        _commandExecutionService.BackgroundRunnersRemoved += CommandExecutionService_BackgroundRunnersChanged;
+    }
 
     /// <inheritdoc />
-    public string DisplayName => "/WindowSill.Terminal/TerminalSill/DisplayName".GetLocalizedString();
+    public string DisplayName => "Terminal";
+
+    /// <inheritdoc />
+    public string[] TextSelectionActivatorTypeNames => [CommandSelectionActivator.ActivatorName];
+
+    /// <inheritdoc />
+    public string[] DragAndDropActivatorTypeNames => [ScriptFileDropActivator.ActivatorName];
 
     /// <inheritdoc />
     public SillSettingsView[]? SettingsViews => null;
@@ -42,9 +58,6 @@ public sealed class TerminalSill : ISillActivatedByTextSelection, ISillActivated
     public SillView? PlaceholderView => null;
 
     /// <inheritdoc />
-    public string[] TextSelectionActivatorTypeNames => [Activators.CommandSelectionActivator.ActivatorName];
-
-    /// <inheritdoc />
     public IconElement CreateIcon()
         => new ImageIcon
         {
@@ -52,148 +65,167 @@ public sealed class TerminalSill : ISillActivatedByTextSelection, ISillActivated
         };
 
     /// <inheritdoc />
-    public async ValueTask OnActivatedAsync()
+    public async ValueTask OnActivatedAsync(string textSelectionActivatorTypeName, WindowTextSelection currentSelection)
     {
-        // Default activation — rebuild view list to show any active commands.
-        await ThreadHelper.RunOnUIThreadAsync(RebuildViewList);
+        await ThreadHelper.RunOnUIThreadAsync(async () =>
+        {
+            _isDynamicallyActivated = true;
+            _currentWindowTextSelection = currentSelection;
+            _currentDroppedFiles = null;
+            await RebuildViewListAsync();
+        });
     }
 
     /// <inheritdoc />
-    public async ValueTask OnActivatedAsync(string textSelectionActivatorTypeName, WindowTextSelection currentSelection)
+    public async ValueTask OnActivatedAsync(string dragAndDropActivatorTypeName, DataPackageView dataPackageView)
     {
-        // Available shells
-        IReadOnlyList<ShellInfo> shells = _shellDetectionService.GetAvailableShells();
-        if (shells.Count == 0)
+        try
         {
-            return;
-        }
+            var droppedCompatibleFiles = new List<string>();
 
-        // Command input from selection
-        string? terminalCommand = TerminalCommandParser.GetFirstTerminalCommand(currentSelection.SelectedText);
-        if (terminalCommand is null)
-        {
-            return;
-        }
-
-        // Command data/display -- shown to user on sill, used to drive popup.
-        var viewModel = new CommandItemViewModel(terminalCommand, shells, _commandExecutionService);
-
-        // Working directory from selection
-        string? workingDirectory = TerminalCommandParser.GetFirstWorkingDirectory(currentSelection.SelectedText);
-        if (workingDirectory is not null)
-        {
-            viewModel.WorkingDirectory = workingDirectory;
-        }
-
-        // ShellInfo preference hints from selection
-        ShellInfo? preferredTerminalShell = null;
-        if (TerminalCommandParser.HasPowerShellHint(currentSelection.SelectedText))
-        {
-            preferredTerminalShell = shells.First(x => x.ExecutablePath.Contains("powershell.exe"));
-        }
-        else if (TerminalCommandParser.HasPwshHint(currentSelection.SelectedText))
-        {
-            preferredTerminalShell = shells.First(x => x.ExecutablePath.Contains("pwsh.exe"));
-        }
-        else if (TerminalCommandParser.HasCmdHint(currentSelection.SelectedText))
-        {
-            preferredTerminalShell = shells.First(x => x.ExecutablePath.Contains("cmd.exe"));
-        }
-        else if (TerminalCommandParser.HasWslHint(currentSelection.SelectedText) && false) // Disabled until implemented
-        {
-            throw new NotImplementedException(); // TODO
-        }
-
-        if (preferredTerminalShell is not null)
-        {
-            viewModel.SelectedShell = preferredTerminalShell;
-        }
-
-        // Add to sill ui as button with popup
-        await ThreadHelper.RunOnUIThreadAsync(() =>
-        {
-            var popup = new TerminalPopup(viewModel);
-
-            var listItem = new SillListViewPopupItem(
-                terminalCommand,
-                null,
-                popup);
-
-            viewModel.DismissRequested += (_, _) =>
+            if (dataPackageView.Contains(StandardDataFormats.StorageItems))
             {
-                ThreadHelper.RunOnUIThreadAsync(() =>
-                {
-                    ViewList.Remove(listItem);
-                    _activeCommands.Remove(viewModel);
-                }).ForgetSafely();
-            };
+                IReadOnlyList<IStorageItem> storageItems = await dataPackageView.GetStorageItemsAsync();
 
-            CreateContextMenu(viewModel, listItem);
-            _activeCommands.Add(viewModel);
-            ViewList.Add(listItem);
+                for (int i = 0; i < storageItems.Count; i++)
+                {
+                    if (storageItems[i] is IStorageFile storageFile)
+                    {
+                        try
+                        {
+                            if (ScriptFileDropActivator.SupportedExtensions.Contains(storageFile.FileType)
+                                && File.Exists(storageFile.Path))
+                            {
+                                droppedCompatibleFiles.Add(storageFile.Path);
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // Path too long or other error; skip this file.
+                            continue;
+                        }
+                    }
+                }
+            }
+
+            await ThreadHelper.RunOnUIThreadAsync(async () =>
+            {
+                _isDynamicallyActivated = true;
+                _currentWindowTextSelection = null;
+                _currentDroppedFiles = droppedCompatibleFiles.ToArray();
+                await RebuildViewListAsync();
+            });
+        }
+        catch
+        {
+            await ThreadHelper.RunOnUIThreadAsync(() =>
+            {
+                _isDynamicallyActivated = true;
+                _currentWindowTextSelection = null;
+                _currentDroppedFiles = null;
+                ClearViewListAndAddOngoingCommands();
+            });
+        }
+    }
+
+    /// <inheritdoc />
+    public async ValueTask OnActivatedAsync()
+    {
+        await ThreadHelper.RunOnUIThreadAsync(async () =>
+        {
+            if (!_isDynamicallyActivated)
+            {
+                _currentWindowTextSelection = null;
+                _currentDroppedFiles = null;
+                await RebuildViewListAsync();
+            }
         });
     }
 
     /// <inheritdoc />
     public async ValueTask OnDeactivatedAsync()
     {
-        // Only remove pending (not yet running) commands.
-        // Running/completed commands remain in the list view.
-        await ThreadHelper.RunOnUIThreadAsync(RebuildViewList);
+        await ThreadHelper.RunOnUIThreadAsync(() =>
+        {
+            _isDynamicallyActivated = false;
+            _currentWindowTextSelection = null;
+            _currentDroppedFiles = null;
+            ClearViewListAndAddOngoingCommands();
+        });
     }
 
-    private void RebuildViewList()
+    private async Task RebuildViewListAsync()
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
-        ViewList.Clear();
-
-        // Keep items that are running or finished (not pending).
-        for (int i = _activeCommands.Count - 1; i >= 0; i--)
+        if (_ignoreRebuildViewList)
         {
-            CommandItemViewModel vm = _activeCommands[i];
-            if (vm.State == CommandState.Pending)
+            return;
+        }
+
+        lock (_lock)
+        {
+            if (_ignoreRebuildViewList)
             {
-                _activeCommands.RemoveAt(i);
-                continue;
+                return;
             }
 
-            var popup = new TerminalPopup(vm);
-            var listItem = new SillListViewPopupItem(
-                vm.CommandText,
-                null,
-                popup);
+            _ignoreRebuildViewList = true;
+        }
 
-            vm.DismissRequested += (_, _) =>
+        ClearViewListAndAddOngoingCommands();
+
+        WindowTextSelection? currentWindowTextSelection = _currentWindowTextSelection;
+        string[]? currentDroppedFiles = _currentDroppedFiles;
+        if (currentWindowTextSelection is not null)
+        {
+            SillListViewMenuFlyoutItem? commandSelectionSill = await _sillFactory.CreateSillFromSelectedTextAsync(currentWindowTextSelection);
+            if (commandSelectionSill is not null)
             {
-                ThreadHelper.RunOnUIThreadAsync(() =>
+                ViewList.Add(commandSelectionSill);
+            }
+        }
+        else if (currentDroppedFiles is not null)
+        {
+            for (int i = 0; i < currentDroppedFiles.Length; i++)
+            {
+                string filePath = currentDroppedFiles[i];
+                SillListViewMenuFlyoutItem? scriptFileDropSill = await _sillFactory.CreateSillFromScriptFilePathAsync(filePath);
+                if (scriptFileDropSill is not null)
                 {
-                    ViewList.Remove(listItem);
-                    _activeCommands.Remove(vm);
-                }).ForgetSafely();
-            };
+                    ViewList.Add(scriptFileDropSill);
+                }
+            }
+        }
 
-            CreateContextMenu(vm, listItem);
-            ViewList.Add(listItem);
+        _ignoreRebuildViewList = false;
+    }
+
+    private void ClearViewListAndAddOngoingCommands()
+    {
+        ThreadHelper.ThrowIfNotOnUIThread();
+
+        for (int i = 0; i < ViewList.Count; i++)
+        {
+            if (ViewList[i].Content is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+        }
+
+        ViewList.Clear();
+
+        IReadOnlyList<CommandRunner> backgroundRunners = _commandExecutionService.GetBackgroundRunners();
+        for (int i = 0; i < backgroundRunners.Count; i++)
+        {
+            CommandRunner runner = backgroundRunners[i];
+            SillListViewMenuFlyoutItem commandExecutionSill = _sillFactory.CreateSillFromCommandRunner(runner);
+            ViewList.Add(commandExecutionSill);
         }
     }
 
-    private static void CreateContextMenu(CommandItemViewModel viewModel, SillListViewItem view)
+    private void CommandExecutionService_BackgroundRunnersChanged(object? sender, EventArgs e)
     {
-        var menuFlyout = new MenuFlyout();
-        menuFlyout.Items.Add(new MenuFlyoutItem
-        {
-            Text = "Run",
-            Icon = new SymbolIcon(Symbol.Go),
-            Command = viewModel.RunCommand,
-        });
-        menuFlyout.Items.Add(new MenuFlyoutItem
-        {
-            Text = "Run and copy",
-            Icon = new SymbolIcon(Symbol.Import),
-            Command = viewModel.RunAndCopyCommand,
-        });
-
-        view.ContextFlyout = menuFlyout;
+        ThreadHelper.RunOnUIThreadAsync(RebuildViewListAsync);
     }
 }

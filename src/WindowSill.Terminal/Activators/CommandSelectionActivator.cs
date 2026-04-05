@@ -1,6 +1,6 @@
 using System.ComponentModel.Composition;
 using WindowSill.API;
-using WindowSill.Terminal.Parsers;
+using WindowSill.Terminal.Core.Parsers;
 
 namespace WindowSill.Terminal.Activators;
 
@@ -31,6 +31,8 @@ internal sealed class CommandSelectionActivator : ISillTextSelectionActivator
         try
         {
             string? firstCommandWithoutDecorators = TerminalCommandParser.GetFirstTerminalCommand(selectedText);
+            cancellationToken.ThrowIfCancellationRequested();
+
             if (firstCommandWithoutDecorators is null)
             {
                 return new ValueTask<bool>(false);

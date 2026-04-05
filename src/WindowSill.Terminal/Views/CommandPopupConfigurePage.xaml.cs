@@ -7,25 +7,22 @@ using WinRT.Interop;
 
 namespace WindowSill.Terminal.Views;
 
-/// <summary>
-/// Configuration page for setting up command execution parameters.
-/// </summary>
-internal sealed partial class ConfigurePage : Page
+public sealed partial class CommandPopupConfigurePage : Page
 {
     [DllImport("user32.dll")]
     private static extern nint GetActiveWindow();
 
-    public ConfigurePage()
+    public CommandPopupConfigurePage()
     {
         InitializeComponent();
     }
 
-    internal CommandItemViewModel ViewModel { get; private set; } = null!;
+    internal CommandViewModel ViewModel { get; private set; } = null!;
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
-        ViewModel = (CommandItemViewModel)e.Parameter;
+        ViewModel = (CommandViewModel)e.Parameter;
     }
 
     private void BrowseButton_Click(object sender, RoutedEventArgs e)

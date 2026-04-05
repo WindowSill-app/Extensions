@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Page
-    x:Class="WindowSill.Terminal.Views.ConfigurePage"
+    x:Class="WindowSill.Terminal.Views.CommandPopupConfigurePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:api="using:WindowSill.API"
-    xmlns:core="using:WindowSill.Terminal.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shell="using:WindowSill.Terminal.Core.Shell"
     mc:Ignorable="d">
 
     <Grid>
@@ -25,16 +25,18 @@
                 Spacing="16">
                 <!--  Command  -->
                 <StackPanel Spacing="4">
-                    <TextBlock api:Uids.Uid="/WindowSill.Terminal/ConfigurePage/CommandLabel" Style="{ThemeResource CaptionTextBlockStyle}" />
+                    <TextBlock api:Uids.Uid="/WindowSill.Terminal/CommandPopupConfigurePage/CommandLabel" Style="{ThemeResource CaptionTextBlockStyle}" />
                     <TextBox
+                        MaxHeight="250"
+                        AcceptsReturn="True"
                         IsReadOnly="True"
-                        Text="{x:Bind ViewModel.CommandText, Mode=OneWay}"
+                        Text="{x:Bind ViewModel.Script, Mode=OneWay}"
                         TextWrapping="Wrap" />
                 </StackPanel>
 
                 <!--  Working Directory  -->
                 <StackPanel Spacing="4">
-                    <TextBlock api:Uids.Uid="/WindowSill.Terminal/ConfigurePage/WorkingDirectoryLabel" Style="{ThemeResource CaptionTextBlockStyle}" />
+                    <TextBlock api:Uids.Uid="/WindowSill.Terminal/CommandPopupConfigurePage/WorkingDirectoryLabel" Style="{ThemeResource CaptionTextBlockStyle}" />
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -43,7 +45,7 @@
                         <TextBox Grid.Column="0" Text="{x:Bind ViewModel.WorkingDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Button
                             Grid.Column="1"
-                            api:Uids.Uid="/WindowSill.Terminal/ConfigurePage/BrowseButton"
+                            api:Uids.Uid="/WindowSill.Terminal/CommandPopupConfigurePage/BrowseButton"
                             Click="BrowseButton_Click"
                             Content="📁" />
                     </Grid>
@@ -56,13 +58,23 @@
                         HorizontalAlignment="Stretch"
                         DisplayMemberPath="DisplayName"
                         ItemsSource="{x:Bind ViewModel.AvailableShells}"
-                        SelectedItem="{x:Bind ViewModel.SelectedShell, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind ViewModel.SelectedShell, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <!--<ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="shell:ShellInfo">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Image
+                                        Width="16"
+                                        Height="16"
+                                        Source="{x:Bind Icon}" />
+                                    <TextBlock Text="{x:Bind DisplayName}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>-->
+                    </ComboBox>
                 </StackPanel>
 
                 <!--  Run as administrator  -->
-                <CheckBox
-                    api:Uids.Uid="/WindowSill.Terminal/ConfigurePage/RunAsAdminCheckBox"
-                    IsChecked="{x:Bind ViewModel.RunAsAdministrator, Mode=TwoWay}" />
+                <CheckBox api:Uids.Uid="/WindowSill.Terminal/CommandPopupConfigurePage/RunAsAdminCheckBox" IsChecked="{x:Bind ViewModel.RunAsAdministrator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
 
@@ -84,8 +96,8 @@
 
                 <Button
                     Grid.Column="1"
-                    api:Uids.Uid="/WindowSill.Terminal/ConfigurePage/RunButton"
-                    Command="{x:Bind ViewModel.RunCommand}"
+                    api:Uids.Uid="/WindowSill.Terminal/CommandPopupConfigurePage/RunButton"
+                    Command="{x:Bind ViewModel.RunMenuCommand}"
                     ElementSoundMode="FocusOnly"
                     Style="{ThemeResource LargeAccentButtonStyle}" />
             </Grid>
