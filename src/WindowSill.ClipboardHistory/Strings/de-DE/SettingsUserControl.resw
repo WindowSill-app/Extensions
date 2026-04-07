@@ -130,7 +130,7 @@
     <value>Passwörter ausblenden</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>Wie viele Elemente sollen im Verlauf der Zwischenablage gespeichert werden?</value>
+    <value>How many items should be kept in the clipboard history</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
     <value>Maximale Anzahl von Artikeln</value>
