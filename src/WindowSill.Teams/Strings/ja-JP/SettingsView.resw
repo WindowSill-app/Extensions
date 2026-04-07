@@ -124,7 +124,7 @@
     <value>Microsoft Teamsにウィンドウサッシを接続する</value>
   </data>
   <data name="Connect.Description" xml:space="preserve">
-    <value>Microsoft Teamsとの連携を有効にするには、リンクされたページの手順に従ってMicrosoft TeamsでサードパーティAPIを有効にしてください。</value>
+    <value>To enable Microsoft Teams integration, enable third-party API in Microsoft Teams by following the steps on the linked page</value>
   </data>
   <data name="ConnectGuide" xml:space="preserve">
     <value>設定ガイド</value>
