@@ -124,7 +124,7 @@
     <value>将 WindowSill 连接到 Microsoft Teams</value>
   </data>
   <data name="Connect.Description" xml:space="preserve">
-    <value>要启用 Microsoft Teams 集成，请按照链接页面的步骤，在 Microsoft Teams 中启用第三方 API。</value>
+    <value>To enable Microsoft Teams integration, enable third-party API in Microsoft Teams by following the steps on the linked page</value>
   </data>
   <data name="ConnectGuide" xml:space="preserve">
     <value>设置指南</value>
