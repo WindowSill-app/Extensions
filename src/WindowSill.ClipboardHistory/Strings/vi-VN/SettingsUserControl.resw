@@ -130,7 +130,7 @@
     <value>Ẩn mật khẩu</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>Bạn muốn giữ bao nhiêu mục trong lịch sử bảng tạm.</value>
+    <value>How many items should be kept in the clipboard history</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
     <value>Số lượng tối đa các mục</value>
