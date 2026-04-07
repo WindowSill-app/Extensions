@@ -130,7 +130,7 @@
     <value>隱藏密碼</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>剪貼簿歷史記錄中保留的項目數量</value>
+    <value>How many items should be kept in the clipboard history</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
     <value>最大項目數量</value>
