@@ -124,7 +124,7 @@
     <value>Kết nối Windowsill với Microsoft Teams</value>
   </data>
   <data name="Connect.Description" xml:space="preserve">
-    <value>Để bật tích hợp Microsoft Teams, kích hoạt API của bên thứ ba trong Microsoft Teams bằng cách làm theo các bước trên trang liên kết.</value>
+    <value>To enable Microsoft Teams integration, enable third-party API in Microsoft Teams by following the steps on the linked page</value>
   </data>
   <data name="ConnectGuide" xml:space="preserve">
     <value>Hướng dẫn cài đặt</value>
