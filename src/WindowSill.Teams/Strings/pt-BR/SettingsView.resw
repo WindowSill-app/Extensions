@@ -124,7 +124,7 @@
     <value>Conectar WindowSill ao Microsoft Teams</value>
   </data>
   <data name="Connect.Description" xml:space="preserve">
-    <value>Para habilitar a integração com o Microsoft Teams, ative a API de terceiros no Microsoft Teams seguindo as etapas na página vinculada.</value>
+    <value>To enable Microsoft Teams integration, enable third-party API in Microsoft Teams by following the steps on the linked page</value>
   </data>
   <data name="ConnectGuide" xml:space="preserve">
     <value>Guia de configuração</value>
