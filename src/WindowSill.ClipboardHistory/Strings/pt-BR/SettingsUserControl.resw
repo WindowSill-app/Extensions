@@ -130,7 +130,7 @@
     <value>Ocultar senhas</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>How many items should be kept in the clipboard history</value>
+    <value>Quantos itens devem ser mantidos no histórico da área de transferência</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
     <value>Número máximo de itens</value>
