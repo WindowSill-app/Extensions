@@ -124,7 +124,7 @@
     <value>Anwendung mit Microsoft Teams verbinden</value>
   </data>
   <data name="Connect.Description" xml:space="preserve">
-    <value>Um die Microsoft Teams-Integration zu aktivieren, aktivieren Sie die API von Drittanbietern in Microsoft Teams, indem Sie die Schritte auf der verlinkten Seite befolgen.</value>
+    <value>To enable Microsoft Teams integration, enable third-party API in Microsoft Teams by following the steps on the linked page</value>
   </data>
   <data name="ConnectGuide" xml:space="preserve">
     <value>Einrichtungsanleitung</value>
