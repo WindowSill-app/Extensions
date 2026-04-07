@@ -130,7 +130,7 @@
     <value>पासवर्ड छिपाएँ</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>क्लिपबोर्ड इतिहास में कित आइटम रखना चाहिए।</value>
+    <value>How many items should be kept in the clipboard history</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
     <value>अधिकतम आइटम संख्या</value>
