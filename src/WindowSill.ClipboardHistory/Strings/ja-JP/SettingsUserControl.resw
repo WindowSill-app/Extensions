@@ -130,7 +130,7 @@
     <value>パスワードを非表示にする</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>クリップボード履歴に保存するアイテムの数はいくつですか。</value>
+    <value>How many items should be kept in the clipboard history</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
     <value>最大アイテム数</value>
