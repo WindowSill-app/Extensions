@@ -124,7 +124,7 @@
     <value>Підключити вікно Sill до Microsoft Teams</value>
   </data>
   <data name="Connect.Description" xml:space="preserve">
-    <value>Щоб увімкнути інтеграцію Microsoft Teams, увімкніть API сторонніх розробників у Microsoft Teams, дотримуючись кроків на пов’язаній сторінці.</value>
+    <value>To enable Microsoft Teams integration, enable third-party API in Microsoft Teams by following the steps on the linked page</value>
   </data>
   <data name="ConnectGuide" xml:space="preserve">
     <value>Посібник з налаштування</value>
