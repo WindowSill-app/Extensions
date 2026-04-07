@@ -124,7 +124,7 @@
     <value>माइक्रोसॉफ्ट टीमों के साथ विंडो कनेक्ट करें</value>
   </data>
   <data name="Connect.Description" xml:space="preserve">
-    <value>माइक्रोसॉफ्ट टीमों इंटीग्रेशन सक्षम करने के लिए, लिंक किए गए पृष्ठ पर चरणों का पालन करके माइक्रोसॉफ्ट टीमों में थर्ड-पार्टी API को सक्षम करें।</value>
+    <value>To enable Microsoft Teams integration, enable third-party API in Microsoft Teams by following the steps on the linked page</value>
   </data>
   <data name="ConnectGuide" xml:space="preserve">
     <value>सेटअप गाइड</value>
