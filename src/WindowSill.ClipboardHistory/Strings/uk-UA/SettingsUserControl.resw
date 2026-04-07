@@ -130,7 +130,7 @@
     <value>Приховати паролі</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>Скільки елементів слід зберігати в історії буфера обміну.</value>
+    <value>How many items should be kept in the clipboard history</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
     <value>Максимальна кількість елементів</value>
