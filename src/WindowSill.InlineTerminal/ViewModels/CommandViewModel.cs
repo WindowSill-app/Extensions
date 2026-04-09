@@ -29,7 +29,7 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
         _messenger = messenger;
         _commandExecutionService = commandExecutionService;
         AvailableShells = Array.Empty<ShellInfo>();
-        Title = commandRunner.Script ?? Path.GetFileName(commandRunner.ScriptFilePath!);
+        Title = FormatDisplayTitle(commandRunner.Script ?? Path.GetFileName(commandRunner.ScriptFilePath!));
         SelectedShell = commandRunner.SelectedShell;
         Script = commandRunner.Script;
         WorkingDirectory = commandRunner.WorkingDirectory;
@@ -56,7 +56,7 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
         _commandExecutionService = commandExecutionService;
         _windowTextSelection = windowTextSelection;
         AvailableShells = shells;
-        Title = script ?? Path.GetFileName(scriptFilePath!);
+        Title = FormatDisplayTitle(script ?? Path.GetFileName(scriptFilePath!));
         SelectedShell = preferredShell ?? shells.FirstOrDefault();
         Script = script;
         ScriptFilePath = scriptFilePath;
@@ -228,5 +228,14 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
         RunAndCopyMenuCommand.NotifyCanExecuteChanged();
         RunAndAppendMenuCommand.NotifyCanExecuteChanged();
         RunAndReplaceMenuCommand.NotifyCanExecuteChanged();
+    }
+
+    private static string FormatDisplayTitle(string text)
+    {
+        return text
+            .Replace("\r\n", "⏎")
+            .Replace("\n\r", "⏎")
+            .Replace('\r', '⏎')
+            .Replace('\n', '⏎');
     }
 }

@@ -29,8 +29,7 @@
                     <TextBox
                         MaxHeight="250"
                         AcceptsReturn="True"
-                        IsReadOnly="True"
-                        Text="{x:Bind ViewModel.Script, Mode=OneWay}"
+                        Text="{x:Bind ViewModel.Script, Mode=TwoWay}"
                         TextWrapping="Wrap" />
                 </StackPanel>
 
