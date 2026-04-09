@@ -113,66 +113,81 @@ internal sealed class SillFactory
         return null;
     }
 
-    internal async Task<SillListViewMenuFlyoutItem?> CreateSillFromSelectedTextAsync(WindowTextSelection windowTextSelection)
+    internal async Task<List<SillListViewMenuFlyoutItem>> CreateSillsFromSelectedTextAsync(WindowTextSelection windowTextSelection)
     {
+        var results = new List<SillListViewMenuFlyoutItem>();
+
         try
         {
             IReadOnlyList<ShellInfo> shells = await _shellDetectionService.GetAvailableShellsAsync();
             if (shells.Count == 0)
             {
-                return null;
+                return results;
             }
 
-            string? script = TerminalCommandParser.GetFirstTerminalCommand(windowTextSelection.SelectedText);
-            if (script is null)
+            List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(windowTextSelection.SelectedText);
+            if (blocks.Count == 0)
             {
-                return null;
+                return results;
             }
 
-            string? workingDirectory = TerminalCommandParser.GetFirstWorkingDirectory(windowTextSelection.SelectedText);
+            ShellInfo? preferredTerminalShell = DetectPreferredShell(windowTextSelection.SelectedText, shells);
 
-            ShellInfo? preferredTerminalShell = null;
-            if (ShellHintDetector.HasPowerShellHint(windowTextSelection.SelectedText))
+            foreach (ParsedCommandBlock block in blocks)
             {
-                preferredTerminalShell = shells.FirstOrDefault(x => x.ExecutablePath.Contains("powershell.exe"));
-            }
-            else if (ShellHintDetector.HasPwshHint(windowTextSelection.SelectedText))
-            {
-                preferredTerminalShell = shells.FirstOrDefault(x => x.ExecutablePath.Contains("pwsh.exe"));
-            }
-            else if (ShellHintDetector.HasCmdHint(windowTextSelection.SelectedText))
-            {
-                preferredTerminalShell = shells.FirstOrDefault(x => x.ExecutablePath.Contains("cmd.exe"));
-            }
-            else if (ShellHintDetector.HasWslHint(windowTextSelection.SelectedText))
-            {
-                preferredTerminalShell = shells.FirstOrDefault(x => x.IsWsl);
-            }
+                var viewModel
+                    = new CommandViewModel(
+                        _messenger,
+                        _commandExecutionService,
+                        windowTextSelection,
+                        shells,
+                        preferredTerminalShell,
+                        block.WorkingDirectory,
+                        block.Command,
+                        scriptFilePath: null);
 
-            var viewModel
-                = new CommandViewModel(
-                    _messenger,
-                    _commandExecutionService,
-                    windowTextSelection,
-                    shells,
-                    preferredTerminalShell,
-                    workingDirectory,
-                    script,
-                    scriptFilePath: null);
+                var sillView
+                    = new SillListViewMenuFlyoutItem(
+                        string.Empty,
+                        block.Command,
+                        CreateMenu(viewModel, hasSelectedText: true));
 
-            var sillView
-                = new SillListViewMenuFlyoutItem(
-                    string.Empty,
-                    script,
-                    CreateMenu(viewModel, hasSelectedText: true));
+                sillView.Content = new CommandSillContent(_pluginInfo, sillView, viewModel);
+                viewModel.SillView = sillView;
 
-            sillView.Content = new CommandSillContent(_pluginInfo, sillView, viewModel);
-            viewModel.SillView = sillView;
-
-            return sillView;
+                results.Add(sillView);
+            }
         }
         catch
         {
+        }
+
+        return results;
+    }
+
+    /// <summary>
+    /// Detects which shell the user likely intends based on hints in the selected text.
+    /// </summary>
+    private static ShellInfo? DetectPreferredShell(string selectedText, IReadOnlyList<ShellInfo> shells)
+    {
+        if (ShellHintDetector.HasPowerShellHint(selectedText))
+        {
+            return shells.FirstOrDefault(x => x.ExecutablePath.Contains("powershell.exe"));
+        }
+
+        if (ShellHintDetector.HasPwshHint(selectedText))
+        {
+            return shells.FirstOrDefault(x => x.ExecutablePath.Contains("pwsh.exe"));
+        }
+
+        if (ShellHintDetector.HasCmdHint(selectedText))
+        {
+            return shells.FirstOrDefault(x => x.ExecutablePath.Contains("cmd.exe"));
+        }
+
+        if (ShellHintDetector.HasWslHint(selectedText))
+        {
+            return shells.FirstOrDefault(x => x.IsWsl);
         }
 
         return null;

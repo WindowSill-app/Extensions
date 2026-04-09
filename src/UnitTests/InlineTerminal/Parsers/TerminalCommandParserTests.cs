@@ -230,7 +230,7 @@ public class TerminalCommandParserTests
     }
 
     [Fact]
-    public void GetFirstTerminalCommand_MultipleLines_ReturnsFirst()
+    public void GetFirstTerminalCommand_MultiplePrompts_ReturnsFirst()
     {
         TerminalCommandParser.GetFirstTerminalCommand("PS C:\\code> dotnet build\nPS C:\\code> dotnet test")
             .Should().Be("dotnet build");
@@ -263,5 +263,106 @@ public class TerminalCommandParserTests
     {
         TerminalCommandParser.GetFirstTerminalCommand("cmd.exe /c dir")
             .Should().Be("cmd.exe /c dir");
+    }
+
+    // --- GetCommandBlocks tests ---
+
+    [Fact]
+    public void GetCommandBlocks_SinglePromptWithContinuation_ReturnsSingleBlock()
+    {
+        string input = "PS E:\\sources> ls\ndotnet new --install WindowSill.Extension.Template\ndocker --help\nspell";
+
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(input);
+
+        blocks.Should().HaveCount(1);
+        blocks[0].WorkingDirectory.Should().Be("E:\\sources");
+        blocks[0].Command.Should().Be("ls\ndotnet new --install WindowSill.Extension.Template\ndocker --help\nspell");
+    }
+
+    [Fact]
+    public void GetCommandBlocks_TwoPromptsWithContinuation_ReturnsTwoBlocks()
+    {
+        string input = "PS E:\\sources> ls\ndotnet new --install WindowSill.Extension.Template\nPS E:\\sources2> docker --help\nspell";
+
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(input);
+
+        blocks.Should().HaveCount(2);
+        blocks[0].WorkingDirectory.Should().Be("E:\\sources");
+        blocks[0].Command.Should().Be("ls\ndotnet new --install WindowSill.Extension.Template");
+        blocks[1].WorkingDirectory.Should().Be("E:\\sources2");
+        blocks[1].Command.Should().Be("docker --help\nspell");
+    }
+
+    [Fact]
+    public void GetCommandBlocks_SinglePromptNoFollowUp_ReturnsSingleLine()
+    {
+        string input = "PS C:\\code> dotnet build";
+
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(input);
+
+        blocks.Should().HaveCount(1);
+        blocks[0].WorkingDirectory.Should().Be("C:\\code");
+        blocks[0].Command.Should().Be("dotnet build");
+    }
+
+    [Fact]
+    public void GetCommandBlocks_MultiplePromptsNoFollowUp_ReturnsMultipleBlocks()
+    {
+        string input = "PS C:\\code> dotnet build\nPS C:\\code> dotnet test";
+
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(input);
+
+        blocks.Should().HaveCount(2);
+        blocks[0].Command.Should().Be("dotnet build");
+        blocks[1].Command.Should().Be("dotnet test");
+    }
+
+    [Fact]
+    public void GetCommandBlocks_EmptyText_ReturnsEmpty()
+    {
+        TerminalCommandParser.GetCommandBlocks("").Should().BeEmpty();
+    }
+
+    [Fact]
+    public void GetCommandBlocks_NoCommandDetected_ReturnsEmpty()
+    {
+        TerminalCommandParser.GetCommandBlocks("just some random text").Should().BeEmpty();
+    }
+
+    [Fact]
+    public void GetCommandBlocks_BashFallback_ReturnsSingleBlock()
+    {
+        string input = "user@host:~/src$ make build";
+
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(input);
+
+        blocks.Should().HaveCount(1);
+        blocks[0].WorkingDirectory.Should().Be("~/src");
+        blocks[0].Command.Should().Be("make build");
+    }
+
+    [Fact]
+    public void GetCommandBlocks_MarkdownWrappedPrompts_SkipsFences()
+    {
+        string input = "```powershell\nPS C:\\code> Get-Process\nGet-Service\n```";
+
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(input);
+
+        blocks.Should().HaveCount(1);
+        blocks[0].Command.Should().Be("Get-Process\nGet-Service");
+    }
+
+    [Fact]
+    public void GetCommandBlocks_PsWithoutWorkingDir_NoWorkingDirectory()
+    {
+        string input = "PS dotnet build\nPS dotnet test";
+
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(input);
+
+        blocks.Should().HaveCount(2);
+        blocks[0].WorkingDirectory.Should().BeNull();
+        blocks[0].Command.Should().Be("dotnet build");
+        blocks[1].WorkingDirectory.Should().BeNull();
+        blocks[1].Command.Should().Be("dotnet test");
     }
 }

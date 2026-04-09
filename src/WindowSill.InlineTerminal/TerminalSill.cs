@@ -179,10 +179,10 @@ internal sealed class TerminalSill
         string[]? currentDroppedFiles = _currentDroppedFiles;
         if (currentWindowTextSelection is not null)
         {
-            SillListViewMenuFlyoutItem? commandSelectionSill = await _sillFactory.CreateSillFromSelectedTextAsync(currentWindowTextSelection);
-            if (commandSelectionSill is not null)
+            List<SillListViewMenuFlyoutItem> commandSelectionSills = await _sillFactory.CreateSillsFromSelectedTextAsync(currentWindowTextSelection);
+            foreach (SillListViewMenuFlyoutItem sill in commandSelectionSills)
             {
-                ViewList.Add(commandSelectionSill);
+                ViewList.Add(sill);
             }
         }
         else if (currentDroppedFiles is not null)

@@ -1,7 +1,17 @@
+using System.Text;
 using WindowSill.InlineTerminal.Parsers;
 using Path = System.IO.Path;
 
 namespace WindowSill.InlineTerminal.Core.Parsers;
+
+/// <summary>
+/// Represents a parsed command block with an optional working directory and the full command text.
+/// When a prompt is followed by continuation lines (lines without their own prompt), all lines
+/// are joined with newlines into a single <see cref="Command"/>.
+/// </summary>
+/// <param name="WorkingDirectory">The working directory parsed from the prompt, or <see langword="null"/> if none was present.</param>
+/// <param name="Command">The full command text, potentially spanning multiple lines separated by newlines.</param>
+internal record ParsedCommandBlock(string? WorkingDirectory, string Command);
 
 /// <summary>
 /// Parses Windows-style terminal command lines (PS, CMD) from selected text.
@@ -12,19 +22,43 @@ internal static class TerminalCommandParser
     private static readonly string[] executableExtensions = [".exe", ".cmd", ".bat", ".ps1", ".com"];
 
     /// <summary>
+    /// Parses the selected text into one or more command blocks. A new block starts each time a
+    /// shell prompt (e.g. <c>PS C:\path&gt;</c>) is encountered. Lines that follow a prompt without
+    /// introducing a new prompt are appended to the current block so the entire script can be
+    /// executed in one shell invocation.
+    /// </summary>
+    internal static List<ParsedCommandBlock> GetCommandBlocks(string selectedText)
+    {
+        List<WindowsHostCommandLineEntry> entries
+            = ParseWindowsHostCommandLines(
+                selectedText.AsMemory(),
+                shellDelimiter: "PS".AsMemory(),
+                commandDelimiter: ">".AsMemory());
+
+        if (entries.Count > 0)
+        {
+            return entries.Select(e => new ParsedCommandBlock(
+                e.WorkingDirectory?.ToString(),
+                e.TerminalCommand.ToString())).ToList();
+        }
+
+        // Fall back to bash prompt parsing.
+        string? bashCommand = BashPromptParser.GetTerminalCommand(selectedText)?.ToString();
+        if (bashCommand is not null)
+        {
+            string? bashWorkingDir = BashPromptParser.GetWorkingDirectory(selectedText)?.ToString();
+            return [new ParsedCommandBlock(bashWorkingDir, bashCommand)];
+        }
+
+        return [];
+    }
+
+    /// <summary>
     /// Given the full text selected by the user, parses and returns the first inferred working directory.
     /// </summary>
     internal static string? GetFirstWorkingDirectory(string selectedText)
     {
-        ReadOnlyMemory<char> selectedTextMemory = selectedText.AsMemory();
-        WindowsHostCommandLineEntry? winEntry
-            = ParseWindowsHostCommandLines(
-                selectedTextMemory,
-                shellDelimiter: "PS".AsMemory(),
-                commandDelimiter: ">".AsMemory())
-            .FirstOrDefault();
-
-        return winEntry?.WorkingDirectory?.ToString() ?? BashPromptParser.GetWorkingDirectory(selectedText)?.ToString();
+        return GetCommandBlocks(selectedText).FirstOrDefault()?.WorkingDirectory;
     }
 
     /// <summary>
@@ -32,23 +66,13 @@ internal static class TerminalCommandParser
     /// </summary>
     internal static string? GetFirstTerminalCommand(string selectedText)
     {
-        ReadOnlyMemory<char> selectedTextMemory = selectedText.AsMemory();
-        WindowsHostCommandLineEntry? winEntry
-            = ParseWindowsHostCommandLines(
-                selectedTextMemory,
-                shellDelimiter: "PS".AsMemory(),
-                commandDelimiter: ">".AsMemory())
-            .FirstOrDefault();
-
-        return winEntry?.TerminalCommand.ToString() ?? BashPromptParser.GetTerminalCommand(selectedText)?.ToString();
+        return GetCommandBlocks(selectedText).FirstOrDefault()?.Command;
     }
 
     /// <summary>
     /// Parses the selected text and separates out individual Windows host shell invocations.
+    /// Continuation lines (lines without a prompt) are grouped into the preceding prompt's block.
     /// </summary>
-    /// <remarks>
-    /// Does not handle multiline commands, to be added.
-    /// </remarks>
     private static List<WindowsHostCommandLineEntry> ParseWindowsHostCommandLines(
         ReadOnlyMemory<char> selectedText,
         ReadOnlyMemory<char> shellDelimiter,
@@ -59,6 +83,8 @@ internal static class TerminalCommandParser
         ReadOnlySpan<char> cmdDelimSpan = commandDelimiter.Span;
 
         var results = new List<WindowsHostCommandLineEntry>();
+        WindowsHostCommandLineEntry? currentBlock = null;
+        StringBuilder? currentCommandBuilder = null;
 
         foreach (ReadOnlySpan<char> rawLine in textSpan.EnumerateLines())
         {
@@ -68,77 +94,127 @@ internal static class TerminalCommandParser
                 continue;
             }
 
-            WindowsHostCommandLineEntry? entry = TryParseLine(line, textSpan, shellDelimSpan, cmdDelimSpan);
-            if (entry is not null)
+            // Skip markdown fences and shell hint lines.
+            if (ShellHintDetector.HasAnyHint(line) || MarkdownCodeBlockParser.IsFenceLine(line))
             {
-                results.Add(entry);
+                continue;
+            }
+
+            // Check whether this line starts a new prompt-based entry.
+            WindowsHostCommandLineEntry? promptEntry = TryParsePromptLine(line, textSpan, shellDelimSpan, cmdDelimSpan);
+            if (promptEntry is not null)
+            {
+                // Flush the previous block.
+                FlushBlock(results, ref currentBlock, ref currentCommandBuilder);
+
+                currentBlock = promptEntry;
+                currentCommandBuilder = new StringBuilder(promptEntry.TerminalCommand.ToString());
+                continue;
+            }
+
+            // Not a prompt line – append as a continuation if a block is open.
+            if (currentBlock is not null)
+            {
+                currentCommandBuilder!.Append('\n').Append(line);
+                continue;
+            }
+
+            // No open block. Try to start a standalone (non-prompt) entry.
+            WindowsHostCommandLineEntry? standaloneEntry = TryParseStandaloneLine(line, textSpan, shellDelimSpan);
+            if (standaloneEntry is not null)
+            {
+                currentBlock = standaloneEntry;
+                currentCommandBuilder = new StringBuilder(standaloneEntry.TerminalCommand.ToString());
             }
         }
 
+        FlushBlock(results, ref currentBlock, ref currentCommandBuilder);
         return results;
     }
 
     /// <summary>
-    /// Parses a single line into a command entry using span-based slicing.
+    /// Commits the current block (if any) into the results list, replacing its command text
+    /// with the accumulated multi-line builder content.
     /// </summary>
-    private static WindowsHostCommandLineEntry? TryParseLine(ReadOnlySpan<char> line, ReadOnlySpan<char> selectedText, ReadOnlySpan<char> shellDelimiter, ReadOnlySpan<char> commandDelimiter)
+    private static void FlushBlock(
+        List<WindowsHostCommandLineEntry> results,
+        ref WindowsHostCommandLineEntry? currentBlock,
+        ref StringBuilder? commandBuilder)
     {
-        // Skip known non-command lines (markdown code block fences and shell hints)
-        if (ShellHintDetector.HasAnyHint(line) || MarkdownCodeBlockParser.IsFenceLine(line))
+        if (currentBlock is null)
+        {
+            return;
+        }
+
+        results.Add(currentBlock with { TerminalCommand = commandBuilder!.ToString().AsMemory() });
+        currentBlock = null;
+        commandBuilder = null;
+    }
+
+    /// <summary>
+    /// Attempts to parse a line that starts with a shell prompt (e.g. <c>PS C:\path&gt; command</c>).
+    /// Returns <see langword="null"/> if the line is not a prompt line.
+    /// </summary>
+    private static WindowsHostCommandLineEntry? TryParsePromptLine(
+        ReadOnlySpan<char> line,
+        ReadOnlySpan<char> selectedText,
+        ReadOnlySpan<char> shellDelimiter,
+        ReadOnlySpan<char> commandDelimiter)
+    {
+        // A prompt line must contain the command delimiter (e.g. '>') to declare a working directory,
+        // OR start with the shell delimiter (e.g. 'PS') to be a PS-without-cwd prompt.
+        bool startsWithShell = line.StartsWith(shellDelimiter);
+        bool hasCommandDelimiter = line.IndexOf(commandDelimiter) >= 0;
+
+        if (!startsWithShell)
         {
             return null;
         }
 
-        // If no command delimiter is present, no working directory can be declared.
-        if (line.IndexOf(commandDelimiter) < 0)
+        if (!hasCommandDelimiter)
         {
-            // If no command delimiter is defined (no working directory) but a shell delimiter or shell hint is, then we can still skip the PATH binary check.
-            if (line.StartsWith(shellDelimiter) || ShellHintDetector.HasAnyHint(selectedText))
-            {
-                // Remove shell delimiter from line, if any.
-                ReadOnlySpan<char> commandTextWithoutDelimiters = GetTextAfterLastOccurrence(line, shellDelimiter);
-                return new(null, commandTextWithoutDelimiters.ToString().AsMemory());
-            }
-
-            // Raw line text without a shell delimiter or shell hint may result in non-binary commands being captured (e.g. `ls`).
-            // Without knowing which shell to use, only binary files from PATH can be executed.
-            ReadOnlySpan<char> fileNameWithOrWithoutExtension = GetFirstWhitespaceToken(line);
-            if (IsExecutableBinaryOnEnvironmentPath(fileNameWithOrWithoutExtension, executableExtensions))
-            {
-                return new(null, line.ToString().AsMemory());
-            }
-
-            return null;
-        }
-
-        // Assume the working directory may be declared at start of line
-        // then check/split it out
-        ReadOnlySpan<char> startsAtWorkingPath = line;
-
-        // Any shell indicator MUST be at the start of a selected line, not arbitrarily within it.
-        if (line.StartsWith(shellDelimiter))
-        {
-            startsAtWorkingPath = line[shellDelimiter.Length..].Trim();
-        }
-
-        // Slice by the commandDelimiter between the cwd and the actual command
-        int cmdDelimIdx = startsAtWorkingPath.IndexOf(commandDelimiter);
-        ReadOnlySpan<char> beforeCommandDelimiter = startsAtWorkingPath[..cmdDelimIdx].Trim();
-        ReadOnlySpan<char> afterCommandDelimiter = startsAtWorkingPath[(cmdDelimIdx + commandDelimiter.Length)..].Trim();
-
-        if (!line.StartsWith(shellDelimiter) && !ShellHintDetector.HasAnyHint(selectedText))
-        {
-            // If no shell delimiter is present and no shell hints are provided, only binaries on PATH can be executed
-            ReadOnlySpan<char> fileNameWithOrWithoutExtension = GetFirstWhitespaceToken(afterCommandDelimiter);
-            if (!IsExecutableBinaryOnEnvironmentPath(fileNameWithOrWithoutExtension, executableExtensions))
+            // PS without working directory: "PS dotnet build"
+            ReadOnlySpan<char> commandTextWithoutDelimiters = GetTextAfterLastOccurrence(line, shellDelimiter);
+            if (commandTextWithoutDelimiters.IsEmpty)
             {
                 return null;
             }
+
+            return new(null, commandTextWithoutDelimiters.ToString().AsMemory());
         }
 
-        // Only the selected commands which don't include a command and/or shell delimiter need to be checked for presence on PATH.
-        // With an explicit shell hint or shell delimiter, the selected command may be an interpreted shell function and may pass through.
-        return new(beforeCommandDelimiter.ToString().AsMemory(), afterCommandDelimiter.ToString().AsMemory());
+        // PS with working directory: "PS C:\code> dotnet build"
+        ReadOnlySpan<char> startsAtWorkingPath = line[shellDelimiter.Length..].Trim();
+        int cmdDelimIdx = startsAtWorkingPath.IndexOf(commandDelimiter);
+        ReadOnlySpan<char> workingDir = startsAtWorkingPath[..cmdDelimIdx].Trim();
+        ReadOnlySpan<char> command = startsAtWorkingPath[(cmdDelimIdx + commandDelimiter.Length)..].Trim();
+
+        return new(workingDir.ToString().AsMemory(), command.ToString().AsMemory());
+    }
+
+    /// <summary>
+    /// Attempts to parse a non-prompt line as a standalone command. The line must either be a
+    /// recognized binary on PATH or occur inside a text block that carries a shell hint.
+    /// Returns <see langword="null"/> if the line cannot be identified as a command.
+    /// </summary>
+    private static WindowsHostCommandLineEntry? TryParseStandaloneLine(
+        ReadOnlySpan<char> line,
+        ReadOnlySpan<char> selectedText,
+        ReadOnlySpan<char> shellDelimiter)
+    {
+        if (ShellHintDetector.HasAnyHint(selectedText))
+        {
+            return new(null, line.ToString().AsMemory());
+        }
+
+        // Without a shell hint, only known binaries on PATH are accepted.
+        ReadOnlySpan<char> fileNameWithOrWithoutExtension = GetFirstWhitespaceToken(line);
+        if (IsExecutableBinaryOnEnvironmentPath(fileNameWithOrWithoutExtension, executableExtensions))
+        {
+            return new(null, line.ToString().AsMemory());
+        }
+
+        return null;
     }
 
     /// <summary>
