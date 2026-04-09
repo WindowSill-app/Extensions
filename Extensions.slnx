@@ -49,7 +49,7 @@
   <Project Path="src/WindowSill.UniversalCommands/WindowSill.UniversalCommands.csproj">
     <Platform Project="Any CPU" />
   </Project>
-  <Project Path="src/WindowSill.Terminal/WindowSill.Terminal.csproj">
+  <Project Path="src/WindowSill.InlineTerminal/WindowSill.InlineTerminal.csproj">
     <Platform Project="Any CPU" />
   </Project>
   <Project Path="src/WindowSill.URLHelper/WindowSill.URLHelper.csproj">
