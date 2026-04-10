@@ -15,8 +15,7 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
     private readonly Lock _lock = new();
     private readonly IPluginInfo _pluginInfo;
     private readonly IProcessInteractionService _processInteractionService;
-    private readonly HashSet<IObserver<CommandExecutionStatusChange>> _observers = [];
-    private readonly HashSet<Unsubscriber> _unsubscribers = [];
+    private readonly ReplaySubject<CommandExecutionStatusChange> _subject = new();
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private readonly CancellationToken _cancellationToken;
     private readonly StringBuilder _outputStringBuilder = new();
@@ -78,14 +77,7 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
         lock (_lock)
         {
             _disposed = true;
-            Unsubscriber[] unsubscribers = _unsubscribers.ToArray();
-            for (int i = 0; i < unsubscribers.Length; i++)
-            {
-                unsubscribers[i].Dispose();
-            }
-
-            Guard.HasSizeEqualTo(_observers.ToArray(), 0);
-
+            _subject.Dispose();
             _cancellationTokenSource.Cancel();
             _cancellationTokenSource.Dispose();
         }
@@ -93,17 +85,7 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
 
     public IDisposable Subscribe(IObserver<CommandExecutionStatusChange> observer)
     {
-        lock (_lock)
-        {
-            if (_observers.Add(observer))
-            {
-                var unsubscriber = new Unsubscriber(_lock, _observers, _unsubscribers, observer);
-                _unsubscribers.Add(unsubscriber);
-                return unsubscriber;
-            }
-
-            throw new InvalidOperationException($"This observer is already registered.");
-        }
+        return _subject.Subscribe(observer);
     }
 
     internal void Start(ActionOnCommandCompleted actionOnCompleted, bool asElevated)
@@ -114,11 +96,6 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
             {
                 // Can't start two times.
                 return;
-            }
-
-            if (_observers.Count == 0)
-            {
-                throw new InvalidOperationException("At least one observer must be subscribed before starting the command runner.");
             }
 
             string? script;
@@ -203,6 +180,7 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
         try
         {
             await _onGoingCommandTask.ConfigureAwait(false);
+            PropagateOnCompleted();
         }
         catch (Exception ex) when (ex is OperationCanceledException or TaskCanceledException)
         {
@@ -212,8 +190,6 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
         {
             PropagateOnError(ex);
         }
-
-        PropagateOnCompleted();
 
         await PerformActionOnCompleteAsync();
     }
@@ -226,11 +202,7 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
             {
                 _outputStringBuilder.AppendLine(outputLine);
                 State = CommandState.Running;
-                var argument = new CommandExecutionStatusChange(outputLine);
-                foreach (IObserver<CommandExecutionStatusChange> observer in _observers)
-                {
-                    observer.OnNext(argument);
-                }
+                _subject.OnNext(new CommandExecutionStatusChange(outputLine));
             }
         }
     }
@@ -240,11 +212,8 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
         lock (_lock)
         {
             State = CommandState.Cancelled;
-            var argument = new CommandExecutionStatusChange();
-            foreach (IObserver<CommandExecutionStatusChange> observer in _observers)
-            {
-                observer.OnNext(argument);
-            }
+            _subject.OnNext(new CommandExecutionStatusChange());
+            _subject.OnCompleted();
         }
     }
 
@@ -253,10 +222,7 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
         lock (_lock)
         {
             State = CommandState.Completed;
-            foreach (IObserver<CommandExecutionStatusChange> observer in _observers)
-            {
-                observer.OnCompleted();
-            }
+            _subject.OnCompleted();
         }
     }
 
@@ -265,10 +231,7 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
         lock (_lock)
         {
             State = CommandState.Failed;
-            foreach (IObserver<CommandExecutionStatusChange> observer in _observers)
-            {
-                observer.OnError(exception);
-            }
+            _subject.OnError(exception);
         }
     }
     private async Task PerformActionOnCompleteAsync()
@@ -358,20 +321,4 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
         return Script ?? Path.GetFileName(ScriptFilePath) ?? string.Empty;
     }
 
-    private sealed class Unsubscriber(
-        Lock syncLock,
-        HashSet<IObserver<CommandExecutionStatusChange>> observers,
-        HashSet<Unsubscriber> unsubscribers,
-        IObserver<CommandExecutionStatusChange> observer)
-        : IDisposable
-    {
-        public void Dispose()
-        {
-            lock (syncLock)
-            {
-                observers.Remove(observer);
-                unsubscribers.Remove(this);
-            }
-        }
-    }
 }
