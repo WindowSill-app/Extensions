@@ -40,7 +40,7 @@ internal static class CommandExecutionHelper
         {
             if (e.Data is not null)
             {
-                onOutputLine(e.Data);
+                onOutputLine(AnsiEscapeCodeHelper.StripAnsiEscapeCodes(e.Data));
             }
         };
 
@@ -48,7 +48,7 @@ internal static class CommandExecutionHelper
         {
             if (e.Data is not null)
             {
-                onOutputLine(e.Data);
+                onOutputLine(AnsiEscapeCodeHelper.StripAnsiEscapeCodes(e.Data));
             }
         };
 
@@ -181,7 +181,7 @@ internal static class CommandExecutionHelper
 
                     while (await reader.ReadLineAsync(cancellationToken).ConfigureAwait(false) is { } line)
                     {
-                        onOutputLine(line);
+                        onOutputLine(AnsiEscapeCodeHelper.StripAnsiEscapeCodes(line));
                     }
 
                     lastPosition = stream.Position;
@@ -205,7 +205,7 @@ internal static class CommandExecutionHelper
 
                         while (await reader.ReadLineAsync(CancellationToken.None).ConfigureAwait(false) is { } line)
                         {
-                            onOutputLine(line);
+                            onOutputLine(AnsiEscapeCodeHelper.StripAnsiEscapeCodes(line));
                         }
                     }
                 }
