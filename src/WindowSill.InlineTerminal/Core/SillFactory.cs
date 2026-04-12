@@ -220,11 +220,21 @@ internal sealed class SillFactory
         return shells[0];
     }
 
-    private static MenuFlyout CreateMenu(CommandRunnerHandle commandRunnerHandle, CommandViewModel viewModel, bool hasSelectedText)
+    private MenuFlyout CreateMenu(CommandRunnerHandle commandRunnerHandle, CommandViewModel viewModel, bool hasSelectedText)
     {
         int horizontalCharacterLimit = 50;
 
         var menuFlyout = new MenuFlyout();
+
+        var dismissAllItem = new MenuFlyoutItem
+        {
+            Text = "/WindowSill.InlineTerminal/TerminalSill/DismissAllCommands".GetLocalizedString(),
+            Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE711" },
+        };
+        dismissAllItem.Click += (_, _) => _commandExecutionService.DestroyAllStartedRunners();
+        menuFlyout.Items.Add(dismissAllItem);
+
+        menuFlyout.Items.Add(new MenuFlyoutSeparator());
 
         menuFlyout.Items.Add(new MenuFlyoutItem
         {

@@ -1,4 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using ThrottleDebounce;
 using WindowSill.API;
 using WindowSill.InlineTerminal.Core.Commands;
 
@@ -9,12 +10,15 @@ internal sealed partial class OnGoingCommandsViewModel : ObservableObject, IObse
     private readonly Lock _lock = new();
     private readonly CommandExecutionService _commandExecutionService;
     private readonly List<IDisposable> _subscriptions = new();
-
-    private long _throttleVersion;
+    private readonly RateLimitedAction _throttledNotify;
 
     internal OnGoingCommandsViewModel(CommandExecutionService commandExecutionService)
     {
         _commandExecutionService = commandExecutionService;
+        _throttledNotify
+            = Throttler.Throttle(
+                () => ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI).ForgetSafely(),
+                TimeSpan.FromMilliseconds(200));
 
         RefreshSubscriptions();
         _commandExecutionService.RunnersChanged += CommandExecutionService_RunnersChanged;
@@ -26,43 +30,17 @@ internal sealed partial class OnGoingCommandsViewModel : ObservableObject, IObse
 
     public void OnCompleted()
     {
-        ThrottleNotifyHasCommandsRunning();
+        _throttledNotify.Invoke();
     }
 
     public void OnError(Exception error)
     {
-        ThrottleNotifyHasCommandsRunning();
+        _throttledNotify.Invoke();
     }
 
     public void OnNext(CommandExecutionStatusChange value)
     {
-        ThrottleNotifyHasCommandsRunning();
-    }
-
-    /// <summary>
-    /// Debounces rapid status change notifications and dispatches a single
-    /// <see cref="HasCommandsRunning"/> property-changed update on the UI thread.
-    /// </summary>
-    private void ThrottleNotifyHasCommandsRunning()
-    {
-        long version = Interlocked.Increment(ref _throttleVersion);
-        NotifyAfterDelayAsync(version).ForgetSafely();
-    }
-
-    private async Task NotifyAfterDelayAsync(long version)
-    {
-        await Task.Delay(TimeSpan.FromMilliseconds(200)).ConfigureAwait(false);
-
-        if (Interlocked.Read(ref _throttleVersion) != version)
-        {
-            return;
-        }
-
-        await ThreadHelper.RunOnUIThreadAsync(() =>
-        {
-            OnPropertyChanged(nameof(HasCommandsRunning));
-            OnPropertyChanged(nameof(StartedCommandRunners));
-        });
+        _throttledNotify.Invoke();
     }
 
     private void RefreshSubscriptions()
@@ -82,7 +60,13 @@ internal sealed partial class OnGoingCommandsViewModel : ObservableObject, IObse
             }
         }
 
-        ThrottleNotifyHasCommandsRunning();
+        _throttledNotify.Invoke();
+    }
+
+    private void NotifyUpdateUI()
+    {
+        OnPropertyChanged(nameof(HasCommandsRunning));
+        OnPropertyChanged(nameof(StartedCommandRunners));
     }
 
     private void CommandExecutionService_RunnersChanged(object? sender, EventArgs e)

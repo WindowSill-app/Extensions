@@ -141,4 +141,7 @@
   <data name="RunNow" xml:space="preserve">
     <value>Run now</value>
   </data>
+  <data name="DismissAllCommands" xml:space="preserve">
+    <value>Dismiss all commands</value>
+  </data>
 </root>
