@@ -117,28 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CopyButton.TextProperty" xml:space="preserve">
-    <value>Copy</value>
+  <data name="DismissAllButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Dismiss All Commands</value>
   </data>
-  <data name="RerunButton.TextProperty" xml:space="preserve">
-    <value>Re-run</value>
+  <data name="DismissButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Dismiss Command</value>
   </data>
-  <data name="DismissButton.TextProperty" xml:space="preserve">
-    <value>Dismiss</value>
-  </data>
-  <data name="ExitCodeSuccess" xml:space="preserve">
-    <value>Exit 0</value>
-  </data>
-  <data name="ExitCodeFailure" xml:space="preserve">
-    <value>Exit {0}</value>
-  </data>
-  <data name="Cancelled" xml:space="preserve">
-    <value>Cancelled</value>
-  </data>
-  <data name="LaunchedElevatedMessage" xml:space="preserve">
-    <value>Command launched in an elevated terminal window. Output is not captured for administrator commands.</value>
-  </data>
-  <data name="CancelButton.TextProperty" xml:space="preserve">
-    <value>Cancel</value>
+  <data name="Title.TextProperty" xml:space="preserve">
+    <value>Command Activity</value>
   </data>
 </root>

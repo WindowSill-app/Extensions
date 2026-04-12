@@ -2,9 +2,9 @@ using WindowSill.InlineTerminal.ViewModels;
 
 namespace WindowSill.InlineTerminal.Views;
 
-public sealed partial class CommandPopupExecutionPage : Page
+public sealed partial class CommandPopupProgressAndResultPage : Page
 {
-    public CommandPopupExecutionPage()
+    public CommandPopupProgressAndResultPage()
     {
         InitializeComponent();
     }

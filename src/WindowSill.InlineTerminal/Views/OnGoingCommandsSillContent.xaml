@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.InlineTerminal.Views.OnGoingCommandsSillContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WindowSill.InlineTerminal.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:WindowSill.InlineTerminal.Core.UI"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter
+            x:Key="InverseBooleanToVisibilityConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
+    </UserControl.Resources>
+
+    <Grid Margin="{ThemeResource SillCommandContentMargin}">
+        <ProgressRing
+            Width="{ThemeResource SillIconSize}"
+            Height="{ThemeResource SillIconSize}"
+            MinWidth="0"
+            MinHeight="0"
+            IsActive="{x:Bind ViewModel.HasCommandsRunning, Mode=OneWay}"
+            IsIndeterminate="True" />
+        <ImageIcon
+            Width="{ThemeResource SillIconSize}"
+            Height="{ThemeResource SillIconSize}"
+            ui:PluginAssetHelper.Path="Assets/ok.svg"
+            Visibility="{x:Bind ViewModel.HasCommandsRunning, Mode=OneWay, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+    </Grid>
+</UserControl>

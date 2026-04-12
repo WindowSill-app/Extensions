@@ -4,9 +4,12 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using WindowSill.API;
+using WindowSill.API.Core.Threading;
 using WindowSill.InlineTerminal.Activators;
+using WindowSill.InlineTerminal.Core;
 using WindowSill.InlineTerminal.Core.Commands;
-using WindowSill.InlineTerminal.Sill;
+using WindowSill.InlineTerminal.Core.UI;
+using WindowSill.InlineTerminal.Views;
 using Path = System.IO.Path;
 
 namespace WindowSill.InlineTerminal;
@@ -24,6 +27,7 @@ internal sealed class TerminalSill
     private readonly IPluginInfo _pluginInfo;
     private readonly SillFactory _sillFactory;
     private readonly CommandExecutionService _commandExecutionService;
+    private readonly AsyncLazy<SillListViewPopupItem?> _createOnGoingCommandsPopup;
 
     private bool _isDynamicallyActivated;
     private bool _ignoreRebuildViewList;
@@ -36,7 +40,12 @@ internal sealed class TerminalSill
         _pluginInfo = pluginInfo;
         _sillFactory = sillFactory;
         _commandExecutionService = commandExecutionService;
-        _commandExecutionService.BackgroundRunnersRemoved += CommandExecutionService_BackgroundRunnersChanged;
+        _commandExecutionService.RunnersChanged += CommandExecutionService_RunnersChanged;
+        _commandExecutionService.RunnerDestroyed += CommandExecutionService_RunnerDestroyed;
+
+        PluginAssetHelper.BaseDirectory = pluginInfo.GetPluginContentDirectory();
+
+        _createOnGoingCommandsPopup = new AsyncLazy<SillListViewPopupItem?>(async () => await _sillFactory.CreateOnGoingCommandsPopupAsync());
     }
 
     /// <inheritdoc />
@@ -118,12 +127,13 @@ internal sealed class TerminalSill
         }
         catch
         {
-            await ThreadHelper.RunOnUIThreadAsync(() =>
+            await ThreadHelper.RunOnUIThreadAsync(async () =>
             {
                 _isDynamicallyActivated = true;
                 _currentWindowTextSelection = null;
                 _currentDroppedFiles = null;
-                ClearViewListAndAddOngoingCommands();
+                ClearViewList();
+                await InsertOrRemoveOnGoingCommandsAsync();
             });
         }
     }
@@ -145,23 +155,19 @@ internal sealed class TerminalSill
     /// <inheritdoc />
     public async ValueTask OnDeactivatedAsync()
     {
-        await ThreadHelper.RunOnUIThreadAsync(() =>
+        await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
             _isDynamicallyActivated = false;
             _currentWindowTextSelection = null;
             _currentDroppedFiles = null;
-            ClearViewListAndAddOngoingCommands();
+            ClearViewList();
+            await InsertOrRemoveOnGoingCommandsAsync();
         });
     }
 
     private async Task RebuildViewListAsync()
     {
         ThreadHelper.ThrowIfNotOnUIThread();
-
-        if (_ignoreRebuildViewList)
-        {
-            return;
-        }
 
         lock (_lock)
         {
@@ -173,14 +179,15 @@ internal sealed class TerminalSill
             _ignoreRebuildViewList = true;
         }
 
-        ClearViewListAndAddOngoingCommands();
+        ClearViewList();
+        await InsertOrRemoveOnGoingCommandsAsync();
 
         WindowTextSelection? currentWindowTextSelection = _currentWindowTextSelection;
         string[]? currentDroppedFiles = _currentDroppedFiles;
         if (currentWindowTextSelection is not null)
         {
-            List<SillListViewMenuFlyoutItem> commandSelectionSills = await _sillFactory.CreateSillsFromSelectedTextAsync(currentWindowTextSelection);
-            foreach (SillListViewMenuFlyoutItem sill in commandSelectionSills)
+            List<SillListViewPopupItem> commandSelectionSills = await _sillFactory.CreateSillsFromSelectedTextAsync(currentWindowTextSelection);
+            foreach (SillListViewPopupItem sill in commandSelectionSills)
             {
                 ViewList.Add(sill);
             }
@@ -190,7 +197,7 @@ internal sealed class TerminalSill
             for (int i = 0; i < currentDroppedFiles.Length; i++)
             {
                 string filePath = currentDroppedFiles[i];
-                SillListViewMenuFlyoutItem? scriptFileDropSill = await _sillFactory.CreateSillFromScriptFilePathAsync(filePath);
+                SillListViewPopupItem? scriptFileDropSill = await _sillFactory.CreateSillFromScriptFilePathAsync(filePath);
                 if (scriptFileDropSill is not null)
                 {
                     ViewList.Add(scriptFileDropSill);
@@ -198,10 +205,37 @@ internal sealed class TerminalSill
             }
         }
 
-        _ignoreRebuildViewList = false;
+        lock (_lock)
+        {
+            _ignoreRebuildViewList = false;
+        }
     }
 
-    private void ClearViewListAndAddOngoingCommands()
+    private async Task InsertOrRemoveOnGoingCommandsAsync()
+    {
+        ThreadHelper.ThrowIfNotOnUIThread();
+
+        SillListViewPopupItem? onGoingCommandsSill = await _createOnGoingCommandsPopup.GetValueAsync();
+        if (onGoingCommandsSill is not null)
+        {
+            if (_commandExecutionService.GetStartedRunners().Count > 0)
+            {
+                if (!ViewList.Contains(onGoingCommandsSill))
+                {
+                    ViewList.Insert(0, onGoingCommandsSill);
+                }
+            }
+            else
+            {
+                if (ViewList.Contains(onGoingCommandsSill))
+                {
+                    ViewList.Remove(onGoingCommandsSill);
+                }
+            }
+        }
+    }
+
+    private void ClearViewList()
     {
         ThreadHelper.ThrowIfNotOnUIThread();
 
@@ -211,21 +245,35 @@ internal sealed class TerminalSill
             {
                 disposable.Dispose();
             }
+
+            if (ViewList[i] is SillListViewPopupItem popup && popup.PopupContent is IDisposable disposablePopup)
+            {
+                disposablePopup.Dispose();
+            }
         }
 
         ViewList.Clear();
-
-        IReadOnlyList<CommandRunner> backgroundRunners = _commandExecutionService.GetBackgroundRunners();
-        for (int i = 0; i < backgroundRunners.Count; i++)
-        {
-            CommandRunner runner = backgroundRunners[i];
-            SillListViewMenuFlyoutItem commandExecutionSill = _sillFactory.CreateSillFromCommandRunner(runner);
-            ViewList.Add(commandExecutionSill);
-        }
     }
 
-    private void CommandExecutionService_BackgroundRunnersChanged(object? sender, EventArgs e)
+    private void CommandExecutionService_RunnersChanged(object? sender, EventArgs e)
     {
-        ThreadHelper.RunOnUIThreadAsync(RebuildViewListAsync);
+        ThreadHelper.RunOnUIThreadAsync(InsertOrRemoveOnGoingCommandsAsync).ForgetSafely();
+    }
+
+    private void CommandExecutionService_RunnerDestroyed(object? sender, Guid e)
+    {
+        ThreadHelper.RunOnUIThreadAsync(() =>
+        {
+            for (int i = 0; i < ViewList.Count; i++)
+            {
+                if (ViewList[i] is SillListViewPopupItem popup
+                    && popup.PopupContent is CommandPopup commandPopup
+                    && commandPopup.ViewModel.Id == e)
+                {
+                    ViewList.RemoveAt(i);
+                    break;
+                }
+            }
+        }).ForgetSafely();
     }
 }

@@ -1,87 +1,54 @@
-using CommunityToolkit.Diagnostics;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using WindowSill.API;
 using WindowSill.InlineTerminal.Core.Commands;
 using WindowSill.InlineTerminal.Core.Shell;
-using WindowSill.InlineTerminal.Messages;
-using WindowSill.InlineTerminal.Views;
-using Path = System.IO.Path;
 
 namespace WindowSill.InlineTerminal.ViewModels;
 
 internal sealed partial class CommandViewModel : ObservableObject, IObserver<CommandExecutionStatusChange>, IDisposable
 {
-    private readonly IMessenger _messenger;
+    private static readonly long throttleIntervalTicks = TimeSpan.FromMilliseconds(100).Ticks;
+
     private readonly CommandExecutionService _commandExecutionService;
-    private readonly WindowTextSelection? _windowTextSelection;
+    private readonly CommandRunnerHandle _commandRunnerHandle;
+    private readonly IDisposable _commandRunnerSubscriber;
 
-    private SillPopup? _popup;
-    private CommandRunner? _commandRunner;
-    private IDisposable? _unsubscriber;
+    private long _lastOnNextTimestamp;
 
-    internal CommandViewModel(
-        IMessenger messenger,
+    public CommandViewModel(
         CommandExecutionService commandExecutionService,
-        CommandRunner commandRunner)
+        CommandRunnerHandle commandRunnerHandle,
+        IReadOnlyList<ShellInfo> availableShells)
     {
-        _messenger = messenger;
         _commandExecutionService = commandExecutionService;
-        AvailableShells = Array.Empty<ShellInfo>();
-        Title = FormatDisplayTitle(commandRunner.Script ?? Path.GetFileName(commandRunner.ScriptFilePath!));
-        SelectedShell = commandRunner.SelectedShell;
-        Script = commandRunner.Script;
-        WorkingDirectory = commandRunner.WorkingDirectory;
-        _commandRunner = commandRunner;
-        _unsubscriber = _commandRunner.Subscribe(this);
+        _commandRunnerHandle = commandRunnerHandle;
+        AvailableShells = availableShells;
+
+        _commandRunnerSubscriber = _commandRunnerHandle.Subscribe(this);
+        SelectedShell = _commandRunnerHandle.DefaultShell;
+        Script = _commandRunnerHandle.DefaultScript;
+        WorkingDirectory = _commandRunnerHandle.WorkingDirectory;
     }
 
-    internal CommandViewModel(
-        IMessenger messenger,
-        CommandExecutionService commandExecutionService,
-        WindowTextSelection? windowTextSelection,
-        IReadOnlyList<ShellInfo> shells,
-        ShellInfo? preferredShell,
-        string? workingDirectory,
-        string? script,
-        string? scriptFilePath)
-    {
-        if (string.IsNullOrEmpty(script) && string.IsNullOrEmpty(scriptFilePath))
-        {
-            throw new ArgumentException($"At least one of {nameof(script)} or {nameof(scriptFilePath)} must be provided.");
-        }
+    internal Guid Id => _commandRunnerHandle.Id;
 
-        _messenger = messenger;
-        _commandExecutionService = commandExecutionService;
-        _windowTextSelection = windowTextSelection;
-        AvailableShells = shells;
-        Title = FormatDisplayTitle(script ?? Path.GetFileName(scriptFilePath!));
-        SelectedShell = preferredShell ?? shells.FirstOrDefault();
-        Script = script;
-        ScriptFilePath = scriptFilePath;
-        WorkingDirectory = workingDirectory ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-    }
+    internal CommandState State => _commandRunnerHandle.State;
 
-    internal SillViewBase? SillView { get; set; }
-
-    internal CommandState State => _commandRunner?.State ?? CommandState.Pending;
+    internal string OutputText => _commandRunnerHandle.Output;
 
     internal IReadOnlyList<ShellInfo> AvailableShells { get; }
 
-    internal string OutputText => _commandRunner?.Output ?? string.Empty;
-
     [ObservableProperty]
-    internal partial string Title { get; set; }
-
-    [ObservableProperty]
-    internal partial ShellInfo? SelectedShell { get; set; }
+    internal partial ShellInfo SelectedShell { get; set; }
 
     [ObservableProperty]
     internal partial string? Script { get; set; }
 
-    [ObservableProperty]
-    internal partial string? ScriptFilePath { get; set; }
+    internal string? ScriptFilePath => _commandRunnerHandle.ScriptFilePath;
+
+    internal string? Title => _commandRunnerHandle.Title;
 
     [ObservableProperty]
     internal partial string WorkingDirectory { get; set; }
@@ -89,43 +56,55 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
     [ObservableProperty]
     internal partial bool RunAsAdministrator { get; set; }
 
-    [RelayCommand]
-    internal void Dismiss()
+    internal event EventHandler? RequestClose;
+
+    public void Dispose()
     {
-        _unsubscriber?.Dispose();
-        if (_commandRunner is not null)
+        _commandRunnerSubscriber.Dispose();
+    }
+
+    public void OnCompleted()
+    {
+        ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI).ForgetSafely();
+    }
+
+    public void OnError(Exception error)
+    {
+        ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI).ForgetSafely();
+    }
+
+    public void OnNext(CommandExecutionStatusChange value)
+    {
+        long now = Environment.TickCount64 * TimeSpan.TicksPerMillisecond;
+        long last = Interlocked.Read(ref _lastOnNextTimestamp);
+
+        if (now - last < throttleIntervalTicks)
         {
-            _commandExecutionService.DestroyRunner(_commandRunner);
+            return;
         }
 
-        _commandRunner = null;
-        OnPropertyChanged(nameof(State));
-
-        _messenger.Send(new CommandPopupDismissMessage());
+        Interlocked.Exchange(ref _lastOnNextTimestamp, now);
+        ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI).ForgetSafely();
     }
 
     [RelayCommand(AllowConcurrentExecutions = false)]
-    internal async Task ConfigureRunAsync()
+    internal async Task CopyOutputAsync()
     {
-        await ThreadHelper.RunOnUIThreadAsync(async () =>
-        {
-            try
-            {
-                Guard.IsNotNull(SillView);
-                if (_popup is null)
-                {
-                    _popup = new SillPopup
-                    {
-                        Content = new CommandPopup(_messenger, this)
-                    };
-                }
+        await _commandExecutionService.CopyOutputAsync(_commandRunnerHandle.Id, includeInClipboardHistory: true);
+    }
 
-                await _popup.ShowAsync(SillView);
-            }
-            catch (Exception ex)
-            {
-            }
-        });
+    [RelayCommand(CanExecute = nameof(CanCancel))]
+    internal void Cancel()
+    {
+        _commandExecutionService.Cancel(_commandRunnerHandle.Id);
+        OnPropertyChanged(nameof(State));
+    }
+
+    [RelayCommand]
+    internal void Dismiss()
+    {
+        _commandExecutionService.Destroy(_commandRunnerHandle.Id);
+        RequestClose?.Invoke(this, EventArgs.Empty);
     }
 
     [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRun))]
@@ -152,20 +131,28 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
         await StartRunScriptAsync(ActionOnCommandCompleted.ReplaceSelection);
     }
 
-    [RelayCommand(CanExecute = nameof(CanCancel))]
-    internal void Cancel()
+    private async Task StartRunScriptAsync(ActionOnCommandCompleted actionOnCommandCompleted)
     {
-        _commandRunner?.Cancel();
-        OnPropertyChanged(nameof(State));
+        _commandExecutionService.Start(
+            _commandRunnerHandle.Id,
+            SelectedShell,
+            Script,
+            WorkingDirectory,
+            actionOnCommandCompleted,
+            RunAsAdministrator);
+        await ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI);
     }
 
-    [RelayCommand(AllowConcurrentExecutions = false)]
-    internal async Task CopyOutputAsync()
+    private void NotifyUpdateUI()
     {
-        if (_commandRunner is not null)
-        {
-            await _commandRunner.CopyOutputToClipboardAsync(includeInClipboardHistory: true);
-        }
+        ThreadHelper.ThrowIfNotOnUIThread();
+        OnPropertyChanged(nameof(State));
+        OnPropertyChanged(nameof(OutputText));
+        CancelCommand.NotifyCanExecuteChanged();
+        RunMenuCommand.NotifyCanExecuteChanged();
+        RunAndAppendMenuCommand.NotifyCanExecuteChanged();
+        RunAndCopyMenuCommand.NotifyCanExecuteChanged();
+        RunAndReplaceMenuCommand.NotifyCanExecuteChanged();
     }
 
     private bool CanCancel()
@@ -176,66 +163,5 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
     private bool CanRun()
     {
         return State != CommandState.Running;
-    }
-
-    private async Task StartRunScriptAsync(ActionOnCommandCompleted actionOnCommandCompleted)
-    {
-        if (_commandRunner is not null)
-        {
-            _unsubscriber?.Dispose();
-            _commandExecutionService.DestroyRunner(_commandRunner);
-        }
-
-        (_commandRunner, _unsubscriber)
-            = await _commandExecutionService.CreateAndStartRunnerAsync(
-                 this,
-                 _windowTextSelection,
-                 SelectedShell,
-                 WorkingDirectory,
-                 Script,
-                 ScriptFilePath,
-                 actionOnCommandCompleted,
-                 asElevated: RunAsAdministrator);
-
-        await ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI);
-    }
-
-    public void OnCompleted()
-    {
-        ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI);
-    }
-
-    public void OnError(Exception error)
-    {
-        ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI);
-    }
-
-    public void OnNext(CommandExecutionStatusChange value)
-    {
-        ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI);
-    }
-
-    public void Dispose()
-    {
-        _unsubscriber?.Dispose();
-    }
-
-    private void NotifyUpdateUI()
-    {
-        OnPropertyChanged(nameof(State));
-        OnPropertyChanged(nameof(OutputText));
-        RunMenuCommand.NotifyCanExecuteChanged();
-        RunAndCopyMenuCommand.NotifyCanExecuteChanged();
-        RunAndAppendMenuCommand.NotifyCanExecuteChanged();
-        RunAndReplaceMenuCommand.NotifyCanExecuteChanged();
-    }
-
-    private static string FormatDisplayTitle(string text)
-    {
-        return text
-            .Replace("\r\n", "⏎")
-            .Replace("\n\r", "⏎")
-            .Replace('\r', '⏎')
-            .Replace('\n', '⏎');
     }
 }

@@ -4,10 +4,21 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:api="using:WindowSill.API"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shell="using:WindowSill.InlineTerminal.Core.Shell"
+    xmlns:ui="using:WindowSill.InlineTerminal.Core.UI"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///WindowSill.API/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -22,20 +33,25 @@
             <StackPanel
                 Margin="24"
                 HorizontalAlignment="Stretch"
-                Spacing="16">
+                Spacing="12">
                 <!--  Command  -->
-                <StackPanel Spacing="4">
-                    <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/CommandLabel" Style="{ThemeResource CaptionTextBlockStyle}" />
-                    <TextBox
-                        MaxHeight="250"
-                        AcceptsReturn="True"
-                        Text="{x:Bind ViewModel.Script, Mode=TwoWay}"
-                        TextWrapping="Wrap" />
-                </StackPanel>
+                <TextBox
+                    MaxHeight="230"
+                    api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/Command"
+                    AcceptsReturn="True"
+                    Text="{x:Bind ViewModel.Script, Mode=TwoWay}"
+                    TextWrapping="Wrap"
+                    Visibility="{x:Bind ViewModel.Script, Mode=OneTime, Converter={StaticResource StringVisibilityConverter}}" />
+                <TextBox
+                    MaxHeight="230"
+                    api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/Command"
+                    IsReadOnly="True"
+                    Text="{x:Bind ViewModel.ScriptFilePath, Mode=OneTime}"
+                    Visibility="{x:Bind ViewModel.ScriptFilePath, Mode=OneTime, Converter={StaticResource StringVisibilityConverter}}" />
 
                 <!--  Working Directory  -->
-                <StackPanel Spacing="4">
-                    <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/WorkingDirectoryLabel" Style="{ThemeResource CaptionTextBlockStyle}" />
+                <StackPanel Spacing="8">
+                    <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/WorkingDirectoryLabel" />
                     <Grid ColumnSpacing="8">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -46,31 +62,28 @@
                             Grid.Column="1"
                             api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/BrowseButton"
                             Click="BrowseButton_Click"
-                            Content="📁" />
+                            Content="..." />
                     </Grid>
                 </StackPanel>
 
                 <!--  Shell  -->
-                <StackPanel Spacing="4">
-                    <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/ConfigurePage/ShellLabel" Style="{ThemeResource CaptionTextBlockStyle}" />
-                    <ComboBox
-                        HorizontalAlignment="Stretch"
-                        DisplayMemberPath="DisplayName"
-                        ItemsSource="{x:Bind ViewModel.AvailableShells}"
-                        SelectedItem="{x:Bind ViewModel.SelectedShell, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        <!--<ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="shell:ShellInfo">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <Image
-                                        Width="16"
-                                        Height="16"
-                                        Source="{x:Bind Icon}" />
-                                    <TextBlock Text="{x:Bind DisplayName}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>-->
-                    </ComboBox>
-                </StackPanel>
+                <ComboBox
+                    HorizontalAlignment="Stretch"
+                    api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/Shell"
+                    ItemsSource="{x:Bind ViewModel.AvailableShells}"
+                    SelectedItem="{x:Bind ViewModel.SelectedShell, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="shell:ShellInfo">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Image
+                                    Width="16"
+                                    Height="16"
+                                    Source="{x:Bind Icon}" />
+                                <TextBlock Text="{x:Bind DisplayName}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <!--  Run as administrator  -->
                 <CheckBox api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/RunAsAdminCheckBox" IsChecked="{x:Bind ViewModel.RunAsAdministrator, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -93,12 +106,39 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Button
+                <ui:ShortcutSplitButton
                     Grid.Column="1"
-                    api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/RunButton"
+                    Height="40"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
                     Command="{x:Bind ViewModel.RunMenuCommand}"
-                    ElementSoundMode="FocusOnly"
-                    Style="{ThemeResource LargeAccentButtonStyle}" />
+                    CommandParameter="Replace"
+                    ShortcutBadge="{x:Bind SplitButtonShortcutBadge}"
+                    Style="{StaticResource AccentSplitButtonStyle}">
+                    <ui:ShortcutSplitButton.Flyout>
+                        <MenuFlyout Placement="TopEdgeAlignedRight">
+                            <MenuFlyoutItem api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/RunCopyButton" Command="{x:Bind ViewModel.RunAndCopyMenuCommand}" />
+                            <MenuFlyoutItem api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/RunAppendButton" Command="{x:Bind ViewModel.RunAndAppendMenuCommand}" />
+                            <MenuFlyoutItem api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/RunReplaceButton" Command="{x:Bind ViewModel.RunAndReplaceMenuCommand}" />
+                        </MenuFlyout>
+                    </ui:ShortcutSplitButton.Flyout>
+                    <Grid>
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal"
+                            Spacing="8">
+                            <FontIcon Glyph="&#xE76C;" />
+                            <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/RunButton" />
+                        </StackPanel>
+                        <api:ShortcutBadge
+                            x:Name="SplitButtonShortcutBadge"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            OnlyApplyToSillPopup="True" />
+                    </Grid>
+                </ui:ShortcutSplitButton>
             </Grid>
         </Border>
     </Grid>

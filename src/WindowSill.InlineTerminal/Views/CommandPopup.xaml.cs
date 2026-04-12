@@ -1,55 +1,54 @@
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Media.Animation;
 using WindowSill.API;
 using WindowSill.InlineTerminal.Core.Commands;
-using WindowSill.InlineTerminal.Messages;
 using WindowSill.InlineTerminal.ViewModels;
 
 namespace WindowSill.InlineTerminal.Views;
 
-internal sealed partial class CommandPopup : SillPopupContent, IRecipient<CommandPopupDismissMessage>
+internal sealed partial class CommandPopup : SillPopupContent, IDisposable
 {
-    private readonly IMessenger _messenger;
+    private bool _isOnCommandPopupProgressAndResultPage;
 
-    internal CommandPopup(IMessenger messenger, CommandViewModel viewModel)
+    internal CommandPopup(CommandViewModel viewModel)
     {
-        _messenger = messenger;
         ViewModel = viewModel;
         InitializeComponent();
     }
 
     internal CommandViewModel ViewModel { get; }
 
-    public void Receive(CommandPopupDismissMessage message)
+    public void Dispose()
     {
-        Close();
+        ViewModel.Dispose();
     }
 
     public override void OnOpening()
     {
+        ViewModel.RequestClose += ViewModel_RequestClose;
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-        _messenger.RegisterAll(this);
 
         switch (ViewModel.State)
         {
-            case CommandState.Pending:
+            case CommandState.Created:
                 ContentFrame.Navigate(typeof(CommandPopupConfigurePage), ViewModel);
                 break;
 
-            case CommandState.Running:
-                ContentFrame.Navigate(typeof(CommandPopupExecutionPage), ViewModel);
-                break;
-
             default:
-                ContentFrame.Navigate(typeof(CommandPopupResultPage), ViewModel);
+                _isOnCommandPopupProgressAndResultPage = true;
+                ContentFrame.Navigate(typeof(CommandPopupProgressAndResultPage), ViewModel);
                 break;
         }
     }
 
     public override void OnClosing()
     {
+        ViewModel.RequestClose -= ViewModel_RequestClose;
         ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
-        ViewModel.Dispose();
+    }
+
+    private void ViewModel_RequestClose(object? sender, EventArgs e)
+    {
+        Close();
     }
 
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -58,25 +57,23 @@ internal sealed partial class CommandPopup : SillPopupContent, IRecipient<Comman
         {
             switch (ViewModel.State)
             {
-                case CommandState.Pending:
+                case CommandState.Created:
+                    _isOnCommandPopupProgressAndResultPage = false;
                     ContentFrame.Navigate(
                         typeof(CommandPopupConfigurePage),
                         ViewModel,
                         new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromLeft });
                     break;
 
-                case CommandState.Running:
-                    ContentFrame.Navigate(
-                        typeof(CommandPopupExecutionPage),
-                        ViewModel,
-                        new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
-                    break;
-
                 default:
-                    ContentFrame.Navigate(
-                        typeof(CommandPopupResultPage),
-                        ViewModel,
-                        new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+                    if (!_isOnCommandPopupProgressAndResultPage)
+                    {
+                        ContentFrame.Navigate(
+                            typeof(CommandPopupProgressAndResultPage),
+                            ViewModel,
+                            new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
+                        _isOnCommandPopupProgressAndResultPage = true;
+                    }
                     break;
             }
         }

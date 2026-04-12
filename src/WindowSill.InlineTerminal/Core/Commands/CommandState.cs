@@ -6,9 +6,9 @@ namespace WindowSill.InlineTerminal.Core.Commands;
 public enum CommandState
 {
     /// <summary>
-    /// Command is queued but not yet started.
+    /// Command is discovered but not yet started.
     /// </summary>
-    Pending,
+    Created,
 
     /// <summary>
     /// Command is currently executing.

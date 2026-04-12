@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="WindowSill.InlineTerminal.Views.CommandPopupProgressAndResultPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:converters="using:WindowSill.InlineTerminal.Core.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+        <converters:EnumToVisibilityConverter
+            x:Key="NegationEnumToVisibilityConverter"
+            WhenMatch="Collapsed"
+            WhenNotMatch="Visible" />
+    </Page.Resources>
+
+    <Grid RowSpacing="12">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!--  Header  -->
+        <TextBlock
+            Grid.Row="0"
+            Margin="24,24,24,0"
+            VerticalAlignment="Center"
+            Style="{ThemeResource SubtitleTextBlockStyle}"
+            Text="{x:Bind ViewModel.Title, Mode=OneWay}"
+            TextTrimming="CharacterEllipsis"
+            TextWrapping="NoWrap" />
+
+        <!--  Output  -->
+        <ScrollViewer
+            Grid.Row="1"
+            HorizontalScrollBarVisibility="Auto"
+            VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="24,0,24,0" Orientation="Vertical">
+                <TextBlock
+                    FontFamily="Cascadia Mono, Consolas, Courier New"
+                    FontSize="12"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <!--  Command Bar  -->
+        <Border
+            Grid.Row="2"
+            Padding="24"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"
+            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="0,1,0,0"
+            XYFocusKeyboardNavigation="Enabled">
+            <Grid>
+                <Grid ColumnSpacing="8" Visibility="{x:Bind ViewModel.State, Mode=OneWay, Converter={StaticResource NegationEnumToVisibilityConverter}, ConverterParameter='Running'}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <api:ShortcutButton
+                        Grid.Column="0"
+                        Command="{x:Bind ViewModel.CopyOutputCommand}"
+                        Style="{StaticResource LargeShortcutButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8C8;" />
+                            <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/CopyButton" />
+                        </StackPanel>
+                    </api:ShortcutButton>
+                    <api:ShortcutButton
+                        Grid.Column="1"
+                        Command="{x:Bind ViewModel.RunMenuCommand}"
+                        Style="{StaticResource LargeShortcutButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE76C;" />
+                            <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/RerunButton" />
+                        </StackPanel>
+                    </api:ShortcutButton>
+                    <api:ShortcutButton
+                        Grid.Column="2"
+                        Command="{x:Bind ViewModel.DismissCommand}"
+                        Style="{StaticResource LargeShortcutButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE711;" />
+                            <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/DismissButton" />
+                        </StackPanel>
+                    </api:ShortcutButton>
+                </Grid>
+                <Grid ColumnSpacing="8" Visibility="{x:Bind ViewModel.State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter='Running'}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ProgressRing
+                        Grid.Column="0"
+                        Width="24"
+                        Height="24"
+                        Margin="0,0,4,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        IsActive="True" />
+                    <api:ShortcutButton
+                        Grid.Column="1"
+                        Command="{x:Bind ViewModel.CancelCommand}"
+                        Style="{StaticResource LargeShortcutButtonStyle}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE711;" />
+                            <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/CancelButton" />
+                        </StackPanel>
+                    </api:ShortcutButton>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

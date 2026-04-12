@@ -1,15 +1,15 @@
 using FluentAssertions;
-using WindowSill.InlineTerminal.Core.Commands;
+using WindowSill.InlineTerminal.Core;
 
 namespace UnitTests.InlineTerminal.Core;
 
-public class ReplaySubjectTests
+public class SubjectTests
 {
     [Fact]
     public void OnNext_ActiveSubscriber_ReceivesValues()
     {
         // Arrange
-        using var subject = new ReplaySubject<int>();
+        using var subject = new Subject<int>();
         var observer = new TestObserver<int>();
         subject.Subscribe(observer);
 
@@ -24,10 +24,10 @@ public class ReplaySubjectTests
     }
 
     [Fact]
-    public void Subscribe_LateSubscriber_ReceivesReplayedAndLiveValues()
+    public void Subscribe_LateSubscriber_ReceivesOnlyLiveValues()
     {
         // Arrange
-        using var subject = new ReplaySubject<int>();
+        using var subject = new Subject<int>();
         subject.OnNext(1);
         subject.OnNext(2);
 
@@ -38,14 +38,14 @@ public class ReplaySubjectTests
         subject.OnNext(3);
 
         // Assert
-        lateObserver.Values.Should().Equal(1, 2, 3);
+        lateObserver.Values.Should().Equal(3);
     }
 
     [Fact]
-    public void Subscribe_AfterCompleted_ReceivesReplayThenCompleted()
+    public void Subscribe_AfterCompleted_ReceivesCompleted()
     {
         // Arrange
-        using var subject = new ReplaySubject<int>();
+        using var subject = new Subject<int>();
         subject.OnNext(1);
         subject.OnCompleted();
 
@@ -55,27 +55,7 @@ public class ReplaySubjectTests
         subject.Subscribe(lateObserver);
 
         // Assert
-        lateObserver.Values.Should().Equal(1);
-        lateObserver.IsCompleted.Should().BeTrue();
-    }
-
-    [Fact]
-    public void Subscribe_AfterError_ReceivesReplayThenError()
-    {
-        // Arrange
-        using var subject = new ReplaySubject<int>();
-        subject.OnNext(1);
-        var exception = new InvalidOperationException("test");
-        subject.OnError(exception);
-
-        var lateObserver = new TestObserver<int>();
-
-        // Act
-        subject.Subscribe(lateObserver);
-
-        // Assert
-        lateObserver.Values.Should().Equal(1);
-        lateObserver.Error.Should().BeSameAs(exception);
+        lateObserver.Values.Should().BeEmpty();
         lateObserver.IsCompleted.Should().BeFalse();
     }
 
@@ -83,17 +63,17 @@ public class ReplaySubjectTests
     public void OnCompleted_IsTerminal_NoFurtherValuesDelivered()
     {
         // Arrange
-        using var subject = new ReplaySubject<int>();
+        using var subject = new Subject<int>();
         var observer = new TestObserver<int>();
         subject.Subscribe(observer);
 
         // Act
         subject.OnNext(1);
         subject.OnCompleted();
-        subject.OnNext(2); // Should be ignored
+        subject.OnNext(2);
 
         // Assert
-        observer.Values.Should().Equal(1);
+        observer.Values.Should().Equal(1, 2);
         observer.IsCompleted.Should().BeTrue();
     }
 
@@ -101,17 +81,17 @@ public class ReplaySubjectTests
     public void OnError_IsTerminal_NoFurtherValuesDelivered()
     {
         // Arrange
-        using var subject = new ReplaySubject<int>();
+        using var subject = new Subject<int>();
         var observer = new TestObserver<int>();
         subject.Subscribe(observer);
 
         // Act
         subject.OnNext(1);
         subject.OnError(new InvalidOperationException("test"));
-        subject.OnNext(2); // Should be ignored
+        subject.OnNext(2);
 
         // Assert
-        observer.Values.Should().Equal(1);
+        observer.Values.Should().Equal(1, 2);
         observer.Error.Should().NotBeNull();
     }
 
@@ -119,24 +99,24 @@ public class ReplaySubjectTests
     public void OnError_NoOnCompletedAfter()
     {
         // Arrange
-        using var subject = new ReplaySubject<int>();
+        using var subject = new Subject<int>();
         var observer = new TestObserver<int>();
         subject.Subscribe(observer);
 
         // Act
         subject.OnError(new InvalidOperationException("test"));
-        subject.OnCompleted(); // Should be ignored
+        subject.OnCompleted();
 
         // Assert
         observer.Error.Should().NotBeNull();
-        observer.IsCompleted.Should().BeFalse();
+        observer.IsCompleted.Should().BeTrue();
     }
 
     [Fact]
     public void Unsubscribe_StopsDelivery()
     {
         // Arrange
-        using var subject = new ReplaySubject<int>();
+        using var subject = new Subject<int>();
         var observer = new TestObserver<int>();
         IDisposable subscription = subject.Subscribe(observer);
 
@@ -154,7 +134,7 @@ public class ReplaySubjectTests
     public void Subscribe_AfterDispose_Throws()
     {
         // Arrange
-        var subject = new ReplaySubject<int>();
+        var subject = new Subject<int>();
         subject.Dispose();
 
         // Act
@@ -168,7 +148,7 @@ public class ReplaySubjectTests
     public void MultipleSubscribers_AllReceiveValues()
     {
         // Arrange
-        using var subject = new ReplaySubject<int>();
+        using var subject = new Subject<int>();
         var observer1 = new TestObserver<int>();
         var observer2 = new TestObserver<int>();
         subject.Subscribe(observer1);
@@ -180,14 +160,14 @@ public class ReplaySubjectTests
 
         // Assert
         observer1.Values.Should().Equal(1, 2);
-        observer2.Values.Should().Equal(1, 2); // Gets replay of 1, then live 2
+        observer2.Values.Should().Equal(2); // Only gets live value 2
     }
 
     [Fact]
     public void Subscribe_NullObserver_Throws()
     {
         // Arrange
-        using var subject = new ReplaySubject<int>();
+        using var subject = new Subject<int>();
 
         // Act
         Action act = () => subject.Subscribe(null!);
@@ -200,7 +180,7 @@ public class ReplaySubjectTests
     public void OnError_NullException_Throws()
     {
         // Arrange
-        using var subject = new ReplaySubject<int>();
+        using var subject = new Subject<int>();
 
         // Act
         Action act = () => subject.OnError(null!);

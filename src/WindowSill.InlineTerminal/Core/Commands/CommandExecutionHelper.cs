@@ -14,16 +14,17 @@ internal static class CommandExecutionHelper
         ShellInfo shell,
         string workingDirectory,
         Action<string> onOutputLine,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool skipEscaping = false)
     {
-        string escapedCommand = shell.EscapeCommand(command);
+        string finalCommand = skipEscaping ? command : shell.EscapeCommand(command);
 
         using Process process = new()
         {
             StartInfo = new ProcessStartInfo
             {
                 FileName = shell.ExecutablePath,
-                Arguments = BuildArgumentsWithWorkingDirectory(shell, escapedCommand, workingDirectory),
+                Arguments = BuildArgumentsWithWorkingDirectory(shell, finalCommand, workingDirectory),
                 WorkingDirectory = shell.IsWsl ? string.Empty : workingDirectory,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
@@ -32,9 +33,6 @@ internal static class CommandExecutionHelper
             },
             EnableRaisingEvents = true,
         };
-
-        TaskCompletionSource<int> exitTcs = new();
-        process.Exited += (_, _) => exitTcs.TrySetResult(process.ExitCode);
 
         process.OutputDataReceived += (_, e) =>
         {
@@ -56,11 +54,14 @@ internal static class CommandExecutionHelper
         process.BeginOutputReadLine();
         process.BeginErrorReadLine();
 
-        await using CancellationTokenRegistration registration = RegisterCancellation(process, exitTcs, cancellationToken);
+        await using CancellationTokenRegistration registration = RegisterCancellation(process, cancellationToken);
 
-        int result = await exitTcs.Task.ConfigureAwait(false);
-        registration.Token.ThrowIfCancellationRequested();
-        return result;
+        // WaitForExitAsync waits for the process to exit AND for the redirected
+        // stdout/stderr streams to be fully consumed, unlike the Exited event
+        // which fires as soon as the process terminates — before buffered output
+        // has been delivered through OutputDataReceived/ErrorDataReceived.
+        await process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+        return process.ExitCode;
     }
 
     /// <summary>
@@ -72,9 +73,10 @@ internal static class CommandExecutionHelper
         string workingDirectory,
         Action<string> onOutputLine,
         IPluginInfo pluginInfo,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool skipEscaping = false)
     {
-        string escapedCommand = shell.EscapeCommand(command);
+        string finalCommand = skipEscaping ? command : shell.EscapeCommand(command);
 
         string tempOutputFile
             = System.IO.Path.Combine(
@@ -86,7 +88,7 @@ internal static class CommandExecutionHelper
             StartInfo = new ProcessStartInfo
             {
                 FileName = shell.ExecutablePath,
-                Arguments = BuildElevatedArgumentsWithWorkingDirectory(shell, escapedCommand, workingDirectory, tempOutputFile),
+                Arguments = BuildElevatedArgumentsWithWorkingDirectory(shell, finalCommand, workingDirectory, tempOutputFile),
                 WorkingDirectory = shell.IsWsl ? string.Empty : workingDirectory,
                 UseShellExecute = true,
                 Verb = "runas",
@@ -95,21 +97,21 @@ internal static class CommandExecutionHelper
             EnableRaisingEvents = true,
         };
 
-        TaskCompletionSource<int> exitTcs = new();
-        process.Exited += (_, _) => exitTcs.TrySetResult(process.ExitCode);
-
         process.Start();
 
-        // Tail-read the temp file while the process runs.
-        _ = TailReadFileAsync(tempOutputFile, onOutputLine, exitTcs.Task, cancellationToken);
+        await using CancellationTokenRegistration registration = RegisterCancellation(process, cancellationToken);
 
-        await using CancellationTokenRegistration registration = RegisterCancellation(process, exitTcs, cancellationToken);
+        // Tail-read the temp file while the process runs, streaming output live.
+        Task processWait = process.WaitForExitAsync(cancellationToken);
+        Task tailTask = TailReadFileAsync(tempOutputFile, onOutputLine, processWait, cancellationToken);
 
         try
         {
-            int result = await exitTcs.Task.ConfigureAwait(false);
-            registration.Token.ThrowIfCancellationRequested();
-            return result;
+            // Wait for both: tailTask streams output live while the process runs,
+            // and performs a final read after processWait completes.
+            await Task.WhenAll(processWait, tailTask).ConfigureAwait(false);
+
+            return process.ExitCode;
         }
         finally
         {
@@ -122,11 +124,10 @@ internal static class CommandExecutionHelper
     }
 
     /// <summary>
-    /// Registers a cancellation callback that kills the process tree and cancels the exit task.
+    /// Registers a cancellation callback that kills the process tree.
     /// </summary>
     private static CancellationTokenRegistration RegisterCancellation(
         Process process,
-        TaskCompletionSource<int> exitTcs,
         CancellationToken cancellationToken)
     {
         return cancellationToken.Register(() =>
@@ -142,8 +143,6 @@ internal static class CommandExecutionHelper
             {
                 // Process already exited.
             }
-
-            exitTcs.TrySetCanceled(cancellationToken);
         });
     }
 

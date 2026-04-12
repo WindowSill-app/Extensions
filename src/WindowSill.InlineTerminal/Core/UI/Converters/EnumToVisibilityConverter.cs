@@ -6,9 +6,9 @@ namespace WindowSill.InlineTerminal.Core.UI.Converters;
 /// </summary>
 internal sealed class EnumToVisibilityConverter : IValueConverter
 {
-    internal Visibility WhenMatch { get; set; } = Visibility.Visible;
+    public Visibility WhenMatch { get; set; } = Visibility.Visible;
 
-    internal Visibility WhenNotMatch { get; set; } = Visibility.Collapsed;
+    public Visibility WhenNotMatch { get; set; } = Visibility.Collapsed;
 
     public object Convert(object value, Type targetType, object parameter, string language)
     {

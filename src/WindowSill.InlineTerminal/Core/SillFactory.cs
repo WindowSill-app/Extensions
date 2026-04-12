@@ -1,5 +1,4 @@
 using System.ComponentModel.Composition;
-using CommunityToolkit.Mvvm.Messaging;
 using WindowSill.API;
 using WindowSill.InlineTerminal.Core.Commands;
 using WindowSill.InlineTerminal.Core.Parsers;
@@ -8,7 +7,7 @@ using WindowSill.InlineTerminal.ViewModels;
 using WindowSill.InlineTerminal.Views;
 using Path = System.IO.Path;
 
-namespace WindowSill.InlineTerminal.Sill;
+namespace WindowSill.InlineTerminal.Core;
 
 [Export]
 internal sealed class SillFactory
@@ -20,11 +19,13 @@ internal sealed class SillFactory
             ".cmd",
             ".com"
         };
+
     private readonly HashSet<string> _powerShellFileExtensions
         = new(StringComparer.OrdinalIgnoreCase)
         {
             ".ps1"
         };
+
     private readonly HashSet<string> _wslFileExtensions
         = new(StringComparer.OrdinalIgnoreCase)
         {
@@ -33,30 +34,45 @@ internal sealed class SillFactory
             ".zsh"
         };
 
-    private readonly IMessenger _messenger;
-    private readonly IPluginInfo _pluginInfo;
     private readonly ShellDetectionService _shellDetectionService;
     private readonly CommandExecutionService _commandExecutionService;
 
     [ImportingConstructor]
     public SillFactory(
-        IMessenger messenger,
-        IPluginInfo pluginInfo,
         ShellDetectionService shellDetectionService,
         CommandExecutionService commandExecutionService)
     {
-        _messenger = messenger;
-        _pluginInfo = pluginInfo;
         _shellDetectionService = shellDetectionService;
         _commandExecutionService = commandExecutionService;
     }
 
-    internal async Task<SillListViewMenuFlyoutItem?> CreateSillFromScriptFilePathAsync(string scriptFilePath)
+    internal async Task<SillListViewPopupItem?> CreateOnGoingCommandsPopupAsync()
+    {
+        IReadOnlyList<ShellInfo> availableShells = await _shellDetectionService.GetAvailableShellsAsync();
+        if (availableShells.Count == 0)
+        {
+            return null;
+        }
+
+        var viewModel = new OnGoingCommandsViewModel(_commandExecutionService);
+
+        var sillView
+            = new SillListViewPopupItem(
+                new OnGoingCommandsSillContent(viewModel),
+                null,
+                null!);
+
+        sillView.PopupContent = new OnGoingCommandsPopup(_commandExecutionService, availableShells, viewModel, sillView);
+
+        return sillView;
+    }
+
+    internal async Task<SillListViewPopupItem?> CreateSillFromScriptFilePathAsync(string scriptFilePath)
     {
         try
         {
-            IReadOnlyList<ShellInfo> shells = await _shellDetectionService.GetAvailableShellsAsync();
-            if (shells.Count == 0)
+            IReadOnlyList<ShellInfo> availableShells = await _shellDetectionService.GetAvailableShellsAsync();
+            if (availableShells.Count == 0)
             {
                 return null;
             }
@@ -70,39 +86,41 @@ internal sealed class SillFactory
 
             string fileExtension = Path.GetExtension(scriptFilePath);
 
-            ShellInfo? preferredTerminalShell = null;
+            ShellInfo? defaultShell = null;
             if (_cmdFileExtensions.Contains(fileExtension))
             {
-                preferredTerminalShell = shells.FirstOrDefault(x => x.ExecutablePath.Contains("cmd.exe"));
+                defaultShell = availableShells.FirstOrDefault(x => x.ExecutablePath.Contains("cmd.exe"));
             }
             else if (_powerShellFileExtensions.Contains(fileExtension))
             {
-                preferredTerminalShell = shells.FirstOrDefault(x => x.ExecutablePath.Contains("powershell.exe"));
+                defaultShell = availableShells.FirstOrDefault(x => x.ExecutablePath.Contains("powershell.exe"));
             }
             else if (_wslFileExtensions.Contains(fileExtension))
             {
-                preferredTerminalShell = shells.FirstOrDefault(x => x.IsWsl);
+                defaultShell = availableShells.FirstOrDefault(x => x.IsWsl);
             }
 
-            var viewModel
-                = new CommandViewModel(
-                    _messenger,
-                    _commandExecutionService,
+            defaultShell ??= availableShells[0];
+
+            CommandRunnerHandle commandRunnerHandle
+                = await _commandExecutionService.CreateAsync(
                     windowTextSelection: null,
-                    shells,
-                    preferredTerminalShell,
+                    defaultShell,
                     workingDirectory,
                     script: null,
                     scriptFilePath);
 
-            var sillView
-                = new SillListViewMenuFlyoutItem(
-                    string.Empty,
-                    scriptFilePath,
-                    CreateMenu(viewModel, hasSelectedText: false));
+            var viewModel = new CommandViewModel(_commandExecutionService, commandRunnerHandle, availableShells);
+            var popup = new CommandPopup(viewModel);
 
-            sillView.Content = new CommandSillContent(_pluginInfo, sillView, viewModel);
-            viewModel.SillView = sillView;
+            var sillView
+                = new SillListViewPopupItem(
+                    Path.GetFileName(scriptFilePath),
+                    scriptFilePath,
+                    popup)
+                {
+                    ContextFlyout = CreateMenu(commandRunnerHandle, viewModel, hasSelectedText: false)
+                };
 
             return sillView;
         }
@@ -113,14 +131,14 @@ internal sealed class SillFactory
         return null;
     }
 
-    internal async Task<List<SillListViewMenuFlyoutItem>> CreateSillsFromSelectedTextAsync(WindowTextSelection windowTextSelection)
+    internal async Task<List<SillListViewPopupItem>> CreateSillsFromSelectedTextAsync(WindowTextSelection windowTextSelection)
     {
-        var results = new List<SillListViewMenuFlyoutItem>();
+        var results = new List<SillListViewPopupItem>();
 
         try
         {
-            IReadOnlyList<ShellInfo> shells = await _shellDetectionService.GetAvailableShellsAsync();
-            if (shells.Count == 0)
+            IReadOnlyList<ShellInfo> availableShells = await _shellDetectionService.GetAvailableShellsAsync();
+            if (availableShells.Count == 0)
             {
                 return results;
             }
@@ -131,29 +149,30 @@ internal sealed class SillFactory
                 return results;
             }
 
-            ShellInfo? preferredTerminalShell = DetectPreferredShell(windowTextSelection.SelectedText, shells);
+            // TODO: Detect per command block.
+            ShellInfo? defaultShell = DetectShell(windowTextSelection.SelectedText, availableShells);
 
             foreach (ParsedCommandBlock block in blocks)
             {
-                var viewModel
-                    = new CommandViewModel(
-                        _messenger,
-                        _commandExecutionService,
+                CommandRunnerHandle commandRunnerHandle
+                    = await _commandExecutionService.CreateAsync(
                         windowTextSelection,
-                        shells,
-                        preferredTerminalShell,
+                        defaultShell,
                         block.WorkingDirectory,
                         block.Command,
                         scriptFilePath: null);
 
-                var sillView
-                    = new SillListViewMenuFlyoutItem(
-                        string.Empty,
-                        block.Command,
-                        CreateMenu(viewModel, hasSelectedText: true));
+                var viewModel = new CommandViewModel(_commandExecutionService, commandRunnerHandle, availableShells);
+                var popup = new CommandPopup(viewModel);
 
-                sillView.Content = new CommandSillContent(_pluginInfo, sillView, viewModel);
-                viewModel.SillView = sillView;
+                var sillView
+                    = new SillListViewPopupItem(
+                        commandRunnerHandle.Title,
+                        block.Command,
+                        popup)
+                    {
+                        ContextFlyout = CreateMenu(commandRunnerHandle, viewModel, hasSelectedText: true)
+                    };
 
                 results.Add(sillView);
             }
@@ -168,71 +187,54 @@ internal sealed class SillFactory
     /// <summary>
     /// Detects which shell the user likely intends based on hints in the selected text.
     /// </summary>
-    private static ShellInfo? DetectPreferredShell(string selectedText, IReadOnlyList<ShellInfo> shells)
+    private static ShellInfo DetectShell(string selectedText, IReadOnlyList<ShellInfo> shells)
     {
+        if (shells.Count == 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(shells));
+        }
+
         if (ShellHintDetector.HasPowerShellHint(selectedText))
         {
-            return shells.FirstOrDefault(x => x.ExecutablePath.Contains("powershell.exe"));
+            return shells.First(x => x.ExecutablePath.Contains("powershell.exe", StringComparison.OrdinalIgnoreCase));
         }
 
         if (ShellHintDetector.HasPwshHint(selectedText))
         {
-            return shells.FirstOrDefault(x => x.ExecutablePath.Contains("pwsh.exe"));
+            return shells.First(x => x.ExecutablePath.Contains("pwsh.exe", StringComparison.OrdinalIgnoreCase));
         }
 
         if (ShellHintDetector.HasCmdHint(selectedText))
         {
-            return shells.FirstOrDefault(x => x.ExecutablePath.Contains("cmd.exe"));
+            return shells.First(x => x.ExecutablePath.Contains("cmd.exe", StringComparison.OrdinalIgnoreCase));
         }
 
         if (ShellHintDetector.HasWslHint(selectedText))
         {
-            return shells.FirstOrDefault(x => x.IsWsl);
+            return shells.First(x => x.IsWsl);
         }
 
-        return null;
+        return shells[0];
     }
 
-    internal SillListViewMenuFlyoutItem CreateSillFromCommandRunner(CommandRunner commandRunner)
+    private static MenuFlyout CreateMenu(CommandRunnerHandle commandRunnerHandle, CommandViewModel viewModel, bool hasSelectedText)
     {
-        var viewModel
-            = new CommandViewModel(
-                    _messenger,
-                    _commandExecutionService,
-                    commandRunner);
-
-        var sillView
-            = new SillListViewMenuFlyoutItem(
-                string.Empty,
-                commandRunner.ScriptFilePath ?? commandRunner.Script,
-                CreateMenu(viewModel, hasSelectedText: false));
-
-        sillView.Content = new CommandSillContent(_pluginInfo, sillView, viewModel);
-        viewModel.SillView = sillView;
-
-        return sillView;
-    }
-
-    private static MenuFlyout CreateMenu(CommandViewModel viewModel, bool hasSelectedText)
-    {
-        int horizontalCharacterLimit = 100;
-        bool alreadyRan = viewModel.State is CommandState.Completed or CommandState.Failed or CommandState.Cancelled;
-        string runOrRerunDisplayText = alreadyRan ? "Rerun" : "Run";
+        int horizontalCharacterLimit = 50;
 
         var menuFlyout = new MenuFlyout();
 
         menuFlyout.Items.Add(new MenuFlyoutItem
         {
             IsEnabled = false,
-            Text = $"Detected run settings:",
+            Text = $"/WindowSill.InlineTerminal/TerminalSill/DetectedRunSettings".GetLocalizedString(),
         });
 
-        if (!string.IsNullOrEmpty(viewModel.Script))
+        if (!string.IsNullOrEmpty(commandRunnerHandle.Title))
         {
             var commandTextFlyoutItem = new MenuFlyoutItem
             {
                 IsEnabled = false,
-                Text = $"{new string(viewModel.Script.Take(horizontalCharacterLimit).ToArray())}{(viewModel.Script.Length > horizontalCharacterLimit ? "…" : string.Empty)}",
+                Text = $"{new string(commandRunnerHandle.Title.Take(horizontalCharacterLimit).ToArray())}{(commandRunnerHandle.Title.Length > horizontalCharacterLimit ? "…" : string.Empty)}",
                 Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE950" },
             };
 
@@ -269,14 +271,7 @@ internal sealed class SillFactory
 
         menuFlyout.Items.Add(new MenuFlyoutItem
         {
-            Text = "Configure run",
-            Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uF8A6" },
-            Command = viewModel.ConfigureRunCommand
-        });
-
-        menuFlyout.Items.Add(new MenuFlyoutItem
-        {
-            Text = $"{runOrRerunDisplayText} now",
+            Text = $"/WindowSill.InlineTerminal/TerminalSill/RunNow".GetLocalizedString(),
             Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE76C" },
             Command = viewModel.RunMenuCommand,
         });
@@ -285,27 +280,27 @@ internal sealed class SillFactory
         {
             var runAndMenuItem = new MenuFlyoutSubItem
             {
-                Text = $"{runOrRerunDisplayText} and...",
+                Text = $"/WindowSill.InlineTerminal/TerminalSill/RunAnd".GetLocalizedString(),
                 Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE76C" }
             };
 
             runAndMenuItem.Items.Add(new MenuFlyoutItem
             {
-                Text = $"Copy output",
+                Text = $"/WindowSill.InlineTerminal/TerminalSill/CopyOutput".GetLocalizedString(),
                 Icon = new SymbolIcon(Symbol.Copy),
                 Command = viewModel.RunAndCopyMenuCommand,
             });
 
             runAndMenuItem.Items.Add(new MenuFlyoutItem
             {
-                Text = $"Append selection",
+                Text = $"/WindowSill.InlineTerminal/TerminalSill/AppendSelection".GetLocalizedString(),
                 Icon = new SymbolIcon(Symbol.Import),
                 Command = viewModel.RunAndAppendMenuCommand,
             });
 
             runAndMenuItem.Items.Add(new MenuFlyoutItem
             {
-                Text = $"Replace selection",
+                Text = $"/WindowSill.InlineTerminal/TerminalSill/ReplaceSelection".GetLocalizedString(),
                 Icon = new SymbolIcon(Symbol.ImportAll),
                 Command = viewModel.RunAndReplaceMenuCommand,
             });
@@ -316,7 +311,7 @@ internal sealed class SillFactory
         {
             menuFlyout.Items.Add(new MenuFlyoutItem
             {
-                Text = $"{runOrRerunDisplayText} and copy output",
+                Text = $"/WindowSill.InlineTerminal/TerminalSill/RunAndCopyOutput".GetLocalizedString(),
                 Icon = new SymbolIcon(Symbol.Copy),
                 Command = viewModel.RunAndCopyMenuCommand,
             });

@@ -1,12 +1,9 @@
-using System.Diagnostics;
-
 namespace WindowSill.InlineTerminal.Core.Shell;
 
 /// <summary>
 /// Represents a detected command-line shell with shell-specific formatting strategies.
 /// </summary>
-[DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
-public sealed class ShellInfo
+internal sealed class ShellInfo
 {
     private readonly Func<string, string> _escapeCommand;
     private readonly Func<string, string> _buildArguments;
@@ -81,9 +78,4 @@ public sealed class ShellInfo
     /// </summary>
     internal string BuildElevatedArguments(string command, string outputFilePath)
         => _buildElevatedArguments(command, outputFilePath);
-
-    private string GetDebuggerDisplay()
-    {
-        return DisplayName;
-    }
 }

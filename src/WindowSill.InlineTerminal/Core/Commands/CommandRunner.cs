@@ -15,58 +15,54 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
     private readonly Lock _lock = new();
     private readonly IPluginInfo _pluginInfo;
     private readonly IProcessInteractionService _processInteractionService;
-    private readonly ReplaySubject<CommandExecutionStatusChange> _subject = new();
-    private readonly CancellationTokenSource _cancellationTokenSource = new();
-    private readonly CancellationToken _cancellationToken;
+    private readonly Subject<CommandExecutionStatusChange> _subject = new();
     private readonly StringBuilder _outputStringBuilder = new();
 
     private bool _disposed;
     private Task? _onGoingCommandTask;
+    private CancellationTokenSource? _cancellationTokenSource;
+    private CancellationToken _cancellationToken = CancellationToken.None;
 
     internal CommandRunner(
         IPluginInfo pluginInfo,
         IProcessInteractionService processInteractionService,
         WindowTextSelection? windowTextSelection,
-        IReadOnlyList<ShellInfo> shells,
-        ShellInfo? preferredShell,
-        string? workingDirectory,
-        string? terminalCommand,
-        string? filePath)
+        ShellInfo defaultShell,
+        string? defaultWorkingDirectory,
+        string? defaultScript,
+        string? scriptFilePath)
     {
-        if (string.IsNullOrEmpty(terminalCommand) && string.IsNullOrEmpty(filePath))
+        if (string.IsNullOrEmpty(defaultScript) && string.IsNullOrEmpty(scriptFilePath))
         {
-            throw new ArgumentException($"At least one of {nameof(terminalCommand)} or {nameof(filePath)} must be provided.");
+            throw new ArgumentException($"At least one of {nameof(defaultScript)} or {nameof(scriptFilePath)} must be provided.");
         }
 
-        if (shells.Count == 0)
-        {
-            throw new ArgumentOutOfRangeException($"At least one shell must be present in {nameof(shells)}.");
-        }
-
+        Id = Guid.NewGuid();
         _pluginInfo = pluginInfo;
         _processInteractionService = processInteractionService;
-        _cancellationToken = _cancellationTokenSource.Token;
         WindowTextSelection = windowTextSelection;
-        AvailableShells = shells;
-        SelectedShell = preferredShell ?? shells.First();
-        WorkingDirectory = workingDirectory ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        Script = terminalCommand;
-        ScriptFilePath = filePath;
+        DefaultShell = defaultShell;
+        DefaultWorkingDirectory = defaultWorkingDirectory ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        DefaultScript = defaultScript;
+        ScriptFilePath = scriptFilePath;
     }
+
+    /// <summary>
+    /// Gets the unique identifier for this command runner instance.
+    /// </summary>
+    internal Guid Id { get; }
 
     internal WindowTextSelection? WindowTextSelection { get; }
 
-    internal IReadOnlyList<ShellInfo> AvailableShells { get; }
+    internal ShellInfo DefaultShell { get; }
 
-    internal ShellInfo SelectedShell { get; }
+    internal string DefaultWorkingDirectory { get; }
 
-    internal string WorkingDirectory { get; }
-
-    internal string? Script { get; }
+    internal string? DefaultScript { get; private set; }
 
     internal string? ScriptFilePath { get; }
 
-    internal CommandState State { get; private set; } = CommandState.Pending;
+    internal CommandState State { get; private set; } = CommandState.Created;
 
     internal string Output => _outputStringBuilder.ToString();
 
@@ -78,8 +74,8 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
         {
             _disposed = true;
             _subject.Dispose();
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
         }
     }
 
@@ -88,8 +84,10 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
         return _subject.Subscribe(observer);
     }
 
-    internal void Start(ActionOnCommandCompleted actionOnCompleted, bool asElevated)
+    internal void Start(ShellInfo shell, string? script, string workingDirectory, ActionOnCommandCompleted actionOnCompleted, bool asElevated)
     {
+        Guard.IsNotNull(shell);
+
         lock (_lock)
         {
             if (_onGoingCommandTask is not null)
@@ -98,15 +96,15 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
                 return;
             }
 
-            string? script;
+            bool isScriptFile = false;
+
             if (!string.IsNullOrEmpty(ScriptFilePath)
                 && File.Exists(ScriptFilePath))
             {
-                script = File.ReadAllText(ScriptFilePath);
-            }
-            else
-            {
-                script = Script;
+                // Execute the script file by path rather than reading its contents,
+                // so that batch variables like %~dp0 resolve to the script's directory.
+                script = $"\"{ScriptFilePath}\"";
+                isScriptFile = true;
             }
 
             if (string.IsNullOrEmpty(script))
@@ -115,29 +113,40 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
                 return;
             }
 
+            if (!string.IsNullOrEmpty(DefaultScript))
+            {
+                DefaultScript = script;
+            }
+
+            // Reset cancellation token.
+            Cancel();
+
             ActionOnCommandCompleted = actionOnCompleted;
             State = CommandState.Running;
+            _outputStringBuilder.Clear();
 
             if (asElevated)
             {
                 _onGoingCommandTask
                     = CommandExecutionHelper.ExecuteElevatedAsync(
                         script,
-                        SelectedShell,
-                        WorkingDirectory,
+                        shell,
+                        workingDirectory,
                         PropagateOnOutputLineReceived,
                         _pluginInfo,
-                        _cancellationToken);
+                        _cancellationToken,
+                        skipEscaping: isScriptFile);
             }
             else
             {
                 _onGoingCommandTask
                     = CommandExecutionHelper.ExecuteAsync(
                         script,
-                        SelectedShell,
-                        WorkingDirectory,
+                        shell,
+                        workingDirectory,
                         PropagateOnOutputLineReceived,
-                        _cancellationToken);
+                        _cancellationToken,
+                        skipEscaping: isScriptFile);
             }
 
             ObserveOnGoingCommandTaskAsync().ForgetSafely();
@@ -146,7 +155,13 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
 
     internal void Cancel()
     {
-        _cancellationTokenSource.Cancel();
+        lock (_lock)
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Dispose();
+            _cancellationTokenSource = new CancellationTokenSource();
+            _cancellationToken = _cancellationTokenSource.Token;
+        }
     }
 
     internal async Task CopyOutputToClipboardAsync(bool includeInClipboardHistory)
@@ -192,6 +207,7 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
         }
 
         await PerformActionOnCompleteAsync();
+        _onGoingCommandTask = null;
     }
 
     private void PropagateOnOutputLineReceived(string outputLine)
@@ -272,6 +288,7 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
                             WindowTextSelection,
                             [
                                 VirtualKey.Right,
+
                                 VirtualKey.Enter,
                                 VirtualKey.Enter,
                             ]);
@@ -318,7 +335,6 @@ internal sealed class CommandRunner : IObservable<CommandExecutionStatusChange>,
 
     private string GetDebuggerDisplay()
     {
-        return Script ?? Path.GetFileName(ScriptFilePath) ?? string.Empty;
+        return DefaultScript ?? Path.GetFileName(ScriptFilePath) ?? string.Empty;
     }
-
 }
