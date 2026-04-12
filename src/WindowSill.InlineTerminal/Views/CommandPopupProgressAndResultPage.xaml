@@ -14,6 +14,9 @@
             x:Key="NegationEnumToVisibilityConverter"
             WhenMatch="Collapsed"
             WhenNotMatch="Visible" />
+        <converters:BoolToTextWrappingConverter x:Key="BoolToTextWrappingConverter" />
+        <converters:BoolToScrollBarVisibilityConverter x:Key="BoolToScrollBarVisibilityConverter" />
+        <converters:BoolToScrollModeConverter x:Key="BoolToScrollModeConverter" />
     </Page.Resources>
 
     <Grid RowSpacing="12">
@@ -37,7 +40,8 @@
         <!--  Output  -->
         <ScrollViewer
             Grid.Row="1"
-            HorizontalScrollBarVisibility="Auto"
+            HorizontalScrollBarVisibility="{x:Bind ViewModel.WordWrapOutput, Mode=OneWay, Converter={StaticResource BoolToScrollBarVisibilityConverter}}"
+            HorizontalScrollMode="{x:Bind ViewModel.WordWrapOutput, Mode=OneWay, Converter={StaticResource BoolToScrollModeConverter}}"
             VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="24,0,24,0" Orientation="Vertical">
                 <TextBlock
@@ -45,7 +49,7 @@
                     FontSize="12"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.OutputText, Mode=OneWay}"
-                    TextWrapping="Wrap" />
+                    TextWrapping="{x:Bind ViewModel.WordWrapOutput, Mode=OneWay, Converter={StaticResource BoolToTextWrappingConverter}}" />
             </StackPanel>
         </ScrollViewer>
 

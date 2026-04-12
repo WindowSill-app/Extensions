@@ -9,6 +9,7 @@ using WindowSill.InlineTerminal.Activators;
 using WindowSill.InlineTerminal.Core;
 using WindowSill.InlineTerminal.Core.Commands;
 using WindowSill.InlineTerminal.Core.UI;
+using WindowSill.InlineTerminal.Settings;
 using WindowSill.InlineTerminal.Views;
 using Path = System.IO.Path;
 
@@ -25,6 +26,7 @@ internal sealed class TerminalSill
 {
     private readonly Lock _lock = new();
     private readonly IPluginInfo _pluginInfo;
+    private readonly ISettingsProvider _settingsProvider;
     private readonly SillFactory _sillFactory;
     private readonly CommandExecutionService _commandExecutionService;
     private readonly AsyncLazy<SillListViewPopupItem?> _createOnGoingCommandsPopup;
@@ -35,9 +37,10 @@ internal sealed class TerminalSill
     private string[]? _currentDroppedFiles;
 
     [ImportingConstructor]
-    public TerminalSill(IPluginInfo pluginInfo, SillFactory sillFactory, CommandExecutionService commandExecutionService)
+    public TerminalSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, SillFactory sillFactory, CommandExecutionService commandExecutionService)
     {
         _pluginInfo = pluginInfo;
+        _settingsProvider = settingsProvider;
         _sillFactory = sillFactory;
         _commandExecutionService = commandExecutionService;
         _commandExecutionService.RunnersChanged += CommandExecutionService_RunnersChanged;
@@ -58,7 +61,12 @@ internal sealed class TerminalSill
     public string[] DragAndDropActivatorTypeNames => [ScriptFileDropActivator.ActivatorName];
 
     /// <inheritdoc />
-    public SillSettingsView[]? SettingsViews => null;
+    public SillSettingsView[]? SettingsViews =>
+        [
+        new SillSettingsView(
+            DisplayName,
+            new(() => new SettingsView(_settingsProvider)))
+        ];
 
     /// <inheritdoc />
     public ObservableCollection<SillListViewItem> ViewList { get; } = [];

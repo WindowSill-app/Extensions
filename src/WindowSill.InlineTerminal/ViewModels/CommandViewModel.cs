@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using WindowSill.API;
@@ -9,21 +8,35 @@ namespace WindowSill.InlineTerminal.ViewModels;
 
 internal sealed partial class CommandViewModel : ObservableObject, IObserver<CommandExecutionStatusChange>, IDisposable
 {
+    private static readonly string[] browserAppIdentifiers =
+    [
+        "msedge.exe",
+        "chrome.exe",
+        "firefox.exe",
+        "brave.exe",
+        "opera.exe",
+        "vivaldi.exe",
+        "zen.exe"
+    ];
+
     private static readonly long throttleIntervalTicks = TimeSpan.FromMilliseconds(100).Ticks;
 
     private readonly CommandExecutionService _commandExecutionService;
     private readonly CommandRunnerHandle _commandRunnerHandle;
     private readonly IDisposable _commandRunnerSubscriber;
+    private readonly ISettingsProvider _settingsProvider;
 
     private long _lastOnNextTimestamp;
 
     public CommandViewModel(
         CommandExecutionService commandExecutionService,
         CommandRunnerHandle commandRunnerHandle,
-        IReadOnlyList<ShellInfo> availableShells)
+        IReadOnlyList<ShellInfo> availableShells,
+        ISettingsProvider settingsProvider)
     {
         _commandExecutionService = commandExecutionService;
         _commandRunnerHandle = commandRunnerHandle;
+        _settingsProvider = settingsProvider;
         AvailableShells = availableShells;
 
         _commandRunnerSubscriber = _commandRunnerHandle.Subscribe(this);
@@ -56,7 +69,54 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
     [ObservableProperty]
     internal partial bool RunAsAdministrator { get; set; }
 
+    /// <summary>
+    /// Optional callback to confirm run (e.g., ClickFix warning dialog).
+    /// Returns true if the user confirmed, false to cancel.
+    /// </summary>
+    internal Func<Task<bool>>? ConfirmRunAsync { get; set; }
+
     internal event EventHandler? RequestClose;
+
+    /// <summary>
+    /// Gets whether the output text should wrap based on the user's setting.
+    /// </summary>
+    internal bool WordWrapOutput => _settingsProvider.GetSetting(Settings.Settings.WordWrapOutput);
+
+    /// <summary>
+    /// Determines whether the ClickFix security warning should be shown before running.
+    /// Returns true when the command originates from a web browser and the warning is not disabled.
+    /// </summary>
+    internal bool ShouldShowClickFixWarning()
+    {
+        if (_settingsProvider.GetSetting(Settings.Settings.DisableClickFixWarning))
+        {
+            return false;
+        }
+
+        string? appIdentifier = _commandRunnerHandle.WindowTextSelection?.ApplicationIdentifier;
+        if (string.IsNullOrEmpty(appIdentifier))
+        {
+            return false;
+        }
+
+        for (int i = 0; i < browserAppIdentifiers.Length; i++)
+        {
+            if (appIdentifier.EndsWith(browserAppIdentifiers[i], StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Persists the user's choice to not show the ClickFix warning again.
+    /// </summary>
+    internal void DisableClickFixWarning()
+    {
+        _settingsProvider.SetSetting(Settings.Settings.DisableClickFixWarning, true);
+    }
 
     public void Dispose()
     {
@@ -133,6 +193,15 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
 
     private async Task StartRunScriptAsync(ActionOnCommandCompleted actionOnCommandCompleted)
     {
+        if (ConfirmRunAsync is not null)
+        {
+            bool confirmed = await ConfirmRunAsync();
+            if (!confirmed)
+            {
+                return;
+            }
+        }
+
         _commandExecutionService.Start(
             _commandRunnerHandle.Id,
             SelectedShell,

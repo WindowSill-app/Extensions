@@ -36,14 +36,17 @@ internal sealed class SillFactory
 
     private readonly ShellDetectionService _shellDetectionService;
     private readonly CommandExecutionService _commandExecutionService;
+    private readonly ISettingsProvider _settingsProvider;
 
     [ImportingConstructor]
     public SillFactory(
         ShellDetectionService shellDetectionService,
-        CommandExecutionService commandExecutionService)
+        CommandExecutionService commandExecutionService,
+        ISettingsProvider settingsProvider)
     {
         _shellDetectionService = shellDetectionService;
         _commandExecutionService = commandExecutionService;
+        _settingsProvider = settingsProvider;
     }
 
     internal async Task<SillListViewPopupItem?> CreateOnGoingCommandsPopupAsync()
@@ -62,7 +65,7 @@ internal sealed class SillFactory
                 null,
                 null!);
 
-        sillView.PopupContent = new OnGoingCommandsPopup(_commandExecutionService, availableShells, viewModel, sillView);
+        sillView.PopupContent = new OnGoingCommandsPopup(_commandExecutionService, availableShells, _settingsProvider, viewModel, sillView);
 
         return sillView;
     }
@@ -110,7 +113,7 @@ internal sealed class SillFactory
                     script: null,
                     scriptFilePath);
 
-            var viewModel = new CommandViewModel(_commandExecutionService, commandRunnerHandle, availableShells);
+            var viewModel = new CommandViewModel(_commandExecutionService, commandRunnerHandle, availableShells, _settingsProvider);
             var popup = new CommandPopup(viewModel);
 
             var sillView
@@ -162,7 +165,7 @@ internal sealed class SillFactory
                         block.Command,
                         scriptFilePath: null);
 
-                var viewModel = new CommandViewModel(_commandExecutionService, commandRunnerHandle, availableShells);
+                var viewModel = new CommandViewModel(_commandExecutionService, commandRunnerHandle, availableShells, _settingsProvider);
                 var popup = new CommandPopup(viewModel);
 
                 var sillView

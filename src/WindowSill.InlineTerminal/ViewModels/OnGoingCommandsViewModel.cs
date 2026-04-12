@@ -10,7 +10,7 @@ internal sealed partial class OnGoingCommandsViewModel : ObservableObject, IObse
     private readonly CommandExecutionService _commandExecutionService;
     private readonly List<IDisposable> _subscriptions = new();
 
-    private CancellationTokenSource? _throttleCts;
+    private long _throttleVersion;
 
     internal OnGoingCommandsViewModel(CommandExecutionService commandExecutionService)
     {
@@ -45,19 +45,18 @@ internal sealed partial class OnGoingCommandsViewModel : ObservableObject, IObse
     /// </summary>
     private void ThrottleNotifyHasCommandsRunning()
     {
-        lock (_lock)
-        {
-            _throttleCts?.Cancel();
-            _throttleCts?.Dispose();
-            _throttleCts = new CancellationTokenSource();
-            CancellationToken token = _throttleCts.Token;
-            NotifyAfterDelayAsync(token).ForgetSafely();
-        }
+        long version = Interlocked.Increment(ref _throttleVersion);
+        NotifyAfterDelayAsync(version).ForgetSafely();
     }
 
-    private async Task NotifyAfterDelayAsync(CancellationToken cancellationToken)
+    private async Task NotifyAfterDelayAsync(long version)
     {
-        await Task.Delay(TimeSpan.FromMilliseconds(200), cancellationToken).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromMilliseconds(200)).ConfigureAwait(false);
+
+        if (Interlocked.Read(ref _throttleVersion) != version)
+        {
+            return;
+        }
 
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
