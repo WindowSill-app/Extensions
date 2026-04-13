@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="General.TextProperty" xml:space="preserve"><value>全般</value></data>
+  <data name="WordWrapOutput.HeaderProperty" xml:space="preserve"><value>出力の折り返し</value></data>
+  <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>水平スクロールの代わりにコマンド出力ビューでテキストを折り返す</value></data>
+  <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>セキュリティ警告を無効にする</value></data>
+  <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>Webブラウザーから選択したコマンドを実行する際のセキュリティ警告をスキップする</value></data>
+</root>

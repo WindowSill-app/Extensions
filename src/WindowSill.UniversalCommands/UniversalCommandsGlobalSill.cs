@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using Microsoft.UI.Xaml.Media.Imaging;
+using ThrottleDebounce;
 using WindowSill.API;
 using WindowSill.UniversalCommands.Core;
 using WindowSill.UniversalCommands.Settings;
@@ -17,8 +18,7 @@ internal sealed class UniversalCommandsGlobalSill : ISillActivatedByDefault, ISi
     private readonly IProcessInteractionService _processInteractionService;
     private readonly UniversalCommandsService _universalCommandsService;
     private readonly DisposableSemaphore _disposableSemaphore = new();
-
-    private CancellationTokenSource? _debounceCts;
+    private readonly RateLimitedAction _debouncedUpdateSills;
 
     [ImportingConstructor]
     internal UniversalCommandsGlobalSill(
@@ -29,6 +29,9 @@ internal sealed class UniversalCommandsGlobalSill : ISillActivatedByDefault, ISi
         _pluginInfo = pluginInfo;
         _processInteractionService = processInteractionService;
         _universalCommandsService = universalCommandsService;
+        _debouncedUpdateSills = Debouncer.Debounce(
+            () => UpdateSillsAsync().ForgetSafely(),
+            TimeSpan.FromMilliseconds(100));
         _universalCommandsService.Commands.CollectionChanged += Commands_CollectionChanged;
     }
 
@@ -54,8 +57,7 @@ internal sealed class UniversalCommandsGlobalSill : ISillActivatedByDefault, ISi
     public void Dispose()
     {
         _universalCommandsService.Commands.CollectionChanged -= Commands_CollectionChanged;
-        _debounceCts?.Cancel();
-        _debounceCts?.Dispose();
+        _debouncedUpdateSills.Dispose();
         _disposableSemaphore.Dispose();
     }
 
@@ -71,16 +73,7 @@ internal sealed class UniversalCommandsGlobalSill : ISillActivatedByDefault, ISi
 
     private void Commands_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-        _debounceCts?.Cancel();
-        _debounceCts?.Dispose();
-        CancellationTokenSource cts = _debounceCts = new();
-        DebounceUpdateSillsAsync(cts.Token).ForgetSafely();
-    }
-
-    private async Task DebounceUpdateSillsAsync(CancellationToken cancellationToken)
-    {
-        await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
-        await UpdateSillsAsync();
+        _debouncedUpdateSills.Invoke();
     }
 
     private async Task UpdateSillsAsync()

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<api:SillPopupContent
+    x:Class="WindowSill.InlineTerminal.Views.OnGoingCommandsPopup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:converters1="using:WindowSill.InlineTerminal.Core.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:WindowSill.InlineTerminal.Core.UI"
+    xmlns:vm="using:WindowSill.InlineTerminal.ViewModels"
+    MinWidth="320"
+    MaxWidth="400"
+    mc:Ignorable="d">
+
+    <api:SillPopupContent.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters1:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+        <converters1:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+    </api:SillPopupContent.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Row="0"
+            Margin="16,12,12,12"
+            ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                api:Uids.Uid="/WindowSill.InlineTerminal/OnGoingCommandsPopup/Title"
+                Style="{ThemeResource SubtitleTextBlockStyle}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap" />
+
+            <Button
+                Grid.Column="2"
+                MaxWidth="24"
+                MaxHeight="24"
+                VerticalAlignment="Center"
+                api:Uids.Uid="/WindowSill.InlineTerminal/OnGoingCommandsPopup/DismissAllButton"
+                Click="DismissAllButton_Click"
+                Content="&#xE74D;"
+                Style="{StaticResource IconButton}" />
+        </Grid>
+
+        <ui:ShortcutListView
+            Grid.Row="1"
+            MaxHeight="400"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            AllowFocusOnInteraction="False"
+            IsItemClickEnabled="True"
+            ItemClick="ShortcutListView_ItemClick"
+            ItemInvoked="ShortcutListView_ItemInvoked"
+            ItemsSource="{x:Bind ViewModel.ActiveRuns, Mode=OneWay}"
+            SelectionMode="None">
+            <ui:ShortcutListView.Template>
+                <ControlTemplate TargetType="ui:ShortcutListView">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="4">
+                        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </ui:ShortcutListView.Template>
+            <ui:ShortcutListView.ItemTemplate>
+                <DataTemplate x:DataType="vm:ActiveRunItem">
+                    <Grid
+                        Height="48"
+                        HorizontalAlignment="Stretch"
+                        ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid
+                            Grid.Column="0"
+                            Width="24"
+                            Height="24"
+                            VerticalAlignment="Center">
+                            <ProgressRing
+                                Width="24"
+                                Height="24"
+                                VerticalAlignment="Center"
+                                IsActive="{x:Bind State, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='Running'}"
+                                IsIndeterminate="True" />
+                            <ImageIcon ui:PluginAssetHelper.Path="Assets/ok.svg" Visibility="{x:Bind State, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter='Completed'}" />
+                            <ImageIcon ui:PluginAssetHelper.Path="Assets/error.svg" Visibility="{x:Bind State, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter='Failed|Cancelled'}" />
+                        </Grid>
+
+                        <StackPanel
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center">
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    MaxLines="1"
+                                    Text="{x:Bind Title}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind StartedAt}" />
+                            </Grid>
+                            <TextBlock
+                                HorizontalAlignment="Stretch"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                MaxLines="1"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{x:Bind OutputTrimmed}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                        </StackPanel>
+
+                        <StackPanel
+                            Grid.Column="2"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center">
+                            <Button
+                                MaxWidth="24"
+                                api:Uids.Uid="/WindowSill.InlineTerminal/OnGoingCommandsPopup/DismissButton"
+                                Click="DismissButton_Click"
+                                Content="&#xE74D;"
+                                Style="{StaticResource IconButton}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ui:ShortcutListView.ItemTemplate>
+        </ui:ShortcutListView>
+    </Grid>
+</api:SillPopupContent>

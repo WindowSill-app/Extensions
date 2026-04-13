@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Command.HeaderProperty" xml:space="preserve"><value>Команда</value></data>
+  <data name="WorkingDirectoryLabel.TextProperty" xml:space="preserve"><value>Робочий каталог</value></data>
+  <data name="Shell.HeaderProperty" xml:space="preserve"><value>Оболонка</value></data>
+  <data name="RunButton.TextProperty" xml:space="preserve"><value>Виконати</value></data>
+  <data name="RerunButton.TextProperty" xml:space="preserve"><value>Виконати знову</value></data>
+  <data name="RunCopyButton.TextProperty" xml:space="preserve"><value>Виконати та скопіювати вивід</value></data>
+  <data name="RunAppendButton.TextProperty" xml:space="preserve"><value>Виконати та додати до виділення</value></data>
+  <data name="RunReplaceButton.TextProperty" xml:space="preserve"><value>Виконати та замінити виділення</value></data>
+  <data name="BrowseButton.ToolTipService.ToolTipProperty" xml:space="preserve"><value>Огляд</value></data>
+  <data name="RunAsAdminCheckBox.ContentProperty" xml:space="preserve"><value>Виконати від імені адміністратора</value></data>
+</root>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Command.HeaderProperty" xml:space="preserve"><value>कमांड</value></data>
+  <data name="WorkingDirectoryLabel.TextProperty" xml:space="preserve"><value>कार्य निर्देशिका</value></data>
+  <data name="Shell.HeaderProperty" xml:space="preserve"><value>शेल</value></data>
+  <data name="RunButton.TextProperty" xml:space="preserve"><value>चलाएँ</value></data>
+  <data name="RerunButton.TextProperty" xml:space="preserve"><value>फिर से चलाएँ</value></data>
+  <data name="RunCopyButton.TextProperty" xml:space="preserve"><value>चलाएँ और आउटपुट कॉपी करें</value></data>
+  <data name="RunAppendButton.TextProperty" xml:space="preserve"><value>चलाएँ और चयन जोड़ें</value></data>
+  <data name="RunReplaceButton.TextProperty" xml:space="preserve"><value>चलाएँ और चयन बदलें</value></data>
+  <data name="BrowseButton.ToolTipService.ToolTipProperty" xml:space="preserve"><value>ब्राउज़ करें</value></data>
+  <data name="RunAsAdminCheckBox.ContentProperty" xml:space="preserve"><value>व्यवस्थापक के रूप में चलाएँ</value></data>
+</root>

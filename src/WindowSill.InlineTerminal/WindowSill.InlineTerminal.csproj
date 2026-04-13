@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>WindowSill.InlineTerminal</PackageId>
+    <Version>0.9.20</Version>
+    <Authors>Etienne Baudoux</Authors>
+    <Title>Inline Terminal</Title>
+    <Description>
+      Run commands instantly. Select any shell command text or script files (.ps1, .bat, .cmd, .sh) and execute it right from WindowSill — no need to copy-paste into a terminal.
+
+      • Select a command anywhere on screen or script file from File Explorer and run it in one click
+      • Choose your shell: PowerShell 7, Windows PowerShell, CMD, or WSL
+      • Set the working directory and run as administrator
+      • View live output, copy results, or re-run with a single click
+      • Track multiple concurrent commands from the sill bar
+
+      The fastest way to run commands without switching to a terminal.
+    </Description>
+    <PackageIcon>Assets/package.png</PackageIcon>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Assets/package.png" Pack="true" PackagePath="\Assets\" />
+    <None Include="LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ThrottleDebounce" />
+    <PackageReference Include="WindowSill.API" />
+  </ItemGroup>
+</Project>

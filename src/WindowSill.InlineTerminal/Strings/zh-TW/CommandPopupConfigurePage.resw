@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="Command.HeaderProperty" xml:space="preserve"><value>命令</value></data>
+  <data name="WorkingDirectoryLabel.TextProperty" xml:space="preserve"><value>工作目錄</value></data>
+  <data name="Shell.HeaderProperty" xml:space="preserve"><value>Shell</value></data>
+  <data name="RunButton.TextProperty" xml:space="preserve"><value>執行</value></data>
+  <data name="RerunButton.TextProperty" xml:space="preserve"><value>重新執行</value></data>
+  <data name="RunCopyButton.TextProperty" xml:space="preserve"><value>執行並複製輸出</value></data>
+  <data name="RunAppendButton.TextProperty" xml:space="preserve"><value>執行並附加到選取範圍</value></data>
+  <data name="RunReplaceButton.TextProperty" xml:space="preserve"><value>執行並取代選取範圍</value></data>
+  <data name="BrowseButton.ToolTipService.ToolTipProperty" xml:space="preserve"><value>瀏覽</value></data>
+  <data name="RunAsAdminCheckBox.ContentProperty" xml:space="preserve"><value>以系統管理員身分執行</value></data>
+</root>

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppendSelection" xml:space="preserve"><value>選択に追加</value></data>
+  <data name="CopyOutput" xml:space="preserve"><value>出力をコピー</value></data>
+  <data name="CopyLatestOutput" xml:space="preserve"><value>最新の出力をコピー</value></data>
+  <data name="DetectedRunSettings" xml:space="preserve"><value>検出された実行設定:</value></data>
+  <data name="DisplayName" xml:space="preserve"><value>ターミナル</value></data>
+  <data name="ReplaceSelection" xml:space="preserve"><value>選択を置換</value></data>
+  <data name="RunAnd" xml:space="preserve"><value>実行して...</value></data>
+  <data name="RerunAnd" xml:space="preserve"><value>再実行して...</value></data>
+  <data name="RunAndCopyOutput" xml:space="preserve"><value>実行して出力をコピー</value></data>
+  <data name="RerunAndCopyOutput" xml:space="preserve"><value>再実行して出力をコピー</value></data>
+  <data name="RunNow" xml:space="preserve"><value>今すぐ実行</value></data>
+  <data name="RerunNow" xml:space="preserve"><value>再実行</value></data>
+  <data name="DismissThisRun" xml:space="preserve"><value>閉じる</value></data>
+  <data name="CancelRun" xml:space="preserve"><value>キャンセル</value></data>
+  <data name="RunCount" xml:space="preserve"><value>{0}回実行済み</value></data>
+  <data name="DismissOtherRuns" xml:space="preserve"><value>他の{0}件の実行を閉じる</value></data>
+  <data name="DismissAllRuns" xml:space="preserve"><value>すべての{0}件の実行を閉じる</value></data>
+</root>
