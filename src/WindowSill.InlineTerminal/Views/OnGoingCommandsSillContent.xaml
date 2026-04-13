@@ -10,23 +10,34 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter
-            x:Key="InverseBooleanToVisibilityConverter"
-            FalseValue="Visible"
-            TrueValue="Collapsed" />
+            x:Key="BoolToVisibilityConverter"
+            FalseValue="Collapsed"
+            TrueValue="Visible" />
     </UserControl.Resources>
 
     <Grid Margin="{ThemeResource SillCommandContentMargin}">
+        <!--  Running: show spinner  -->
         <ProgressRing
             Width="{ThemeResource SillIconSize}"
             Height="{ThemeResource SillIconSize}"
             MinWidth="0"
             MinHeight="0"
             IsActive="{x:Bind ViewModel.HasCommandsRunning, Mode=OneWay}"
-            IsIndeterminate="True" />
+            IsIndeterminate="True"
+            Visibility="{x:Bind ViewModel.HasCommandsRunning, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+        <!--  Not running + has errors: show error icon  -->
+        <ImageIcon
+            Width="{ThemeResource SillIconSize}"
+            Height="{ThemeResource SillIconSize}"
+            ui:PluginAssetHelper.Path="Assets/error.svg"
+            Visibility="{x:Bind ViewModel.ShowErrorIcon, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+        <!--  Not running + no errors: show ok icon  -->
         <ImageIcon
             Width="{ThemeResource SillIconSize}"
             Height="{ThemeResource SillIconSize}"
             ui:PluginAssetHelper.Path="Assets/ok.svg"
-            Visibility="{x:Bind ViewModel.HasCommandsRunning, Mode=OneWay, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+            Visibility="{x:Bind ViewModel.ShowOkIcon, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </UserControl>

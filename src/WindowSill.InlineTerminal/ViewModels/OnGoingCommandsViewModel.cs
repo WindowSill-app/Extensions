@@ -35,6 +35,22 @@ internal sealed partial class OnGoingCommandsViewModel : ObservableObject
     internal bool HasCommandsRunning => _commandService.HasRunningRuns();
 
     /// <summary>
+    /// Gets whether any run has failed or been cancelled.
+    /// </summary>
+    internal bool HasFailedOrCancelledRuns => _commandService.GetAllActiveRuns()
+        .Any(entry => entry.Run.State is CommandState.Failed or CommandState.Cancelled);
+
+    /// <summary>
+    /// Gets whether to show the error icon (not running, has failures).
+    /// </summary>
+    internal bool ShowErrorIcon => !HasCommandsRunning && HasFailedOrCancelledRuns;
+
+    /// <summary>
+    /// Gets whether to show the ok icon (not running, no failures).
+    /// </summary>
+    internal bool ShowOkIcon => !HasCommandsRunning && !HasFailedOrCancelledRuns;
+
+    /// <summary>
     /// Gets all active runs for display in the UI.
     /// </summary>
     internal IReadOnlyList<ActiveRunItem> ActiveRuns
@@ -62,6 +78,9 @@ internal sealed partial class OnGoingCommandsViewModel : ObservableObject
     private void NotifyUpdateUI()
     {
         OnPropertyChanged(nameof(HasCommandsRunning));
+        OnPropertyChanged(nameof(HasFailedOrCancelledRuns));
+        OnPropertyChanged(nameof(ShowErrorIcon));
+        OnPropertyChanged(nameof(ShowOkIcon));
         OnPropertyChanged(nameof(ActiveRuns));
     }
 
