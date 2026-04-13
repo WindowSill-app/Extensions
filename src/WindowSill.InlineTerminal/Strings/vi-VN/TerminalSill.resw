@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppendSelection" xml:space="preserve"><value>Nối vào vùng chọn</value></data>
+  <data name="CopyOutput" xml:space="preserve"><value>Sao chép đầu ra</value></data>
+  <data name="CopyLatestOutput" xml:space="preserve"><value>Sao chép đầu ra mới nhất</value></data>
+  <data name="DetectedRunSettings" xml:space="preserve"><value>Cài đặt chạy được phát hiện:</value></data>
+  <data name="DisplayName" xml:space="preserve"><value>Terminal</value></data>
+  <data name="ReplaceSelection" xml:space="preserve"><value>Thay thế vùng chọn</value></data>
+  <data name="RunAnd" xml:space="preserve"><value>Chạy và...</value></data>
+  <data name="RerunAnd" xml:space="preserve"><value>Chạy lại và...</value></data>
+  <data name="RunAndCopyOutput" xml:space="preserve"><value>Chạy và sao chép đầu ra</value></data>
+  <data name="RerunAndCopyOutput" xml:space="preserve"><value>Chạy lại và sao chép đầu ra</value></data>
+  <data name="RunNow" xml:space="preserve"><value>Chạy ngay</value></data>
+  <data name="RerunNow" xml:space="preserve"><value>Chạy lại</value></data>
+  <data name="DismissThisRun" xml:space="preserve"><value>Bỏ qua</value></data>
+  <data name="CancelRun" xml:space="preserve"><value>Hủy</value></data>
+  <data name="RunCount" xml:space="preserve"><value>Đã thực thi {0} lần</value></data>
+  <data name="DismissOtherRuns" xml:space="preserve"><value>Bỏ qua {0} lần chạy khác</value></data>
+  <data name="DismissAllRuns" xml:space="preserve"><value>Bỏ qua tất cả {0} lần chạy</value></data>
+</root>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="CopyButton.TextProperty" xml:space="preserve"><value>複製</value></data>
+  <data name="RerunButton.TextProperty" xml:space="preserve"><value>重新執行</value></data>
+  <data name="DismissButton.TextProperty" xml:space="preserve"><value>關閉</value></data>
+  <data name="DismissOthersButton.TextProperty" xml:space="preserve"><value>關閉其他執行</value></data>
+  <data name="DismissOthersFormat" xml:space="preserve"><value>關閉其他 {0} 次執行</value></data>
+  <data name="DismissAllButton.TextProperty" xml:space="preserve"><value>關閉所有執行</value></data>
+  <data name="DismissAllFormat" xml:space="preserve"><value>關閉所有 {0} 次執行</value></data>
+  <data name="RunCopyButton.TextProperty" xml:space="preserve"><value>重新執行並複製輸出</value></data>
+  <data name="RunAppendButton.TextProperty" xml:space="preserve"><value>重新執行並附加到選取範圍</value></data>
+  <data name="RunReplaceButton.TextProperty" xml:space="preserve"><value>重新執行並取代選取範圍</value></data>
+  <data name="CancelButton.TextProperty" xml:space="preserve"><value>取消</value></data>
+  <data name="NoOtherRuns" xml:space="preserve"><value>沒有其他執行</value></data>
+</root>

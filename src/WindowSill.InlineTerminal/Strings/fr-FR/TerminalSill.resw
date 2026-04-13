@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppendSelection" xml:space="preserve"><value>Ajouter à la sélection</value></data>
+  <data name="CopyOutput" xml:space="preserve"><value>Copier la sortie</value></data>
+  <data name="CopyLatestOutput" xml:space="preserve"><value>Copier la dernière sortie</value></data>
+  <data name="DetectedRunSettings" xml:space="preserve"><value>Paramètres d'exécution détectés :</value></data>
+  <data name="DisplayName" xml:space="preserve"><value>Terminal</value></data>
+  <data name="ReplaceSelection" xml:space="preserve"><value>Remplacer la sélection</value></data>
+  <data name="RunAnd" xml:space="preserve"><value>Exécuter et...</value></data>
+  <data name="RerunAnd" xml:space="preserve"><value>Réexécuter et...</value></data>
+  <data name="RunAndCopyOutput" xml:space="preserve"><value>Exécuter et copier la sortie</value></data>
+  <data name="RerunAndCopyOutput" xml:space="preserve"><value>Réexécuter et copier la sortie</value></data>
+  <data name="RunNow" xml:space="preserve"><value>Exécuter maintenant</value></data>
+  <data name="RerunNow" xml:space="preserve"><value>Réexécuter</value></data>
+  <data name="DismissThisRun" xml:space="preserve"><value>Fermer</value></data>
+  <data name="CancelRun" xml:space="preserve"><value>Annuler</value></data>
+  <data name="RunCount" xml:space="preserve"><value>Exécuté {0} fois</value></data>
+  <data name="DismissOtherRuns" xml:space="preserve"><value>Fermer {0} autre(s) exécution(s)</value></data>
+  <data name="DismissAllRuns" xml:space="preserve"><value>Fermer les {0} exécutions</value></data>
+</root>

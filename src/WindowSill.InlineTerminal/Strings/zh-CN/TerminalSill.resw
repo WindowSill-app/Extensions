@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true" />
+  </xsd:schema>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppendSelection" xml:space="preserve"><value>追加到选区</value></data>
+  <data name="CopyOutput" xml:space="preserve"><value>复制输出</value></data>
+  <data name="CopyLatestOutput" xml:space="preserve"><value>复制最新输出</value></data>
+  <data name="DetectedRunSettings" xml:space="preserve"><value>检测到的运行设置：</value></data>
+  <data name="DisplayName" xml:space="preserve"><value>终端</value></data>
+  <data name="ReplaceSelection" xml:space="preserve"><value>替换选区</value></data>
+  <data name="RunAnd" xml:space="preserve"><value>运行并...</value></data>
+  <data name="RerunAnd" xml:space="preserve"><value>重新运行并...</value></data>
+  <data name="RunAndCopyOutput" xml:space="preserve"><value>运行并复制输出</value></data>
+  <data name="RerunAndCopyOutput" xml:space="preserve"><value>重新运行并复制输出</value></data>
+  <data name="RunNow" xml:space="preserve"><value>立即运行</value></data>
+  <data name="RerunNow" xml:space="preserve"><value>重新运行</value></data>
+  <data name="DismissThisRun" xml:space="preserve"><value>关闭</value></data>
+  <data name="CancelRun" xml:space="preserve"><value>取消</value></data>
+  <data name="RunCount" xml:space="preserve"><value>已执行 {0} 次</value></data>
+  <data name="DismissOtherRuns" xml:space="preserve"><value>关闭其他 {0} 次运行</value></data>
+  <data name="DismissAllRuns" xml:space="preserve"><value>关闭所有 {0} 次运行</value></data>
+</root>
