@@ -122,47 +122,61 @@
   </data>
   <data name="CopyOutput" xml:space="preserve">
     <value>Copy output</value>
+    <comment>output of a shell command</comment>
   </data>
   <data name="CopyLatestOutput" xml:space="preserve">
     <value>Copy latest output</value>
   </data>
   <data name="DetectedRunSettings" xml:space="preserve">
     <value>Detected run settings:</value>
+    <comment>run in the context of running a shell command</comment>
   </data>
   <data name="DisplayName" xml:space="preserve">
     <value>Terminal</value>
+    <comment>Terminal in the context of a command line</comment>
   </data>
   <data name="ReplaceSelection" xml:space="preserve">
     <value>Replace selection</value>
   </data>
   <data name="RunAnd" xml:space="preserve">
     <value>Run and...</value>
+    <comment>run in the context of running a shell command</comment>
   </data>
   <data name="RerunAnd" xml:space="preserve">
     <value>Re-run and...</value>
+    <comment>run in the context of running a shell command</comment>
   </data>
   <data name="RunAndCopyOutput" xml:space="preserve">
     <value>Run and copy output</value>
+    <comment>run in the context of running a shell command</comment>
   </data>
   <data name="RerunAndCopyOutput" xml:space="preserve">
     <value>Re-run and copy output</value>
+    <comment>run in the context of running a shell command</comment>
   </data>
   <data name="RunNow" xml:space="preserve">
     <value>Run now</value>
+    <comment>run in the context of running a shell command</comment>
   </data>
   <data name="RerunNow" xml:space="preserve">
     <value>Re-run now</value>
+    <comment>run in the context of running a shell command</comment>
   </data>
   <data name="DismissThisRun" xml:space="preserve">
     <value>Dismiss</value>
+  </data>
+  <data name="CancelRun" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="RunCount" xml:space="preserve">
     <value>Executed {0} time(s)</value>
   </data>
   <data name="DismissOtherRuns" xml:space="preserve">
     <value>Dismiss {0} other run(s)</value>
+    <comment>run in the context of running a shell command</comment>
   </data>
   <data name="DismissAllRuns" xml:space="preserve">
     <value>Dismiss all {0} runs</value>
+    <comment>run in the context of running a shell command</comment>
   </data>
 </root>

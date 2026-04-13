@@ -40,6 +40,19 @@ internal static class MenuFlyoutBuilder
             menuFlyout.Items.Add(new MenuFlyoutSeparator());
         }
 
+        // Cancel (only when the latest run is in progress)
+        if (command.LatestRun is { State: CommandState.Running } runningRun)
+        {
+            var cancelItem = new MenuFlyoutItem
+            {
+                Text = "/WindowSill.InlineTerminal/TerminalSill/CancelRun".GetLocalizedString(),
+                Icon = new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uE711" },
+            };
+            cancelItem.Click += (_, _) => commandService.CancelRun(runningRun.Id);
+            menuFlyout.Items.Add(cancelItem);
+            menuFlyout.Items.Add(new MenuFlyoutSeparator());
+        }
+
         // Dismiss actions (only shown for executed commands)
         if (command.HasBeenExecuted)
         {
