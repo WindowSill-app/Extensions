@@ -3,16 +3,15 @@
     <PackageId>WindowSill.InlineTerminal</PackageId>
     <Version>0.9.20</Version>
     <Authors>Etienne Baudoux</Authors>
-    <Title>Terminal</Title>
+    <Title>Inline Terminal</Title>
     <Description>
-      Run commands instantly. Select any command text and execute it right from WindowSill.
+      Run commands instantly. Select any shell command text or script files (.ps1, .bat, .cmd, .sh) and execute it right from WindowSill — no need to copy-paste into a terminal.
 
-      • Select a command anywhere in Windows and instantly run it
-      • Choose your shell: PowerShell 7, Windows PowerShell, or CMD
-      • Set the working directory before execution
-      • View live output, copy results, or re-run commands
-      • Track multiple concurrent commands in the sill bar
-      • Re-run commands and track execution history
+      • Select a command anywhere on screen or script file from File Explorer and run it in one click
+      • Choose your shell: PowerShell 7, Windows PowerShell, CMD, or WSL
+      • Set the working directory and run as administrator
+      • View live output, copy results, or re-run with a single click
+      • Track multiple concurrent commands from the sill bar
 
       The fastest way to run commands without switching to a terminal.
     </Description>
