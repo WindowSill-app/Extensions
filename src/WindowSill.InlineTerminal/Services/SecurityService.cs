@@ -7,7 +7,7 @@ namespace WindowSill.InlineTerminal.Services;
 /// </summary>
 internal static class SecurityService
 {
-    private static readonly string[] browserAppIdentifiers =
+    private static readonly string[] BrowserAppIdentifiers =
     [
         "msedge.exe",
         "chrome.exe",
@@ -31,7 +31,7 @@ internal static class SecurityService
             return false;
         }
 
-        return IsBrowserApplication(source);
+        return IsBrowserApplication(source?.ApplicationIdentifier);
     }
 
     /// <summary>
@@ -39,15 +39,22 @@ internal static class SecurityService
     /// </summary>
     internal static bool IsBrowserApplication(WindowTextSelection? source)
     {
-        string? appIdentifier = source?.ApplicationIdentifier;
+        return IsBrowserApplication(source?.ApplicationIdentifier);
+    }
+
+    /// <summary>
+    /// Checks whether the given application identifier matches a known web browser.
+    /// </summary>
+    internal static bool IsBrowserApplication(string? appIdentifier)
+    {
         if (string.IsNullOrEmpty(appIdentifier))
         {
             return false;
         }
 
-        for (int i = 0; i < browserAppIdentifiers.Length; i++)
+        for (int i = 0; i < BrowserAppIdentifiers.Length; i++)
         {
-            if (appIdentifier.EndsWith(browserAppIdentifiers[i], StringComparison.OrdinalIgnoreCase))
+            if (appIdentifier.EndsWith(BrowserAppIdentifiers[i], StringComparison.OrdinalIgnoreCase))
             {
                 return true;
             }
