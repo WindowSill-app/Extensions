@@ -4,13 +4,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:api="using:WindowSill.API"
-    xmlns:commands="using:WindowSill.InlineTerminal.Core.Commands"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:converters1="using:WindowSill.InlineTerminal.Core.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="using:WindowSill.InlineTerminal.Core.UI"
-    xmlns:viewmodels="using:WindowSill.InlineTerminal.ViewModels"
+    xmlns:vm="using:WindowSill.InlineTerminal.ViewModels"
+    MinWidth="320"
     MaxWidth="400"
     mc:Ignorable="d">
 
@@ -42,7 +42,7 @@
                 TextTrimming="CharacterEllipsis"
                 TextWrapping="NoWrap" />
 
-            <api:ShortcutButton
+            <Button
                 Grid.Column="2"
                 MaxWidth="24"
                 MaxHeight="24"
@@ -62,7 +62,7 @@
             IsItemClickEnabled="True"
             ItemClick="ShortcutListView_ItemClick"
             ItemInvoked="ShortcutListView_ItemInvoked"
-            ItemsSource="{x:Bind ViewModel.StartedCommandRunners, Mode=OneWay}"
+            ItemsSource="{x:Bind ViewModel.ActiveRuns, Mode=OneWay}"
             SelectionMode="None">
             <ui:ShortcutListView.Template>
                 <ControlTemplate TargetType="ui:ShortcutListView">
@@ -78,7 +78,7 @@
                 </ControlTemplate>
             </ui:ShortcutListView.Template>
             <ui:ShortcutListView.ItemTemplate>
-                <DataTemplate x:DataType="commands:CommandRunnerHandle">
+                <DataTemplate x:DataType="vm:ActiveRunItem">
                     <Grid
                         Height="48"
                         HorizontalAlignment="Stretch"
@@ -101,19 +101,30 @@
                                 IsActive="{x:Bind State, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='Running'}"
                                 IsIndeterminate="True" />
                             <ImageIcon ui:PluginAssetHelper.Path="Assets/ok.svg" Visibility="{x:Bind State, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter='Completed'}" />
-                            <ImageIcon ui:PluginAssetHelper.Path="Assets/error.svg" Visibility="{x:Bind State, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter='Failed|Canceled'}" />
+                            <ImageIcon ui:PluginAssetHelper.Path="Assets/error.svg" Visibility="{x:Bind State, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter='Failed|Cancelled'}" />
                         </Grid>
 
                         <StackPanel
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center">
-                            <TextBlock
-                                HorizontalAlignment="Stretch"
-                                MaxLines="1"
-                                Text="{x:Bind Title}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    MaxLines="1"
+                                    Text="{x:Bind Title}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    Text="{x:Bind StartedAt}" />
+                            </Grid>
                             <TextBlock
                                 HorizontalAlignment="Stretch"
                                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"

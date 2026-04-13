@@ -7,6 +7,7 @@
     xmlns:converters="using:WindowSill.InlineTerminal.Core.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:WindowSill.InlineTerminal.Core.UI"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
@@ -28,14 +29,28 @@
         </Grid.RowDefinitions>
 
         <!--  Header  -->
-        <TextBlock
+        <Grid
             Grid.Row="0"
             Margin="24,24,24,0"
-            VerticalAlignment="Center"
-            Style="{ThemeResource SubtitleTextBlockStyle}"
-            Text="{x:Bind ViewModel.Title, Mode=OneWay}"
-            TextTrimming="CharacterEllipsis"
-            TextWrapping="NoWrap" />
+            ColumnSpacing="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Style="{ThemeResource SubtitleTextBlockStyle}"
+                Text="{x:Bind ViewModel.Title, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap" />
+            <TextBlock
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Style="{ThemeResource CaptionTextBlockStyle}"
+                Text="{x:Bind ViewModel.LatestRunStartedAt, Mode=OneWay}" />
+        </Grid>
 
         <!--  Output  -->
         <ScrollViewer
@@ -64,40 +79,92 @@
             BorderThickness="0,1,0,0"
             XYFocusKeyboardNavigation="Enabled">
             <Grid>
+                <!--  When NOT running  -->
                 <Grid ColumnSpacing="8" Visibility="{x:Bind ViewModel.State, Mode=OneWay, Converter={StaticResource NegationEnumToVisibilityConverter}, ConverterParameter='Running'}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+
+                    <!--  Copy  -->
                     <api:ShortcutButton
                         Grid.Column="0"
-                        Command="{x:Bind ViewModel.CopyOutputCommand}"
+                        Command="{x:Bind ViewModel.CopyLatestOutputCommand}"
                         Style="{StaticResource LargeShortcutButtonStyle}">
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <FontIcon Glyph="&#xE8C8;" />
                             <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/CopyButton" />
                         </StackPanel>
                     </api:ShortcutButton>
-                    <api:ShortcutButton
+
+                    <!--  Re-run / Run (SplitButton with run-and variants)  -->
+                    <ui:ShortcutSplitButton
                         Grid.Column="1"
+                        Height="40"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
                         Command="{x:Bind ViewModel.RunMenuCommand}"
-                        Style="{StaticResource LargeShortcutButtonStyle}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE76C;" />
-                            <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/RerunButton" />
-                        </StackPanel>
-                    </api:ShortcutButton>
-                    <api:ShortcutButton
+                        ShortcutBadge="{x:Bind RerunShortcutBadge}">
+                        <ui:ShortcutSplitButton.Flyout>
+                            <MenuFlyout Placement="TopEdgeAlignedRight">
+                                <MenuFlyoutItem api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/RunCopyButton" Command="{x:Bind ViewModel.RunAndCopyMenuCommand}" />
+                                <MenuFlyoutItem api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/RunAppendButton" Command="{x:Bind ViewModel.RunAndAppendMenuCommand}" />
+                                <MenuFlyoutItem api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/RunReplaceButton" Command="{x:Bind ViewModel.RunAndReplaceMenuCommand}" />
+                            </MenuFlyout>
+                        </ui:ShortcutSplitButton.Flyout>
+                        <Grid>
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                                <FontIcon Glyph="&#xE76C;" />
+                                <TextBlock Text="{x:Bind ViewModel.RunButtonLabel, Mode=OneWay}" />
+                            </StackPanel>
+                            <api:ShortcutBadge
+                                x:Name="RerunShortcutBadge"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                OnlyApplyToSillPopup="True" />
+                        </Grid>
+                    </ui:ShortcutSplitButton>
+
+                    <!--  Dismiss (SplitButton with dismiss others/all)  -->
+                    <ui:ShortcutSplitButton
                         Grid.Column="2"
+                        Height="40"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
                         Command="{x:Bind ViewModel.DismissCommand}"
-                        Style="{StaticResource LargeShortcutButtonStyle}">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon Glyph="&#xE711;" />
-                            <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/DismissButton" />
-                        </StackPanel>
-                    </api:ShortcutButton>
+                        ShortcutBadge="{x:Bind DismissShortcutBadge}">
+                        <ui:ShortcutSplitButton.Flyout>
+                            <MenuFlyout
+                                x:Name="DismissFlyout"
+                                Opening="DismissFlyout_Opening"
+                                Placement="TopEdgeAlignedRight" />
+                        </ui:ShortcutSplitButton.Flyout>
+                        <Grid>
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal"
+                                Spacing="8">
+                                <FontIcon Glyph="&#xE711;" />
+                                <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupResultPage/DismissButton" />
+                            </StackPanel>
+                            <api:ShortcutBadge
+                                x:Name="DismissShortcutBadge"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                OnlyApplyToSillPopup="True" />
+                        </Grid>
+                    </ui:ShortcutSplitButton>
                 </Grid>
+
+                <!--  When running  -->
                 <Grid ColumnSpacing="8" Visibility="{x:Bind ViewModel.State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter='Running'}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

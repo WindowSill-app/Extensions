@@ -1,13 +1,13 @@
 using Microsoft.UI.Xaml.Media.Animation;
 using WindowSill.API;
-using WindowSill.InlineTerminal.Core.Commands;
+using WindowSill.InlineTerminal.Models;
 using WindowSill.InlineTerminal.ViewModels;
 
 namespace WindowSill.InlineTerminal.Views;
 
 internal sealed partial class CommandPopup : SillPopupContent, IDisposable
 {
-    private bool _isOnCommandPopupProgressAndResultPage;
+    private bool _isOnProgressPage;
 
     internal CommandPopup(CommandViewModel viewModel)
     {
@@ -17,13 +17,16 @@ internal sealed partial class CommandPopup : SillPopupContent, IDisposable
 
     internal CommandViewModel ViewModel { get; }
 
+    /// <inheritdoc />
     public void Dispose()
     {
         ViewModel.Dispose();
     }
 
+    /// <inheritdoc />
     public override void OnOpening()
     {
+        _isOnProgressPage = false;
         ViewModel.RequestClose += ViewModel_RequestClose;
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
@@ -34,12 +37,13 @@ internal sealed partial class CommandPopup : SillPopupContent, IDisposable
                 break;
 
             default:
-                _isOnCommandPopupProgressAndResultPage = true;
+                _isOnProgressPage = true;
                 ContentFrame.Navigate(typeof(CommandPopupProgressAndResultPage), ViewModel);
                 break;
         }
     }
 
+    /// <inheritdoc />
     public override void OnClosing()
     {
         ViewModel.RequestClose -= ViewModel_RequestClose;
@@ -58,7 +62,7 @@ internal sealed partial class CommandPopup : SillPopupContent, IDisposable
             switch (ViewModel.State)
             {
                 case CommandState.Created:
-                    _isOnCommandPopupProgressAndResultPage = false;
+                    _isOnProgressPage = false;
                     ContentFrame.Navigate(
                         typeof(CommandPopupConfigurePage),
                         ViewModel,
@@ -66,13 +70,13 @@ internal sealed partial class CommandPopup : SillPopupContent, IDisposable
                     break;
 
                 default:
-                    if (!_isOnCommandPopupProgressAndResultPage)
+                    if (!_isOnProgressPage)
                     {
                         ContentFrame.Navigate(
                             typeof(CommandPopupProgressAndResultPage),
                             ViewModel,
                             new SlideNavigationTransitionInfo { Effect = SlideNavigationTransitionEffect.FromRight });
-                        _isOnCommandPopupProgressAndResultPage = true;
+                        _isOnProgressPage = true;
                     }
                     break;
             }

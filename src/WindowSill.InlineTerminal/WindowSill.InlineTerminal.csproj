@@ -12,6 +12,7 @@
       • Set the working directory before execution
       • View live output, copy results, or re-run commands
       • Track multiple concurrent commands in the sill bar
+      • Re-run commands and track execution history
 
       The fastest way to run commands without switching to a terminal.
     </Description>

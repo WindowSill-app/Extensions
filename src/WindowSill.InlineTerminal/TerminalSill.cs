@@ -6,15 +6,19 @@ using Windows.Storage;
 using WindowSill.API;
 using WindowSill.API.Core.Threading;
 using WindowSill.InlineTerminal.Activators;
-using WindowSill.InlineTerminal.Core;
-using WindowSill.InlineTerminal.Core.Commands;
 using WindowSill.InlineTerminal.Core.UI;
+using WindowSill.InlineTerminal.Models;
+using WindowSill.InlineTerminal.Services;
 using WindowSill.InlineTerminal.Settings;
 using WindowSill.InlineTerminal.Views;
 using Path = System.IO.Path;
 
 namespace WindowSill.InlineTerminal;
 
+/// <summary>
+/// Entry point for the Inline Terminal extension.
+/// Manages dynamic sills (from text selection/drop) and pinned sills (executed commands).
+/// </summary>
 [Export(typeof(ISill))]
 [Name("Terminal")]
 [SupportMultipleMonitors(true)]
@@ -28,8 +32,15 @@ internal sealed class TerminalSill
     private readonly IPluginInfo _pluginInfo;
     private readonly ISettingsProvider _settingsProvider;
     private readonly SillFactory _sillFactory;
-    private readonly CommandExecutionService _commandExecutionService;
+    private readonly CommandService _commandService;
     private readonly AsyncLazy<SillListViewPopupItem?> _createOnGoingCommandsPopup;
+
+    // Pinned sills: commands that have been executed at least once.
+    // These survive text selection changes and are only removed when all runs are dismissed.
+    private readonly Dictionary<Guid, SillListViewPopupItem> _pinnedSills = [];
+
+    // Track which sills are "dynamic" (created from current selection) so we can clean them up.
+    private readonly List<SillListViewPopupItem> _dynamicSills = [];
 
     private bool _isDynamicallyActivated;
     private bool _ignoreRebuildViewList;
@@ -37,14 +48,14 @@ internal sealed class TerminalSill
     private string[]? _currentDroppedFiles;
 
     [ImportingConstructor]
-    public TerminalSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, SillFactory sillFactory, CommandExecutionService commandExecutionService)
+    public TerminalSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, SillFactory sillFactory, CommandService commandService)
     {
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _sillFactory = sillFactory;
-        _commandExecutionService = commandExecutionService;
-        _commandExecutionService.RunnersChanged += CommandExecutionService_RunnersChanged;
-        _commandExecutionService.RunnerDestroyed += CommandExecutionService_RunnerDestroyed;
+        _commandService = commandService;
+        _commandService.RunsChanged += CommandService_RunsChanged;
+        _commandService.CommandRemoved += CommandService_CommandRemoved;
 
         PluginAssetHelper.BaseDirectory = pluginInfo.GetPluginContentDirectory();
 
@@ -140,8 +151,8 @@ internal sealed class TerminalSill
                 _isDynamicallyActivated = true;
                 _currentWindowTextSelection = null;
                 _currentDroppedFiles = null;
-                ClearViewList();
-                await InsertOrRemoveOnGoingCommandsAsync();
+                ClearDynamicSills();
+                await RebuildViewListFromCurrentStateAsync();
             });
         }
     }
@@ -168,8 +179,8 @@ internal sealed class TerminalSill
             _isDynamicallyActivated = false;
             _currentWindowTextSelection = null;
             _currentDroppedFiles = null;
-            ClearViewList();
-            await InsertOrRemoveOnGoingCommandsAsync();
+            ClearDynamicSills();
+            await RebuildViewListFromCurrentStateAsync();
         });
     }
 
@@ -187,31 +198,49 @@ internal sealed class TerminalSill
             _ignoreRebuildViewList = true;
         }
 
-        ClearViewList();
-        await InsertOrRemoveOnGoingCommandsAsync();
+        ClearDynamicSills();
 
+        // Create new dynamic sills from current selection/drop.
         WindowTextSelection? currentWindowTextSelection = _currentWindowTextSelection;
         string[]? currentDroppedFiles = _currentDroppedFiles;
+
         if (currentWindowTextSelection is not null)
         {
-            List<SillListViewPopupItem> commandSelectionSills = await _sillFactory.CreateSillsFromSelectedTextAsync(currentWindowTextSelection);
-            foreach (SillListViewPopupItem sill in commandSelectionSills)
+            List<SillListViewPopupItem> commandSills = await _sillFactory.CreateSillsFromSelectedTextAsync(currentWindowTextSelection);
+            foreach (SillListViewPopupItem sill in commandSills)
             {
-                ViewList.Add(sill);
+                // Skip if a pinned sill already exists for the same command text.
+                if (sill.PopupContent is CommandPopup commandPopup
+                    && IsDuplicateOfPinnedCommand(commandPopup.ViewModel.Command))
+                {
+                    DisposeUnpinnedSill(sill);
+                    continue;
+                }
+
+                _dynamicSills.Add(sill);
             }
         }
         else if (currentDroppedFiles is not null)
         {
             for (int i = 0; i < currentDroppedFiles.Length; i++)
             {
-                string filePath = currentDroppedFiles[i];
-                SillListViewPopupItem? scriptFileDropSill = await _sillFactory.CreateSillFromScriptFilePathAsync(filePath);
-                if (scriptFileDropSill is not null)
+                SillListViewPopupItem? sill = await _sillFactory.CreateSillFromScriptFilePathAsync(currentDroppedFiles[i]);
+                if (sill is not null)
                 {
-                    ViewList.Add(scriptFileDropSill);
+                    // Skip if a pinned sill already exists for the same script file.
+                    if (sill.PopupContent is CommandPopup commandPopup
+                        && IsDuplicateOfPinnedCommand(commandPopup.ViewModel.Command))
+                    {
+                        DisposeUnpinnedSill(sill);
+                        continue;
+                    }
+
+                    _dynamicSills.Add(sill);
                 }
             }
         }
+
+        await RebuildViewListFromCurrentStateAsync();
 
         lock (_lock)
         {
@@ -219,69 +248,128 @@ internal sealed class TerminalSill
         }
     }
 
-    private async Task InsertOrRemoveOnGoingCommandsAsync()
+    /// <summary>
+    /// Reconstructs ViewList from: OnGoingCommands + PinnedSills + DynamicSills.
+    /// </summary>
+    private async Task RebuildViewListFromCurrentStateAsync()
     {
         ThreadHelper.ThrowIfNotOnUIThread();
-
-        SillListViewPopupItem? onGoingCommandsSill = await _createOnGoingCommandsPopup.GetValueAsync();
-        if (onGoingCommandsSill is not null)
-        {
-            if (_commandExecutionService.GetStartedRunners().Count > 0)
-            {
-                if (!ViewList.Contains(onGoingCommandsSill))
-                {
-                    ViewList.Insert(0, onGoingCommandsSill);
-                }
-            }
-            else
-            {
-                if (ViewList.Contains(onGoingCommandsSill))
-                {
-                    ViewList.Remove(onGoingCommandsSill);
-                }
-            }
-        }
-    }
-
-    private void ClearViewList()
-    {
-        ThreadHelper.ThrowIfNotOnUIThread();
-
-        for (int i = 0; i < ViewList.Count; i++)
-        {
-            if (ViewList[i].Content is IDisposable disposable)
-            {
-                disposable.Dispose();
-            }
-
-            if (ViewList[i] is SillListViewPopupItem popup && popup.PopupContent is IDisposable disposablePopup)
-            {
-                disposablePopup.Dispose();
-            }
-        }
 
         ViewList.Clear();
-    }
 
-    private void CommandExecutionService_RunnersChanged(object? sender, EventArgs e)
-    {
-        ThreadHelper.RunOnUIThreadAsync(InsertOrRemoveOnGoingCommandsAsync).ForgetSafely();
-    }
-
-    private void CommandExecutionService_RunnerDestroyed(object? sender, Guid e)
-    {
-        ThreadHelper.RunOnUIThreadAsync(() =>
+        // 1. On-going commands (if any runs exist).
+        SillListViewPopupItem? onGoingCommandsSill = await _createOnGoingCommandsPopup.GetValueAsync();
+        if (onGoingCommandsSill is not null && _commandService.GetAllActiveRuns().Count > 0)
         {
-            for (int i = 0; i < ViewList.Count; i++)
+            ViewList.Add(onGoingCommandsSill);
+        }
+
+        // 2. Pinned sills (executed commands).
+        foreach (SillListViewPopupItem pinnedSill in _pinnedSills.Values)
+        {
+            ViewList.Add(pinnedSill);
+        }
+
+        // 3. Dynamic sills (from current selection/drop).
+        // Skip dynamic sills that are already pinned (same command).
+        foreach (SillListViewPopupItem dynamicSill in _dynamicSills)
+        {
+            if (!ViewList.Contains(dynamicSill))
             {
-                if (ViewList[i] is SillListViewPopupItem popup
-                    && popup.PopupContent is CommandPopup commandPopup
-                    && commandPopup.ViewModel.Id == e)
+                ViewList.Add(dynamicSill);
+            }
+        }
+    }
+
+    private void ClearDynamicSills()
+    {
+        ThreadHelper.ThrowIfNotOnUIThread();
+
+        foreach (SillListViewPopupItem sill in _dynamicSills)
+        {
+            // Don't dispose pinned sills.
+            if (!_pinnedSills.ContainsValue(sill))
+            {
+                DisposeUnpinnedSill(sill);
+            }
+        }
+
+        _dynamicSills.Clear();
+    }
+
+    /// <summary>
+    /// Returns true if a pinned sill already exists with the same script text or script file path.
+    /// </summary>
+    private bool IsDuplicateOfPinnedCommand(CommandDefinition newCommand)
+    {
+        foreach (SillListViewPopupItem pinnedSill in _pinnedSills.Values)
+        {
+            if (pinnedSill.PopupContent is CommandPopup pinnedPopup)
+            {
+                CommandDefinition pinnedCommand = pinnedPopup.ViewModel.Command;
+
+                // Match by script file path.
+                if (!string.IsNullOrEmpty(newCommand.ScriptFilePath)
+                    && string.Equals(newCommand.ScriptFilePath, pinnedCommand.ScriptFilePath, StringComparison.OrdinalIgnoreCase))
                 {
-                    ViewList.RemoveAt(i);
-                    break;
+                    return true;
+                }
+
+                // Match by script text.
+                if (!string.IsNullOrEmpty(newCommand.Script)
+                    && string.Equals(newCommand.Script, pinnedCommand.Script, StringComparison.Ordinal))
+                {
+                    return true;
                 }
             }
+        }
+
+        return false;
+    }
+
+    private static void DisposeUnpinnedSill(SillListViewPopupItem sill)
+    {
+        if (sill.Content is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+
+        if (sill.PopupContent is IDisposable disposablePopup)
+        {
+            disposablePopup.Dispose();
+        }
+    }
+
+    private void CommandService_RunsChanged(object? sender, EventArgs e)
+    {
+        ThreadHelper.RunOnUIThreadAsync(async () =>
+        {
+            // Pin any dynamic sill whose command has been executed.
+            for (int i = _dynamicSills.Count - 1; i >= 0; i--)
+            {
+                SillListViewPopupItem sill = _dynamicSills[i];
+                if (sill.PopupContent is CommandPopup commandPopup
+                    && commandPopup.ViewModel.Command.HasBeenExecuted
+                    && !_pinnedSills.ContainsKey(commandPopup.ViewModel.CommandId))
+                {
+                    _pinnedSills[commandPopup.ViewModel.CommandId] = sill;
+                }
+            }
+
+            await RebuildViewListFromCurrentStateAsync();
+        }).ForgetSafely();
+    }
+
+    private void CommandService_CommandRemoved(object? sender, Guid commandId)
+    {
+        ThreadHelper.RunOnUIThreadAsync(async () =>
+        {
+            if (_pinnedSills.Remove(commandId, out SillListViewPopupItem? sill))
+            {
+                DisposeUnpinnedSill(sill);
+            }
+
+            await RebuildViewListFromCurrentStateAsync();
         }).ForgetSafely();
     }
 }

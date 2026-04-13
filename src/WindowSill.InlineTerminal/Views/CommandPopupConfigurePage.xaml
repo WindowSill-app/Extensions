@@ -130,7 +130,7 @@
                             Orientation="Horizontal"
                             Spacing="8">
                             <FontIcon Glyph="&#xE76C;" />
-                            <TextBlock api:Uids.Uid="/WindowSill.InlineTerminal/CommandPopupConfigurePage/RunButton" />
+                            <TextBlock Text="{x:Bind ViewModel.RunButtonLabel, Mode=OneWay}" />
                         </StackPanel>
                         <api:ShortcutBadge
                             x:Name="SplitButtonShortcutBadge"

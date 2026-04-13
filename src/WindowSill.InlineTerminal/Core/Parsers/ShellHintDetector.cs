@@ -1,5 +1,3 @@
-using WindowSill.InlineTerminal.Parsers;
-
 namespace WindowSill.InlineTerminal.Core.Parsers;
 
 /// <summary>

@@ -2,7 +2,6 @@ namespace WindowSill.InlineTerminal.Core.UI.Converters;
 
 /// <summary>
 /// Converts between an enum value and a <see cref="Visibility"/> by comparing against a string parameter.
-/// Intended for binding radio buttons to an enum property.
 /// </summary>
 internal sealed class EnumToVisibilityConverter : IValueConverter
 {
@@ -14,7 +13,7 @@ internal sealed class EnumToVisibilityConverter : IValueConverter
     {
         if (value is Enum enumValue && parameter is string parameterString)
         {
-            if (parameterString.Contains("|"))
+            if (parameterString.Contains('|'))
             {
                 string[] parameterValues = parameterString.Split('|');
                 if (parameterValues.Any(p => p == enumValue.ToString()))

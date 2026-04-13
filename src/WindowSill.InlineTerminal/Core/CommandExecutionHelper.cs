@@ -2,8 +2,11 @@ using System.Diagnostics;
 using WindowSill.API;
 using WindowSill.InlineTerminal.Core.Shell;
 
-namespace WindowSill.InlineTerminal.Core.Commands;
+namespace WindowSill.InlineTerminal.Core;
 
+/// <summary>
+/// Low-level process spawning and output capture for command execution.
+/// </summary>
 internal static class CommandExecutionHelper
 {
     /// <summary>
@@ -56,10 +59,6 @@ internal static class CommandExecutionHelper
 
         await using CancellationTokenRegistration registration = RegisterCancellation(process, cancellationToken);
 
-        // WaitForExitAsync waits for the process to exit AND for the redirected
-        // stdout/stderr streams to be fully consumed, unlike the Exited event
-        // which fires as soon as the process terminates — before buffered output
-        // has been delivered through OutputDataReceived/ErrorDataReceived.
         await process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
         return process.ExitCode;
     }
@@ -101,16 +100,12 @@ internal static class CommandExecutionHelper
 
         await using CancellationTokenRegistration registration = RegisterCancellation(process, cancellationToken);
 
-        // Tail-read the temp file while the process runs, streaming output live.
         Task processWait = process.WaitForExitAsync(cancellationToken);
         Task tailTask = TailReadFileAsync(tempOutputFile, onOutputLine, processWait, cancellationToken);
 
         try
         {
-            // Wait for both: tailTask streams output live while the process runs,
-            // and performs a final read after processWait completes.
             await Task.WhenAll(processWait, tailTask).ConfigureAwait(false);
-
             return process.ExitCode;
         }
         finally
@@ -123,9 +118,6 @@ internal static class CommandExecutionHelper
         }
     }
 
-    /// <summary>
-    /// Registers a cancellation callback that kills the process tree.
-    /// </summary>
     private static CancellationTokenRegistration RegisterCancellation(
         Process process,
         CancellationToken cancellationToken)
@@ -146,9 +138,6 @@ internal static class CommandExecutionHelper
         });
     }
 
-    /// <summary>
-    /// Continuously reads new lines from the specified file and invokes the callback for each line, until the process exits or cancellation is requested.
-    /// </summary>
     private static async Task TailReadFileAsync(
         string filePath,
         Action<string> onOutputLine,
@@ -157,7 +146,6 @@ internal static class CommandExecutionHelper
     {
         long lastPosition = 0;
 
-        // Wait briefly for the file to be created.
         for (int i = 0; i < 50 && !File.Exists(filePath); i++)
         {
             if (cancellationToken.IsCancellationRequested || processExitTask.IsCompleted)
@@ -193,7 +181,6 @@ internal static class CommandExecutionHelper
 
             if (processExitTask.IsCompleted)
             {
-                // One final read to flush remaining output.
                 try
                 {
                     if (File.Exists(filePath))
@@ -220,10 +207,6 @@ internal static class CommandExecutionHelper
         }
     }
 
-    /// <summary>
-    /// Builds the argument string, prepending <c>--cd</c> for WSL shells so the working
-    /// directory is handled by <c>wsl.exe</c> instead of <see cref="ProcessStartInfo.WorkingDirectory"/>.
-    /// </summary>
     private static string BuildArgumentsWithWorkingDirectory(ShellInfo shell, string command, string workingDirectory)
     {
         if (shell.IsWsl && !string.IsNullOrEmpty(workingDirectory))
@@ -235,9 +218,6 @@ internal static class CommandExecutionHelper
         return shell.BuildArguments(command);
     }
 
-    /// <summary>
-    /// Builds the elevated argument string, prepending <c>--cd</c> for WSL shells.
-    /// </summary>
     private static string BuildElevatedArgumentsWithWorkingDirectory(ShellInfo shell, string command, string workingDirectory, string outputFilePath)
     {
         if (shell.IsWsl && !string.IsNullOrEmpty(workingDirectory))

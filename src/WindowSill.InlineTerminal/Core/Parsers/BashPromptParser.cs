@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace WindowSill.InlineTerminal.Parsers;
+namespace WindowSill.InlineTerminal.Core.Parsers;
 
 /// <summary>
 /// Parses bash-style prompts (<c>user@host:path$ command</c>) from selected text.

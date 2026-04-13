@@ -123,6 +123,9 @@
   <data name="CopyOutput" xml:space="preserve">
     <value>Copy output</value>
   </data>
+  <data name="CopyLatestOutput" xml:space="preserve">
+    <value>Copy latest output</value>
+  </data>
   <data name="DetectedRunSettings" xml:space="preserve">
     <value>Detected run settings:</value>
   </data>
@@ -135,13 +138,31 @@
   <data name="RunAnd" xml:space="preserve">
     <value>Run and...</value>
   </data>
+  <data name="RerunAnd" xml:space="preserve">
+    <value>Re-run and...</value>
+  </data>
   <data name="RunAndCopyOutput" xml:space="preserve">
     <value>Run and copy output</value>
+  </data>
+  <data name="RerunAndCopyOutput" xml:space="preserve">
+    <value>Re-run and copy output</value>
   </data>
   <data name="RunNow" xml:space="preserve">
     <value>Run now</value>
   </data>
-  <data name="DismissAllCommands" xml:space="preserve">
-    <value>Dismiss all commands</value>
+  <data name="RerunNow" xml:space="preserve">
+    <value>Re-run now</value>
+  </data>
+  <data name="DismissThisRun" xml:space="preserve">
+    <value>Dismiss</value>
+  </data>
+  <data name="RunCount" xml:space="preserve">
+    <value>Executed {0} time(s)</value>
+  </data>
+  <data name="DismissOtherRuns" xml:space="preserve">
+    <value>Dismiss {0} other run(s)</value>
+  </data>
+  <data name="DismissAllRuns" xml:space="preserve">
+    <value>Dismiss all {0} runs</value>
   </data>
 </root>

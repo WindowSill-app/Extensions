@@ -1,4 +1,4 @@
-namespace WindowSill.InlineTerminal.Core;
+namespace WindowSill.InlineTerminal.Models;
 
 /// <summary>
 /// A thread-safe, multi-subscriber event broadcaster.
@@ -44,8 +44,8 @@ internal sealed class Subject<T> : IObservable<T>, IObserver<T>, IDisposable
     }
 
     /// <summary>
-    /// Pushes a new item to all current subscribers and stores it in the replay buffer
-    /// for future subscribers. Ignored if the stream has already completed or errored.
+    /// Pushes a new item to all current subscribers.
+    /// Ignored if the stream has already completed or errored.
     /// </summary>
     /// <param name="value">The item to broadcast.</param>
     public void OnNext(T value)
@@ -65,8 +65,7 @@ internal sealed class Subject<T> : IObservable<T>, IObserver<T>, IDisposable
     }
 
     /// <summary>
-    /// Signals that the stream has finished successfully. All current subscribers are notified,
-    /// and any future subscribers will receive the completion signal immediately.
+    /// Signals that the stream has finished successfully.
     /// </summary>
     public void OnCompleted()
     {
@@ -85,8 +84,7 @@ internal sealed class Subject<T> : IObservable<T>, IObserver<T>, IDisposable
     }
 
     /// <summary>
-    /// Signals that the stream has terminated due to an error. All current subscribers are notified,
-    /// and any future subscribers will receive the error immediately.
+    /// Signals that the stream has terminated due to an error.
     /// </summary>
     /// <param name="error">The exception that caused the failure.</param>
     public void OnError(Exception error)
@@ -109,7 +107,6 @@ internal sealed class Subject<T> : IObservable<T>, IObserver<T>, IDisposable
 
     /// <summary>
     /// Disposes the subject, clearing all subscriptions.
-    /// After disposal, new subscriptions will throw <see cref="ObjectDisposedException"/>.
     /// </summary>
     public void Dispose()
     {
@@ -135,18 +132,6 @@ internal sealed class Subject<T> : IObservable<T>, IObserver<T>, IDisposable
         public void Dispose()
         {
             subject.Remove(this);
-        }
-    }
-
-    private static class Disposable
-    {
-        internal static readonly IDisposable Empty = new EmptyDisposable();
-
-        private sealed class EmptyDisposable : IDisposable
-        {
-            public void Dispose()
-            {
-            }
         }
     }
 }

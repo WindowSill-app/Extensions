@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace WindowSill.InlineTerminal.Core.Commands;
+namespace WindowSill.InlineTerminal.Core;
 
 /// <summary>
 /// Provides utilities for stripping ANSI escape codes from terminal output.

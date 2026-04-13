@@ -1,197 +1,258 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using ThrottleDebounce;
 using WindowSill.API;
-using WindowSill.InlineTerminal.Core.Commands;
 using WindowSill.InlineTerminal.Core.Shell;
+using WindowSill.InlineTerminal.Models;
+using WindowSill.InlineTerminal.Services;
 
 namespace WindowSill.InlineTerminal.ViewModels;
 
-internal sealed partial class CommandViewModel : ObservableObject, IObserver<CommandExecutionStatusChange>, IDisposable
+/// <summary>
+/// Thin presentation wrapper around a <see cref="CommandDefinition"/>.
+/// Delegates all business logic to <see cref="CommandService"/>.
+/// </summary>
+internal sealed partial class CommandViewModel : ObservableObject, IDisposable
 {
-    private static readonly string[] browserAppIdentifiers =
-    [
-        "msedge.exe",
-        "chrome.exe",
-        "firefox.exe",
-        "brave.exe",
-        "opera.exe",
-        "vivaldi.exe",
-        "zen.exe"
-    ];
-
-    private static readonly long throttleIntervalTicks = TimeSpan.FromMilliseconds(100).Ticks;
-
-    private readonly CommandExecutionService _commandExecutionService;
-    private readonly CommandRunnerHandle _commandRunnerHandle;
-    private readonly IDisposable _commandRunnerSubscriber;
+    private readonly CommandService _commandService;
+    private readonly CommandDefinition _command;
     private readonly ISettingsProvider _settingsProvider;
+    private readonly List<IDisposable> _runSubscriptions = [];
+    private readonly RateLimitedAction _throttledNotify;
 
-    private long _lastOnNextTimestamp;
-
-    public CommandViewModel(
-        CommandExecutionService commandExecutionService,
-        CommandRunnerHandle commandRunnerHandle,
+    internal CommandViewModel(
+        CommandService commandService,
+        CommandDefinition command,
         IReadOnlyList<ShellInfo> availableShells,
         ISettingsProvider settingsProvider)
     {
-        _commandExecutionService = commandExecutionService;
-        _commandRunnerHandle = commandRunnerHandle;
+        _commandService = commandService;
+        _command = command;
         _settingsProvider = settingsProvider;
         AvailableShells = availableShells;
+        _throttledNotify
+            = Throttler.Throttle(
+                () => ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI).ForgetSafely(),
+                TimeSpan.FromMilliseconds(100));
 
-        _commandRunnerSubscriber = _commandRunnerHandle.Subscribe(this);
-        SelectedShell = _commandRunnerHandle.DefaultShell;
-        Script = _commandRunnerHandle.DefaultScript;
-        WorkingDirectory = _commandRunnerHandle.WorkingDirectory;
+        SelectedShell = command.DefaultShell;
+        Script = command.Script;
+        WorkingDirectory = command.WorkingDirectory;
+
+        SubscribeToRuns();
     }
 
-    internal Guid Id => _commandRunnerHandle.Id;
+    /// <summary>
+    /// Gets the command definition ID.
+    /// </summary>
+    internal Guid CommandId => _command.Id;
 
-    internal CommandState State => _commandRunnerHandle.State;
+    /// <summary>
+    /// Gets the command definition.
+    /// </summary>
+    internal CommandDefinition Command => _command;
 
-    internal string OutputText => _commandRunnerHandle.Output;
+    /// <summary>
+    /// Gets the display title.
+    /// </summary>
+    internal string Title => _command.Title;
 
+    /// <summary>
+    /// Gets whether this command has been executed at least once.
+    /// </summary>
+    internal bool HasBeenExecuted => _command.HasBeenExecuted;
+
+    /// <summary>
+    /// Gets the number of runs.
+    /// </summary>
+    internal int RunCount => _command.Runs.Count;
+
+    /// <summary>
+    /// Gets the latest run, if any.
+    /// </summary>
+    internal CommandRun? LatestRun => _command.LatestRun;
+
+    /// <summary>
+    /// Gets the current state (from latest run, or Created if none).
+    /// </summary>
+    internal CommandState State => _command.LatestRun?.State ?? CommandState.Created;
+
+    /// <summary>
+    /// Gets the output text from the latest run.
+    /// </summary>
+    internal string OutputText => _command.LatestRun?.Output ?? string.Empty;
+
+    /// <summary>
+    /// Gets the latest run's start time formatted for display, or empty if no runs.
+    /// </summary>
+    internal string LatestRunStartedAt => _command.LatestRun?.StartedAt.ToLocalTime().ToString("T") ?? string.Empty;
+
+    /// <summary>
+    /// Gets the available shells.
+    /// </summary>
     internal IReadOnlyList<ShellInfo> AvailableShells { get; }
 
+    /// <summary>
+    /// Gets or sets the selected shell.
+    /// </summary>
     [ObservableProperty]
     internal partial ShellInfo SelectedShell { get; set; }
 
+    /// <summary>
+    /// Gets or sets the editable command text.
+    /// </summary>
     [ObservableProperty]
     internal partial string? Script { get; set; }
 
-    internal string? ScriptFilePath => _commandRunnerHandle.ScriptFilePath;
+    /// <summary>
+    /// Gets the script file path, if any.
+    /// </summary>
+    internal string? ScriptFilePath => _command.ScriptFilePath;
 
-    internal string? Title => _commandRunnerHandle.Title;
-
+    /// <summary>
+    /// Gets or sets the working directory.
+    /// </summary>
     [ObservableProperty]
     internal partial string WorkingDirectory { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether to run as administrator.
+    /// </summary>
     [ObservableProperty]
     internal partial bool RunAsAdministrator { get; set; }
 
     /// <summary>
     /// Optional callback to confirm run (e.g., ClickFix warning dialog).
-    /// Returns true if the user confirmed, false to cancel.
     /// </summary>
     internal Func<Task<bool>>? ConfirmRunAsync { get; set; }
 
+    /// <summary>
+    /// Raised when the popup should close (e.g., after dismiss).
+    /// </summary>
     internal event EventHandler? RequestClose;
 
     /// <summary>
-    /// Gets whether the output text should wrap based on the user's setting.
+    /// Gets whether output text should wrap.
     /// </summary>
     internal bool WordWrapOutput => _settingsProvider.GetSetting(Settings.Settings.WordWrapOutput);
 
     /// <summary>
-    /// Determines whether the ClickFix security warning should be shown before running.
-    /// Returns true when the command originates from a web browser and the warning is not disabled.
+    /// Gets the label for the run button — "Run" or "Re-run".
+    /// </summary>
+    internal string RunButtonLabel => HasBeenExecuted
+        ? "/WindowSill.InlineTerminal/CommandPopupConfigurePage/RerunButton".GetLocalizedString()
+        : "/WindowSill.InlineTerminal/CommandPopupConfigurePage/RunButton".GetLocalizedString();
+
+    /// <summary>
+    /// Determines whether the ClickFix security warning should be shown.
     /// </summary>
     internal bool ShouldShowClickFixWarning()
     {
-        if (_settingsProvider.GetSetting(Settings.Settings.DisableClickFixWarning))
-        {
-            return false;
-        }
-
-        string? appIdentifier = _commandRunnerHandle.WindowTextSelection?.ApplicationIdentifier;
-        if (string.IsNullOrEmpty(appIdentifier))
-        {
-            return false;
-        }
-
-        for (int i = 0; i < browserAppIdentifiers.Length; i++)
-        {
-            if (appIdentifier.EndsWith(browserAppIdentifiers[i], StringComparison.OrdinalIgnoreCase))
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return SecurityService.ShouldShowClickFixWarning(_command.Source, _settingsProvider);
     }
 
     /// <summary>
-    /// Persists the user's choice to not show the ClickFix warning again.
+    /// Persists the user's choice to disable the ClickFix warning.
     /// </summary>
     internal void DisableClickFixWarning()
     {
         _settingsProvider.SetSetting(Settings.Settings.DisableClickFixWarning, true);
     }
 
+    /// <inheritdoc />
     public void Dispose()
     {
-        _commandRunnerSubscriber.Dispose();
-    }
-
-    public void OnCompleted()
-    {
-        ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI).ForgetSafely();
-    }
-
-    public void OnError(Exception error)
-    {
-        ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI).ForgetSafely();
-    }
-
-    public void OnNext(CommandExecutionStatusChange value)
-    {
-        long now = Environment.TickCount64 * TimeSpan.TicksPerMillisecond;
-        long last = Interlocked.Read(ref _lastOnNextTimestamp);
-
-        if (now - last < throttleIntervalTicks)
-        {
-            return;
-        }
-
-        Interlocked.Exchange(ref _lastOnNextTimestamp, now);
-        ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI).ForgetSafely();
+        DisposeRunSubscriptions();
     }
 
     [RelayCommand(AllowConcurrentExecutions = false)]
-    internal async Task CopyOutputAsync()
+    internal async Task CopyLatestOutputAsync()
     {
-        await _commandExecutionService.CopyOutputAsync(_commandRunnerHandle.Id, includeInClipboardHistory: true);
+        await _commandService.CopyLatestOutputAsync(_command.Id);
     }
 
     [RelayCommand(CanExecute = nameof(CanCancel))]
     internal void Cancel()
     {
-        _commandExecutionService.Cancel(_commandRunnerHandle.Id);
-        OnPropertyChanged(nameof(State));
+        if (_command.LatestRun is { } run)
+        {
+            _commandService.CancelRun(run.Id);
+        }
+
+        NotifyUpdateUI();
     }
 
     [RelayCommand]
     internal void Dismiss()
     {
-        _commandExecutionService.Destroy(_commandRunnerHandle.Id);
+        if (_command.LatestRun is { } run)
+        {
+            _commandService.DismissRun(_command.Id, run.Id);
+        }
+
+        if (!_command.HasBeenExecuted)
+        {
+            RequestClose?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            NotifyUpdateUI();
+        }
+    }
+
+    [RelayCommand]
+    internal void DismissOthers()
+    {
+        if (_command.LatestRun is { } run)
+        {
+            _commandService.DismissOtherRuns(_command.Id, run.Id);
+        }
+
+        NotifyUpdateUI();
+    }
+
+    [RelayCommand]
+    internal void DismissAll()
+    {
+        _commandService.DismissAllRuns(_command.Id);
         RequestClose?.Invoke(this, EventArgs.Empty);
     }
+
+    /// <summary>
+    /// Gets the number of other runs (excluding the latest).
+    /// </summary>
+    internal int OtherRunsCount => Math.Max(0, _command.Runs.Count - 1);
+
+    /// <summary>
+    /// Gets whether there are other runs besides the latest.
+    /// </summary>
+    internal bool HasOtherRuns => _command.Runs.Count > 1;
 
     [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRun))]
     internal async Task RunMenuAsync()
     {
-        await StartRunScriptAsync(ActionOnCommandCompleted.None);
+        await StartRunAsync(ActionOnCommandCompleted.None);
     }
 
     [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRun))]
     internal async Task RunAndCopyMenuAsync()
     {
-        await StartRunScriptAsync(ActionOnCommandCompleted.Copy);
+        await StartRunAsync(ActionOnCommandCompleted.Copy);
     }
 
     [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRun))]
     internal async Task RunAndAppendMenuAsync()
     {
-        await StartRunScriptAsync(ActionOnCommandCompleted.AppendSelection);
+        await StartRunAsync(ActionOnCommandCompleted.AppendSelection);
     }
 
     [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRun))]
     internal async Task RunAndReplaceMenuAsync()
     {
-        await StartRunScriptAsync(ActionOnCommandCompleted.ReplaceSelection);
+        await StartRunAsync(ActionOnCommandCompleted.ReplaceSelection);
     }
 
-    private async Task StartRunScriptAsync(ActionOnCommandCompleted actionOnCommandCompleted)
+    private async Task StartRunAsync(ActionOnCommandCompleted action)
     {
         if (ConfirmRunAsync is not null)
         {
@@ -202,14 +263,36 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
             }
         }
 
-        _commandExecutionService.Start(
-            _commandRunnerHandle.Id,
+        _commandService.Execute(
+            _command,
             SelectedShell,
             Script,
             WorkingDirectory,
-            actionOnCommandCompleted,
+            action,
             RunAsAdministrator);
+
+        SubscribeToRuns();
         await ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI);
+    }
+
+    private void SubscribeToRuns()
+    {
+        DisposeRunSubscriptions();
+
+        foreach (CommandRun run in _command.Runs)
+        {
+            _runSubscriptions.Add(run.OutputLines.Subscribe(new OutputObserver(this)));
+        }
+    }
+
+    private void DisposeRunSubscriptions()
+    {
+        foreach (IDisposable sub in _runSubscriptions)
+        {
+            sub.Dispose();
+        }
+
+        _runSubscriptions.Clear();
     }
 
     private void NotifyUpdateUI()
@@ -217,6 +300,13 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
         ThreadHelper.ThrowIfNotOnUIThread();
         OnPropertyChanged(nameof(State));
         OnPropertyChanged(nameof(OutputText));
+        OnPropertyChanged(nameof(HasBeenExecuted));
+        OnPropertyChanged(nameof(RunCount));
+        OnPropertyChanged(nameof(LatestRun));
+        OnPropertyChanged(nameof(LatestRunStartedAt));
+        OnPropertyChanged(nameof(RunButtonLabel));
+        OnPropertyChanged(nameof(HasOtherRuns));
+        OnPropertyChanged(nameof(OtherRunsCount));
         CancelCommand.NotifyCanExecuteChanged();
         RunMenuCommand.NotifyCanExecuteChanged();
         RunAndAppendMenuCommand.NotifyCanExecuteChanged();
@@ -224,13 +314,16 @@ internal sealed partial class CommandViewModel : ObservableObject, IObserver<Com
         RunAndReplaceMenuCommand.NotifyCanExecuteChanged();
     }
 
-    private bool CanCancel()
-    {
-        return State == CommandState.Running;
-    }
+    private bool CanCancel() => State == CommandState.Running;
 
-    private bool CanRun()
+    private bool CanRun() => State != CommandState.Running;
+
+    private sealed class OutputObserver(CommandViewModel vm) : IObserver<string>
     {
-        return State != CommandState.Running;
+        public void OnNext(string value) => vm._throttledNotify.Invoke();
+
+        public void OnCompleted() => ThreadHelper.RunOnUIThreadAsync(vm.NotifyUpdateUI).ForgetSafely();
+
+        public void OnError(Exception error) => ThreadHelper.RunOnUIThreadAsync(vm.NotifyUpdateUI).ForgetSafely();
     }
 }

@@ -1,63 +1,59 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using ThrottleDebounce;
 using WindowSill.API;
-using WindowSill.InlineTerminal.Core.Commands;
+using WindowSill.InlineTerminal.Models;
+using WindowSill.InlineTerminal.Services;
 
 namespace WindowSill.InlineTerminal.ViewModels;
 
-internal sealed partial class OnGoingCommandsViewModel : ObservableObject, IObserver<CommandExecutionStatusChange>
+/// <summary>
+/// Manages the list of active command runs for the on-going commands view.
+/// Listens to <see cref="CommandService"/> events instead of directly subscribing to runners.
+/// </summary>
+internal sealed partial class OnGoingCommandsViewModel : ObservableObject
 {
-    private readonly Lock _lock = new();
-    private readonly CommandExecutionService _commandExecutionService;
-    private readonly List<IDisposable> _subscriptions = new();
+    private readonly CommandService _commandService;
     private readonly RateLimitedAction _throttledNotify;
+    private readonly List<IDisposable> _subscriptions = [];
 
-    internal OnGoingCommandsViewModel(CommandExecutionService commandExecutionService)
+    internal OnGoingCommandsViewModel(CommandService commandService)
     {
-        _commandExecutionService = commandExecutionService;
+        _commandService = commandService;
         _throttledNotify
             = Throttler.Throttle(
                 () => ThreadHelper.RunOnUIThreadAsync(NotifyUpdateUI).ForgetSafely(),
                 TimeSpan.FromMilliseconds(200));
 
+        _commandService.RunsChanged += OnRunsChanged;
+        _commandService.CommandsChanged += OnCommandsChanged;
         RefreshSubscriptions();
-        _commandExecutionService.RunnersChanged += CommandExecutionService_RunnersChanged;
     }
 
-    internal bool HasCommandsRunning => _commandExecutionService.GetStartedRunners().Any(entry => entry.State == CommandState.Running);
+    /// <summary>
+    /// Gets whether any run is currently executing.
+    /// </summary>
+    internal bool HasCommandsRunning => _commandService.HasRunningRuns();
 
-    internal IReadOnlyList<CommandRunnerHandle> StartedCommandRunners => _commandExecutionService.GetStartedRunners();
-
-    public void OnCompleted()
-    {
-        _throttledNotify.Invoke();
-    }
-
-    public void OnError(Exception error)
-    {
-        _throttledNotify.Invoke();
-    }
-
-    public void OnNext(CommandExecutionStatusChange value)
-    {
-        _throttledNotify.Invoke();
-    }
+    /// <summary>
+    /// Gets all active runs for display in the UI.
+    /// </summary>
+    internal IReadOnlyList<ActiveRunItem> ActiveRuns
+        => _commandService.GetAllActiveRuns()
+            .Select(entry => new ActiveRunItem(entry.Command, entry.Run))
+            .ToArray();
 
     private void RefreshSubscriptions()
     {
-        lock (_lock)
+        foreach (IDisposable sub in _subscriptions)
         {
-            for (int i = 0; i < _subscriptions.Count; i++)
-            {
-                _subscriptions[i].Dispose();
-            }
-            _subscriptions.Clear();
+            sub.Dispose();
+        }
 
-            IReadOnlyList<CommandRunnerHandle> runners = _commandExecutionService.GetAllRunners();
-            for (int i = 0; i < runners.Count; i++)
-            {
-                _subscriptions.Add(runners[i].Subscribe(this));
-            }
+        _subscriptions.Clear();
+
+        foreach ((CommandDefinition _, CommandRun run) in _commandService.GetAllActiveRuns())
+        {
+            _subscriptions.Add(run.OutputLines.Subscribe(new RunObserver(this)));
         }
 
         _throttledNotify.Invoke();
@@ -66,11 +62,17 @@ internal sealed partial class OnGoingCommandsViewModel : ObservableObject, IObse
     private void NotifyUpdateUI()
     {
         OnPropertyChanged(nameof(HasCommandsRunning));
-        OnPropertyChanged(nameof(StartedCommandRunners));
+        OnPropertyChanged(nameof(ActiveRuns));
     }
 
-    private void CommandExecutionService_RunnersChanged(object? sender, EventArgs e)
+    private void OnRunsChanged(object? sender, EventArgs e) => RefreshSubscriptions();
+
+    private void OnCommandsChanged(object? sender, EventArgs e) => RefreshSubscriptions();
+
+    private sealed class RunObserver(OnGoingCommandsViewModel vm) : IObserver<string>
     {
-        RefreshSubscriptions();
+        public void OnNext(string value) => vm._throttledNotify.Invoke();
+        public void OnCompleted() => vm._throttledNotify.Invoke();
+        public void OnError(Exception error) => vm._throttledNotify.Invoke();
     }
 }

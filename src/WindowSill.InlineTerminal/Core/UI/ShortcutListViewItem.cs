@@ -1,9 +1,12 @@
 using CommunityToolkit.Diagnostics;
 using WindowSill.API;
-using WindowSill.InlineTerminal.Core.Commands;
+using WindowSill.InlineTerminal.ViewModels;
 
 namespace WindowSill.InlineTerminal.Core.UI;
 
+/// <summary>
+/// Custom ListViewItem with shortcut badge support.
+/// </summary>
 [TemplatePart(Name = PART_ShortcutBadge, Type = typeof(ShortcutListViewItem))]
 public sealed class ShortcutListViewItem : ListViewItem, IShortcutControl
 {
@@ -18,21 +21,23 @@ public sealed class ShortcutListViewItem : ListViewItem, IShortcutControl
         _shortcutListView = shortcutListView;
     }
 
+    /// <inheritdoc />
     protected override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-
         _shortcutBadge = (ShortcutBadge)GetTemplateChild(PART_ShortcutBadge);
     }
 
+    /// <inheritdoc />
     public void AssignShortcutNumber(int number)
     {
         Guard.IsNotNull(_shortcutBadge);
         _shortcutBadge.Content = number.ToString();
     }
 
+    /// <inheritdoc />
     public void InvokeShortcutAction()
     {
-        _shortcutListView.OnItemInvoked((CommandRunnerHandle)DataContext);
+        _shortcutListView.OnItemInvoked((ActiveRunItem)DataContext);
     }
 }

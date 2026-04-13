@@ -1,4 +1,4 @@
-namespace WindowSill.InlineTerminal.Core.Commands;
+namespace WindowSill.InlineTerminal.Models;
 
 /// <summary>
 /// Represents the state of a command execution.

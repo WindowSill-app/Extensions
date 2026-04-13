@@ -2,7 +2,6 @@ namespace WindowSill.InlineTerminal.Core.UI.Converters;
 
 /// <summary>
 /// Converts between an enum value and a boolean by comparing against a string parameter.
-/// Intended for binding radio buttons to an enum property.
 /// </summary>
 internal sealed class EnumToBooleanConverter : IValueConverter
 {
@@ -10,7 +9,7 @@ internal sealed class EnumToBooleanConverter : IValueConverter
     {
         if (value is Enum enumValue && parameter is string parameterString)
         {
-            if (parameterString.Contains("|"))
+            if (parameterString.Contains('|'))
             {
                 string[] parameterValues = parameterString.Split('|');
                 return parameterValues.Any(p => p == enumValue.ToString());
