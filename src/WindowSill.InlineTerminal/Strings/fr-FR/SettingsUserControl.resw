@@ -12,4 +12,6 @@
   <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>Retourner à la ligne dans la vue de sortie de commande au lieu de défiler horizontalement</value></data>
   <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>Désactiver l'avertissement de sécurité</value></data>
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>Ignorer l'avertissement de sécurité lors de l'exécution de commandes sélectionnées depuis un navigateur web</value></data>
+  <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
+  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
 </root>
