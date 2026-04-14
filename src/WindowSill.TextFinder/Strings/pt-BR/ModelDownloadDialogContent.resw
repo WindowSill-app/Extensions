@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Description.TextProperty" xml:space="preserve">
-    <value>Para encontrar texto pelo significado, este recurso precisa de um pequeno modelo de linguagem que roda inteiramente no seu dispositivo.</value>
+    <value>Para localizar texto por significado, este recurso precisa de um pequeno modelo de linguagem que é executado inteiramente no seu dispositivo.</value>
   </data>
   <data name="ModelName.TextProperty" xml:space="preserve">
     <value>Modelo: all-MiniLM-L6-v2</value>
@@ -127,7 +127,7 @@
     <value>Tamanho do download: aproximadamente 90 MB</value>
   </data>
   <data name="RunsPrivately.TextProperty" xml:space="preserve">
-    <value>Executa de forma privada no seu computador</value>
+    <value>Executado de forma privada no seu computador</value>
   </data>
   <data name="ApacheLicense.ContentProperty" xml:space="preserve">
     <value>Licença Apache 2.0</value>
@@ -136,16 +136,16 @@
     <value>Saiba mais</value>
   </data>
   <data name="DownloadOnce.TextProperty" xml:space="preserve">
-    <value>Você só precisa fazer o download uma vez. Ele será armazenado no seu dispositivo para uso futuro.</value>
+    <value>Você só precisa baixar uma vez. Ele será armazenado no seu dispositivo para uso futuro.</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
-    <value>Baixando o modelo de linguagem...</value>
+    <value>Baixando modelo de linguagem...</value>
   </data>
   <data name="DownloadFailed.TitleProperty" xml:space="preserve">
     <value>Falha no download</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
-    <value>Não foi possível baixar o modelo. Por favor, verifique sua conexão com a internet e tente novamente.</value>
+    <value>Não foi possível baixar o modelo. Verifique sua conexão com a Internet e tente novamente.</value>
   </data>
   <data name="DownloadRequired" xml:space="preserve">
     <value>Download necessário</value>
