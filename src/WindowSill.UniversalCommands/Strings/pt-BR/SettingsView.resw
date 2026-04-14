@@ -139,7 +139,7 @@
     <value>Nome</value>
   </data>
   <data name="ActionName.PlaceholderTextProperty" xml:space="preserve">
-    <value>Digite um nome para este comando</value>
+    <value>Insira um nome para este comando</value>
   </data>
   <data name="ActionType.HeaderProperty" xml:space="preserve">
     <value>Tipo de comando</value>
@@ -151,10 +151,10 @@
     <value>Clique aqui e pressione um atalho</value>
   </data>
   <data name="PowerShellLabel.TextProperty" xml:space="preserve">
-    <value>Comando PowerShell</value>
+    <value>Comando do PowerShell</value>
   </data>
   <data name="PowerShellCommand.PlaceholderTextProperty" xml:space="preserve">
-    <value>Digite um comando do PowerShell</value>
+    <value>Insira um comando do PowerShell</value>
   </data>
   <data name="TargetAppLabel.TextProperty" xml:space="preserve">
     <value>Aplicativo de destino</value>
@@ -169,7 +169,7 @@
     <value>ex.: devenv, code, notepad</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>Crie comandos que possam executar PowerShell ou um conjunto de atalhos de teclado em seus aplicativos favoritos ou globalmente para automatizar seu fluxo de trabalho. Personalize o nome, o ícone e a ordem.</value>
+    <value>Crie comandos que executam PowerShell ou um conjunto de atalhos de teclado nos seus aplicativos favoritos ou globalmente para automatizar seu fluxo de trabalho. Personalize o nome, ícone e ordem.</value>
   </data>
   <data name="Glyph.ContentProperty" xml:space="preserve">
     <value>Glifo</value>
@@ -205,7 +205,7 @@
     <value>Editar</value>
   </data>
   <data name="DeleteButton.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Apagar</value>
+    <value>Excluir</value>
   </data>
   <data name="NoFileSelected" xml:space="preserve">
     <value>Nenhum arquivo selecionado</value>
