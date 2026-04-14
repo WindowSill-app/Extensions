@@ -139,10 +139,10 @@
     <value>Pieds</value>
   </data>
     <data name="Yards" xml:space="preserve">
-    <value>Yards</value>
+    <value>verres</value>
   </data>
     <data name="Miles" xml:space="preserve">
-    <value>Miles</value>
+    <value>Milliles</value>
   </data>
     <data name="Bits" xml:space="preserve">
     <value>bits</value>
