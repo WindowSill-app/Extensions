@@ -1,3 +1,6 @@
+# 0.9.22
+- Fixed icons being cut off when a monitor is scaled up.
+
 # 0.9.21
 - Revamped the UI in the WindowSill bar
 - Added a popup that shows detailed performance metrics.

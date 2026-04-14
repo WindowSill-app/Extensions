@@ -15,13 +15,63 @@
         <SolidColorBrush x:Key="GpuProgressBrush" Color="#34D399" />
     </UserControl.Resources>
 
-    <Button
-        x:Name="MainButton"
-        Padding="4"
-        Click="MainButton_Click"
-        Style="{StaticResource SillButtonStyle}">
-        <Grid>
-            <!--  Percentage mode: CPU / Memory / GPU  -->
+    <Grid x:Name="RootPanel">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="OrientationStates">
+
+                <VisualState x:Name="HorizontalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="42" />
+                        <Setter Target="CpuProgressBar.Visibility" Value="Visible" />
+                        <Setter Target="MemoryProgressBar.Visibility" Value="Visible" />
+                        <Setter Target="GpuProgressBar.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="HorizontalMedium">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="28" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="HorizontalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="18" />
+                        <Setter Target="MainButton.Padding" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="VerticalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="42" />
+                        <Setter Target="CpuProgressBar.Visibility" Value="Visible" />
+                        <Setter Target="MemoryProgressBar.Visibility" Value="Visible" />
+                        <Setter Target="GpuProgressBar.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="VerticalMedium">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="28" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="VerticalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="18" />
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Button
+            x:Name="MainButton"
+            Padding="4,0"
+            Click="MainButton_Click"
+            Style="{StaticResource SillButtonStyle}">
+            <Grid>
+                <!--  Percentage mode: CPU / Memory / GPU  -->
             <StackPanel
                 x:Name="PercentagePanel"
                 VerticalAlignment="Center"
@@ -184,7 +234,9 @@
                 AutoPlay="True"
                 PlaybackRate="{x:Bind ViewModel.AnimationSpeed, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.IsAnimatedGifMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-        </Grid>
-    </Button>
+
+            </Grid>
+        </Button>
+    </Grid>
 
 </UserControl>
