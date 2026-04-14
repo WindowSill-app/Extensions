@@ -1,3 +1,12 @@
+# 0.9.21
+- Updated icons to be more consistent with the new Windows 11 design.
+
+# 0.9.20
+- Added ARM64 support.
+
+# 0.9.19
+- Fixed a potential crash when registering a toast notification.
+
 # 0.9.18
 - Added support of links in reminder's title. Links will be opened in the default browser when clicked.
 - Reminder's title can now be edited.

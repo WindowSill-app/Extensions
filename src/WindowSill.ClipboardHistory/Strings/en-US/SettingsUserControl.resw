@@ -130,7 +130,7 @@
     <value>Hide passwords</value>
   </data>
   <data name="MaxItemNumber.DescriptionProperty" xml:space="preserve">
-    <value>How many items should be kept in the clipboard history.</value>
+    <value>How many items should be kept in the clipboard history</value>
   </data>
   <data name="MaxItemNumber.HeaderProperty" xml:space="preserve">
     <value>Maximum number of items</value>

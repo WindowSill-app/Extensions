@@ -1,45 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -59,54 +59,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>Convert video</value>
+    <value>Convertir vídeo</value>
   </data>
   <data name="FormatMp4Title.TextProperty" xml:space="preserve">
     <value>MP4</value>
   </data>
   <data name="FormatMp4Description.TextProperty" xml:space="preserve">
-    <value>Universal compatibility (H.264)</value>
+    <value>Compatibilidad universal (H.264)</value>
   </data>
   <data name="FormatMkvTitle.TextProperty" xml:space="preserve">
     <value>MKV</value>
   </data>
   <data name="FormatMkvDescription.TextProperty" xml:space="preserve">
-    <value>Flexible container (H.264)</value>
+    <value>Contenedor flexible (H.264)</value>
   </data>
   <data name="FormatWebmTitle.TextProperty" xml:space="preserve">
     <value>WebM</value>
   </data>
   <data name="FormatWebmDescription.TextProperty" xml:space="preserve">
-    <value>Web-optimized (VP9)</value>
+    <value>Optimizado para web (VP9)</value>
   </data>
   <data name="FormatMovTitle.TextProperty" xml:space="preserve">
     <value>MOV</value>
   </data>
   <data name="FormatMovDescription.TextProperty" xml:space="preserve">
-    <value>Apple ecosystem (H.264)</value>
+    <value>Ecosistema Apple (H.264)</value>
   </data>
   <data name="FormatAviTitle.TextProperty" xml:space="preserve">
     <value>AVI</value>
   </data>
   <data name="FormatAviDescription.TextProperty" xml:space="preserve">
-    <value>Legacy compatibility (H.264)</value>
+    <value>Compatibilidad heredada (H.264)</value>
   </data>
   <data name="FormatGifTitle.TextProperty" xml:space="preserve">
     <value>GIF</value>
   </data>
   <data name="FormatGifDescription.TextProperty" xml:space="preserve">
-    <value>Animated image (no audio)</value>
+    <value>Imagen animada (sin audio)</value>
   </data>
   <data name="CancelButton.ContentProperty" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="ResultTitle.TextProperty" xml:space="preserve">
-    <value>Conversion complete</value>
+    <value>Conversión completada</value>
   </data>
   <data name="ResultSummary" xml:space="preserve">
-    <value>{0} of {1} files converted successfully</value>
+    <value>{0} de {1} archivos convertidos correctamente</value>
   </data>
   <data name="OpenFolderButton.ContentProperty" xml:space="preserve">
-    <value>Open folder</value>
+    <value>Abrir carpeta</value>
   </data>
 </root>

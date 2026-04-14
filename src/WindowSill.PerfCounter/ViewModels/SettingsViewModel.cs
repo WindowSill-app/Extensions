@@ -64,24 +64,6 @@ internal sealed partial class SettingsViewModel : ObservableObject
     }
 
     /// <summary>
-    /// Gets or sets whether clicking the counter opens Task Manager.
-    /// </summary>
-    public bool EnableTaskManagerLaunch
-    {
-        get => _settingsProvider.GetSetting(Settings.Settings.EnableTaskManagerLaunch);
-        set => _settingsProvider.SetSetting(Settings.Settings.EnableTaskManagerLaunch, value);
-    }
-
-    /// <summary>
-    /// Gets or sets whether to display CPU and GPU temperature.
-    /// </summary>
-    public bool ShowTemperature
-    {
-        get => _settingsProvider.GetSetting(Settings.Settings.ShowTemperature);
-        set => _settingsProvider.SetSetting(Settings.Settings.ShowTemperature, value);
-    }
-
-    /// <summary>
     /// Gets or sets whether to show CPU usage in percentage mode.
     /// </summary>
     public bool ShowCpu
@@ -143,6 +125,6 @@ internal sealed partial class SettingsViewModel : ObservableObject
     [RelayCommand]
     private void OpenTaskManager()
     {
-        TaskManagerLauncher.OpenTaskManager(_settingsProvider);
+        TaskManagerLauncher.OpenTaskManager();
     }
 }

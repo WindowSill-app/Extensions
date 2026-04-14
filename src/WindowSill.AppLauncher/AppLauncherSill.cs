@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using CommunityToolkit.Diagnostics;
 using Microsoft.UI.Xaml.Media.Imaging;
+using ThrottleDebounce;
 using WindowSill.API;
 using WindowSill.AppLauncher.Core;
 using WindowSill.AppLauncher.Settings;
@@ -22,6 +23,7 @@ public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView, ID
     private readonly AppGroupService _appGroupService;
     private readonly ISettingsProvider _settingsProvider;
     private readonly DisposableSemaphore _disposableSemaphore = new();
+    private readonly RateLimitedAction _debouncedUpdateSills;
 
     [ImportingConstructor]
     internal AppLauncherSill(AppGroupService appGroupService, IPluginInfo pluginInfo, ISettingsProvider settingsProvider)
@@ -31,6 +33,9 @@ public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView, ID
         _settingsProvider = settingsProvider;
 
         _iconPath = new Uri(System.IO.Path.Combine(_pluginInfo.GetPluginContentDirectory(), "Assets", "appLauncher.svg"));
+        _debouncedUpdateSills = Debouncer.Debounce(
+            () => UpdateSillsAsync().ForgetSafely(),
+            TimeSpan.FromMilliseconds(100));
 
         UpdateSillsAsync().ForgetSafely();
         _appGroupService.AppGroups.CollectionChanged += AppGroups_CollectionChanged;
@@ -58,6 +63,8 @@ public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView, ID
     public void Dispose()
     {
         _appGroupService.AppGroups.CollectionChanged -= AppGroups_CollectionChanged;
+        _debouncedUpdateSills.Dispose();
+        _disposableSemaphore.Dispose();
     }
 
     public ValueTask OnActivatedAsync()
@@ -72,7 +79,7 @@ public sealed class AppLauncherSill : ISillActivatedByDefault, ISillListView, ID
 
     private void AppGroups_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-        UpdateSillsAsync().ForgetSafely();
+        _debouncedUpdateSills.Invoke();
     }
 
     private async Task UpdateSillsAsync()

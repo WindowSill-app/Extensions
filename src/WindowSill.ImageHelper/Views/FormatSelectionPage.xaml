@@ -1,100 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Page
     x:Class="WindowSill.ImageHelper.Views.FormatSelectionPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:api="using:WindowSill.API"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Format Buttons Grid -->
+        <!--  Format Buttons Grid  -->
         <ScrollViewer
             Grid.Row="0"
-            VerticalScrollMode="Auto"
+            HorizontalContentAlignment="Stretch"
             HorizontalScrollMode="Disabled"
-            HorizontalContentAlignment="Stretch">
-            <StackPanel
-                Spacing="8"
-                Margin="24">
+            VerticalScrollMode="Auto">
+            <StackPanel Margin="24" Spacing="8">
                 <controls:UniformGrid
                     VerticalAlignment="Top"
                     ColumnSpacing="8"
                     RowSpacing="8">
                     <api:ShortcutButton
-                        Style="{StaticResource LargeShortcutButtonStyle}"
-                        Content="AVIF"
+                        Command="{x:Bind ViewModel.ConvertCommand}"
                         CommandParameter="Avif"
-                        Command="{x:Bind ViewModel.ConvertCommand}"/>
+                        Content="AVIF"
+                        Style="{StaticResource LargeShortcutButtonStyle}" />
                     <api:ShortcutButton
-                        Style="{StaticResource LargeShortcutButtonStyle}"
-                        Content="BMP"
+                        Command="{x:Bind ViewModel.ConvertCommand}"
                         CommandParameter="Bmp"
-                        Command="{x:Bind ViewModel.ConvertCommand}"/>
+                        Content="BMP"
+                        Style="{StaticResource LargeShortcutButtonStyle}" />
                     <api:ShortcutButton
-                        Style="{StaticResource LargeShortcutButtonStyle}"
-                        Content="EPS"
+                        Command="{x:Bind ViewModel.ConvertCommand}"
                         CommandParameter="Eps"
-                        Command="{x:Bind ViewModel.ConvertCommand}"/>
+                        Content="EPS"
+                        Style="{StaticResource LargeShortcutButtonStyle}" />
                     <api:ShortcutButton
-                        Style="{StaticResource LargeShortcutButtonStyle}"
-                        Content="GIF"
+                        Command="{x:Bind ViewModel.ConvertCommand}"
                         CommandParameter="Gif"
-                        Command="{x:Bind ViewModel.ConvertCommand}"/>
+                        Content="GIF"
+                        Style="{StaticResource LargeShortcutButtonStyle}" />
                     <api:ShortcutButton
-                        Style="{StaticResource LargeShortcutButtonStyle}"
-                        Content="PDF"
+                        Command="{x:Bind ViewModel.ConvertCommand}"
                         CommandParameter="Pdf"
-                        Command="{x:Bind ViewModel.ConvertCommand}"/>
+                        Content="PDF"
+                        Style="{StaticResource LargeShortcutButtonStyle}" />
                     <api:ShortcutButton
-                        Style="{StaticResource LargeShortcutButtonStyle}"
-                        Content="TIFF"
+                        Command="{x:Bind ViewModel.ConvertCommand}"
                         CommandParameter="Tiff"
-                        Command="{x:Bind ViewModel.ConvertCommand}"/>
+                        Content="TIFF"
+                        Style="{StaticResource LargeShortcutButtonStyle}" />
                     <api:ShortcutButton
-                        Style="{StaticResource LargeShortcutButtonStyle}"
-                        Content="WEBP"
+                        Command="{x:Bind ViewModel.ConvertCommand}"
                         CommandParameter="WebP"
-                        Command="{x:Bind ViewModel.ConvertCommand}"/>
+                        Content="WEBP"
+                        Style="{StaticResource LargeShortcutButtonStyle}" />
                 </controls:UniformGrid>
             </StackPanel>
         </ScrollViewer>
 
-        <!-- Bottom Bar with PNG/JPEG -->
+        <!--  Bottom Bar with PNG/JPEG  -->
         <Border
             Grid.Row="1"
+            Padding="24"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Bottom"
-            Padding="24"
-            BorderThickness="0,1,0,0"
+            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}">
-            <Grid
-                ColumnSpacing="8">
+            BorderThickness="0,1,0,0">
+            <Grid ColumnSpacing="8">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <api:ShortcutButton
                     Grid.Column="0"
-                    Style="{StaticResource LargeShortcutButtonStyle}"
-                    Content="PNG"
+                    Command="{x:Bind ViewModel.ConvertCommand}"
                     CommandParameter="Png"
-                    Command="{x:Bind ViewModel.ConvertCommand}"/>
+                    Content="PNG"
+                    Style="{StaticResource LargeShortcutButtonStyle}" />
                 <api:ShortcutButton
                     Grid.Column="1"
-                    Style="{StaticResource LargeShortcutButtonStyle}"
-                    Content="JPEG"
+                    Command="{x:Bind ViewModel.ConvertCommand}"
                     CommandParameter="Jpeg"
-                    Command="{x:Bind ViewModel.ConvertCommand}"/>
+                    Content="JPEG"
+                    Style="{StaticResource LargeShortcutButtonStyle}" />
             </Grid>
         </Border>
     </Grid>

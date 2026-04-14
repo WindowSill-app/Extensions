@@ -1,3 +1,15 @@
+# 0.9.22
+- Fixed crash when copying some URL.
+
+# 0.9.21
+- Updated icons to be more consistent with the new Windows 11 design.
+
+# 0.9.20
+- Added ARM64 support.
+
+# 0.9.18
+- Changed icon of the Clear History button in compact mode.
+
 # 0.9.17
 - The clipboard can now be compacted into a popup window instead of having all clipboard items displayed in the WindowSill bar.
 - Improved many translations.

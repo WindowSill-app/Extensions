@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -118,28 +118,28 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GeneralHeader.TextProperty" xml:space="preserve">
-    <value>常规},{</value>
+    <value>常规</value>
   </data>
   <data name="ActionsHeader.TextProperty" xml:space="preserve">
-    <value>命令},{</value>
+    <value>命令</value>
   </data>
   <data name="IconLabel.TextProperty" xml:space="preserve">
-    <value>图标},{</value>
+    <value>图标</value>
   </data>
   <data name="AddAction.ContentProperty" xml:space="preserve">
-    <value>添加命令},{</value>
+    <value>添加命令</value>
   </data>
   <data name="AddActionText.TextProperty" xml:space="preserve">
-    <value>添加命令},{</value>
+    <value>添加命令</value>
   </data>
   <data name="ActionEditorTitle.TitleProperty" xml:space="preserve">
-    <value>命令},{</value>
+    <value>命令</value>
   </data>
   <data name="ActionName.HeaderProperty" xml:space="preserve">
     <value>名称</value>
   </data>
   <data name="ActionName.PlaceholderTextProperty" xml:space="preserve">
-    <value>为此命令输入名称</value>
+    <value>输入此命令的名称</value>
   </data>
   <data name="ActionType.HeaderProperty" xml:space="preserve">
     <value>命令类型</value>
@@ -148,7 +148,7 @@
     <value>键盘快捷键</value>
   </data>
   <data name="ShortcutPlaceholder" xml:space="preserve">
-    <value>单击此处并按下快捷键</value>
+    <value>点击此处并按下快捷键</value>
   </data>
   <data name="PowerShellLabel.TextProperty" xml:space="preserve">
     <value>PowerShell 命令</value>
@@ -160,16 +160,16 @@
     <value>目标应用程序</value>
   </data>
   <data name="GlobalAction.ContentProperty" xml:space="preserve">
-    <value>在所有应用程序中显示</value>
+    <value>为所有应用程序显示</value>
   </data>
   <data name="TargetAppProcessName.HeaderProperty" xml:space="preserve">
     <value>进程名称</value>
   </data>
   <data name="TargetAppProcessName.PlaceholderTextProperty" xml:space="preserve">
-    <value>例如 devenv, code, notepad</value>
+    <value>例如 devenv、code、notepad</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>创建命令，可在你喜爱的应用中或全局范围内运行 PowerShell 或一组键盘快捷键，以自动化你的工作流程。自定义其名称、图标和顺序。</value>
+    <value>创建可以在您喜爱的应用中或全局运行 PowerShell 或一组键盘快捷键的命令，以自动化您的工作流程。自定义其名称、图标和顺序。</value>
   </data>
   <data name="Glyph.ContentProperty" xml:space="preserve">
     <value>字形</value>
@@ -190,7 +190,7 @@
     <value>PowerShell 命令</value>
   </data>
   <data name="NewCommand" xml:space="preserve">
-    <value>新建命令</value>
+    <value>新命令</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>

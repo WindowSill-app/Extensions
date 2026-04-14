@@ -146,7 +146,7 @@ internal static class UnitHelper
 
     internal static bool TryDetectTemperature(string input, CancellationToken cancellationToken, out UnitsNet.Temperature temperature)
     {
-        if (!string.IsNullOrWhiteSpace(input))
+        if (!string.IsNullOrWhiteSpace(input) && input.Length < 200)
         {
             input = input.Replace("˚", null);
             foreach (Culture culture in Cultures.OrderedSupportedCultures)
@@ -178,7 +178,7 @@ internal static class UnitHelper
 
     internal static bool TryDetectCurrency(string input, CancellationToken cancellationToken, out CurrencyValue? currency)
     {
-        if (!string.IsNullOrWhiteSpace(input))
+        if (!string.IsNullOrWhiteSpace(input) && input.Length < 200)
         {
             foreach (Culture culture in Cultures.OrderedSupportedCultures)
             {
@@ -240,7 +240,7 @@ internal static class UnitHelper
 
     internal static bool TryDetectDimension(string input, CancellationToken cancellationToken, out IConvertible? dimension)
     {
-        if (!string.IsNullOrWhiteSpace(input))
+        if (!string.IsNullOrWhiteSpace(input) && input.Length < 200)
         {
             foreach (Culture culture in Cultures.OrderedSupportedCultures)
             {

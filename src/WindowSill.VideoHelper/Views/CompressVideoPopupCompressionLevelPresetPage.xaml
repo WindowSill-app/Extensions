@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="WindowSill.VideoHelper.Views.CompressVideoPopupCompressionLevelPresetPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer
+        HorizontalContentAlignment="Stretch"
+        HorizontalScrollMode="Disabled"
+        VerticalScrollMode="Auto">
+        <StackPanel Margin="24" Spacing="8">
+            <controls:UniformGrid
+                VerticalAlignment="Top"
+                ColumnSpacing="8"
+                Columns="2"
+                RowSpacing="8">
+                <api:ShortcutButton
+                    Height="64"
+                    Command="{x:Bind ViewModel.SelectPresetCommand}"
+                    CommandParameter="Quality"
+                    Style="{StaticResource LargeShortcutButtonStyle}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <TextBlock api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/PresetQualityTitle" HorizontalAlignment="Center" />
+                        <TextBlock
+                            api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/PresetQualityDescription"
+                            HorizontalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            TextAlignment="Center"
+                            TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </api:ShortcutButton>
+                <api:ShortcutButton
+                    Height="64"
+                    Command="{x:Bind ViewModel.SelectPresetCommand}"
+                    CommandParameter="Balanced"
+                    Style="{StaticResource LargeShortcutButtonStyle}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <TextBlock api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/PresetBalancedTitle" HorizontalAlignment="Center" />
+                        <TextBlock
+                            api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/PresetBalancedDescription"
+                            HorizontalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            TextAlignment="Center"
+                            TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </api:ShortcutButton>
+                <api:ShortcutButton
+                    Height="64"
+                    Command="{x:Bind ViewModel.SelectPresetCommand}"
+                    CommandParameter="SmallFile"
+                    Style="{StaticResource LargeShortcutButtonStyle}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <TextBlock api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/PresetSmallFileTitle" HorizontalAlignment="Center" />
+                        <TextBlock
+                            api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/PresetSmallFileDescription"
+                            HorizontalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            TextAlignment="Center"
+                            TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </api:ShortcutButton>
+                <api:ShortcutButton
+                    Height="64"
+                    Command="{x:Bind ViewModel.SelectPresetCommand}"
+                    CommandParameter="MaxCompression"
+                    Style="{StaticResource LargeShortcutButtonStyle}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <TextBlock api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/PresetMaxCompressionTitle" HorizontalAlignment="Center" />
+                        <TextBlock
+                            api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/PresetMaxCompressionDescription"
+                            HorizontalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            TextAlignment="Center"
+                            TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </api:ShortcutButton>
+            </controls:UniformGrid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

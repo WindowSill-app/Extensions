@@ -395,16 +395,14 @@
                 Text="{x:Bind PopupTitle}" />
             <Button
                 Grid.Column="1"
+                Width="32"
+                Height="32"
+                Margin="0,0,8,0"
                 VerticalAlignment="Center"
                 Command="{x:Bind ViewModel.ClearAllCommand}"
                 Style="{StaticResource IconButton}"
                 ToolTipService.ToolTip="{x:Bind ClearHistoryTooltip}">
-                <SymbolIcon
-                    Width="16"
-                    Height="16"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Symbol="Clear" />
+                <FontIcon FontSize="12" Glyph="&#xE74D;" />
             </Button>
         </Grid>
 

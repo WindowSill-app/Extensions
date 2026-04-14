@@ -20,6 +20,7 @@ namespace WindowSill.PerfCounter;
 public sealed class PerformanceCounterSill : ISillActivatedByDefault, ISillSingleView
 {
     private readonly IPerformanceMonitorService _performanceMonitorService;
+    private readonly IHardwareInfoService _hardwareInfoService;
     private readonly ISettingsProvider _settingsProvider;
     private readonly IPluginInfo _pluginInfo;
 
@@ -28,10 +29,12 @@ public sealed class PerformanceCounterSill : ISillActivatedByDefault, ISillSingl
     [ImportingConstructor]
     internal PerformanceCounterSill(
         IPerformanceMonitorService performanceMonitorService,
+        IHardwareInfoService hardwareInfoService,
         ISettingsProvider settingsProvider,
         IPluginInfo pluginInfo)
     {
         _performanceMonitorService = performanceMonitorService;
+        _hardwareInfoService = hardwareInfoService;
         _settingsProvider = settingsProvider;
         _pluginInfo = pluginInfo;
 
@@ -40,7 +43,7 @@ public sealed class PerformanceCounterSill : ISillActivatedByDefault, ISillSingl
             _settingsProvider);
 
         var sillView = new SillView();
-        sillView.Content = new PerformanceCounterView(sillView, _pluginInfo, _viewModel);
+        sillView.Content = new PerformanceCounterView(sillView, _performanceMonitorService, _hardwareInfoService, _viewModel);
         View = sillView;
     }
 
@@ -89,8 +92,9 @@ public sealed class PerformanceCounterSill : ISillActivatedByDefault, ISillSingl
     {
         _performanceMonitorService.StopMonitoring();
 
-        View = null;
+        _viewModel?.Dispose();
         _viewModel = null;
+        View = null;
 
         return ValueTask.CompletedTask;
     }

@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -124,7 +124,7 @@
     <value>Команди</value>
   </data>
   <data name="IconLabel.TextProperty" xml:space="preserve">
-    <value>Значок</value>
+    <value>Іконка</value>
   </data>
   <data name="AddAction.ContentProperty" xml:space="preserve">
     <value>Додати команду</value>
@@ -136,19 +136,19 @@
     <value>Команда</value>
   </data>
   <data name="ActionName.HeaderProperty" xml:space="preserve">
-    <value>Ім'я</value>
+    <value>Назва</value>
   </data>
   <data name="ActionName.PlaceholderTextProperty" xml:space="preserve">
-    <value>Введіть ім'я для цієї команди</value>
+    <value>Введіть назву для цієї команди</value>
   </data>
   <data name="ActionType.HeaderProperty" xml:space="preserve">
     <value>Тип команди</value>
   </data>
   <data name="ShortcutLabel.TextProperty" xml:space="preserve">
-    <value>Клавіатурне скорочення</value>
+    <value>Комбінація клавіш</value>
   </data>
   <data name="ShortcutPlaceholder" xml:space="preserve">
-    <value>Клацніть тут і натисніть комбінацію клавіш</value>
+    <value>Натисніть тут і введіть комбінацію клавіш</value>
   </data>
   <data name="PowerShellLabel.TextProperty" xml:space="preserve">
     <value>Команда PowerShell</value>
@@ -157,19 +157,19 @@
     <value>Введіть команду PowerShell</value>
   </data>
   <data name="TargetAppLabel.TextProperty" xml:space="preserve">
-    <value>Цільовий додаток</value>
+    <value>Цільовий застосунок</value>
   </data>
   <data name="GlobalAction.ContentProperty" xml:space="preserve">
-    <value>Показувати для всіх додатків</value>
+    <value>Показувати для всіх застосунків</value>
   </data>
   <data name="TargetAppProcessName.HeaderProperty" xml:space="preserve">
-    <value>Ім'я процесу</value>
+    <value>Назва процесу</value>
   </data>
   <data name="TargetAppProcessName.PlaceholderTextProperty" xml:space="preserve">
-    <value>наприклад: devenv, code, notepad</value>
+    <value>напр. devenv, code, notepad</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>Створюйте команди, які можуть виконувати PowerShell або набір клавіатурних скорочень у ваших улюблених додатках або глобально для автоматизації робочого процесу. Налаштуйте їхнє ім'я, значок і порядок.</value>
+    <value>Створюйте команди, які запускають PowerShell або набір комбінацій клавіш у ваших улюблених застосунках або глобально для автоматизації робочого процесу. Налаштуйте їх назву, іконку та порядок.</value>
   </data>
   <data name="Glyph.ContentProperty" xml:space="preserve">
     <value>Гліф</value>
@@ -178,13 +178,13 @@
     <value>Файл зображення</value>
   </data>
   <data name="ChooseGlyph.ContentProperty" xml:space="preserve">
-    <value>Вибрати гліф...</value>
+    <value>Обрати гліф...</value>
   </data>
   <data name="Browse.ContentProperty" xml:space="preserve">
     <value>Огляд...</value>
   </data>
   <data name="ActionTypeKeyboardShortcut.ContentProperty" xml:space="preserve">
-    <value>Клавіатурне скорочення</value>
+    <value>Комбінація клавіш</value>
   </data>
   <data name="ActionTypePowerShell.ContentProperty" xml:space="preserve">
     <value>Команда PowerShell</value>
@@ -196,7 +196,7 @@
     <value>Зберегти</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Відміна</value>
+    <value>Скасувати</value>
   </data>
   <data name="EditCommand" xml:space="preserve">
     <value>Редагувати команду</value>

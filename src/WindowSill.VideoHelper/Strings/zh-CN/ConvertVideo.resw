@@ -1,45 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -59,43 +59,43 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>视频转换</value>
+    <value>转换视频</value>
   </data>
   <data name="FormatMp4Title.TextProperty" xml:space="preserve">
     <value>MP4</value>
   </data>
   <data name="FormatMp4Description.TextProperty" xml:space="preserve">
-    <value>通用兼容性（H.264）</value>
+    <value>通用兼容性 (H.264)</value>
   </data>
   <data name="FormatMkvTitle.TextProperty" xml:space="preserve">
     <value>MKV</value>
   </data>
   <data name="FormatMkvDescription.TextProperty" xml:space="preserve">
-    <value>灵活容器（H.264）</value>
+    <value>灵活容器 (H.264)</value>
   </data>
   <data name="FormatWebmTitle.TextProperty" xml:space="preserve">
     <value>WebM</value>
   </data>
   <data name="FormatWebmDescription.TextProperty" xml:space="preserve">
-    <value>Web 优化（VP9）</value>
+    <value>网页优化 (VP9)</value>
   </data>
   <data name="FormatMovTitle.TextProperty" xml:space="preserve">
     <value>MOV</value>
   </data>
   <data name="FormatMovDescription.TextProperty" xml:space="preserve">
-    <value>苹果系统 (H.264)</value>
+    <value>Apple 生态系统 (H.264)</value>
   </data>
   <data name="FormatAviTitle.TextProperty" xml:space="preserve">
     <value>AVI</value>
   </data>
   <data name="FormatAviDescription.TextProperty" xml:space="preserve">
-    <value>传统兼容（H.264）</value>
+    <value>旧版兼容 (H.264)</value>
   </data>
   <data name="FormatGifTitle.TextProperty" xml:space="preserve">
     <value>GIF</value>
   </data>
   <data name="FormatGifDescription.TextProperty" xml:space="preserve">
-    <value>动画图片（无声音）</value>
+    <value>动画图像（无音频）</value>
   </data>
   <data name="CancelButton.ContentProperty" xml:space="preserve">
     <value>取消</value>
@@ -104,7 +104,7 @@
     <value>转换完成</value>
   </data>
   <data name="ResultSummary" xml:space="preserve">
-    <value>{0}个文件已成功转换，共{1}个文件</value>
+    <value>{0} / {1} 个文件转换成功</value>
   </data>
   <data name="OpenFolderButton.ContentProperty" xml:space="preserve">
     <value>打开文件夹</value>

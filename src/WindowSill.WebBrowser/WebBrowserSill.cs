@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Diagnostics;
+using CommunityToolkit.Diagnostics;
 
 using Microsoft.UI.Xaml.Media.Imaging;
 
@@ -8,6 +8,7 @@ using System.ComponentModel.Composition;
 using Windows.System;
 
 using WindowSill.API;
+using WindowSill.WebBrowser.View;
 
 namespace WindowSill.WebBrowser;
 
@@ -39,17 +40,17 @@ public sealed class WebBrowserSill : ISillActivatedByProcess, ISillListView
     public ObservableCollection<SillListViewItem> ViewList
         => [
             new SillListViewButtonItem(
-                '\uE8A3',
+                new ZoomInListItemContent(),
                 "/WindowSill.WebBrowser/Misc/ZoomIn".GetLocalizedString(),
                 OnZoomInButtonClickAsync),
 
             new SillListViewButtonItem(
-                '\uE71E',
+                new ResetZoomListItemContent(),
                 "/WindowSill.WebBrowser/Misc/ResetZoom".GetLocalizedString(),
                 OnResetZoomButtonClickAsync),
 
             new SillListViewButtonItem(
-                '\uE71F',
+                new ZoomOutListItemContent(),
                 "/WindowSill.WebBrowser/Misc/ZoomOut".GetLocalizedString(),
                 OnZoomOutButtonClickAsync)
         ];

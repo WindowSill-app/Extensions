@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -124,37 +124,25 @@
     <value>跑步人物</value>
   </data>
   <data name="AnimationMetric.HeaderProperty" xml:space="preserve">
-    <value>動畫指標},{</value>
+    <value>動畫指標</value>
   </data>
   <data name="AnimationMetric.DescriptionProperty" xml:space="preserve">
-    <value>用於動畫跑步人物的指標},{</value>
+    <value>用於動畫跑步人物的指標</value>
   </data>
   <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>顯示模式},{</value>
+    <value>顯示模式</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>選擇如何顯示性能指標},{</value>
-  </data>
-  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>Enable Task Manager Launch</value>
-  </data>
-  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>Allow opening Task Manager when clicking the performance counter</value>
+    <value>選擇如何顯示性能指標</value>
   </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>一般</value>
   </data>
   <data name="OpenTaskManager.HeaderProperty" xml:space="preserve">
-    <value>Open Task Manager</value>
+    <value>開啟任務管理員</value>
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
-    <value>Click to open Windows Task Manager for detailed system information</value>
-  </data>
-  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>Show Temperature</value>
-  </data>
-  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>Display CPU and GPU temperature alongside usage percentages</value>
+    <value>點選開啟 Windows 任務管理員以取得詳細系統資訊</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
     <value>Show CPU</value>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.VideoHelper.Views.ConvertVideoProgressListItemContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <api:SillOrientedStackPanel Margin="{ThemeResource SillCommandContentMargin}" Spacing="8">
+        <ProgressRing
+            x:Name="GlobalProgressRing"
+            Width="32"
+            Height="32"
+            MinWidth="0"
+            MinHeight="0"
+            IsIndeterminate="False"
+            Maximum="100"
+            Minimum="0"
+            Value="{x:Bind ViewModel.Progress, Mode=OneWay}" />
+        <TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="{x:Bind ViewModel.ProgressText, Mode=OneWay}"
+            TextTrimming="CharacterEllipsis" />
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="OrientationStates">
+
+                <VisualState x:Name="HorizontalLarge">
+                    <!--  Default state: 32x32 ProgressRing  -->
+                </VisualState>
+
+                <VisualState x:Name="HorizontalMedium">
+                    <VisualState.Setters>
+                        <Setter Target="GlobalProgressRing.Height" Value="16" />
+                        <Setter Target="GlobalProgressRing.Width" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="HorizontalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="GlobalProgressRing.Height" Value="12" />
+                        <Setter Target="GlobalProgressRing.Width" Value="12" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="VerticalLarge" />
+                <VisualState x:Name="VerticalMedium" />
+                <VisualState x:Name="VerticalSmall" />
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </api:SillOrientedStackPanel>
+</UserControl>

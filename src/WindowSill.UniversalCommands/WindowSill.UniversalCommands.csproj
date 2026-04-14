@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>WindowSill.UniversalCommands</PackageId>
+    <Version>0.9.20</Version>
+    <Authors>Etienne Baudoux</Authors>
+    <Title>Universal Commands</Title>
+    <Description>Automate your workflow by creating custom commands that live on your sill — trigger keyboard shortcuts or run PowerShell scripts with a single click.
+
+      • Define multi-key keyboard chords (e.g., Ctrl+K then Ctrl+D)
+      • Run PowerShell commands without opening a terminal
+      • Assign commands globally or to a specific app
+      • Customize icons
+      • Reorder commands to your liking
+
+      Your workflow, your rules — one click away.</Description>
+    <PackageIcon>Assets/ctrl.png</PackageIcon>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Assets/ctrl.png" Pack="true" PackagePath="\Assets\" />
+    <None Include="LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ThrottleDebounce" />
+    <PackageReference Include="WindowSill.API" />
+  </ItemGroup>
+</Project>

@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Media.Imaging;
 using WindowSill.API;
@@ -47,7 +47,6 @@ public sealed partial class SettingsView : UserControl
             {
                 IsEmpty = false;
                 _appGroupService.AppGroups.Insert(0, newAppGroup);
-                await _appGroupService.SaveAsync();
             }
         }).ForgetSafely();
     }
@@ -68,7 +67,6 @@ public sealed partial class SettingsView : UserControl
             {
                 int index = _appGroupService.AppGroups.IndexOf(appGroup);
                 _appGroupService.AppGroups[index] = newAppGroup;
-                await _appGroupService.SaveAsync();
             }
         }).ForgetSafely();
     }
@@ -81,7 +79,6 @@ public sealed partial class SettingsView : UserControl
         {
             _appGroupService.AppGroups.Remove(appGroup);
             IsEmpty = _appGroupService.AppGroups.Count == 0;
-            await _appGroupService.SaveAsync();
         }).ForgetSafely();
     }
 

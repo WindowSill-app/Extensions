@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>WindowSill.VideoHelper</PackageId>
+    <Version>0.9.20</Version>
+    <Authors>Etienne Baudoux</Authors>
+    <Title>Video Helper</Title>
+    <Description>
+      Drag &amp; drop videos into WindowSill for instant processing — single files or entire batches.
+
+      • Convert between MP4, AVI, MOV &amp; more
+      • Compress to reduce file size
+
+      All the essential video tools you need, right in your digital window sill.
+    </Description>
+    <PackageIcon>Assets/video.png</PackageIcon>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Assets/video.png" Pack="true" PackagePath="\Assets\" />
+    <None Include="LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
+    <PackageReference Include="WindowSill.API" />
+  </ItemGroup>
+</Project>

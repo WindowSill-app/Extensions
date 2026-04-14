@@ -135,12 +135,6 @@
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
     <value>Wybierz sposób wyświetlania wskaźników wydajności</value>
   </data>
-  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>Włącz uruchamianie Menedżera zadań</value>
-  </data>
-  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>Zezwól na otwarcie Menedżera zadań po kliknięciu licznika wydajności</value>
-  </data>
   <data name="General.TextProperty" xml:space="preserve">
     <value>Ogólne</value>
   </data>
@@ -149,12 +143,6 @@
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
     <value>Kliknij, aby otworzyć Menedżera zadań systemu Windows i uzyskać szczegółowe informacje o systemie</value>
-  </data>
-  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>Pokaż temperaturę</value>
-  </data>
-  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>Wyświetlaj temperaturę procesora i karty graficznej wraz z procentowym wykorzystaniem zasobów</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
     <value>Pokaż CPU</value>

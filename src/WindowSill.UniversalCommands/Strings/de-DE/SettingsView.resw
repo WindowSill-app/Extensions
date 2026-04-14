@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GeneralHeader.TextProperty" xml:space="preserve">
-    <value>Allgemeines</value>
+    <value>Allgemein</value>
   </data>
   <data name="ActionsHeader.TextProperty" xml:space="preserve">
     <value>Befehle</value>
@@ -139,22 +139,22 @@
     <value>Name</value>
   </data>
   <data name="ActionName.PlaceholderTextProperty" xml:space="preserve">
-    <value>Geben Sie einen Namen für diesen Befehl ein</value>
+    <value>Einen Namen für diesen Befehl eingeben</value>
   </data>
   <data name="ActionType.HeaderProperty" xml:space="preserve">
-    <value>Befehlsart</value>
+    <value>Befehlstyp</value>
   </data>
   <data name="ShortcutLabel.TextProperty" xml:space="preserve">
-    <value>Tastenkürzel</value>
+    <value>Tastenkombination</value>
   </data>
   <data name="ShortcutPlaceholder" xml:space="preserve">
-    <value>Hier klicken und ein Tastenkürzel drücken</value>
+    <value>Hier klicken und eine Tastenkombination drücken</value>
   </data>
   <data name="PowerShellLabel.TextProperty" xml:space="preserve">
     <value>PowerShell-Befehl</value>
   </data>
   <data name="PowerShellCommand.PlaceholderTextProperty" xml:space="preserve">
-    <value>Geben Sie einen PowerShell-Befehl ein</value>
+    <value>Einen PowerShell-Befehl eingeben</value>
   </data>
   <data name="TargetAppLabel.TextProperty" xml:space="preserve">
     <value>Zielanwendung</value>
@@ -166,10 +166,10 @@
     <value>Prozessname</value>
   </data>
   <data name="TargetAppProcessName.PlaceholderTextProperty" xml:space="preserve">
-    <value>z. B. devenv, code, notepad</value>
+    <value>z. B. devenv, code, notepad</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>Erstellen Sie Befehle, die PowerShell oder eine Reihe von Tastenkürzeln in Ihren bevorzugten Apps oder global ausführen können, um Ihren Arbeitsablauf zu automatisieren. Passen Sie deren Namen, Symbol und Reihenfolge an.</value>
+    <value>Erstellen Sie Befehle, die PowerShell oder Tastenkombinationen in Ihren bevorzugten Apps oder global ausführen können, um Ihren Arbeitsablauf zu automatisieren. Passen Sie Name, Symbol und Reihenfolge an.</value>
   </data>
   <data name="Glyph.ContentProperty" xml:space="preserve">
     <value>Glyphe</value>
@@ -184,7 +184,7 @@
     <value>Durchsuchen...</value>
   </data>
   <data name="ActionTypeKeyboardShortcut.ContentProperty" xml:space="preserve">
-    <value>Tastenkürzel</value>
+    <value>Tastenkombination</value>
   </data>
   <data name="ActionTypePowerShell.ContentProperty" xml:space="preserve">
     <value>PowerShell-Befehl</value>

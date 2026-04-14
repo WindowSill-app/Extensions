@@ -126,7 +126,7 @@
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
     <value>Group your favorite apps, files and folders and launch them from WindowSill, individually or all at once. Customize their name, icon and order.</value>
   </data>
-  <data name="NewGroup.LabelProperty" xml:space="preserve">
+  <data name="NewGroup.TextProperty" xml:space="preserve">
     <value>New group</value>
   </data>
 </root>

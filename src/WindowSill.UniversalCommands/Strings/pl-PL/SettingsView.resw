@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GeneralHeader.TextProperty" xml:space="preserve">
-    <value>Ogólne},{</value>
+    <value>Ogólne</value>
   </data>
   <data name="ActionsHeader.TextProperty" xml:space="preserve">
-    <value>Polecenia},{</value>
+    <value>Polecenia</value>
   </data>
   <data name="IconLabel.TextProperty" xml:space="preserve">
     <value>Ikona</value>
@@ -160,7 +160,7 @@
     <value>Aplikacja docelowa</value>
   </data>
   <data name="GlobalAction.ContentProperty" xml:space="preserve">
-    <value>Pokaż we wszystkich aplikacjach</value>
+    <value>Pokaż dla wszystkich aplikacji</value>
   </data>
   <data name="TargetAppProcessName.HeaderProperty" xml:space="preserve">
     <value>Nazwa procesu</value>
@@ -169,16 +169,16 @@
     <value>np. devenv, code, notepad</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>Twórz polecenia, które mogą uruchamiać polecenia PowerShell lub zestaw skrótów klawiaturowych w ulubionych aplikacjach albo globalnie, aby zautomatyzować pracę. Dostosuj ich nazwę, ikonę i kolejność.</value>
+    <value>Twórz polecenia, które uruchamiają PowerShell lub zestaw skrótów klawiaturowych w ulubionych aplikacjach lub globalnie, aby zautomatyzować przepływ pracy. Dostosuj ich nazwę, ikonę i kolejność.</value>
   </data>
   <data name="Glyph.ContentProperty" xml:space="preserve">
-    <value>Glyf</value>
+    <value>Glif</value>
   </data>
   <data name="ImageFile.ContentProperty" xml:space="preserve">
-    <value>Plik obrazu</value>
+    <value>Plik graficzny</value>
   </data>
   <data name="ChooseGlyph.ContentProperty" xml:space="preserve">
-    <value>Wybierz glyf...</value>
+    <value>Wybierz glif...</value>
   </data>
   <data name="Browse.ContentProperty" xml:space="preserve">
     <value>Przeglądaj...</value>
@@ -208,6 +208,6 @@
     <value>Usuń</value>
   </data>
   <data name="NoFileSelected" xml:space="preserve">
-    <value>Brak wybranego pliku</value>
+    <value>Nie wybrano pliku</value>
   </data>
 </root>

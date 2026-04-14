@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.AppLauncher</PackageId>
-    <Version>0.9.17</Version>
+    <Version>0.9.22</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>App Launcher</Title>
     <Description>
@@ -32,6 +32,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="ThrottleDebounce" />
     <PackageReference Include="WindowSill.API" />
   </ItemGroup>
 </Project>

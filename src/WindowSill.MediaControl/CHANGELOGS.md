@@ -1,3 +1,9 @@
+# 0.9.21
+- Updated icons to be more consistent with the new Windows 11 design.
+
+# 0.9.20
+- Added ARM64 support.
+
 # 0.9.17
 - Updated metadata & dependencies.
 - Improved many translations.

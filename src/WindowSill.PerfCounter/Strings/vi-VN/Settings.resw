@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -135,14 +135,8 @@
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
     <value>Chọn cách hiển thị các chỉ số hiệu suất</value>
   </data>
-  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>Bật Khởi động Trình Quản lý tác vụ</value>
-  </data>
-  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>Cho phép mở Trình quản lý tác vụ khi nhấp vào bộ đếm hiệu suất</value>
-  </data>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>Chung</value>
+    <value> Chung </value>
   </data>
   <data name="OpenTaskManager.HeaderProperty" xml:space="preserve">
     <value>Mở Trình quản lý tác vụ</value>
@@ -150,19 +144,13 @@
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
     <value>Nhấp để mở Trình quản lý tác vụ của Windows để xem chi tiết thông tin hệ thống</value>
   </data>
-  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>Hiển thị Nhiệt độ</value>
-  </data>
-  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>Hiển thị nhiệt độ CPU và GPU bên cạnh phần trăm sử dụng</value>
-  </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
-    <value>Hiển thị CPU</value>
+    <value>Show CPU</value>
   </data>
   <data name="ShowGpu.HeaderProperty" xml:space="preserve">
-    <value>Hiển thị GPU</value>
+    <value>Show GPU</value>
   </data>
   <data name="ShowRam.HeaderProperty" xml:space="preserve">
-    <value>Hiển thị RAM</value>
+    <value>Show RAM</value>
   </data>
 </root>

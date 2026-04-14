@@ -1,3 +1,16 @@
+# 0.9.22
+- Fixed crash with some UWP apps.
+
+# 0.9.21
+- Updated icons to be more consistent with the new Windows 11 design.
+
+# 0.9.20
+- Added ARM64 support.
+
+# 0.9.18
+- Fixed an issue where groups orders were not saved after re-ordering them.
+- Improved loading time of the app launcher when it contains many items.
+
 # 0.9.17
 - Updated metadata & dependencies.
 - Improved many translations.

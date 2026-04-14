@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -148,7 +148,7 @@
     <value>鍵盤快速鍵</value>
   </data>
   <data name="ShortcutPlaceholder" xml:space="preserve">
-    <value>按一下此處，然後按下鍵盤快速鍵</value>
+    <value>按一下此處並按下快速鍵</value>
   </data>
   <data name="PowerShellLabel.TextProperty" xml:space="preserve">
     <value>PowerShell 命令</value>
@@ -160,25 +160,25 @@
     <value>目標應用程式</value>
   </data>
   <data name="GlobalAction.ContentProperty" xml:space="preserve">
-    <value>適用於所有應用程式</value>
+    <value>為所有應用程式顯示</value>
   </data>
   <data name="TargetAppProcessName.HeaderProperty" xml:space="preserve">
     <value>處理程序名稱</value>
   </data>
   <data name="TargetAppProcessName.PlaceholderTextProperty" xml:space="preserve">
-    <value>例如 devenv, code, notepad</value>
+    <value>例如 devenv、code、notepad</value>
   </data>
   <data name="EmptyIntro.TextProperty" xml:space="preserve">
-    <value>建立能在您喜愛的應用程式上或全域執行 PowerShell 或一組鍵盤快速鍵的命令，以自動化您的工作流程。您可以自訂它們的名稱、圖示與順序。</value>
+    <value>建立可以在您喜愛的應用程式中或全域執行 PowerShell 或一組鍵盤快速鍵的命令，以自動化您的工作流程。自訂其名稱、圖示和順序。</value>
   </data>
   <data name="Glyph.ContentProperty" xml:space="preserve">
-    <value>字形</value>
+    <value>字符</value>
   </data>
   <data name="ImageFile.ContentProperty" xml:space="preserve">
-    <value>圖片檔案</value>
+    <value>影像檔案</value>
   </data>
   <data name="ChooseGlyph.ContentProperty" xml:space="preserve">
-    <value>選擇字形...</value>
+    <value>選擇字符...</value>
   </data>
   <data name="Browse.ContentProperty" xml:space="preserve">
     <value>瀏覽...</value>
@@ -190,7 +190,7 @@
     <value>PowerShell 命令</value>
   </data>
   <data name="NewCommand" xml:space="preserve">
-    <value>新增命令</value>
+    <value>新命令</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>儲存</value>
@@ -208,6 +208,6 @@
     <value>刪除</value>
   </data>
   <data name="NoFileSelected" xml:space="preserve">
-    <value>尚未選取檔案</value>
+    <value>未選擇檔案</value>
   </data>
 </root>

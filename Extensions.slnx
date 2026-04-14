@@ -1,6 +1,6 @@
 <Solution>
   <Configurations>
-    <Platform Name="x64" />
+    <Platform Name="Any CPU" />
   </Configurations>
   <Folder Name="/Solution Items/">
     <File Path="CONTRIBUTING.md" />
@@ -13,43 +13,52 @@
     <File Path="src/Directory.Build.targets" />
     <File Path="src/Directory.Packages.props" />
   </Folder>
-  <Project Path="src/UnitTests/UnitTests.csproj" Id="ce19a5f6-2cb3-4519-abf8-7529c6ae8cb5">
-    <Platform Project="x64" />
+  <Project Path="src/UnitTests/UnitTests.csproj">
+    <Platform Project="Any CPU" />
   </Project>
   <Project Path="src/WindowSill.AppLauncher/WindowSill.AppLauncher.csproj">
-    <Platform Project="x64" />
+    <Platform Project="Any CPU" />
   </Project>
   <Project Path="src/WindowSill.ClipboardHistory/WindowSill.ClipboardHistory.csproj">
-    <Platform Project="x64" />
+    <Platform Project="Any CPU" />
   </Project>
   <Project Path="src/WindowSill.DevToys/WindowSill.DevToys.csproj">
-    <Platform Project="x64" />
+    <Platform Project="Any CPU" />
   </Project>
   <Project Path="src/WindowSill.ImageHelper/WindowSill.ImageHelper.csproj">
-    <Platform Project="x64" />
+    <Platform Project="Any CPU" />
   </Project>
   <Project Path="src/WindowSill.MediaControl/WindowSill.MediaControl.csproj">
-    <Platform Project="x64" />
+    <Platform Project="Any CPU" />
   </Project>
   <Project Path="src/WindowSill.PerfCounter/WindowSill.PerfCounter.csproj">
-    <Platform Project="x64" />
+    <Platform Project="Any CPU" />
   </Project>
   <Project Path="src/WindowSill.ShortTermReminder/WindowSill.ShortTermReminder.csproj">
-    <Platform Project="x64" />
+    <Platform Project="Any CPU" />
   </Project>
   <Project Path="src/WindowSill.Teams/WindowSill.Teams.csproj">
-    <Platform Project="x64" />
-  </Project>
-  <Project Path="src/WindowSill.UnitConverter/WindowSill.UnitConverter.csproj">
-    <Platform Project="x64" />
-  </Project>
-  <Project Path="src/WindowSill.URLHelper/WindowSill.URLHelper.csproj">
-    <Platform Project="x64" />
-  </Project>
-  <Project Path="src/WindowSill.WebBrowser/WindowSill.WebBrowser.csproj">
-    <Platform Project="x64" />
+    <Platform Project="Any CPU" />
   </Project>
   <Project Path="src/WindowSill.TextFinder/WindowSill.TextFinder.csproj">
-    <Platform Project="x64" />
+    <Platform Project="Any CPU" />
+  </Project>
+  <Project Path="src/WindowSill.UnitConverter/WindowSill.UnitConverter.csproj">
+    <Platform Project="Any CPU" />
+  </Project>
+  <Project Path="src/WindowSill.UniversalCommands/WindowSill.UniversalCommands.csproj">
+    <Platform Project="Any CPU" />
+  </Project>
+  <Project Path="src/WindowSill.InlineTerminal/WindowSill.InlineTerminal.csproj">
+    <Platform Project="Any CPU" />
+  </Project>
+  <Project Path="src/WindowSill.URLHelper/WindowSill.URLHelper.csproj">
+    <Platform Project="Any CPU" />
+  </Project>
+  <Project Path="src/WindowSill.VideoHelper/WindowSill.VideoHelper.csproj">
+    <Platform Project="Any CPU" />
+  </Project>
+  <Project Path="src/WindowSill.WebBrowser/WindowSill.WebBrowser.csproj">
+    <Platform Project="Any CPU" />
   </Project>
 </Solution>
