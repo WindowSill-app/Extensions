@@ -59,7 +59,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>Converter Vídeo</value>
+    <value>Converter vídeo</value>
   </data>
   <data name="FormatMp4Title.TextProperty" xml:space="preserve">
     <value>MP4</value>
@@ -71,7 +71,7 @@
     <value>MKV</value>
   </data>
   <data name="FormatMkvDescription.TextProperty" xml:space="preserve">
-    <value>Container flexível (H.264)</value>
+    <value>Contêiner flexível (H.264)</value>
   </data>
   <data name="FormatWebmTitle.TextProperty" xml:space="preserve">
     <value>WebM</value>
@@ -83,13 +83,13 @@
     <value>MOV</value>
   </data>
   <data name="FormatMovDescription.TextProperty" xml:space="preserve">
-    <value>Ecossistema da Apple (H.264)</value>
+    <value>Ecossistema Apple (H.264)</value>
   </data>
   <data name="FormatAviTitle.TextProperty" xml:space="preserve">
     <value>AVI</value>
   </data>
   <data name="FormatAviDescription.TextProperty" xml:space="preserve">
-    <value>Compatibilidade com legado (H.264)</value>
+    <value>Compatibilidade legada (H.264)</value>
   </data>
   <data name="FormatGifTitle.TextProperty" xml:space="preserve">
     <value>GIF</value>
