@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add.LabelProperty" xml:space="preserve">
-    <value/>
+    <value>Adicionar</value>
   </data>
   <data name="AddFavoriteTitle" xml:space="preserve">
     <value>Adicione uma moeda favorita</value>
@@ -130,7 +130,7 @@
     <value>Apagar</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
-    <value>Conversor de Imagem</value>
+    <value>Conversor de Moedas</value>
   </data>
   <data name="FavoriteInto.TextProperty" xml:space="preserve">
     <value>Moedas favoritas</value>
