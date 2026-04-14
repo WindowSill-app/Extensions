@@ -12,4 +12,6 @@
   <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>在命令输出视图中换行文本，而不是水平滚动</value></data>
   <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>禁用安全警告</value></data>
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>从网页浏览器运行选中的命令时跳过安全警告</value></data>
+  <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
+  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
 </root>
