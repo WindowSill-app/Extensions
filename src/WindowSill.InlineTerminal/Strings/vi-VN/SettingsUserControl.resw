@@ -12,4 +12,6 @@
   <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>Ngắt dòng văn bản trong chế độ xem đầu ra lệnh thay vì cuộn ngang</value></data>
   <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>Tắt cảnh báo bảo mật</value></data>
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>Bỏ qua cảnh báo bảo mật khi chạy lệnh được chọn từ trình duyệt web</value></data>
+  <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
+  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
 </root>
