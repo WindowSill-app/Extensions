@@ -1,4 +1,4 @@
-﻿using WindowSill.API;
+using WindowSill.API;
 
 namespace WindowSill.PerfCounter.Settings;
 
@@ -17,18 +17,6 @@ internal static class Settings
         = new(PerformanceMetric.CPU, typeof(Settings).Assembly);
 
     /// <summary>
-    /// Whether to enable launching Task Manager when clicking the performance counter
-    /// </summary>
-    internal static readonly SettingDefinition<bool> EnableTaskManagerLaunch
-        = new(true, typeof(Settings).Assembly);
-
-    /// <summary>
-    /// Whether to show CPU and GPU temperature alongside usage percentages
-    /// </summary>
-    internal static readonly SettingDefinition<bool> ShowTemperature
-        = new(true, typeof(Settings).Assembly);
-
-    /// <summary>
     /// Whether to show CPU usage in percentage mode
     /// </summary>
     internal static readonly SettingDefinition<bool> ShowCpu
@@ -45,17 +33,4 @@ internal static class Settings
     /// </summary>
     internal static readonly SettingDefinition<bool> ShowRam
         = new(true, typeof(Settings).Assembly);
-}
-
-public enum PerformanceDisplayMode
-{
-    Percentage,
-    RunningMan
-}
-
-public enum PerformanceMetric
-{
-    CPU,
-    GPU,
-    RAM
 }

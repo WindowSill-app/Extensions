@@ -135,12 +135,6 @@
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
     <value>パフォーマンス指標の表示方法を選択してください</value>
   </data>
-  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>タスク マネージャーの起動を有効にします</value>
-  </data>
-  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>パフォーマンス カウンターをクリックしたときにタスク マネージャーを開くことを許可します</value>
-  </data>
   <data name="General.TextProperty" xml:space="preserve">
     <value>一般</value>
   </data>
@@ -149,12 +143,6 @@
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
     <value>詳細なシステム情報のためにWindowsのタスクマネージャーを開くにはクリックしてください</value>
-  </data>
-  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>温度を表示</value>
-  </data>
-  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>使用率のパーセンテージと一緒にCPUとGPUの温度を表示します</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
     <value>Show CPU</value>

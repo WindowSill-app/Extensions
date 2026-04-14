@@ -10,21 +10,3 @@ public interface IPerformanceMonitorService
 
     PerformanceData GetCurrentPerformanceData();
 }
-
-public class PerformanceDataEventArgs : EventArgs
-{
-    public PerformanceData Data { get; }
-    
-    public PerformanceDataEventArgs(PerformanceData data)
-    {
-        Data = data;
-    }
-}
-
-public record PerformanceData(
-    double CpuUsage,
-    double MemoryUsage, 
-    double? GpuUsage,
-    double? CpuTemperature,
-    double? GpuTemperature
-);

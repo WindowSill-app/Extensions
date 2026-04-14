@@ -135,12 +135,6 @@
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
     <value>选择如何显示性能指标</value>
   </data>
-  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>启用打开任务管理器功能</value>
-  </data>
-  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>允许在点击性能计数器时打开任务管理器</value>
-  </data>
   <data name="General.TextProperty" xml:space="preserve">
     <value>常规</value>
   </data>
@@ -149,12 +143,6 @@
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
     <value>点击以打开 Windows 任务管理器，获取详细系统信息</value>
-  </data>
-  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>显示温度</value>
-  </data>
-  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>在使用率百分比旁边显示 CPU 和 GPU 温度</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
     <value>Show CPU</value>

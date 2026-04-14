@@ -1,3 +1,7 @@
+# 0.9.21
+- Revamped the UI in the WindowSill bar
+- Added a popup that shows detailed performance metrics.
+
 # 0.9.20
 - Added ARM64 support.
 

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,40 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DisplayModePercentage" xml:space="preserve">
-    <value>Phần trăm</value>
+  <data name="CpuLabel.TextProperty" xml:space="preserve">
+    <value>CPU Usage</value>
   </data>
-  <data name="DisplayModeRunningMan" xml:space="preserve">
-    <value>Người chạy bộ</value>
+  <data name="MemoryLabel.TextProperty" xml:space="preserve">
+    <value>Memory Usage</value>
   </data>
-  <data name="AnimationMetric.HeaderProperty" xml:space="preserve">
-    <value>Chỉ số Hoạt hình</value>
+  <data name="GpuLabel.TextProperty" xml:space="preserve">
+    <value>GPU Usage</value>
   </data>
-  <data name="AnimationMetric.DescriptionProperty" xml:space="preserve">
-    <value>Chỉ số nào để sử dụng cho hoạt ảnh người chạy bộ</value>
-  </data>
-  <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>Chế độ Hiển thị</value>
-  </data>
-  <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Chọn cách hiển thị các chỉ số hiệu suất</value>
-  </data>
-  <data name="General.TextProperty" xml:space="preserve">
-    <value> Chung </value>
-  </data>
-  <data name="OpenTaskManager.HeaderProperty" xml:space="preserve">
-    <value>Mở Trình quản lý tác vụ</value>
-  </data>
-  <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
-    <value>Nhấp để mở Trình quản lý tác vụ của Windows để xem chi tiết thông tin hệ thống</value>
-  </data>
-  <data name="ShowCpu.HeaderProperty" xml:space="preserve">
-    <value>Show CPU</value>
-  </data>
-  <data name="ShowGpu.HeaderProperty" xml:space="preserve">
-    <value>Show GPU</value>
-  </data>
-  <data name="ShowRam.HeaderProperty" xml:space="preserve">
-    <value>Show RAM</value>
+  <data name="OpenTaskManager.TextProperty" xml:space="preserve">
+    <value>Open Task Manager</value>
   </data>
 </root>

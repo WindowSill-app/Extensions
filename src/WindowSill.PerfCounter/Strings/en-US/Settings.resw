@@ -135,12 +135,6 @@
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
     <value>Choose how to display performance metrics</value>
   </data>
-  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>Enable Task Manager Launch</value>
-  </data>
-  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>Allow opening Task Manager when clicking the performance counter</value>
-  </data>
   <data name="General.TextProperty" xml:space="preserve">
     <value>General</value>
   </data>
@@ -149,12 +143,6 @@
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
     <value>Click to open Windows Task Manager for detailed system information</value>
-  </data>
-  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>Show Temperature</value>
-  </data>
-  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>Display CPU and GPU temperature alongside usage percentages</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
     <value>Show CPU</value>

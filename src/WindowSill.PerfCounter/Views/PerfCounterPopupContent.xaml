@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<api:SillPopupContent
+    x:Class="WindowSill.PerfCounter.Views.PerfCounterPopupContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lvc="using:LiveChartsCore.SkiaSharpView.WinUI"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="340"
+    mc:Ignorable="d">
+
+    <api:SillPopupContent.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:BoolToVisibilityConverter
+            x:Key="InvertedBoolToVisibilityConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
+
+        <!--  Metric card style: rounded dark card  -->
+        <Style x:Key="MetricCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+        </Style>
+    </api:SillPopupContent.Resources>
+
+    <StackPanel Padding="12" Spacing="8">
+
+        <!--  CPU Card  -->
+        <Border Style="{StaticResource MetricCardStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="80" />
+                </Grid.RowDefinitions>
+
+                <!--  Header: percentage + hardware info + temperature  -->
+                <Grid Grid.Row="0" Padding="16,12,16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        MinWidth="60"
+                        VerticalAlignment="Center"
+                        FontSize="28"
+                        FontWeight="SemiBold"
+                        Text="{x:Bind ViewModel.CpuPercentText, Mode=OneWay}" />
+
+                    <!--  CPU name + details  -->
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="12,0,0,0"
+                        VerticalAlignment="Center"
+                        Visibility="{x:Bind ViewModel.HasCpuInfo, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            MaxLines="1"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.CpuName, Mode=OneWay}"
+                            TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.CpuDetailsText, Mode=OneWay}" />
+                    </StackPanel>
+
+                    <!--  Fallback label when no CPU info  -->
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="12,0,0,0"
+                        VerticalAlignment="Center"
+                        api:Uids.Uid="/WindowSill.PerfCounter/Popup/CpuLabel"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Visibility="{x:Bind ViewModel.HasCpuInfo, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+
+                    <TextBlock
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.CpuTemperatureText, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.HasCpuTemperature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+
+                <!--  Chart  -->
+                <lvc:CartesianChart
+                    Grid.Row="1"
+                    Height="80"
+                    Margin="0"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    DrawMargin="{x:Bind ChartDrawMargin}"
+                    Series="{x:Bind ViewModel.CpuSeries}"
+                    TooltipPosition="Hidden"
+                    XAxes="{x:Bind ViewModel.XAxes}"
+                    YAxes="{x:Bind ViewModel.YAxes}" />
+            </Grid>
+        </Border>
+
+        <!--  Memory Card  -->
+        <Border Style="{StaticResource MetricCardStyle}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="80" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Padding="16,12,16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        MinWidth="60"
+                        VerticalAlignment="Center"
+                        FontSize="28"
+                        FontWeight="SemiBold"
+                        Text="{x:Bind ViewModel.MemoryPercentText, Mode=OneWay}" />
+
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="12,0,0,0"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            api:Uids.Uid="/WindowSill.PerfCounter/Popup/MemoryLabel"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.MemoryUsageText, Mode=OneWay}" />
+                    </StackPanel>
+                </Grid>
+
+                <lvc:CartesianChart
+                    Grid.Row="1"
+                    Height="80"
+                    Margin="0"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    DrawMargin="{x:Bind ChartDrawMargin}"
+                    Series="{x:Bind ViewModel.MemorySeries}"
+                    TooltipPosition="Hidden"
+                    XAxes="{x:Bind ViewModel.XAxes}"
+                    YAxes="{x:Bind ViewModel.YAxes}" />
+            </Grid>
+        </Border>
+
+        <!--  GPU Card (hidden when unavailable)  -->
+        <Border Style="{StaticResource MetricCardStyle}" Visibility="{x:Bind ViewModel.IsGpuAvailable, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="80" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Padding="16,12,16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        MinWidth="60"
+                        VerticalAlignment="Center"
+                        FontSize="28"
+                        FontWeight="SemiBold"
+                        Text="{x:Bind ViewModel.GpuPercentText, Mode=OneWay}" />
+
+                    <!--  GPU name + VRAM  -->
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="12,0,0,0"
+                        VerticalAlignment="Center"
+                        Visibility="{x:Bind ViewModel.HasGpuInfo, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            MaxLines="1"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.GpuName, Mode=OneWay}"
+                            TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.GpuVramText, Mode=OneWay}" />
+                    </StackPanel>
+
+                    <!--  Fallback label when no GPU info  -->
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="12,0,0,0"
+                        VerticalAlignment="Center"
+                        api:Uids.Uid="/WindowSill.PerfCounter/Popup/GpuLabel"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Visibility="{x:Bind ViewModel.HasGpuInfo, Mode=OneWay, Converter={StaticResource InvertedBoolToVisibilityConverter}}" />
+
+                    <TextBlock
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{ThemeResource CaptionTextBlockStyle}"
+                        Text="{x:Bind ViewModel.GpuTemperatureText, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.HasGpuTemperature, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                </Grid>
+
+                <lvc:CartesianChart
+                    Grid.Row="1"
+                    Height="80"
+                    Margin="0"
+                    Padding="0"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    DrawMargin="{x:Bind ChartDrawMargin}"
+                    Series="{x:Bind ViewModel.GpuSeries}"
+                    TooltipPosition="Hidden"
+                    XAxes="{x:Bind ViewModel.XAxes}"
+                    YAxes="{x:Bind ViewModel.YAxes}" />
+            </Grid>
+        </Border>
+
+        <!--  Open Task Manager button  -->
+        <Button HorizontalAlignment="Stretch" Command="{x:Bind ViewModel.OpenTaskManagerCommand}">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBlock api:Uids.Uid="/WindowSill.PerfCounter/Popup/OpenTaskManager" />
+            </StackPanel>
+        </Button>
+    </StackPanel>
+</api:SillPopupContent>

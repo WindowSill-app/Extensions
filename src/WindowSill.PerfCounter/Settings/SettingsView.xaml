@@ -58,22 +58,6 @@
             </ctk:SettingsExpander.Items>
         </ctk:SettingsExpander>
 
-        <!--  Enable Task Manager Launch  -->
-        <ctk:SettingsCard api:Uids.Uid="/WindowSill.PerfCounter/Settings/EnableTaskManagerLaunch">
-            <ctk:SettingsCard.HeaderIcon>
-                <FontIcon Glyph="&#xE7EF;" />
-            </ctk:SettingsCard.HeaderIcon>
-            <ToggleSwitch IsOn="{x:Bind ViewModel.EnableTaskManagerLaunch, Mode=TwoWay}" />
-        </ctk:SettingsCard>
-
-        <!--  Show Temperature  -->
-        <ctk:SettingsCard api:Uids.Uid="/WindowSill.PerfCounter/Settings/ShowTemperature">
-            <ctk:SettingsCard.HeaderIcon>
-                <FontIcon Glyph="&#xE9CA;" />
-            </ctk:SettingsCard.HeaderIcon>
-            <ToggleSwitch IsOn="{x:Bind ViewModel.ShowTemperature, Mode=TwoWay}" />
-        </ctk:SettingsCard>
-
         <!--  Open Task Manager  -->
         <ctk:SettingsCard
             api:Uids.Uid="/WindowSill.PerfCounter/Settings/OpenTaskManager"
