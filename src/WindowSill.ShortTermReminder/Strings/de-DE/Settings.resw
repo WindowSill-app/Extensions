@@ -126,7 +126,7 @@
 • Vollbildbenachrichtigungen übernehmen den Bildschirm, sodass es unmöglich ist, sie zu übersehen—selbst wenn Windows im Fokusmodus ist. Ideal für alle, die stärkere visuelle Hinweise benötigen, um auf Kurs zu bleiben.</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
-    <value>Benachrichtigungsmodus</value>
+    <value>Mitteilung</value>
   </data>
   <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
     <value>Toast-Benachrichtigung</value>
