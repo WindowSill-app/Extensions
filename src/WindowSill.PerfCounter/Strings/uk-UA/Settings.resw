@@ -135,12 +135,6 @@
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
     <value>Обрати спосіб відображення показників продуктивності</value>
   </data>
-  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>Увімкнути запуск Диспетчера задач</value>
-  </data>
-  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>Дозволити відкривати Диспетчер задач при натисканні на лічильник продуктивності</value>
-  </data>
   <data name="General.TextProperty" xml:space="preserve">
     <value>Загальне</value>
   </data>
@@ -149,12 +143,6 @@
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
     <value>Клацніть, щоб відкрити диспетчер задач Windows для детальної інформації про систему</value>
-  </data>
-  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>Показувати температуру</value>
-  </data>
-  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>Відображати температуру процесора та відеокарти поряд із відсотками використання</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
     <value>Show CPU</value>

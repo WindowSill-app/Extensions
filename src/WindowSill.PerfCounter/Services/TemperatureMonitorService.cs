@@ -207,7 +207,7 @@ internal sealed class TemperatureMonitorService : ITemperatureMonitorService
                     nint current = buffer;
                     for (int i = 0; i < itemCount; i++)
                     {
-                        var item = Marshal.PtrToStructure<PdhInterop.PdhFmtCounterValueItemDouble>(current);
+                        PdhInterop.PdhFmtCounterValueItemDouble item = Marshal.PtrToStructure<PdhInterop.PdhFmtCounterValueItemDouble>(current);
                         if (item.FmtValue.CStatus == PdhInterop.PDH_CSTATUS_VALID_DATA)
                         {
                             double celsius = item.FmtValue.DoubleValue - 273.15;

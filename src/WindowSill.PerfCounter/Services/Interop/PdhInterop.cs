@@ -84,7 +84,7 @@ internal static class PdhInterop
                     nint current = buffer;
                     for (int i = 0; i < itemCount; i++)
                     {
-                        var item = Marshal.PtrToStructure<PdhFmtCounterValueItemDouble>(current);
+                        PdhFmtCounterValueItemDouble item = Marshal.PtrToStructure<PdhFmtCounterValueItemDouble>(current);
                         if (item.FmtValue.CStatus == PDH_CSTATUS_VALID_DATA)
                         {
                             total += item.FmtValue.DoubleValue;

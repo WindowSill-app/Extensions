@@ -9,3 +9,4 @@ GetSystemInfo
 GetTickCount64
 PDH_MORE_DATA
 PDH_CSTATUS_VALID_DATA
+GetLogicalProcessorInformation

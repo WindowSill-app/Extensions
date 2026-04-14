@@ -135,12 +135,6 @@
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
     <value>Choisir comment afficher les métriques de performance</value>
   </data>
-  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>Activer le lancement du Gestionnaire de tâches</value>
-  </data>
-  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>Permettre l'ouverture du Gestionnaire de tâches lors du clic sur le compteur de performances</value>
-  </data>
   <data name="General.TextProperty" xml:space="preserve">
     <value>Général</value>
   </data>
@@ -149,12 +143,6 @@
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
     <value>Cliquez pour ouvrir le Gestionnaire des tâches Windows pour des informations système détaillées</value>
-  </data>
-  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>Afficher la température</value>
-  </data>
-  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>Afficher la température du processeur et du GPU à côté des pourcentages d'utilisation</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
     <value>Show CPU</value>

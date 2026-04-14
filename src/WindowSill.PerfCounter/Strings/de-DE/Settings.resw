@@ -135,12 +135,6 @@
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
     <value>Wählen Sie, wie Leistungskennzahlen angezeigt werden sollen</value>
   </data>
-  <data name="EnableTaskManagerLaunch.HeaderProperty" xml:space="preserve">
-    <value>Aktivieren Sie den Task-Manager-Start</value>
-  </data>
-  <data name="EnableTaskManagerLaunch.DescriptionProperty" xml:space="preserve">
-    <value>Beim Klicken auf den Leistungszähler das Öffnen des Task-Managers erlauben</value>
-  </data>
   <data name="General.TextProperty" xml:space="preserve">
     <value>Allgemein</value>
   </data>
@@ -149,12 +143,6 @@
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
     <value>Klicken Sie, um den Windows-Task-Manager für detaillierte Systeminformationen zu öffnen</value>
-  </data>
-  <data name="ShowTemperature.HeaderProperty" xml:space="preserve">
-    <value>Temperatur anzeigen</value>
-  </data>
-  <data name="ShowTemperature.DescriptionProperty" xml:space="preserve">
-    <value>CPU- und GPU-Temperatur neben den Auslastungsprozenten anzeigen</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
     <value>Show CPU</value>
