@@ -150,4 +150,7 @@
   <data name="UnsupportedFormat" xml:space="preserve">
     <value>不支持的格式</value>
   </data>
+  <data name="LinkError" xml:space="preserve">
+    <value>无法加载链接</value>
+  </data>
 </root>
