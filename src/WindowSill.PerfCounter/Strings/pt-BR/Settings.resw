@@ -139,10 +139,10 @@
     <value>Geral</value>
   </data>
   <data name="OpenTaskManager.HeaderProperty" xml:space="preserve">
-    <value>Abrir Task Manager</value>
+    <value>Abrir o Gerenciador de Tarefas</value>
   </data>
   <data name="OpenTaskManager.DescriptionProperty" xml:space="preserve">
-    <value>Clique para abrir o Gerenciador de Tarefas do Windows e obter informações detalhadas do sistema</value>
+    <value>Clique para abrir o Gerenciador de Tarefas do Windows para mostrar informações detalhadas do sistema</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
     <value>Mostrar CPU</value>

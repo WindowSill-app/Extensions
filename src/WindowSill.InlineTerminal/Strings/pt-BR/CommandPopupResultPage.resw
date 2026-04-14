@@ -118,45 +118,45 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CopyButton.TextProperty" xml:space="preserve">
-    <value>Copy</value>
+    <value>Copiar</value>
   </data>
   <data name="RerunButton.TextProperty" xml:space="preserve">
-    <value>Re-run</value>
+    <value>Executar novamente</value>
     <comment>Re-run a shell command</comment>
   </data>
   <data name="DismissButton.TextProperty" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Dispensar</value>
   </data>
   <data name="DismissOthersButton.TextProperty" xml:space="preserve">
-    <value>Dismiss other runs</value>
+    <value>Dispensar outras execuções</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
   <data name="DismissOthersFormat" xml:space="preserve">
-    <value>Dismiss {0} other run(s)</value>
+    <value>Dispensar {0} outra(s) execução(ões)</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
   <data name="DismissAllButton.TextProperty" xml:space="preserve">
-    <value>Dismiss all runs</value>
+    <value>Dispensar todas as execuções</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
   <data name="DismissAllFormat" xml:space="preserve">
-    <value>Dismiss all {0} runs</value>
+    <value>Dispensar todas as {0} execuções</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
   <data name="RunCopyButton.TextProperty" xml:space="preserve">
-    <value>Re-run &amp; Copy output</value>
+    <value>Executar novamente e copiar saída</value>
   </data>
   <data name="RunAppendButton.TextProperty" xml:space="preserve">
-    <value>Re-run &amp; Append selection</value>
+    <value>Executar novamente e anexar seleção</value>
   </data>
   <data name="RunReplaceButton.TextProperty" xml:space="preserve">
-    <value>Re-run &amp; Replace selection</value>
+    <value>Executar novamente e substituir seleção</value>
   </data>
   <data name="CancelButton.TextProperty" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="NoOtherRuns" xml:space="preserve">
-    <value>No other runs</value>
+    <value>Nenhuma outra execução</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
 </root>

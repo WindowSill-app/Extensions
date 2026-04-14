@@ -133,6 +133,6 @@
     <value>Ok</value>
   </data>
   <data name="ReminderTextBox.HeaderProperty" xml:space="preserve">
-    <value>Przypomnij mi, aby:</value>
+    <value>Przypomnij mi, o:</value>
   </data>
 </root>

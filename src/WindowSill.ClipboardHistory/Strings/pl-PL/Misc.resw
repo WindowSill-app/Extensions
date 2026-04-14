@@ -150,4 +150,7 @@
   <data name="UnsupportedFormat" xml:space="preserve">
     <value>Nieobsługiwany format</value>
   </data>
+  <data name="LinkError" xml:space="preserve">
+    <value>Unable to load link</value>
+  </data>
 </root>

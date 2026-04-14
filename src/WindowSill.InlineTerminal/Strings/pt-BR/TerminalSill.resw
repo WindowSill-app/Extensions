@@ -118,17 +118,17 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppendSelection" xml:space="preserve">
-    <value>Append selection</value>
+    <value>Anexar seleção</value>
   </data>
   <data name="CopyOutput" xml:space="preserve">
-    <value>Copy output</value>
+    <value>Copiar saída</value>
     <comment>output of a shell command</comment>
   </data>
   <data name="CopyLatestOutput" xml:space="preserve">
-    <value>Copy latest output</value>
+    <value>Copiar última saída</value>
   </data>
   <data name="DetectedRunSettings" xml:space="preserve">
-    <value>Detected run settings:</value>
+    <value>Configurações de execução detectadas:</value>
     <comment>run in the context of running a shell command</comment>
   </data>
   <data name="DisplayName" xml:space="preserve">
@@ -136,47 +136,47 @@
     <comment>Terminal in the context of a command line</comment>
   </data>
   <data name="ReplaceSelection" xml:space="preserve">
-    <value>Replace selection</value>
+    <value>Substituir seleção</value>
   </data>
   <data name="RunAnd" xml:space="preserve">
-    <value>Run and...</value>
+    <value>Executar e...</value>
     <comment>run in the context of running a shell command</comment>
   </data>
   <data name="RerunAnd" xml:space="preserve">
-    <value>Re-run and...</value>
+    <value>Executar novamente e...</value>
     <comment>run in the context of running a shell command</comment>
   </data>
   <data name="RunAndCopyOutput" xml:space="preserve">
-    <value>Run and copy output</value>
+    <value>Executar e copiar saída</value>
     <comment>run in the context of running a shell command</comment>
   </data>
   <data name="RerunAndCopyOutput" xml:space="preserve">
-    <value>Re-run and copy output</value>
+    <value>Executar novamente e copiar saída</value>
     <comment>run in the context of running a shell command</comment>
   </data>
   <data name="RunNow" xml:space="preserve">
-    <value>Run now</value>
+    <value>Executar agora</value>
     <comment>run in the context of running a shell command</comment>
   </data>
   <data name="RerunNow" xml:space="preserve">
-    <value>Re-run now</value>
+    <value>Executar novamente</value>
     <comment>run in the context of running a shell command</comment>
   </data>
   <data name="DismissThisRun" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Dispensar</value>
   </data>
   <data name="CancelRun" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="RunCount" xml:space="preserve">
-    <value>Executed {0} time(s)</value>
+    <value>Executado {0} vez(es)</value>
   </data>
   <data name="DismissOtherRuns" xml:space="preserve">
-    <value>Dismiss {0} other run(s)</value>
+    <value>Dispensar {0} outra(s) execução(ões)</value>
     <comment>run in the context of running a shell command</comment>
   </data>
   <data name="DismissAllRuns" xml:space="preserve">
-    <value>Dismiss all {0} runs</value>
+    <value>Dispensar todas as {0} execuções</value>
     <comment>run in the context of running a shell command</comment>
   </data>
 </root>

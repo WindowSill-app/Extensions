@@ -118,38 +118,38 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Command.HeaderProperty" xml:space="preserve">
-    <value>Command</value>
+    <value>Comando</value>
     <comment>Header of a text box that shows a CMD / PowerShell command or file path to a PS1 / BAT file</comment>
   </data>
   <data name="WorkingDirectoryLabel.TextProperty" xml:space="preserve">
-    <value>Working Directory</value>
+    <value>Diretório de trabalho</value>
   </data>
   <data name="Shell.HeaderProperty" xml:space="preserve">
     <value>Shell</value>
     <comment>A field that indicate PowerShell, WSL, CMD, etc.</comment>
   </data>
   <data name="RunButton.TextProperty" xml:space="preserve">
-    <value>Run</value>
+    <value>Executar</value>
     <comment>Run a shell command</comment>
   </data>
   <data name="RerunButton.TextProperty" xml:space="preserve">
-    <value>Re-run</value>
+    <value>Executar novamente</value>
     <comment>Re-run a shell command</comment>
   </data>
   <data name="RunCopyButton.TextProperty" xml:space="preserve">
-    <value>Run &amp; Copy output</value>
+    <value>Executar e copiar saída</value>
   </data>
   <data name="RunAppendButton.TextProperty" xml:space="preserve">
-    <value>Run &amp; Append selection</value>
+    <value>Executar e anexar seleção</value>
   </data>
   <data name="RunReplaceButton.TextProperty" xml:space="preserve">
-    <value>Run &amp; Replace selection</value>
+    <value>Executar e substituir seleção</value>
   </data>
   <data name="BrowseButton.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Browse</value>
+    <value>Procurar</value>
     <comment>Browser for files / folders</comment>
   </data>
   <data name="RunAsAdminCheckBox.ContentProperty" xml:space="preserve">
-    <value>Run as administrator</value>
+    <value>Executar como administrador</value>
   </data>
 </root>

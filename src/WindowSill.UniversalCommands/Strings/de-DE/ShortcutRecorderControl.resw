@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -127,31 +127,31 @@
     <value>Aufnahme... (Tasten drücken, um Tastenkombination festzulegen, Esc zum Löschen)</value>
   </data>
   <data name="KeyCtrl" xml:space="preserve">
-    <value>Ctrl</value>
+    <value>Strg</value>
   </data>
   <data name="KeyAlt" xml:space="preserve">
     <value>Alt</value>
   </data>
   <data name="KeyShift" xml:space="preserve">
-    <value>Shift</value>
+    <value>Umschalt</value>
   </data>
   <data name="KeyWin" xml:space="preserve">
     <value>Win</value>
   </data>
   <data name="KeyBackspace" xml:space="preserve">
-    <value>Backspace</value>
+    <value>R</value>
   </data>
   <data name="KeyDel" xml:space="preserve">
-    <value>Del</value>
+    <value>Entf</value>
   </data>
   <data name="KeyEsc" xml:space="preserve">
     <value>Esc</value>
   </data>
   <data name="KeyIns" xml:space="preserve">
-    <value>Ins</value>
+    <value>Einfg</value>
   </data>
   <data name="KeySpace" xml:space="preserve">
-    <value>Space</value>
+    <value>Leertaste</value>
   </data>
   <data name="KeyTab" xml:space="preserve">
     <value>Tab</value>
@@ -160,16 +160,16 @@
     <value>Enter</value>
   </data>
   <data name="KeyLeft" xml:space="preserve">
-    <value>←</value>
+    <value>12</value>
   </data>
   <data name="KeyRight" xml:space="preserve">
-    <value>→</value>
+    <value>13</value>
   </data>
   <data name="KeyUp" xml:space="preserve">
-    <value>↑</value>
+    <value>14</value>
   </data>
   <data name="KeyDown" xml:space="preserve">
-    <value>↓</value>
+    <value>15</value>
   </data>
   <data name="KeyPgUp" xml:space="preserve">
     <value>PgUp</value>
@@ -178,10 +178,10 @@
     <value>PgDn</value>
   </data>
   <data name="KeyHome" xml:space="preserve">
-    <value>Home</value>
+    <value>Pos1</value>
   </data>
   <data name="KeyEnd" xml:space="preserve">
-    <value>End</value>
+    <value>Ende</value>
   </data>
   <data name="KeyPrtSc" xml:space="preserve">
     <value>PrtSc</value>
@@ -193,7 +193,7 @@
     <value>Pause</value>
   </data>
   <data name="KeyCapsLock" xml:space="preserve">
-    <value>CapsLock</value>
+    <value>Feststelltaste</value>
   </data>
   <data name="KeyNumLock" xml:space="preserve">
     <value>NumLock</value>
