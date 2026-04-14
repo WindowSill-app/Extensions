@@ -124,15 +124,15 @@
     <value>분</value>
   </data>
   <data name="Title.TextProperty" xml:space="preserve">
-    <value>New Short-Term Reminder</value>
+    <value>新しい短期リマインダー</value>
   </data>
   <data name="WillRemindAt" xml:space="preserve">
-    <value>Will remind you at {0}</value>
+    <value>{0} に通知します</value>
   </data>
   <data name="OkButton.ContentProperty" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="ReminderTextBox.HeaderProperty" xml:space="preserve">
-    <value>Remind me to:</value>
+    <value>次のように通知します：</value>
   </data>
 </root>
