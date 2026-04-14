@@ -12,4 +12,6 @@
   <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>Переносити текст у перегляді виводу команди замість горизонтальної прокрутки</value></data>
   <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>Вимкнути попередження безпеки</value></data>
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>Пропустити попередження безпеки під час виконання команд, вибраних у веббраузері</value></data>
+  <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
+  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
 </root>
