@@ -12,4 +12,6 @@
   <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>क्षैतिज रूप से स्क्रॉल करने के बजाय कमांड आउटपुट दृश्य में टेक्स्ट लपेटें</value></data>
   <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>सुरक्षा चेतावनी अक्षम करें</value></data>
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>वेब ब्राउज़र से चुने गए कमांड चलाते समय सुरक्षा चेतावनी छोड़ें</value></data>
+  <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
+  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
 </root>

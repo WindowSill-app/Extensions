@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -132,7 +132,7 @@
     <comment>run in the context of running a shell command</comment>
   </data>
   <data name="DisplayName" xml:space="preserve">
-    <value>終端機</value>
+    <value>內嵌終端機</value>
     <comment>Terminal in the context of a command line</comment>
   </data>
   <data name="ReplaceSelection" xml:space="preserve">

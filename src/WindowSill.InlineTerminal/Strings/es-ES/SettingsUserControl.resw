@@ -12,4 +12,6 @@
   <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>Ajustar el texto en la vista de salida del comando en lugar de desplazarse horizontalmente</value></data>
   <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>Desactivar advertencia de seguridad</value></data>
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>Omitir la advertencia de seguridad al ejecutar comandos seleccionados desde un navegador web</value></data>
+  <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
+  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
 </root>

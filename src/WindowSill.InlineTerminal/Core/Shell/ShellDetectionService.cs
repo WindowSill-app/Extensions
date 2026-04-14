@@ -1,5 +1,6 @@
 using System.ComponentModel.Composition;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
@@ -105,10 +106,20 @@ internal sealed class ShellDetectionService
                 async () =>
                 {
                     StorageFile file = await StorageFile.GetFileFromPathAsync(executablePath);
-                    StorageItemThumbnail? thumbnail = await file.GetThumbnailAsync(
-                        ThumbnailMode.SingleItem,
-                        32,
-                        ThumbnailOptions.UseCurrentScale);
+
+                    StorageItemThumbnail? thumbnail;
+                    try
+                    {
+                        thumbnail = await file.GetThumbnailAsync(
+                            ThumbnailMode.SingleItem,
+                            32,
+                            ThumbnailOptions.UseCurrentScale);
+                    }
+                    catch (COMException ex) when (ex.HResult == unchecked((int)0x8000000A))
+                    {
+                        // E_PENDING: Shell thumbnail provider hasn't cached the icon yet.
+                        return null;
+                    }
 
                     if (thumbnail is null)
                     {

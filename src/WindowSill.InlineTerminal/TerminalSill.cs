@@ -63,7 +63,7 @@ internal sealed class TerminalSill
     }
 
     /// <inheritdoc />
-    public string DisplayName => "Terminal";
+    public string DisplayName => "/WindowSill.InlineTerminal/TerminalSill/DisplayName".GetLocalizedString();
 
     /// <inheritdoc />
     public string[] TextSelectionActivatorTypeNames => [CommandSelectionActivator.ActivatorName];
