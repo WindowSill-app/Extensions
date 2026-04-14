@@ -1,43 +1,49 @@
 using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 
 using Windows.Win32;
-using System.Runtime.InteropServices.ComTypes;
 using Windows.Win32.System.SystemInformation;
 
 namespace WindowSill.PerfCounter.Services;
 
+/// <summary>
+/// Aggregates CPU, memory, GPU, and temperature data on a 1-second timer.
+/// </summary>
 [Export(typeof(IPerformanceMonitorService))]
-public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
+internal sealed class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
 {
     private readonly Timer _timer;
-    private readonly GpuMonitorService _gpuMonitor;
-    private readonly TemperatureMonitorService _temperatureMonitor;
+    private readonly IGpuMonitorService _gpuMonitor;
+    private readonly ITemperatureMonitorService _temperatureMonitor;
     private ulong _lastIdleTime;
     private ulong _lastKernelTime;
     private ulong _lastUserTime;
     private readonly object _lockObject = new();
     private int _monitoringCount;
+    private int _callbackRunning;
 
     public event EventHandler<PerformanceDataEventArgs>? PerformanceDataUpdated;
 
     [ImportingConstructor]
-    public PerformanceMonitorService()
+    public PerformanceMonitorService(
+        IGpuMonitorService gpuMonitor,
+        ITemperatureMonitorService temperatureMonitor)
     {
         _timer = new Timer(OnTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
-        _gpuMonitor = new GpuMonitorService();
-        _temperatureMonitor = new TemperatureMonitorService();
+        _gpuMonitor = gpuMonitor;
+        _temperatureMonitor = temperatureMonitor;
         InitializeCpuUsageTracking();
     }
 
+    /// <inheritdoc/>
     public void Dispose()
     {
         StopMonitoring();
         _timer?.Dispose();
-        _gpuMonitor?.Dispose();
-        _temperatureMonitor?.Dispose();
     }
 
+    /// <inheritdoc/>
     public void StartMonitoring()
     {
         lock (_lockObject)
@@ -50,6 +56,7 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
         }
     }
 
+    /// <inheritdoc/>
     public void StopMonitoring()
     {
         lock (_lockObject)
@@ -61,10 +68,11 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
         }
     }
 
+    /// <inheritdoc/>
     public PerformanceData GetCurrentPerformanceData()
     {
         double cpuUsage = GetCpuUsage();
-        double memoryUsage = GetMemoryUsage();
+        (double memoryUsage, long memoryUsedMB, long memoryTotalMB) = GetMemoryInfo();
         double? gpuUsage = _gpuMonitor.GetGpuUsage();
         double? cpuTemperature = _temperatureMonitor.GetCpuTemperature();
         double? gpuTemperature = _temperatureMonitor.GetGpuTemperature();
@@ -74,13 +82,21 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
             memoryUsage,
             gpuUsage,
             cpuTemperature,
-            gpuTemperature
+            gpuTemperature,
+            memoryUsedMB,
+            memoryTotalMB
         );
     }
 
     private void OnTimerCallback(object? state)
     {
         if (_monitoringCount == 0)
+        {
+            return;
+        }
+
+        // Prevent overlapping callbacks (GPU sampling can take >100ms)
+        if (Interlocked.CompareExchange(ref _callbackRunning, 1, 0) != 0)
         {
             return;
         }
@@ -92,8 +108,11 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
         }
         catch (Exception ex)
         {
-            // Log error but continue monitoring
             System.Diagnostics.Debug.WriteLine($"Error getting performance data: {ex.Message}");
+        }
+        finally
+        {
+            Interlocked.Exchange(ref _callbackRunning, 0);
         }
     }
 
@@ -138,7 +157,6 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
                 cpuUsage = (double)totalCpu * 100.0 / totalSys;
             }
 
-            // Update for next calculation
             _lastIdleTime = currentIdleTime;
             _lastKernelTime = currentKernelTime;
             _lastUserTime = currentUserTime;
@@ -147,7 +165,7 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
         }
     }
 
-    private static double GetMemoryUsage()
+    private static (double Usage, long UsedMB, long TotalMB) GetMemoryInfo()
     {
         var memoryStatus = new MEMORYSTATUSEX
         {
@@ -156,12 +174,15 @@ public class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
 
         if (!PInvoke.GlobalMemoryStatusEx(ref memoryStatus))
         {
-            return 0.0;
+            return (0.0, 0, 0);
         }
 
         double memoryUsage = (double)memoryStatus.dwMemoryLoad;
+        long totalMB = (long)(memoryStatus.ullTotalPhys / (1024 * 1024));
+        long availMB = (long)(memoryStatus.ullAvailPhys / (1024 * 1024));
+        long usedMB = totalMB - availMB;
 
-        return memoryUsage;
+        return (memoryUsage, usedMB, totalMB);
     }
 
     private static ulong FileTimeToUInt64(FILETIME fileTime)

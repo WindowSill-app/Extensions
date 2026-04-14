@@ -2,9 +2,8 @@ using AnimatedVisuals;
 
 using CommunityToolkit.Diagnostics;
 
-using Microsoft.UI.Xaml.Media.Imaging;
-
 using WindowSill.API;
+using WindowSill.PerfCounter.Services;
 using WindowSill.PerfCounter.ViewModels;
 
 namespace WindowSill.PerfCounter.Views;
@@ -16,7 +15,9 @@ namespace WindowSill.PerfCounter.Views;
 public sealed partial class PerformanceCounterView : UserControl
 {
     private readonly SillView _sillView;
-    private readonly IPluginInfo _pluginInfo;
+
+    private PerfCounterPopupViewModel _popupViewModel;
+    private SillPopup? _popup;
 
     /// <summary>
     /// Gets the ViewModel for data binding.
@@ -26,40 +27,36 @@ public sealed partial class PerformanceCounterView : UserControl
     /// <summary>
     /// Initializes a new instance of the <see cref="PerformanceCounterView"/> class.
     /// </summary>
-    /// <param name="sillView">The parent SillView for orientation and theme tracking.</param>
-    /// <param name="pluginInfo">Plugin info for resolving asset paths.</param>
-    /// <param name="viewModel">The ViewModel providing performance data.</param>
     public PerformanceCounterView(
         SillView sillView,
-        IPluginInfo pluginInfo,
+        IPerformanceMonitorService performanceMonitorService,
+        IHardwareInfoService hardwareInfoService,
         PerformanceCounterViewModel viewModel)
     {
         _sillView = sillView;
-        _pluginInfo = pluginInfo;
         ViewModel = viewModel;
+
+        // Create popup ViewModel eagerly so it starts accumulating chart data immediately,
+        // not just when the popup is first opened.
+        _popupViewModel = new PerfCounterPopupViewModel(performanceMonitorService, hardwareInfoService);
 
         InitializeComponent();
 
-        LoadIcons();
         UpdateOrientationLayout();
         UpdateThemeAnimation();
 
-        ViewModel.PropertyChanged += OnViewModelPropertyChanged;
         sillView.IsSillOrientationOrSizeChanged += OnIsSillOrientationOrSizeChanged;
         sillView.ActualThemeChanged += OnActualThemeChanged;
     }
 
-    private void LoadIcons()
+    private void MainButton_Click(object sender, RoutedEventArgs e)
     {
-        string assetsDir = _pluginInfo.GetPluginContentDirectory();
-        CpuIcon.Source = new SvgImageSource(new Uri(System.IO.Path.Combine(assetsDir, "Assets", "microchip.svg")));
-        MemoryIcon.Source = new SvgImageSource(new Uri(System.IO.Path.Combine(assetsDir, "Assets", "memory_slot.svg")));
-        GpuIcon.Source = new SvgImageSource(new Uri(System.IO.Path.Combine(assetsDir, "Assets", "video_card.svg")));
-    }
+        _popup ??= new SillPopup
+        {
+            Content = new PerfCounterPopupContent(_popupViewModel)
+        };
 
-    private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        // Orientation layout depends on the animation player which still needs x:Name
+        _popup.ShowAsync(_sillView).ForgetSafely();
     }
 
     private void OnIsSillOrientationOrSizeChanged(object? sender, EventArgs e)
@@ -70,11 +67,13 @@ public sealed partial class PerformanceCounterView : UserControl
     private void UpdateOrientationLayout()
     {
         MainButton.Padding = new Thickness(4);
+        bool showProgressBars = false;
 
         switch (_sillView.SillOrientationAndSize)
         {
             case SillOrientationAndSize.HorizontalLarge:
                 AnimationPlayer.Width = 42;
+                showProgressBars = true;
                 break;
 
             case SillOrientationAndSize.HorizontalMedium:
@@ -87,14 +86,32 @@ public sealed partial class PerformanceCounterView : UserControl
                 break;
 
             case SillOrientationAndSize.VerticalLarge:
-            case SillOrientationAndSize.VerticalMedium:
-            case SillOrientationAndSize.VerticalSmall:
                 AnimationPlayer.Width = 42;
+                showProgressBars = true;
+                break;
+
+            case SillOrientationAndSize.VerticalMedium:
+                AnimationPlayer.Width = 28;
+                break;
+
+            case SillOrientationAndSize.VerticalSmall:
+                AnimationPlayer.Width = 18;
                 break;
 
             default:
                 throw new NotSupportedException($"Unsupported SillOrientationAndSize: {_sillView.SillOrientationAndSize}");
         }
+
+        // In Large mode, show progress bars instead of labels
+        Visibility labelVisibility = Visibility.Collapsed;
+        CpuLabel.Visibility = labelVisibility;
+        MemoryLabel.Visibility = labelVisibility;
+        GpuLabel.Visibility = labelVisibility;
+
+        Visibility progressVisibility = showProgressBars ? Visibility.Visible : Visibility.Collapsed;
+        CpuProgressBar.Visibility = progressVisibility;
+        MemoryProgressBar.Visibility = progressVisibility;
+        GpuProgressBar.Visibility = progressVisibility;
     }
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)

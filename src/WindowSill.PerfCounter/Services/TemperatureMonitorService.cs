@@ -1,6 +1,7 @@
+using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
 
-using Microsoft.Win32;
+using WindowSill.PerfCounter.Services.Interop;
 
 namespace WindowSill.PerfCounter.Services;
 
@@ -9,7 +10,8 @@ namespace WindowSill.PerfCounter.Services;
 /// CPU temperature is read via PDH thermal zone counters.
 /// GPU temperature is read via NVIDIA NVML or AMD ADL, depending on the detected vendor.
 /// </summary>
-internal sealed class TemperatureMonitorService : IDisposable
+[Export(typeof(ITemperatureMonitorService))]
+internal sealed class TemperatureMonitorService : ITemperatureMonitorService
 {
     private readonly Lock _lock = new();
 
@@ -19,7 +21,7 @@ internal sealed class TemperatureMonitorService : IDisposable
     private bool _cpuInitialized;
 
     // GPU temperature via vendor APIs
-    private GpuVendor _gpuVendor = GpuVendor.Unknown;
+    private GpuDetector.GpuVendor _gpuVendor = GpuDetector.GpuVendor.Unknown;
     private bool _gpuInitialized;
 
     // NVML state
@@ -31,9 +33,7 @@ internal sealed class TemperatureMonitorService : IDisposable
     private nint _adlContext;
     private int _adlAdapterIndex;
 
-    /// <summary>
-    /// Gets the current CPU temperature in Celsius, or null if unavailable.
-    /// </summary>
+    /// <inheritdoc/>
     public double? GetCpuTemperature()
     {
         lock (_lock)
@@ -47,9 +47,7 @@ internal sealed class TemperatureMonitorService : IDisposable
         }
     }
 
-    /// <summary>
-    /// Gets the current GPU temperature in Celsius, or null if unavailable.
-    /// </summary>
+    /// <inheritdoc/>
     public double? GetGpuTemperature()
     {
         lock (_lock)
@@ -61,14 +59,14 @@ internal sealed class TemperatureMonitorService : IDisposable
 
             return _gpuVendor switch
             {
-                GpuVendor.Nvidia => GetNvidiaGpuTemperature(),
-                GpuVendor.Amd => GetAmdGpuTemperature(),
+                GpuDetector.GpuVendor.Nvidia => GetNvidiaGpuTemperature(),
+                GpuDetector.GpuVendor.Amd => GetAmdGpuTemperature(),
                 _ => null
             };
         }
     }
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public void Dispose()
     {
         lock (_lock)
@@ -86,20 +84,20 @@ internal sealed class TemperatureMonitorService : IDisposable
         {
             if (_cpuThermalQuery != nint.Zero)
             {
-                PdhCloseQuery(_cpuThermalQuery);
+                PdhInterop.PdhCloseQuery(_cpuThermalQuery);
                 _cpuThermalQuery = nint.Zero;
             }
 
             _cpuThermalCounters.Clear();
 
-            uint status = PdhOpenQuery(nint.Zero, nint.Zero, out _cpuThermalQuery);
+            uint status = PdhInterop.PdhOpenQuery(nint.Zero, nint.Zero, out _cpuThermalQuery);
             if (status != 0)
             {
                 return false;
             }
 
             // Try wildcard counter for all thermal zones
-            status = PdhAddCounter(
+            status = PdhInterop.PdhAddCounter(
                 _cpuThermalQuery,
                 @"\Thermal Zone Information(*)\Temperature",
                 nint.Zero,
@@ -113,11 +111,11 @@ internal sealed class TemperatureMonitorService : IDisposable
             }
 
             // Fallback: enumerate thermal zone instances
-            List<string> instances = EnumerateThermalZoneInstances();
+            List<string> instances = PdhInterop.EnumerateObjectInstances("Thermal Zone Information");
             foreach (string instance in instances)
             {
                 string counterPath = $@"\Thermal Zone Information({instance})\Temperature";
-                uint addStatus = PdhAddCounter(_cpuThermalQuery, counterPath, nint.Zero, out nint instanceCounter);
+                uint addStatus = PdhInterop.PdhAddCounter(_cpuThermalQuery, counterPath, nint.Zero, out nint instanceCounter);
                 if (addStatus == 0)
                 {
                     _cpuThermalCounters.Add(instanceCounter);
@@ -142,80 +140,24 @@ internal sealed class TemperatureMonitorService : IDisposable
 
         try
         {
-            PdhCollectQueryData(_cpuThermalQuery);
+            PdhInterop.PdhCollectQueryData(_cpuThermalQuery);
 
             double maxTemperature = double.MinValue;
             bool anyValid = false;
 
             foreach (nint counter in _cpuThermalCounters)
             {
-                // Try counter array first (wildcard counters)
-                uint bufferSize = 0u;
-                uint itemCount = 0u;
-
-                uint status = PdhGetFormattedCounterArray(
-                    counter,
-                    PDH_FMT_DOUBLE,
-                    ref bufferSize,
-                    ref itemCount,
-                    nint.Zero);
-
-                if (status == PDH_MORE_DATA && itemCount > 0)
+                (double total, int count) = PdhInterop.CollectFormattedCounterArray(counter);
+                if (count > 0)
                 {
-                    nint buffer = Marshal.AllocHGlobal((int)bufferSize);
-                    try
+                    // PDH thermal zone values are in Kelvin; convert the max reading.
+                    // CollectFormattedCounterArray returns the sum; for temperature we want individual values.
+                    // Re-read individual values for temperature to get the max.
+                    double celsius = GetMaxTemperatureFromCounter(counter);
+                    if (celsius > maxTemperature)
                     {
-                        status = PdhGetFormattedCounterArray(
-                            counter,
-                            PDH_FMT_DOUBLE,
-                            ref bufferSize,
-                            ref itemCount,
-                            buffer);
-
-                        if (status == 0)
-                        {
-                            nint current = buffer;
-                            for (int i = 0; i < itemCount; i++)
-                            {
-                                var item = Marshal.PtrToStructure<PdhFmtCounterValueItemDouble>(current);
-                                if (item.FmtValue.CStatus == PDH_CSTATUS_VALID_DATA)
-                                {
-                                    // PDH thermal zone values are in Kelvin
-                                    double celsius = item.FmtValue.doubleValue - 273.15;
-                                    if (celsius > maxTemperature)
-                                    {
-                                        maxTemperature = celsius;
-                                        anyValid = true;
-                                    }
-                                }
-
-                                current = IntPtr.Add(current, Marshal.SizeOf<PdhFmtCounterValueItemDouble>());
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        Marshal.FreeHGlobal(buffer);
-                    }
-                }
-                else
-                {
-                    // Try single counter value
-                    var counterValue = new PdhFmtCounterValue();
-                    uint singleStatus = PdhGetFormattedCounterValue(
-                        counter,
-                        PDH_FMT_DOUBLE,
-                        nint.Zero,
-                        ref counterValue);
-
-                    if (singleStatus == 0 && counterValue.CStatus == PDH_CSTATUS_VALID_DATA)
-                    {
-                        double celsius = counterValue.doubleValue - 273.15;
-                        if (celsius > maxTemperature)
-                        {
-                            maxTemperature = celsius;
-                            anyValid = true;
-                        }
+                        maxTemperature = celsius;
+                        anyValid = true;
                     }
                 }
             }
@@ -236,58 +178,46 @@ internal sealed class TemperatureMonitorService : IDisposable
         }
     }
 
-    private static List<string> EnumerateThermalZoneInstances()
+    /// <summary>
+    /// Reads all values from a temperature counter and returns the max Celsius value.
+    /// Temperature counters report in Kelvin, so we subtract 273.15.
+    /// </summary>
+    private static double GetMaxTemperatureFromCounter(nint counter)
     {
-        var instances = new List<string>();
+        double maxCelsius = double.MinValue;
 
-        try
+        uint bufferSize = 0u;
+        uint itemCount = 0u;
+
+        uint status = PdhInterop.PdhGetFormattedCounterArray(
+            counter, PdhInterop.PDH_FMT_DOUBLE,
+            ref bufferSize, ref itemCount, nint.Zero);
+
+        if (status == PdhInterop.PDH_MORE_DATA && itemCount > 0)
         {
-            uint counterListSize = 0u;
-            uint instanceListSize = 0u;
-
-            uint status = PdhEnumObjectItems(
-                null,
-                null,
-                "Thermal Zone Information",
-                nint.Zero,
-                ref counterListSize,
-                nint.Zero,
-                ref instanceListSize,
-                PERF_DETAIL_WIZARD,
-                0);
-
-            if (status != PDH_MORE_DATA || instanceListSize == 0)
-            {
-                return instances;
-            }
-
-            nint buffer = Marshal.AllocHGlobal((int)instanceListSize * 2);
+            nint buffer = Marshal.AllocHGlobal((int)bufferSize);
             try
             {
-                status = PdhEnumObjectItems(
-                    null,
-                    null,
-                    "Thermal Zone Information",
-                    nint.Zero,
-                    ref counterListSize,
-                    buffer,
-                    ref instanceListSize,
-                    PERF_DETAIL_WIZARD,
-                    0);
+                status = PdhInterop.PdhGetFormattedCounterArray(
+                    counter, PdhInterop.PDH_FMT_DOUBLE,
+                    ref bufferSize, ref itemCount, buffer);
 
                 if (status == 0)
                 {
                     nint current = buffer;
-                    while (true)
+                    for (int i = 0; i < itemCount; i++)
                     {
-                        string? instanceName = Marshal.PtrToStringUni(current);
-                        if (string.IsNullOrEmpty(instanceName))
+                        var item = Marshal.PtrToStructure<PdhInterop.PdhFmtCounterValueItemDouble>(current);
+                        if (item.FmtValue.CStatus == PdhInterop.PDH_CSTATUS_VALID_DATA)
                         {
-                            break;
+                            double celsius = item.FmtValue.DoubleValue - 273.15;
+                            if (celsius > maxCelsius)
+                            {
+                                maxCelsius = celsius;
+                            }
                         }
 
-                        instances.Add(instanceName);
-                        current = IntPtr.Add(current, (instanceName.Length + 1) * 2);
+                        current = IntPtr.Add(current, Marshal.SizeOf<PdhInterop.PdhFmtCounterValueItemDouble>());
                     }
                 }
             }
@@ -296,19 +226,31 @@ internal sealed class TemperatureMonitorService : IDisposable
                 Marshal.FreeHGlobal(buffer);
             }
         }
-        catch
+        else
         {
-            // Enumeration failed — return empty
+            // Try single counter value
+            var counterValue = new PdhInterop.PdhFmtCounterValue();
+            uint singleStatus = PdhInterop.PdhGetFormattedCounterValue(
+                counter, PdhInterop.PDH_FMT_DOUBLE, nint.Zero, ref counterValue);
+
+            if (singleStatus == 0 && counterValue.CStatus == PdhInterop.PDH_CSTATUS_VALID_DATA)
+            {
+                double celsius = counterValue.DoubleValue - 273.15;
+                if (celsius > maxCelsius)
+                {
+                    maxCelsius = celsius;
+                }
+            }
         }
 
-        return instances;
+        return maxCelsius;
     }
 
     private void DisposeCpuResources()
     {
         if (_cpuThermalQuery != nint.Zero)
         {
-            PdhCloseQuery(_cpuThermalQuery);
+            PdhInterop.PdhCloseQuery(_cpuThermalQuery);
             _cpuThermalQuery = nint.Zero;
         }
 
@@ -324,87 +266,26 @@ internal sealed class TemperatureMonitorService : IDisposable
     {
         _gpuInitialized = true;
 
-        // Detect GPU vendor from registry (same approach as GpuMonitorService)
-        GpuVendor vendor = DetectGpuVendor();
+        GpuDetector.GpuVendor vendor = GpuDetector.DetectDedicatedGpuVendor();
 
         switch (vendor)
         {
-            case GpuVendor.Nvidia:
+            case GpuDetector.GpuVendor.Nvidia:
                 if (InitializeNvml())
                 {
-                    _gpuVendor = GpuVendor.Nvidia;
+                    _gpuVendor = GpuDetector.GpuVendor.Nvidia;
                 }
+
                 break;
 
-            case GpuVendor.Amd:
+            case GpuDetector.GpuVendor.Amd:
                 if (InitializeAdl())
                 {
-                    _gpuVendor = GpuVendor.Amd;
+                    _gpuVendor = GpuDetector.GpuVendor.Amd;
                 }
+
                 break;
         }
-    }
-
-    private static GpuVendor DetectGpuVendor()
-    {
-        try
-        {
-            using RegistryKey? displayAdaptersKey = Registry.LocalMachine.OpenSubKey(
-                @"SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}");
-
-            if (displayAdaptersKey == null)
-            {
-                return GpuVendor.Unknown;
-            }
-
-            foreach (string subKeyName in displayAdaptersKey.GetSubKeyNames())
-            {
-                if (!subKeyName.All(char.IsDigit))
-                {
-                    continue;
-                }
-
-                try
-                {
-                    using RegistryKey? adapterKey = displayAdaptersKey.OpenSubKey(subKeyName);
-                    if (adapterKey == null)
-                    {
-                        continue;
-                    }
-
-                    string description = adapterKey.GetValue("DriverDesc") as string ?? "";
-                    string hardwareId = adapterKey.GetValue("MatchingDeviceId") as string ?? "";
-                    string adapterInfo = $"{description} {hardwareId}".ToUpperInvariant();
-
-                    if (adapterInfo.Contains("VEN_10DE") ||
-                        adapterInfo.Contains("NVIDIA") ||
-                        adapterInfo.Contains("GEFORCE") ||
-                        adapterInfo.Contains("RTX") ||
-                        adapterInfo.Contains("GTX"))
-                    {
-                        return GpuVendor.Nvidia;
-                    }
-
-                    if (adapterInfo.Contains("VEN_1002") ||
-                        adapterInfo.Contains("RADEON RX") ||
-                        adapterInfo.Contains("RADEON R9") ||
-                        adapterInfo.Contains("RADEON R7"))
-                    {
-                        return GpuVendor.Amd;
-                    }
-                }
-                catch
-                {
-                    // Skip this adapter
-                }
-            }
-        }
-        catch
-        {
-            // Registry access failed
-        }
-
-        return GpuVendor.Unknown;
     }
 
     private void DisposeGpuResources()
@@ -416,6 +297,7 @@ internal sealed class TemperatureMonitorService : IDisposable
                 NvmlShutdown();
             }
             catch { /* best effort */ }
+
             _nvmlLoaded = false;
         }
 
@@ -426,12 +308,13 @@ internal sealed class TemperatureMonitorService : IDisposable
                 ADL2_Main_Control_Destroy(_adlContext);
             }
             catch { /* best effort */ }
+
             _adlContext = nint.Zero;
             _adlLoaded = false;
         }
 
         _gpuInitialized = false;
-        _gpuVendor = GpuVendor.Unknown;
+        _gpuVendor = GpuDetector.GpuVendor.Unknown;
     }
 
     #endregion
@@ -450,7 +333,6 @@ internal sealed class TemperatureMonitorService : IDisposable
 
             _nvmlLoaded = true;
 
-            // Get handle to the first GPU device
             result = NvmlDeviceGetHandleByIndex(0, out _nvmlDeviceHandle);
             return result == NVML_SUCCESS;
         }
@@ -507,14 +389,12 @@ internal sealed class TemperatureMonitorService : IDisposable
 
             _adlLoaded = true;
 
-            // Get the first active adapter index
             result = ADL2_Adapter_NumberOfAdapters_Get(_adlContext, out int numberOfAdapters);
             if (result != ADL_OK || numberOfAdapters == 0)
             {
                 return false;
             }
 
-            // Find the first active adapter
             for (int i = 0; i < numberOfAdapters; i++)
             {
                 result = ADL2_Adapter_Active_Get(_adlContext, i, out int adapterActive);
@@ -576,70 +456,6 @@ internal sealed class TemperatureMonitorService : IDisposable
     {
         return Marshal.AllocHGlobal(size);
     }
-
-    #endregion
-
-    #region Enums
-
-    private enum GpuVendor
-    {
-        Unknown,
-        Nvidia,
-        Amd
-    }
-
-    #endregion
-
-    #region PDH P/Invoke
-
-    private const uint PDH_FMT_DOUBLE = 512U;
-    private const uint PDH_MORE_DATA = 0x800007D2;
-    private const uint PDH_CSTATUS_VALID_DATA = 0;
-    private const uint PERF_DETAIL_WIZARD = 400U;
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct PdhFmtCounterValue
-    {
-        public uint CStatus;
-        public double doubleValue;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct PdhFmtCounterValueItemDouble
-    {
-        public nint szName;
-        public PdhFmtCounterValue FmtValue;
-    }
-
-    [DllImport("pdh.dll", CharSet = CharSet.Unicode)]
-    private static extern uint PdhOpenQuery(nint szDataSource, nint dwUserData, out nint phQuery);
-
-    [DllImport("pdh.dll", CharSet = CharSet.Unicode)]
-    private static extern uint PdhAddCounter(nint hQuery, string szFullCounterPath, nint dwUserData, out nint phCounter);
-
-    [DllImport("pdh.dll")]
-    private static extern uint PdhCollectQueryData(nint hQuery);
-
-    [DllImport("pdh.dll")]
-    private static extern uint PdhCloseQuery(nint hQuery);
-
-    [DllImport("pdh.dll")]
-    private static extern uint PdhGetFormattedCounterValue(nint hCounter, uint dwFormat, nint lpdwType, ref PdhFmtCounterValue pValue);
-
-    [DllImport("pdh.dll")]
-    private static extern uint PdhGetFormattedCounterArray(nint hCounter, uint dwFormat, ref uint lpdwBufferSize, ref uint lpdwItemCount, nint ItemBuffer);
-
-    [DllImport("pdh.dll", CharSet = CharSet.Unicode)]
-    private static extern uint PdhEnumObjectItems(
-        string? szDataSource,
-        string? szMachineName,
-        string szObjectName,
-        nint mszCounterList,
-        ref uint pcchCounterListLength,
-        nint mszInstanceList,
-        ref uint pcchInstanceListLength,
-        uint dwDetailLevel,
-        uint dwFlags);
 
     #endregion
 
