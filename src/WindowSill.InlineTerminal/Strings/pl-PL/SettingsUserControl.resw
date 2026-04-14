@@ -12,4 +12,6 @@
   <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>Zawijaj tekst w widoku wyjścia polecenia zamiast przewijać poziomo</value></data>
   <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>Wyłącz ostrzeżenie bezpieczeństwa</value></data>
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>Pomiń ostrzeżenie bezpieczeństwa podczas uruchamiania poleceń wybranych z przeglądarki internetowej</value></data>
+  <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
+  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
 </root>
