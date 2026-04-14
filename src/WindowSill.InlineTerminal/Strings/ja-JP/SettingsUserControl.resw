@@ -12,4 +12,6 @@
   <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>水平スクロールの代わりにコマンド出力ビューでテキストを折り返す</value></data>
   <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>セキュリティ警告を無効にする</value></data>
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>Webブラウザーから選択したコマンドを実行する際のセキュリティ警告をスキップする</value></data>
+  <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
+  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
 </root>
