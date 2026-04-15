@@ -183,4 +183,16 @@
   <data name="Title" xml:space="preserve">
     <value>वीडियो संपीड़ित करें</value>
   </data>
+  <data name="RateControlMode.HeaderProperty" xml:space="preserve">
+    <value>दर नियंत्रण</value>
+  </data>
+  <data name="VideoBitrate.HeaderProperty" xml:space="preserve">
+    <value>वीडियो बिटरेट (kbps)</value>
+  </data>
+  <data name="RateControlCrf.ContentProperty" xml:space="preserve">
+    <value>CRF (गुणवत्ता)</value>
+  </data>
+  <data name="RateControlBitrate.ContentProperty" xml:space="preserve">
+    <value>स्थिर बिटरेट</value>
+  </data>
 </root>

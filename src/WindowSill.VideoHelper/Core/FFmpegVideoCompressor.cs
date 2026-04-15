@@ -33,7 +33,7 @@ internal sealed class FFmpegVideoCompressor : IVideoCompressor
         // Detect GPU encoders and pick the best one for the requested codec
         HashSet<string> gpuEncoders = await _gpuDetector.DetectAsync(cancellationToken);
         string encoder = GpuEncoderDetector.GetGpuEncoder(options.VideoCodec, gpuEncoders);
-        string qualityArgs = GpuEncoderDetector.BuildQualityArgs(encoder, options.Crf, options.Preset);
+        string qualityArgs = GpuEncoderDetector.BuildQualityArgs(encoder, options.Crf, options.Preset, options.VideoBitrateKbps);
 
         string audioArgs = options.AudioBitrateKbps.HasValue
             ? $"-b:a {options.AudioBitrateKbps.Value}k"
@@ -54,7 +54,7 @@ internal sealed class FFmpegVideoCompressor : IVideoCompressor
         if (!success && GpuEncoderDetector.IsGpuEncoder(encoder))
         {
             TryDeleteFile(outputPath);
-            string swQualityArgs = GpuEncoderDetector.BuildQualityArgs(options.VideoCodec, options.Crf, options.Preset);
+            string swQualityArgs = GpuEncoderDetector.BuildQualityArgs(options.VideoCodec, options.Crf, options.Preset, options.VideoBitrateKbps);
             string swArguments = string.Create(
                 CultureInfo.InvariantCulture,
                 $"-i \"{sourcePath}\" -c:v {options.VideoCodec} {swQualityArgs} {audioArgs} {videoFilterArgs} {frameRateArgs} \"{outputPath}\"");
