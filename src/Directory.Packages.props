@@ -11,7 +11,6 @@
     <PackageVersion Include="FuzzySharp" Version="2.0.2" />
     <PackageVersion Include="HarfBuzzSharp" Version="8.3.1.1" />
     <PackageVersion Include="HarfBuzzSharp.NativeAssets.Win32" Version="8.3.1.1" />
-    <PackageVersion Include="Azure.Identity" Version="1.13.2" />
     <PackageVersion Include="LiveChartsCore" Version="2.0.0" />
     <PackageVersion Include="LiveChartsCore.SkiaSharpView" Version="2.0.0" />
     <PackageVersion Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0" />
@@ -22,16 +21,6 @@
     <PackageVersion Include="SkiaSharp.Views.WinUI" Version="3.119.0" />
     <PackageVersion Include="Magick.NET.Core" Version="14.10.2" />
     <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.10.2" />
-    <PackageVersion Include="Microsoft.Graph" Version="5.74.0" />
-    <PackageVersion Include="Microsoft.Identity.Client" Version="4.68.0" />
-    <PackageVersion Include="Microsoft.Identity.Client.Broker" Version="4.68.0" />
-    <PackageVersion Include="Microsoft.Kiota.Abstractions" Version="1.16.4" />
-    <PackageVersion Include="Microsoft.Kiota.Authentication.Azure" Version="1.16.4" />
-    <PackageVersion Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.16.4" />
-    <PackageVersion Include="Microsoft.Kiota.Serialization.Form" Version="1.16.4" />
-    <PackageVersion Include="Microsoft.Kiota.Serialization.Json" Version="1.16.4" />
-    <PackageVersion Include="Microsoft.Kiota.Serialization.Multipart" Version="1.16.4" />
-    <PackageVersion Include="Microsoft.Kiota.Serialization.Text" Version="1.16.4" />
     <PackageVersion Include="Microsoft.ML.OnnxRuntime" Version="1.24.2" />
     <PackageVersion Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.24.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
