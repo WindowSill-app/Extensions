@@ -1,0 +1,17 @@
+GetClassName
+GetAncestor
+GetParent
+GetWindow
+GetForegroundWindow
+GetWindowThreadProcessId
+GetCurrentProcessId
+SHChangeNotify
+EnumChildWindows
+SHGetPathFromIDList
+IsWindowVisible
+FindWindowEx
+SetWinEventHook
+UnhookWinEvent
+IShellWindows
+IWebBrowser2
+CoCreateInstance
