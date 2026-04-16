@@ -110,10 +110,11 @@ internal sealed class ShellDetectionService
                     StorageItemThumbnail? thumbnail;
                     try
                     {
-                        thumbnail = await file.GetThumbnailAsync(
-                            ThumbnailMode.SingleItem,
-                            32,
-                            ThumbnailOptions.UseCurrentScale);
+                        thumbnail
+                            = await file.GetThumbnailAsync(
+                                ThumbnailMode.SingleItem,
+                                32,
+                                ThumbnailOptions.UseCurrentScale);
                     }
                     catch (COMException ex) when (ex.HResult == unchecked((int)0x8000000A))
                     {

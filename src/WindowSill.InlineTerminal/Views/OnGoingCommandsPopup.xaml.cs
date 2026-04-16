@@ -56,6 +56,17 @@ public sealed partial class OnGoingCommandsPopup : SillPopupContent
         Close();
     }
 
+    private void Item_RightTapped(object sender, RightTappedRoutedEventArgs e)
+    {
+        if (((FrameworkElement)sender).DataContext is ActiveRunItem item)
+        {
+            var viewModel = new CommandViewModel(_commandService, item.Command, _availableShells, _settingsProvider);
+            var menuFlyout = new MenuFlyout();
+            MenuFlyoutBuilder.PopulateMenu(menuFlyout, item.Command, viewModel, hasSelectedText: false, _commandService);
+            menuFlyout.ShowAt((FrameworkElement)sender, e.GetPosition((UIElement)sender));
+        }
+    }
+
     private void OpenCommandPopup(ActiveRunItem item)
     {
         var viewModel = new CommandViewModel(_commandService, item.Command, _availableShells, _settingsProvider);
