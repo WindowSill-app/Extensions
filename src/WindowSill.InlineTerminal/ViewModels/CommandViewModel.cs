@@ -133,11 +133,6 @@ internal sealed partial class CommandViewModel : ObservableObject, IDisposable
     internal event EventHandler? RequestClose;
 
     /// <summary>
-    /// Raised when this view model is disposed, allowing external subscribers to clean up.
-    /// </summary>
-    internal event EventHandler? Disposed;
-
-    /// <summary>
     /// Gets whether output text should wrap.
     /// </summary>
     internal bool WordWrapOutput => _settingsProvider.GetSetting(Settings.Settings.WordWrapOutput);
@@ -169,7 +164,6 @@ internal sealed partial class CommandViewModel : ObservableObject, IDisposable
     public void Dispose()
     {
         DisposeRunSubscriptions();
-        Disposed?.Invoke(this, EventArgs.Empty);
     }
 
     [RelayCommand(AllowConcurrentExecutions = false)]

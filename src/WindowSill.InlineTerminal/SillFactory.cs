@@ -112,7 +112,7 @@ internal sealed class SillFactory
 
             var sillView
                 = new SillListViewPopupItem(
-                    Path.GetFileName(scriptFilePath),
+                    new CommandSillContent(viewModel),
                     scriptFilePath,
                     popup)
                 {
@@ -166,24 +166,12 @@ internal sealed class SillFactory
 
                 var sillView
                     = new SillListViewPopupItem(
-                        command.Title,
-                        block.Command,
+                        new CommandSillContent(viewModel),
+                        new CommandSillPreview(viewModel),
                         popup)
                     {
                         ContextFlyout = menuFlyout
                     };
-
-                void OnViewModelPropertyChanged(object? s, System.ComponentModel.PropertyChangedEventArgs e)
-                {
-                    if (e.PropertyName == nameof(CommandViewModel.Title))
-                    {
-                        sillView.Content = viewModel.Title;
-                        sillView.PreviewFlyoutContent = viewModel.Script;
-                    }
-                }
-
-                viewModel.PropertyChanged += OnViewModelPropertyChanged;
-                viewModel.Disposed += (_, _) => viewModel.PropertyChanged -= OnViewModelPropertyChanged;
 
                 results.Add(sillView);
             }
