@@ -95,7 +95,15 @@ internal static class TerminalCommandParser
             WindowsHostCommandLineEntry? promptEntry = TryParsePromptLine(line, textSpan, shellDelimSpan, cmdDelimSpan);
             if (promptEntry is not null)
             {
-                // Flush the previous block.
+                // If the working directory matches the current block, merge into the same block.
+                if (currentBlock is not null
+                    && WorkingDirectoriesMatch(currentBlock.WorkingDirectory, promptEntry.WorkingDirectory))
+                {
+                    currentCommandBuilder!.Append('\n').Append(promptEntry.TerminalCommand);
+                    continue;
+                }
+
+                // Different working directory (or first block) – flush and start a new block.
                 FlushBlock(results, ref currentBlock, ref currentCommandBuilder);
 
                 currentBlock = promptEntry;
@@ -143,7 +151,27 @@ internal static class TerminalCommandParser
     }
 
     /// <summary>
-    /// Attempts to parse a line that starts with a shell prompt (e.g. <c>PS C:\path&gt; command</c>).
+    /// Returns <see langword="true"/> if the two working directories are considered the same
+    /// (both null, or equal using ordinal case-insensitive comparison).
+    /// </summary>
+    private static bool WorkingDirectoriesMatch(ReadOnlyMemory<char>? a, ReadOnlyMemory<char>? b)
+    {
+        if (a is null && b is null)
+        {
+            return true;
+        }
+
+        if (a is null || b is null)
+        {
+            return false;
+        }
+
+        return a.Value.Span.Equals(b.Value.Span, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>
+    /// Attempts to parse a line that starts with a shell prompt. Supports PS-style prompts
+    /// (e.g. <c>PS C:\path&gt; command</c>) and bare path prompts (e.g. <c>C:\path&gt; command</c>).
     /// Returns <see langword="null"/> if the line is not a prompt line.
     /// </summary>
     private static WindowsHostCommandLineEntry? TryParsePromptLine(
@@ -152,35 +180,105 @@ internal static class TerminalCommandParser
         ReadOnlySpan<char> shellDelimiter,
         ReadOnlySpan<char> commandDelimiter)
     {
-        // A prompt line must contain the command delimiter (e.g. '>') to declare a working directory,
-        // OR start with the shell delimiter (e.g. 'PS') to be a PS-without-cwd prompt.
         bool startsWithShell = line.StartsWith(shellDelimiter);
         bool hasCommandDelimiter = line.IndexOf(commandDelimiter) >= 0;
 
-        if (!startsWithShell)
+        if (startsWithShell)
+        {
+            if (!hasCommandDelimiter)
+            {
+                // PS without working directory: "PS dotnet build"
+                ReadOnlySpan<char> commandTextWithoutDelimiters = GetTextAfterLastOccurrence(line, shellDelimiter);
+                if (commandTextWithoutDelimiters.IsEmpty)
+                {
+                    return null;
+                }
+
+                return new(null, commandTextWithoutDelimiters.ToString().AsMemory());
+            }
+
+            // PS with working directory: "PS C:\code> dotnet build"
+            ReadOnlySpan<char> startsAtWorkingPath = line[shellDelimiter.Length..].Trim();
+            int cmdDelimIdx = startsAtWorkingPath.IndexOf(commandDelimiter);
+            ReadOnlySpan<char> workingDir = startsAtWorkingPath[..cmdDelimIdx].Trim();
+            ReadOnlySpan<char> command = startsAtWorkingPath[(cmdDelimIdx + commandDelimiter.Length)..].Trim();
+
+            return new(workingDir.ToString().AsMemory(), command.ToString().AsMemory());
+        }
+
+        // Bare path prompt: "C:\path> command" or "/home/user> command"
+        // Must contain '>' with a path-like prefix.
+        if (hasCommandDelimiter)
+        {
+            return TryParseBarePathPromptLine(line, cmdDelimSpan: commandDelimiter);
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Attempts to parse a bare path prompt line (e.g. <c>C:\path&gt; command</c>) where the text
+    /// before <c>&gt;</c> looks like a file system path.
+    /// </summary>
+    private static WindowsHostCommandLineEntry? TryParseBarePathPromptLine(
+        ReadOnlySpan<char> line,
+        ReadOnlySpan<char> cmdDelimSpan)
+    {
+        int delimIdx = line.IndexOf(cmdDelimSpan);
+        if (delimIdx < 2)
         {
             return null;
         }
 
-        if (!hasCommandDelimiter)
-        {
-            // PS without working directory: "PS dotnet build"
-            ReadOnlySpan<char> commandTextWithoutDelimiters = GetTextAfterLastOccurrence(line, shellDelimiter);
-            if (commandTextWithoutDelimiters.IsEmpty)
-            {
-                return null;
-            }
+        ReadOnlySpan<char> pathCandidate = line[..delimIdx].Trim();
 
-            return new(null, commandTextWithoutDelimiters.ToString().AsMemory());
+        if (!LooksLikeFileSystemPath(pathCandidate))
+        {
+            return null;
         }
 
-        // PS with working directory: "PS C:\code> dotnet build"
-        ReadOnlySpan<char> startsAtWorkingPath = line[shellDelimiter.Length..].Trim();
-        int cmdDelimIdx = startsAtWorkingPath.IndexOf(commandDelimiter);
-        ReadOnlySpan<char> workingDir = startsAtWorkingPath[..cmdDelimIdx].Trim();
-        ReadOnlySpan<char> command = startsAtWorkingPath[(cmdDelimIdx + commandDelimiter.Length)..].Trim();
+        ReadOnlySpan<char> command = line[(delimIdx + cmdDelimSpan.Length)..].Trim();
+        if (command.IsEmpty)
+        {
+            return null;
+        }
 
-        return new(workingDir.ToString().AsMemory(), command.ToString().AsMemory());
+        return new(pathCandidate.ToString().AsMemory(), command.ToString().AsMemory());
+    }
+
+    /// <summary>
+    /// Returns <see langword="true"/> if the span looks like a Windows or Unix file system path.
+    /// </summary>
+    private static bool LooksLikeFileSystemPath(ReadOnlySpan<char> span)
+    {
+        // Windows: "C:\..." or "C:/..."
+        if (span.Length >= 3
+            && char.IsLetter(span[0])
+            && span[1] == ':'
+            && (span[2] == '\\' || span[2] == '/'))
+        {
+            return true;
+        }
+
+        // UNC path: "\\server\share"
+        if (span.Length >= 2 && span[0] == '\\' && span[1] == '\\')
+        {
+            return true;
+        }
+
+        // Unix absolute path: "/home/..."
+        if (span.Length >= 1 && span[0] == '/')
+        {
+            return true;
+        }
+
+        // Tilde home path: "~/..."
+        if (span.Length >= 2 && span[0] == '~' && (span[1] == '/' || span[1] == '\\'))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>

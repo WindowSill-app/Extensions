@@ -49,6 +49,52 @@ public class TerminalCommandParserTests
         blocks[0].Command.Should().Contain("--configuration Release");
     }
 
+    [Fact]
+    internal void GetCommandBlocks_MultiplePsPromptsSameWorkingDir_MergesIntoOneBlock()
+    {
+        string text = "PS C:\\src> dotnet build\nPS C:\\src> dotnet test";
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(text);
+        blocks.Should().HaveCount(1);
+        blocks[0].WorkingDirectory.Should().Be("C:\\src");
+        blocks[0].Command.Should().Be("dotnet build\ndotnet test");
+    }
+
+    #endregion
+
+    #region Bare path prompt parsing
+
+    [Fact]
+    internal void GetCommandBlocks_BarePathPrompt_ParsesWorkingDirAndCommand()
+    {
+        string text = "E:\\source\\WindowSill-app> Start-Sleep 5";
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(text);
+        blocks.Should().HaveCount(1);
+        blocks[0].WorkingDirectory.Should().Be("E:\\source\\WindowSill-app");
+        blocks[0].Command.Should().Be("Start-Sleep 5");
+    }
+
+    [Fact]
+    internal void GetCommandBlocks_BarePathPromptSameDir_MergesIntoOneBlock()
+    {
+        string text = "E:\\source\\WindowSill-app> Start-Sleep 5\nE:\\source\\WindowSill-app> ls Extensions";
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(text);
+        blocks.Should().HaveCount(1);
+        blocks[0].WorkingDirectory.Should().Be("E:\\source\\WindowSill-app");
+        blocks[0].Command.Should().Be("Start-Sleep 5\nls Extensions");
+    }
+
+    [Fact]
+    internal void GetCommandBlocks_BarePathPromptDifferentDirs_SplitsIntoTwoBlocks()
+    {
+        string text = "E:\\source\\WindowSill-app> Start-Sleep 5\nE:\\source\\other> ls Extensions";
+        List<ParsedCommandBlock> blocks = TerminalCommandParser.GetCommandBlocks(text);
+        blocks.Should().HaveCount(2);
+        blocks[0].WorkingDirectory.Should().Be("E:\\source\\WindowSill-app");
+        blocks[0].Command.Should().Be("Start-Sleep 5");
+        blocks[1].WorkingDirectory.Should().Be("E:\\source\\other");
+        blocks[1].Command.Should().Be("ls Extensions");
+    }
+
     #endregion
 
     #region Bash prompt parsing
