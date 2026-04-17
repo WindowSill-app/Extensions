@@ -53,9 +53,9 @@ internal sealed partial class CommandViewModel : ObservableObject, IDisposable
     internal CommandDefinition Command => _command;
 
     /// <summary>
-    /// Gets the display title.
+    /// Gets the display title, derived from the current (possibly edited) script or file path.
     /// </summary>
-    internal string Title => _command.Title;
+    internal string Title => CommandDefinition.GenerateTitle(Script, ScriptFilePath);
 
     /// <summary>
     /// Gets whether this command has been executed at least once.
@@ -102,6 +102,7 @@ internal sealed partial class CommandViewModel : ObservableObject, IDisposable
     /// Gets or sets the editable command text.
     /// </summary>
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(Title))]
     internal partial string? Script { get; set; }
 
     /// <summary>
@@ -130,6 +131,11 @@ internal sealed partial class CommandViewModel : ObservableObject, IDisposable
     /// Raised when the popup should close (e.g., after dismiss).
     /// </summary>
     internal event EventHandler? RequestClose;
+
+    /// <summary>
+    /// Raised when this view model is disposed, allowing external subscribers to clean up.
+    /// </summary>
+    internal event EventHandler? Disposed;
 
     /// <summary>
     /// Gets whether output text should wrap.
@@ -163,6 +169,7 @@ internal sealed partial class CommandViewModel : ObservableObject, IDisposable
     public void Dispose()
     {
         DisposeRunSubscriptions();
+        Disposed?.Invoke(this, EventArgs.Empty);
     }
 
     [RelayCommand(AllowConcurrentExecutions = false)]
@@ -317,6 +324,14 @@ internal sealed partial class CommandViewModel : ObservableObject, IDisposable
     private bool CanCancel() => State == CommandState.Running;
 
     private bool CanRun() => State != CommandState.Running;
+
+    /// <summary>
+    /// Syncs edits back to the model and updates the command title for other consumers.
+    /// </summary>
+    partial void OnScriptChanged(string? value)
+    {
+        _command.Script = value;
+    }
 
     private sealed class OutputObserver(CommandViewModel vm) : IObserver<string>
     {

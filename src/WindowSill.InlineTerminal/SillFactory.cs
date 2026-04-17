@@ -173,6 +173,18 @@ internal sealed class SillFactory
                         ContextFlyout = menuFlyout
                     };
 
+                void OnViewModelPropertyChanged(object? s, System.ComponentModel.PropertyChangedEventArgs e)
+                {
+                    if (e.PropertyName == nameof(CommandViewModel.Title))
+                    {
+                        sillView.Content = viewModel.Title;
+                        sillView.PreviewFlyoutContent = viewModel.Script;
+                    }
+                }
+
+                viewModel.PropertyChanged += OnViewModelPropertyChanged;
+                viewModel.Disposed += (_, _) => viewModel.PropertyChanged -= OnViewModelPropertyChanged;
+
                 results.Add(sillView);
             }
         }
