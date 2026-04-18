@@ -66,19 +66,34 @@ internal sealed class CalendarAccountManager : IDisposable
     }
 
     /// <summary>
-    /// Adds a new account by initiating the authentication flow for the specified provider.
+    /// Creates a <see cref="ConnectExperience"/> for adding a new account of the specified provider type.
+    /// The caller is responsible for showing the experience in a dialog and calling
+    /// <see cref="RegisterAccountAsync"/> with the resulting account.
     /// </summary>
     /// <param name="providerType">The type of calendar provider to connect.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The newly connected account.</returns>
-    public async Task<CalendarAccount> AddAccountAsync(CalendarProviderType providerType, CancellationToken cancellationToken)
+    /// <returns>A connect experience that drives the authentication flow.</returns>
+    public ConnectExperience CreateConnectExperience(CalendarProviderType providerType)
     {
         if (!_providers.TryGetValue(providerType, out ICalendarProvider? provider))
         {
             throw new NotSupportedException($"No provider registered for {providerType}.");
         }
 
-        CalendarAccount account = await provider.ConnectAccountAsync(cancellationToken);
+        return provider.CreateConnectExperience();
+    }
+
+    /// <summary>
+    /// Registers a newly connected account, persists it, and creates its client.
+    /// Call this after a <see cref="ConnectExperience"/> completes successfully.
+    /// </summary>
+    /// <param name="account">The account returned by the connect experience.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    public async Task RegisterAccountAsync(CalendarAccount account, CancellationToken cancellationToken)
+    {
+        if (!_providers.TryGetValue(account.ProviderType, out ICalendarProvider? provider))
+        {
+            throw new NotSupportedException($"No provider registered for {account.ProviderType}.");
+        }
 
         ICalendarAccountClient client = provider.CreateClient(account, CreatePersistCallback(account.Id));
 
@@ -87,7 +102,6 @@ internal sealed class CalendarAccountManager : IDisposable
 
         await _dataStore.SaveAsync(account, cancellationToken);
         AccountAdded?.Invoke(this, account);
-        return account;
     }
 
     /// <summary>

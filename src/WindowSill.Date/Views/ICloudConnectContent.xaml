@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.Date.Views.ICloudConnectContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel MinWidth="320" Spacing="12">
+        <TextBox
+            x:Name="AppleIdTextBox"
+            api:Uids.Uid="/WindowSill.Date/Settings/ICloudAppleId"
+            TextChanged="OnFieldChanged" />
+        <PasswordBox
+            x:Name="AppPasswordBox"
+            api:Uids.Uid="/WindowSill.Date/Settings/ICloudAppPassword"
+            PasswordChanged="OnFieldChanged" />
+        <HyperlinkButton api:Uids.Uid="/WindowSill.Date/Settings/ICloudAppPasswordHelp" NavigateUri="https://support.apple.com/en-us/102654" />
+        <InfoBar
+            x:Name="ErrorInfoBar"
+            IsClosable="False"
+            IsOpen="False"
+            Severity="Error" />
+    </StackPanel>
+</UserControl>

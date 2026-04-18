@@ -73,30 +73,25 @@ internal sealed partial class SettingsViewModel : ObservableObject
     public partial bool HasNoAccounts { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets a value indicating whether an add operation is in progress.
-    /// </summary>
-    [ObservableProperty]
-    public partial bool IsAddingAccount { get; set; }
-
-    /// <summary>
-    /// Initiates the authentication flow for the specified provider and adds the account.
+    /// Creates a connect experience for the specified provider type.
     /// </summary>
     /// <param name="providerType">The provider to connect.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    [RelayCommand]
-    private async Task AddAccountAsync(CalendarProviderType providerType, CancellationToken cancellationToken)
+    /// <returns>A connect experience that drives the authentication UI.</returns>
+    public ConnectExperience CreateConnectExperience(CalendarProviderType providerType)
     {
-        IsAddingAccount = true;
-        try
-        {
-            CalendarAccount account = await _calendarAccountManager.AddAccountAsync(providerType, cancellationToken);
-            Accounts.Add(CreateAccountViewModel(account));
-            HasNoAccounts = Accounts.Count == 0;
-        }
-        finally
-        {
-            IsAddingAccount = false;
-        }
+        return _calendarAccountManager.CreateConnectExperience(providerType);
+    }
+
+    /// <summary>
+    /// Registers a newly connected account after a successful connect experience.
+    /// </summary>
+    /// <param name="account">The account returned by the connect experience.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    public async Task RegisterAccountAsync(CalendarAccount account, CancellationToken cancellationToken)
+    {
+        await _calendarAccountManager.RegisterAccountAsync(account, cancellationToken);
+        Accounts.Add(CreateAccountViewModel(account));
+        HasNoAccounts = Accounts.Count == 0;
     }
 
     /// <summary>

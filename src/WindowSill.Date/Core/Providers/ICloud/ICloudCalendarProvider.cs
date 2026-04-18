@@ -1,5 +1,7 @@
+using WindowSill.API;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Core.Providers.CalDav;
+using WindowSill.Date.Views;
 
 namespace WindowSill.Date.Core.Providers.ICloud;
 
@@ -9,6 +11,8 @@ namespace WindowSill.Date.Core.Providers.ICloud;
 /// </summary>
 internal sealed class ICloudCalendarProvider : CalDavCalendarProvider
 {
+    private const string ICloudCalDavServer = "https://caldav.icloud.com";
+
     /// <inheritdoc />
     public override CalendarProviderType ProviderType => CalendarProviderType.ICloud;
 
@@ -16,10 +20,9 @@ internal sealed class ICloudCalendarProvider : CalDavCalendarProvider
     public override string DisplayName => "Apple iCloud";
 
     /// <inheritdoc />
-    public override async Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken)
+    public override ConnectExperience CreateConnectExperience()
     {
-        // TODO: Prompt user for Apple ID and app-specific password via UI.
-        throw new NotImplementedException("iCloud account setup not yet implemented.");
+        return new ICloudConnectExperience();
     }
 
     /// <inheritdoc />
@@ -28,5 +31,57 @@ internal sealed class ICloudCalendarProvider : CalDavCalendarProvider
         Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> onAuthDataChanged)
     {
         return new ICloudCalendarAccountClient(account, account.AuthData);
+    }
+
+    /// <summary>
+    /// Connect experience for iCloud that collects Apple ID and app-specific password.
+    /// </summary>
+    private sealed class ICloudConnectExperience : ConnectExperience
+    {
+        private readonly ICloudConnectContent _content = new();
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ICloudConnectExperience"/> class.
+        /// </summary>
+        public ICloudConnectExperience()
+        {
+            _content.FormValidityChanged += (_, _) => OnCanSubmitChanged();
+        }
+
+        /// <inheritdoc />
+        public override FrameworkElement Content => _content;
+
+        /// <inheritdoc />
+        public override string? PrimaryButtonText
+            => "/WindowSill.Date/Settings/SignIn".GetLocalizedString();
+
+        /// <inheritdoc />
+        public override bool CanSubmit => _content.IsValid;
+
+        /// <inheritdoc />
+        public override Task<CalendarAccount> ConnectAsync(IntPtr parentWindowHandle, CancellationToken cancellationToken)
+        {
+            // TODO: Validate connection to iCloud CalDAV server.
+            string appleId = _content.AppleId;
+            string appPassword = _content.AppPassword;
+
+            var authData = new Dictionary<string, string>
+            {
+                ["server_url"] = ICloudCalDavServer,
+                ["username"] = appleId,
+                ["password"] = appPassword,
+            };
+
+            var account = new CalendarAccount
+            {
+                Id = $"icloud_{appleId}",
+                DisplayName = $"iCloud ({appleId})",
+                Email = appleId,
+                ProviderType = CalendarProviderType.ICloud,
+                AuthData = authData,
+            };
+
+            return Task.FromResult(account);
+        }
     }
 }

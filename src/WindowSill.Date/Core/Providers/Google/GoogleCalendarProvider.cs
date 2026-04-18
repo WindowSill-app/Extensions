@@ -1,4 +1,6 @@
+using WindowSill.API;
 using WindowSill.Date.Core.Models;
+using WindowSill.Date.Views;
 
 namespace WindowSill.Date.Core.Providers.Google;
 
@@ -14,10 +16,9 @@ internal sealed class GoogleCalendarProvider : ICalendarProvider
     public string DisplayName => "Google Calendar";
 
     /// <inheritdoc />
-    public async Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken)
+    public ConnectExperience CreateConnectExperience()
     {
-        // TODO: Implement Google OAuth 2.0 flow.
-        throw new NotImplementedException("Google OAuth flow not yet implemented.");
+        return new GoogleConnectExperience();
     }
 
     /// <inheritdoc />
@@ -26,5 +27,24 @@ internal sealed class GoogleCalendarProvider : ICalendarProvider
         Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> onAuthDataChanged)
     {
         return new GoogleCalendarAccountClient(account, account.AuthData, onAuthDataChanged);
+    }
+
+    /// <summary>
+    /// Connect experience for Google Calendar using browser-based OAuth.
+    /// </summary>
+    private sealed class GoogleConnectExperience : ConnectExperience
+    {
+        private readonly OAuthConnectContent _content
+            = new("/WindowSill.Date/Settings/GoogleConnectMessage".GetLocalizedString());
+
+        /// <inheritdoc />
+        public override FrameworkElement Content => _content;
+
+        /// <inheritdoc />
+        public override Task<CalendarAccount> ConnectAsync(IntPtr parentWindowHandle, CancellationToken cancellationToken)
+        {
+            // TODO: Implement Google OAuth 2.0 flow.
+            throw new NotImplementedException("Google OAuth flow not yet implemented.");
+        }
     }
 }

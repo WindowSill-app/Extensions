@@ -153,4 +153,34 @@
   <data name="RemoveAccountDialogCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ConnectDialogTitle" xml:space="preserve">
+    <value>Add account</value>
+  </data>
+  <data name="OutlookConnectMessage" xml:space="preserve">
+    <value>Sign in to your Microsoft account using the Windows sign-in dialog...</value>
+  </data>
+  <data name="GoogleConnectMessage" xml:space="preserve">
+    <value>Sign in to your Google account using your web browser...</value>
+  </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Sign in</value>
+  </data>
+  <data name="CalDavServerUrl.HeaderProperty" xml:space="preserve">
+    <value>Server URL</value>
+  </data>
+  <data name="CalDavUsername.HeaderProperty" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="CalDavPassword.HeaderProperty" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="ICloudAppleId.HeaderProperty" xml:space="preserve">
+    <value>Apple ID</value>
+  </data>
+  <data name="ICloudAppPassword.HeaderProperty" xml:space="preserve">
+    <value>App-specific password</value>
+  </data>
+  <data name="ICloudAppPasswordHelp.ContentProperty" xml:space="preserve">
+    <value>How to generate an app-specific password</value>
+  </data>
 </root>

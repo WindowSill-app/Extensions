@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.Date.Views.CalDavConnectContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel MinWidth="320" Spacing="12">
+        <TextBox
+            x:Name="ServerUrlTextBox"
+            api:Uids.Uid="/WindowSill.Date/Settings/CalDavServerUrl"
+            TextChanged="OnFieldChanged" />
+        <TextBox
+            x:Name="UsernameTextBox"
+            api:Uids.Uid="/WindowSill.Date/Settings/CalDavUsername"
+            TextChanged="OnFieldChanged" />
+        <PasswordBox
+            x:Name="PasswordBox"
+            api:Uids.Uid="/WindowSill.Date/Settings/CalDavPassword"
+            PasswordChanged="OnFieldChanged" />
+        <InfoBar
+            x:Name="ErrorInfoBar"
+            IsClosable="False"
+            IsOpen="False"
+            Severity="Error" />
+    </StackPanel>
+</UserControl>

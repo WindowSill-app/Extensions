@@ -1,4 +1,3 @@
-using Microsoft.UI.Xaml.Media;
 using WindowSill.Date.Core.Models;
 
 namespace WindowSill.Date.ViewModels;

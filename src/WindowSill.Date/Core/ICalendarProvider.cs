@@ -21,12 +21,11 @@ public interface ICalendarProvider
     string DisplayName { get; }
 
     /// <summary>
-    /// Initiates an interactive authentication flow and connects a new account.
-    /// The returned <see cref="CalendarAccount"/> includes auth data that should be persisted.
+    /// Creates a <see cref="ConnectExperience"/> that defines the UI and behavior
+    /// for adding a new account of this provider type.
     /// </summary>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The newly connected account including auth data.</returns>
-    Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken = default);
+    /// <returns>A connect experience describing the dialog content and connection logic.</returns>
+    ConnectExperience CreateConnectExperience();
 
     /// <summary>
     /// Creates a per-account client for fetching calendars and events.

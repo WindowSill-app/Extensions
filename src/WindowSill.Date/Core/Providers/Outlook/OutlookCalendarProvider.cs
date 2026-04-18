@@ -1,15 +1,19 @@
 using Microsoft.Identity.Client;
+using Microsoft.Identity.Client.Broker;
+using WindowSill.API;
 using WindowSill.Date.Core.Models;
+using WindowSill.Date.Views;
 
 namespace WindowSill.Date.Core.Providers.Outlook;
 
 /// <summary>
 /// Calendar provider for Microsoft Outlook using Microsoft Graph API and MSAL.
+/// Uses Windows Account Manager (WAM) broker for native sign-in experience.
 /// Creates one MSAL client per account with isolated token caches.
 /// </summary>
 internal sealed class OutlookCalendarProvider : ICalendarProvider
 {
-    internal const string ClientId = "3fb5c650-a9f3-41a2-a691-2bedd61980a8";
+    internal const string ClientId = "53fe2483-5557-4eff-aa19-0c07f2bbb29e";
     internal const string Authority = "https://login.microsoftonline.com/common";
     internal const string MsalCacheKey = "msal_cache";
 
@@ -22,40 +26,9 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
     public string DisplayName => "Microsoft Outlook";
 
     /// <inheritdoc />
-    public async Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken)
+    public ConnectExperience CreateConnectExperience()
     {
-        IPublicClientApplication msalClient = BuildMsalClient();
-
-        byte[]? capturedCache = null;
-        msalClient.UserTokenCache.SetAfterAccess(args =>
-        {
-            if (args.HasStateChanged)
-            {
-                capturedCache = args.TokenCache.SerializeMsalV3();
-            }
-        });
-
-        AuthenticationResult authResult = await msalClient
-            .AcquireTokenInteractive(Scopes)
-            .WithPrompt(Prompt.SelectAccount)
-            .ExecuteAsync(cancellationToken);
-
-        string email = authResult.Account.Username ?? "unknown@outlook.com";
-
-        var authData = new Dictionary<string, string>();
-        if (capturedCache is { Length: > 0 })
-        {
-            authData[MsalCacheKey] = Convert.ToBase64String(capturedCache);
-        }
-
-        return new CalendarAccount
-        {
-            Id = $"outlook_{email}",
-            DisplayName = authResult.Account.Username ?? "Outlook Account",
-            Email = email,
-            ProviderType = CalendarProviderType.Outlook,
-            AuthData = authData,
-        };
+        return new OutlookConnectExperience();
     }
 
     /// <inheritdoc />
@@ -95,7 +68,60 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
         return PublicClientApplicationBuilder
             .Create(ClientId)
             .WithAuthority(Authority)
-            .WithRedirectUri("http://localhost")
+            .WithBroker(new BrokerOptions(BrokerOptions.OperatingSystems.Windows))
+            .WithDefaultRedirectUri()
             .Build();
+    }
+
+    /// <summary>
+    /// Connect experience for Outlook that uses WAM broker for authentication.
+    /// </summary>
+    private sealed class OutlookConnectExperience : ConnectExperience
+    {
+        private readonly OAuthConnectContent _content
+            = new("/WindowSill.Date/Settings/OutlookConnectMessage".GetLocalizedString());
+
+        /// <inheritdoc />
+        public override FrameworkElement Content => _content;
+
+        /// <inheritdoc />
+        public override async Task<CalendarAccount> ConnectAsync(IntPtr parentWindowHandle, CancellationToken cancellationToken)
+        {
+            AuthenticationResult authResult;
+            byte[]? capturedCache = null;
+
+            // Try WAM broker first for native Windows sign-in experience.
+            IPublicClientApplication brokerClient = BuildMsalClient();
+            brokerClient.UserTokenCache.SetAfterAccess(args =>
+            {
+                if (args.HasStateChanged)
+                {
+                    capturedCache = args.TokenCache.SerializeMsalV3();
+                }
+            });
+
+            authResult = await brokerClient
+                .AcquireTokenInteractive(Scopes)
+                .WithPrompt(Prompt.SelectAccount)
+                .WithParentActivityOrWindow(parentWindowHandle)
+                .ExecuteAsync(cancellationToken);
+
+            string email = authResult.Account.Username ?? "unknown@outlook.com";
+
+            var authData = new Dictionary<string, string>();
+            if (capturedCache is { Length: > 0 })
+            {
+                authData[MsalCacheKey] = Convert.ToBase64String(capturedCache);
+            }
+
+            return new CalendarAccount
+            {
+                Id = $"outlook_{email}",
+                DisplayName = authResult.Account.Username ?? "Outlook Account",
+                Email = email,
+                ProviderType = CalendarProviderType.Outlook,
+                AuthData = authData,
+            };
+        }
     }
 }

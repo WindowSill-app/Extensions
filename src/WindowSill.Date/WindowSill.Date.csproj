@@ -23,9 +23,6 @@
     <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Views\SettingsView.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Assets/package.png" Pack="true" PackagePath="\Assets\" />
     <None Include="LICENSE.md" Pack="true" PackagePath="\" />
     <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
@@ -64,10 +61,5 @@
     <PackageReference Include="System.Memory.Data" />
     <PackageReference Include="System.Security.Cryptography.ProtectedData" />
     <PackageReference Include="WindowSill.API" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\SettingsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
 </Project>
