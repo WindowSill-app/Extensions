@@ -17,6 +17,7 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.Graph" />
+        <PackageReference Include="Microsoft.Identity.Client" />
         <PackageReference Include="Google.Apis.Calendar.v3" />
         <PackageReference Include="Ical.Net" />
         <PackageReference Include="WindowSill.API" />

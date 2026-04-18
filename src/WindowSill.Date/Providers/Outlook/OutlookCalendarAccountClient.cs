@@ -1,5 +1,7 @@
 using Microsoft.Graph;
 using Microsoft.Graph.Models;
+using Microsoft.Identity.Client;
+using Microsoft.Kiota.Abstractions.Authentication;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 using CalendarEvent = WindowSill.Date.Core.Models.CalendarEvent;
@@ -8,21 +10,23 @@ namespace WindowSill.Date.Providers.Outlook;
 
 /// <summary>
 /// Per-account client for Microsoft Outlook calendar operations using Microsoft Graph.
+/// Uses MSAL for token management with automatic silent refresh.
 /// </summary>
 internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
 {
-    private readonly ICalendarCredentialStore _credentialStore;
+    private readonly IPublicClientApplication _msalClient;
+    private readonly SemaphoreSlim _requestGate = new(1, 1);
     private GraphServiceClient? _graphClient;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OutlookCalendarAccountClient"/> class.
     /// </summary>
     /// <param name="account">The account this client is scoped to.</param>
-    /// <param name="credentialStore">The credential store for token access.</param>
-    internal OutlookCalendarAccountClient(CalendarAccount account, ICalendarCredentialStore credentialStore)
+    /// <param name="msalClient">The MSAL client for token management.</param>
+    internal OutlookCalendarAccountClient(CalendarAccount account, IPublicClientApplication msalClient)
     {
         Account = account;
-        _credentialStore = credentialStore;
+        _msalClient = msalClient;
     }
 
     /// <inheritdoc />
@@ -33,25 +37,40 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
     {
         GraphServiceClient client = await GetOrCreateGraphClientAsync(cancellationToken);
 
-        CalendarCollectionResponse? calendars = await client.Me.Calendars.GetAsync(
-            cancellationToken: cancellationToken);
+        await _requestGate.WaitAsync(cancellationToken);
+        try
+        {
+            return await WithRetryAsync(async ct =>
+            {
+                CalendarCollectionResponse? calendars = await client.Me.Calendars.GetAsync(
+                    cancellationToken: ct);
 
-        if (calendars?.Value is null)
+                if (calendars?.Value is null)
+                {
+                    return [];
+                }
+
+                return calendars.Value
+                    .Select(c => new CalendarInfo
+                    {
+                        Id = c.Id ?? string.Empty,
+                        AccountId = Account.Id,
+                        Name = c.Name ?? "Unnamed",
+                        Color = c.HexColor ?? MapCalendarColor(c.Color),
+                        IsDefault = c.IsDefaultCalendar ?? false,
+                        IsReadOnly = !(c.CanEdit ?? true),
+                    })
+                    .ToList();
+            }, cancellationToken);
+        }
+        catch (Exception)
         {
             return [];
         }
-
-        return calendars.Value
-            .Select(c => new CalendarInfo
-            {
-                Id = c.Id ?? string.Empty,
-                AccountId = Account.Id,
-                Name = c.Name ?? "Unnamed",
-                Color = MapCalendarColor(c.Color),
-                IsDefault = c.IsDefaultCalendar ?? false,
-                IsReadOnly = !(c.CanEdit ?? true),
-            })
-            .ToList();
+        finally
+        {
+            _requestGate.Release();
+        }
     }
 
     /// <inheritdoc />
@@ -62,48 +81,83 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
     {
         GraphServiceClient client = await GetOrCreateGraphClientAsync(cancellationToken);
 
-        // Use calendarView to get expanded recurring events.
-        EventCollectionResponse? events = await client.Me.CalendarView.GetAsync(
-            config =>
+        await _requestGate.WaitAsync(cancellationToken);
+        try
+        {
+            return await WithRetryAsync(async ct =>
             {
-                config.QueryParameters.StartDateTime = from.UtcDateTime.ToString("o");
-                config.QueryParameters.EndDateTime = to.UtcDateTime.ToString("o");
-                config.QueryParameters.Top = 250;
-                config.QueryParameters.Select = [
-                    "id", "subject", "body", "bodyPreview", "location", "start", "end",
-                    "isAllDay", "isCancelled", "showAs", "responseStatus", "onlineMeeting",
-                    "webLink", "organizer", "attendees", "recurrence", "sensitivity",
-                ];
-            },
-            cancellationToken: cancellationToken);
+                EventCollectionResponse? events = await client.Me.CalendarView.GetAsync(
+                    config =>
+                    {
+                        config.QueryParameters.StartDateTime = from.UtcDateTime.ToString("o");
+                        config.QueryParameters.EndDateTime = to.UtcDateTime.ToString("o");
+                        config.QueryParameters.Top = 250;
+                        config.QueryParameters.Orderby = ["start/dateTime"];
+                        config.QueryParameters.Select = [
+                            "id", "subject", "body", "bodyPreview", "location", "start", "end",
+                            "isAllDay", "isCancelled", "showAs", "responseStatus", "onlineMeeting",
+                            "onlineMeetingUrl", "webLink", "organizer", "attendees", "recurrence", "sensitivity",
+                        ];
+                    },
+                    cancellationToken: ct);
 
-        if (events?.Value is null)
+                if (events?.Value is null)
+                {
+                    return [];
+                }
+
+                return events.Value.Select(MapToCalendarEvent).ToList();
+            }, cancellationToken);
+        }
+        catch (Exception)
         {
             return [];
         }
-
-        return events.Value.Select(MapToCalendarEvent).ToList();
+        finally
+        {
+            _requestGate.Release();
+        }
     }
 
     /// <inheritdoc />
     public async Task<bool> RefreshAuthAsync(CancellationToken cancellationToken)
     {
-        // TODO: Use stored refresh token to acquire new access token via MSAL.
-        string? refreshToken = await _credentialStore.RetrieveAsync(Account.Id, "refresh_token", cancellationToken);
-        if (string.IsNullOrEmpty(refreshToken))
+        try
+        {
+            IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync();
+            IAccount? account = accounts.FirstOrDefault(a =>
+                string.Equals(a.Username, Account.Email, StringComparison.OrdinalIgnoreCase));
+
+            if (account is null)
+            {
+                return false;
+            }
+
+            await _msalClient.AcquireTokenSilent(OutlookCalendarProvider.Scopes, account)
+                .ExecuteAsync(cancellationToken);
+
+            // Force re-creation of the Graph client to pick up the new token.
+            _graphClient = null;
+            return true;
+        }
+        catch (Exception)
         {
             return false;
         }
-
-        // Force re-creation of the Graph client on next use.
-        _graphClient = null;
-        return true;
     }
 
     /// <inheritdoc />
     public async Task DisconnectAsync(CancellationToken cancellationToken)
     {
-        await _credentialStore.RemoveAsync(Account.Id, cancellationToken);
+        IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync();
+        IAccount? account = accounts.FirstOrDefault(a =>
+            string.Equals(a.Username, Account.Email, StringComparison.OrdinalIgnoreCase));
+
+        if (account is not null)
+        {
+            await _msalClient.RemoveAsync(account);
+        }
+
         _graphClient = null;
     }
 
@@ -111,6 +165,7 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
     public ValueTask DisposeAsync()
     {
         _graphClient = null;
+        _requestGate.Dispose();
         return ValueTask.CompletedTask;
     }
 
@@ -121,44 +176,78 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
             return _graphClient;
         }
 
-        string? accessToken = await _credentialStore.RetrieveAsync(Account.Id, "access_token", cancellationToken);
-        if (string.IsNullOrEmpty(accessToken))
-        {
-            throw new InvalidOperationException("No access token available. Call RefreshAuthAsync first.");
-        }
-
-        // TODO: Replace with proper token credential provider that handles refresh.
-        _graphClient = new GraphServiceClient(
-            new Microsoft.Kiota.Abstractions.Authentication.BaseBearerTokenAuthenticationProvider(
-                new StaticAccessTokenProvider(accessToken)));
+        var authProvider = new BaseBearerTokenAuthenticationProvider(
+            new MsalTokenProvider(_msalClient, Account.Email));
+        _graphClient = new GraphServiceClient(new HttpClient(), authProvider);
 
         return _graphClient;
     }
 
-    private CalendarEvent MapToCalendarEvent(Event graphEvent)
+    /// <summary>
+    /// Retries an operation up to 3 times with exponential backoff when throttled.
+    /// </summary>
+    private static async Task<T> WithRetryAsync<T>(Func<CancellationToken, Task<T>> operation, CancellationToken cancellationToken)
     {
-        Uri? videoCallUrl = null;
-        VideoCallInfo? videoCall = null;
+        const int maxRetries = 3;
 
-        if (graphEvent.OnlineMeeting?.JoinUrl is string joinUrl && Uri.TryCreate(joinUrl, UriKind.Absolute, out Uri? parsedJoinUrl))
+        for (int attempt = 0; attempt <= maxRetries; attempt++)
         {
-            videoCallUrl = parsedJoinUrl;
+            try
+            {
+                return await operation(cancellationToken);
+            }
+            catch (Microsoft.Graph.Models.ODataErrors.ODataError ex) when (
+                attempt < maxRetries
+                && ex.ResponseStatusCode == 429)
+            {
+                int delaySeconds = (int)Math.Pow(2, attempt + 1);
+                await Task.Delay(TimeSpan.FromSeconds(delaySeconds), cancellationToken);
+            }
+            catch (HttpRequestException ex) when (
+                attempt < maxRetries
+                && ex.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+            {
+                int delaySeconds = (int)Math.Pow(2, attempt + 1);
+                await Task.Delay(TimeSpan.FromSeconds(delaySeconds), cancellationToken);
+            }
         }
 
-        // Try to detect video call from body/location as well.
+        return await operation(cancellationToken);
+    }
+
+    private CalendarEvent MapToCalendarEvent(Event graphEvent)
+    {
+        VideoCallInfo? videoCall = null;
+
+        // Check structured online meeting data first.
+        Uri? onlineMeetingUrl = null;
+        if (graphEvent.OnlineMeeting?.JoinUrl is string joinUrl
+            && Uri.TryCreate(joinUrl, UriKind.Absolute, out Uri? parsedJoinUrl))
+        {
+            onlineMeetingUrl = parsedJoinUrl;
+        }
+        else if (!string.IsNullOrEmpty(graphEvent.OnlineMeetingUrl)
+            && Uri.TryCreate(graphEvent.OnlineMeetingUrl, UriKind.Absolute, out Uri? parsedMeetingUrl))
+        {
+            onlineMeetingUrl = parsedMeetingUrl;
+        }
+
+        // Try to detect video call provider from body/location.
         videoCall = VideoCallDetector.Detect(
             graphEvent.BodyPreview,
             graphEvent.Location?.DisplayName);
 
-        if (videoCall is null && videoCallUrl is not null)
+        // Fall back to the structured meeting URL if no provider was detected from text.
+        if (videoCall is null && onlineMeetingUrl is not null)
         {
-            videoCall = new VideoCallInfo(videoCallUrl, VideoCallProvider.MicrosoftTeams);
+            videoCall = VideoCallDetector.Detect(onlineMeetingUrl.ToString(), null)
+                ?? new VideoCallInfo(onlineMeetingUrl, VideoCallProvider.MicrosoftTeams);
         }
 
         return new CalendarEvent
         {
             Id = graphEvent.Id ?? string.Empty,
-            CalendarId = string.Empty, // Graph calendarView doesn't include calendar ID by default.
+            CalendarId = string.Empty,
             AccountId = Account.Id,
             Title = graphEvent.Subject ?? "No Title",
             Description = graphEvent.BodyPreview,
@@ -185,26 +274,36 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
                     a.EmailAddress?.Address ?? string.Empty,
                     MapResponseStatus(a.Status?.Response)))
                 .ToList() ?? [],
-            RecurrenceRule = null, // Graph returns recurrence as a structured object; RRULE conversion is complex.
+            RecurrenceRule = null,
             IsPrivate = graphEvent.Sensitivity == Sensitivity.Private || graphEvent.Sensitivity == Sensitivity.Confidential,
             ProviderType = CalendarProviderType.Outlook,
         };
     }
 
-    private static DateTimeOffset ParseGraphDateTime(DateTimeTimeZone? dateTime)
+    /// <summary>
+    /// Parses a Microsoft Graph <see cref="DateTimeTimeZone"/> into a <see cref="DateTimeOffset"/>.
+    /// </summary>
+    internal static DateTimeOffset ParseGraphDateTime(DateTimeTimeZone? dateTime)
     {
         if (dateTime is null || string.IsNullOrEmpty(dateTime.DateTime))
         {
             return DateTimeOffset.MinValue;
         }
 
-        if (TimeZoneInfo.TryFindSystemTimeZoneById(dateTime.TimeZone ?? "UTC", out TimeZoneInfo? tz))
+        if (DateTime.TryParse(dateTime.DateTime, out DateTime dt))
         {
-            DateTime dt = DateTime.Parse(dateTime.DateTime);
-            return new DateTimeOffset(dt, tz.GetUtcOffset(dt));
+            try
+            {
+                TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById(dateTime.TimeZone ?? "UTC");
+                return new DateTimeOffset(dt, tz.GetUtcOffset(dt));
+            }
+            catch
+            {
+                return new DateTimeOffset(dt, TimeSpan.Zero);
+            }
         }
 
-        return DateTimeOffset.Parse(dateTime.DateTime);
+        return DateTimeOffset.MinValue;
     }
 
     private static BusyStatus MapShowAs(FreeBusyStatus? showAs)
@@ -251,19 +350,46 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
     }
 
     /// <summary>
-    /// Simple static token provider for Graph SDK when we already have an access token.
+    /// MSAL-backed token provider that silently refreshes tokens for a specific account.
     /// </summary>
-    private sealed class StaticAccessTokenProvider(string accessToken)
-        : Microsoft.Kiota.Abstractions.Authentication.IAccessTokenProvider
+    private sealed class MsalTokenProvider : IAccessTokenProvider
     {
-        public Microsoft.Kiota.Abstractions.Authentication.AllowedHostsValidator AllowedHostsValidator { get; } = new();
+        private readonly IPublicClientApplication _msalClient;
+        private readonly string _accountEmail;
 
-        public Task<string> GetAuthorizationTokenAsync(
+        public MsalTokenProvider(IPublicClientApplication msalClient, string accountEmail)
+        {
+            _msalClient = msalClient;
+            _accountEmail = accountEmail;
+        }
+
+        public AllowedHostsValidator AllowedHostsValidator { get; } = new();
+
+        public async Task<string> GetAuthorizationTokenAsync(
             Uri uri,
             Dictionary<string, object>? additionalAuthenticationContext = null,
             CancellationToken cancellationToken = default)
         {
-            return Task.FromResult(accessToken);
+            IEnumerable<IAccount> accounts = await _msalClient.GetAccountsAsync();
+            IAccount? account = accounts.FirstOrDefault(a =>
+                string.Equals(a.Username, _accountEmail, StringComparison.OrdinalIgnoreCase));
+
+            if (account is null)
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                AuthenticationResult result = await _msalClient
+                    .AcquireTokenSilent(OutlookCalendarProvider.Scopes, account)
+                    .ExecuteAsync(cancellationToken);
+                return result.AccessToken;
+            }
+            catch (MsalUiRequiredException)
+            {
+                return string.Empty;
+            }
         }
     }
 }

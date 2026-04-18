@@ -1,31 +1,25 @@
 using System.ComponentModel.Composition;
 using Microsoft.Graph;
-using Microsoft.Graph.Models;
+using Microsoft.Identity.Client;
+using Microsoft.Kiota.Abstractions.Authentication;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 
 namespace WindowSill.Date.Providers.Outlook;
 
 /// <summary>
-/// Calendar provider for Microsoft Outlook using the Microsoft Graph API.
+/// Calendar provider for Microsoft Outlook using the Microsoft Graph API
+/// and MSAL for authentication. Supports multiple concurrent accounts.
 /// </summary>
 [Export(typeof(ICalendarProvider))]
 internal sealed class OutlookCalendarProvider : ICalendarProvider
 {
-    private readonly ICalendarAuthBroker _authBroker;
-    private readonly ICalendarCredentialStore _credentialStore;
+    // Multi-tenant app registration for calendar access.
+    // Client ID is safe to include — it's not confidential per Microsoft documentation.
+    internal const string ClientId = "3fb5c650-a9f3-41a2-a691-2bedd61980a8";
+    internal const string Authority = "https://login.microsoftonline.com/common";
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="OutlookCalendarProvider"/> class.
-    /// </summary>
-    /// <param name="authBroker">The auth broker for handling OAuth flows.</param>
-    /// <param name="credentialStore">The credential store for persisting tokens.</param>
-    [ImportingConstructor]
-    public OutlookCalendarProvider(ICalendarAuthBroker authBroker, ICalendarCredentialStore credentialStore)
-    {
-        _authBroker = authBroker;
-        _credentialStore = credentialStore;
-    }
+    internal static readonly string[] Scopes = ["Calendars.Read", "Calendars.ReadWrite", "User.Read"];
 
     /// <inheritdoc />
     public CalendarProviderType ProviderType => CalendarProviderType.Outlook;
@@ -36,18 +30,56 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
     /// <inheritdoc />
     public async Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken)
     {
-        // TODO: Implement full OAuth 2.0 authorization code flow with MSAL.
-        // 1. Build authorize URL with Graph scopes (Calendars.Read, User.Read).
-        // 2. Use _authBroker to acquire authorization code.
-        // 3. Exchange code for tokens.
-        // 4. Store tokens via _credentialStore.
-        // 5. Fetch user profile to build CalendarAccount.
-        throw new NotImplementedException("Outlook OAuth flow not yet implemented.");
+        IPublicClientApplication msalClient = CreateMsalClient();
+
+        // Try silent auth first (cached tokens).
+        AuthenticationResult authResult;
+        try
+        {
+            IEnumerable<IAccount> accounts = await msalClient.GetAccountsAsync();
+            IAccount? existingAccount = accounts.FirstOrDefault();
+            if (existingAccount is not null)
+            {
+                authResult = await msalClient.AcquireTokenSilent(Scopes, existingAccount)
+                    .ExecuteAsync(cancellationToken);
+            }
+            else
+            {
+                authResult = await msalClient.AcquireTokenInteractive(Scopes)
+                    .ExecuteAsync(cancellationToken);
+            }
+        }
+        catch (MsalUiRequiredException)
+        {
+            // Silent failed — must go interactive.
+            authResult = await msalClient.AcquireTokenInteractive(Scopes)
+                .ExecuteAsync(cancellationToken);
+        }
+
+        string email = authResult.Account.Username ?? "unknown@outlook.com";
+        string accountId = $"outlook_{email}";
+
+        return new CalendarAccount
+        {
+            Id = accountId,
+            DisplayName = authResult.Account.Username ?? "Outlook Account",
+            Email = email,
+            ProviderType = CalendarProviderType.Outlook,
+        };
     }
 
     /// <inheritdoc />
     public ICalendarAccountClient CreateClient(CalendarAccount account)
     {
-        return new OutlookCalendarAccountClient(account, _credentialStore);
+        return new OutlookCalendarAccountClient(account, CreateMsalClient());
+    }
+
+    internal static IPublicClientApplication CreateMsalClient()
+    {
+        return PublicClientApplicationBuilder
+            .Create(ClientId)
+            .WithAuthority(Authority)
+            .WithRedirectUri("http://localhost")
+            .Build();
     }
 }
