@@ -61,4 +61,7 @@
   <Project Path="src/WindowSill.WebBrowser/WindowSill.WebBrowser.csproj">
     <Platform Project="Any CPU" />
   </Project>
+  <Project Path="src/WindowSill.Date/WindowSill.Date.csproj">
+    <Platform Project="Any CPU" />
+  </Project>
 </Solution>

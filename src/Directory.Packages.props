@@ -36,6 +36,9 @@
     <PackageVersion Include="ThrottleDebounce" Version="2.0.1" />
     <PackageVersion Include="UnitsNet" Version="5.75.0" />
     <PackageVersion Include="WindowSill.API" Version="0.9.21" />
+    <PackageVersion Include="Google.Apis.Calendar.v3" Version="1.69.0.3667" />
+    <PackageVersion Include="Ical.Net" Version="4.3.1" />
+    <PackageVersion Include="Microsoft.Graph" Version="5.78.0" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageVersion Include="YamlDotNet" Version="16.3.0" />
