@@ -1,8 +1,7 @@
 using Microsoft.Identity.Client;
-using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 
-namespace WindowSill.Date.Providers.Outlook;
+namespace WindowSill.Date.Core.Providers.Outlook;
 
 /// <summary>
 /// Calendar provider for Microsoft Outlook using Microsoft Graph API and MSAL.

@@ -1,7 +1,6 @@
-using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 
-namespace WindowSill.Date.Providers.CalDav;
+namespace WindowSill.Date.Core.Providers.CalDav;
 
 /// <summary>
 /// Calendar provider for generic CalDAV servers (RFC 4791).

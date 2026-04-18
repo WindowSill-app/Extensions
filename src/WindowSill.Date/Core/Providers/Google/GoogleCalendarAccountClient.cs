@@ -1,11 +1,10 @@
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
-using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 using CalendarEvent = WindowSill.Date.Core.Models.CalendarEvent;
 
-namespace WindowSill.Date.Providers.Google;
+namespace WindowSill.Date.Core.Providers.Google;
 
 /// <summary>
 /// Per-account client for Google Calendar operations.

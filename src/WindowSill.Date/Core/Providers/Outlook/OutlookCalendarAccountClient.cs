@@ -2,11 +2,10 @@ using Microsoft.Graph;
 using Microsoft.Graph.Models;
 using Microsoft.Identity.Client;
 using Microsoft.Kiota.Abstractions.Authentication;
-using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 using CalendarEvent = WindowSill.Date.Core.Models.CalendarEvent;
 
-namespace WindowSill.Date.Providers.Outlook;
+namespace WindowSill.Date.Core.Providers.Outlook;
 
 /// <summary>
 /// Per-account client for Microsoft Outlook calendar operations using Microsoft Graph.

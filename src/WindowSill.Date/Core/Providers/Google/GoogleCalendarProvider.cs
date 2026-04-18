@@ -1,7 +1,6 @@
-using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 
-namespace WindowSill.Date.Providers.Google;
+namespace WindowSill.Date.Core.Providers.Google;
 
 /// <summary>
 /// Calendar provider for Google Calendar using the Google Calendar API.

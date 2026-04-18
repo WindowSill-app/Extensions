@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Microsoft.Graph.Models;
 using WindowSill.Date.Core.Models;
-using WindowSill.Date.Providers.Outlook;
+using WindowSill.Date.Core.Providers.Outlook;
 
 namespace UnitTests.Date.Outlook;
 

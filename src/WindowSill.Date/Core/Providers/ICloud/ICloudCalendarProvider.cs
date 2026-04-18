@@ -1,8 +1,7 @@
-using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
-using WindowSill.Date.Providers.CalDav;
+using WindowSill.Date.Core.Providers.CalDav;
 
-namespace WindowSill.Date.Providers.ICloud;
+namespace WindowSill.Date.Core.Providers.ICloud;
 
 /// <summary>
 /// Calendar provider for Apple iCloud Calendar, extending the CalDAV provider

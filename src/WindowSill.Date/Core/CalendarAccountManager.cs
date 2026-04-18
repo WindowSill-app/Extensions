@@ -1,21 +1,20 @@
 using System.Collections.Concurrent;
 using System.ComponentModel.Composition;
 using WindowSill.API;
-using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
-using WindowSill.Date.Providers.CalDav;
-using WindowSill.Date.Providers.Google;
-using WindowSill.Date.Providers.ICloud;
-using WindowSill.Date.Providers.Outlook;
+using WindowSill.Date.Core.Providers.CalDav;
+using WindowSill.Date.Core.Providers.Google;
+using WindowSill.Date.Core.Providers.ICloud;
+using WindowSill.Date.Core.Providers.Outlook;
 
-namespace WindowSill.Date;
+namespace WindowSill.Date.Core;
 
 /// <summary>
 /// Manages connected calendar accounts across all providers. Owns the persistence
 /// lifecycle — providers never access storage directly.
 /// </summary>
-[Export(typeof(ICalendarAccountManager))]
-internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposable
+[Export]
+internal sealed class CalendarAccountManager : IDisposable
 {
     private readonly IReadOnlyDictionary<CalendarProviderType, ICalendarProvider> _providers;
     private readonly CalendarDataStore _dataStore;
@@ -39,13 +38,20 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
         };
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Raised when a new account is successfully connected.
+    /// </summary>
     public event EventHandler<CalendarAccount>? AccountAdded;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Raised when an account is disconnected and removed.
+    /// </summary>
     public event EventHandler<CalendarAccount>? AccountRemoved;
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets all currently connected accounts.
+    /// </summary>
+    /// <returns>A read-only list of connected calendar accounts.</returns>
     public IReadOnlyList<CalendarAccount> GetAccounts()
     {
         return _entries.Values.Select(e => e.Account).ToList();
@@ -64,7 +70,12 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Adds a new account by initiating the authentication flow for the specified provider.
+    /// </summary>
+    /// <param name="providerType">The type of calendar provider to connect.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The newly connected account.</returns>
     public async Task<CalendarAccount> AddAccountAsync(CalendarProviderType providerType, CancellationToken cancellationToken)
     {
         if (!_providers.TryGetValue(providerType, out ICalendarProvider? provider))
@@ -82,7 +93,11 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
         return account;
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Removes a connected account and cleans up associated resources.
+    /// </summary>
+    /// <param name="accountId">The identifier of the account to remove.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     public async Task RemoveAccountAsync(string accountId, CancellationToken cancellationToken)
     {
         if (_entries.TryRemove(accountId, out AccountEntry? entry))
@@ -98,7 +113,11 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
         }
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Gets the account client for a specific connected account.
+    /// </summary>
+    /// <param name="accountId">The identifier of the account.</param>
+    /// <returns>The client scoped to the specified account.</returns>
     public ICalendarAccountClient GetClientForAccount(string accountId)
     {
         if (!_entries.TryGetValue(accountId, out AccountEntry? entry))
@@ -122,7 +141,13 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
         throw new NotSupportedException($"No provider registered for {entry.Account.ProviderType}.");
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Retrieves upcoming events across all connected accounts within the specified look-ahead window.
+    /// Events are sorted by start time and deduplicated across calendars.
+    /// </summary>
+    /// <param name="lookAhead">How far ahead to look for events.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A sorted, deduplicated list of upcoming events.</returns>
     public async Task<IReadOnlyList<CalendarEvent>> GetUpcomingEventsAsync(
         TimeSpan lookAhead,
         CancellationToken cancellationToken)

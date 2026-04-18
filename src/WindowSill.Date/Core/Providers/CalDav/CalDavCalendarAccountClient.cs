@@ -1,14 +1,12 @@
-using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Xml.Linq;
 using Ical.Net;
-using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 using CalendarEvent = WindowSill.Date.Core.Models.CalendarEvent;
 using ICalCalendarEvent = Ical.Net.CalendarComponents.CalendarEvent;
 
-namespace WindowSill.Date.Providers.CalDav;
+namespace WindowSill.Date.Core.Providers.CalDav;
 
 /// <summary>
 /// Per-account client for CalDAV calendar operations (RFC 4791).
@@ -250,13 +248,13 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
         bool isAllDay = !vEvent.Start.HasTime;
 
         DateTimeOffset startTime = isAllDay
-            ? new DateTimeOffset(vEvent.Start.Date, TimeSpan.Zero)
-            : new DateTimeOffset(vEvent.Start.AsDateTimeOffset.DateTime, vEvent.Start.AsDateTimeOffset.Offset);
+            ? new DateTimeOffset(vEvent.Start.Date.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero)
+            : new DateTimeOffset(vEvent.Start.Value, TimeSpan.Zero);
 
         DateTimeOffset endTime = vEvent.End is not null
             ? (isAllDay
-                ? new DateTimeOffset(vEvent.End.Date, TimeSpan.Zero)
-                : new DateTimeOffset(vEvent.End.AsDateTimeOffset.DateTime, vEvent.End.AsDateTimeOffset.Offset))
+                ? new DateTimeOffset(vEvent.End.Date.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero)
+                : new DateTimeOffset(vEvent.End.Value, TimeSpan.Zero))
             : startTime;
 
         string? description = vEvent.Description;
