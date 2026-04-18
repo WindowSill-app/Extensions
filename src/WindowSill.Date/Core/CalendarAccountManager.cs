@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.ComponentModel.Composition;
+using Microsoft.Extensions.Logging;
 using WindowSill.API;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Core.Providers.CalDav;
@@ -16,9 +17,12 @@ namespace WindowSill.Date.Core;
 [Export]
 internal sealed class CalendarAccountManager : IDisposable
 {
+    private readonly ILogger _logger;
     private readonly IReadOnlyDictionary<CalendarProviderType, ICalendarProvider> _providers;
     private readonly CalendarDataStore _dataStore;
     private readonly ConcurrentDictionary<string, AccountEntry> _entries = new();
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
+    private readonly Task _initializationTask;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CalendarAccountManager"/> class.
@@ -27,6 +31,7 @@ internal sealed class CalendarAccountManager : IDisposable
     [ImportingConstructor]
     public CalendarAccountManager(IPluginInfo pluginInfo)
     {
+        _logger = this.Log();
         _dataStore = new CalendarDataStore(pluginInfo.GetPluginDataFolder());
 
         _providers = new Dictionary<CalendarProviderType, ICalendarProvider>
@@ -36,6 +41,8 @@ internal sealed class CalendarAccountManager : IDisposable
             [CalendarProviderType.CalDav] = new CalDavCalendarProvider(),
             [CalendarProviderType.ICloud] = new ICloudCalendarProvider(),
         };
+
+        _initializationTask = LoadAccountsAsync(_cancellationTokenSource.Token);
     }
 
     /// <summary>
@@ -52,22 +59,10 @@ internal sealed class CalendarAccountManager : IDisposable
     /// Gets all currently connected accounts.
     /// </summary>
     /// <returns>A read-only list of connected calendar accounts.</returns>
-    public IReadOnlyList<CalendarAccount> GetAccounts()
+    public async Task<IReadOnlyList<CalendarAccount>> GetAccountsAsync()
     {
+        await _initializationTask;
         return _entries.Values.Select(e => e.Account).ToList();
-    }
-
-    /// <summary>
-    /// Loads previously saved accounts from encrypted storage. Call once on
-    /// app startup. Does not trigger <see cref="AccountAdded"/> events.
-    /// </summary>
-    public async Task LoadAccountsAsync(CancellationToken cancellationToken = default)
-    {
-        CalendarAccount[] accounts = await _dataStore.LoadAllAsync(cancellationToken);
-        foreach (CalendarAccount account in accounts)
-        {
-            _entries[account.Id] = new AccountEntry(account);
-        }
     }
 
     /// <summary>
@@ -86,6 +81,8 @@ internal sealed class CalendarAccountManager : IDisposable
         CalendarAccount account = await provider.ConnectAccountAsync(cancellationToken);
 
         ICalendarAccountClient client = provider.CreateClient(account, CreatePersistCallback(account.Id));
+
+        await _initializationTask;
         _entries[account.Id] = new AccountEntry(account, client);
 
         await _dataStore.SaveAsync(account, cancellationToken);
@@ -152,6 +149,8 @@ internal sealed class CalendarAccountManager : IDisposable
         TimeSpan lookAhead,
         CancellationToken cancellationToken)
     {
+        await _initializationTask;
+
         DateTimeOffset now = DateTimeOffset.Now;
         DateTimeOffset until = now.Add(lookAhead);
 
@@ -178,12 +177,41 @@ internal sealed class CalendarAccountManager : IDisposable
     /// <inheritdoc />
     public void Dispose()
     {
+        _cancellationTokenSource.Cancel();
+
+        _initializationTask.GetAwaiter().GetResult();
+
         foreach (AccountEntry entry in _entries.Values)
         {
             entry.Client?.DisposeAsync().AsTask().GetAwaiter().GetResult();
         }
 
         _entries.Clear();
+
+        _cancellationTokenSource.Dispose();
+    }
+
+    /// <summary>
+    /// Loads previously saved accounts from encrypted storage. Call once on
+    /// app startup.
+    /// </summary>
+    private async Task LoadAccountsAsync(CancellationToken cancellationToken = default)
+    {
+        await Task.Run(async () =>
+        {
+            try
+            {
+                CalendarAccount[] accounts = await _dataStore.LoadAllAsync(cancellationToken);
+                foreach (CalendarAccount account in accounts)
+                {
+                    _entries[account.Id] = new AccountEntry(account);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "Failed to load calendar accounts from storage. Starting with no accounts.");
+            }
+        });
     }
 
     /// <summary>

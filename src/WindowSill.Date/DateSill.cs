@@ -33,7 +33,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     [
         new SillSettingsView(
             DisplayName,
-            new(() => new SettingsView(_settingsProvider, _calendarAccountManager)))
+            new(() => new SettingsView(_settingsProvider, _calendarAccountManager, _pluginInfo.GetPluginContentDirectory())))
     ];
 
     /// <inheritdoc/>
