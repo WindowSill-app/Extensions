@@ -19,9 +19,7 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
 {
     private readonly IReadOnlyDictionary<CalendarProviderType, ICalendarProvider> _providers;
     private readonly CalendarDataStore _dataStore;
-    private readonly ConcurrentDictionary<string, CalendarAccount> _accounts = new();
-    private readonly ConcurrentDictionary<string, ICalendarAccountClient> _clients = new();
-    private readonly ConcurrentDictionary<string, bool> _deleted = new();
+    private readonly ConcurrentDictionary<string, AccountEntry> _entries = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CalendarAccountManager"/> class.
@@ -50,7 +48,7 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     /// <inheritdoc />
     public IReadOnlyList<CalendarAccount> GetAccounts()
     {
-        return _accounts.Values.ToList();
+        return _entries.Values.Select(e => e.Account).ToList();
     }
 
     /// <summary>
@@ -59,10 +57,10 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     /// </summary>
     public async Task LoadAccountsAsync(CancellationToken cancellationToken = default)
     {
-        CalendarAccount[] allAccounts = await _dataStore.LoadAllAsync(cancellationToken);
-        foreach (CalendarAccount account in allAccounts)
+        CalendarAccount[] accounts = await _dataStore.LoadAllAsync(cancellationToken);
+        foreach (CalendarAccount account in accounts)
         {
-            _accounts[account.Id] = account;
+            _entries[account.Id] = new AccountEntry(account);
         }
     }
 
@@ -74,62 +72,54 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
             throw new NotSupportedException($"No provider registered for {providerType}.");
         }
 
-        (CalendarAccount account, Dictionary<string, string> authData) = await provider.ConnectAccountAsync(cancellationToken);
+        CalendarAccount account = await provider.ConnectAccountAsync(cancellationToken);
 
-        CalendarAccount accountWithAuth = new()
-        {
-            Id = account.Id,
-            DisplayName = account.DisplayName,
-            Email = account.Email,
-            ProviderType = account.ProviderType,
-            AuthData = authData,
-        };
+        ICalendarAccountClient client = provider.CreateClient(account, CreatePersistCallback(account.Id));
+        _entries[account.Id] = new AccountEntry(account, client);
 
-        _accounts[account.Id] = accountWithAuth;
-        _clients[account.Id] = provider.CreateClient(accountWithAuth, authData, CreatePersistCallback(account.Id));
-
-        await _dataStore.SaveAsync(accountWithAuth, cancellationToken);
-        AccountAdded?.Invoke(this, accountWithAuth);
+        await _dataStore.SaveAsync(account, cancellationToken);
+        AccountAdded?.Invoke(this, account);
         return account;
     }
 
     /// <inheritdoc />
     public async Task RemoveAccountAsync(string accountId, CancellationToken cancellationToken)
     {
-        // Mark as deleted so the persist callback becomes a no-op.
-        _deleted[accountId] = true;
-
-        if (_clients.TryRemove(accountId, out ICalendarAccountClient? client))
+        if (_entries.TryRemove(accountId, out AccountEntry? entry))
         {
-            await client.DisconnectAsync(cancellationToken);
-            await client.DisposeAsync();
-        }
+            if (entry.Client is not null)
+            {
+                await entry.Client.DisconnectAsync(cancellationToken);
+                await entry.Client.DisposeAsync();
+            }
 
-        if (_accounts.TryRemove(accountId, out CalendarAccount? account))
-        {
             await _dataStore.DeleteAsync(accountId, cancellationToken);
-            AccountRemoved?.Invoke(this, account);
+            AccountRemoved?.Invoke(this, entry.Account);
         }
     }
 
     /// <inheritdoc />
     public ICalendarAccountClient GetClientForAccount(string accountId)
     {
-        if (_clients.TryGetValue(accountId, out ICalendarAccountClient? client))
+        if (!_entries.TryGetValue(accountId, out AccountEntry? entry))
         {
-            return client;
+            throw new KeyNotFoundException($"No account found with ID '{accountId}'.");
+        }
+
+        if (entry.Client is not null)
+        {
+            return entry.Client;
         }
 
         // Lazily create a client from persisted data.
-        if (_accounts.TryGetValue(accountId, out CalendarAccount? account)
-            && _providers.TryGetValue(account.ProviderType, out ICalendarProvider? provider))
+        if (_providers.TryGetValue(entry.Account.ProviderType, out ICalendarProvider? provider))
         {
-            client = provider.CreateClient(account, account.AuthData, CreatePersistCallback(accountId));
-            _clients[accountId] = client;
+            ICalendarAccountClient client = provider.CreateClient(entry.Account, CreatePersistCallback(accountId));
+            _entries[accountId] = entry with { Client = client };
             return client;
         }
 
-        throw new KeyNotFoundException($"No account found with ID '{accountId}'.");
+        throw new NotSupportedException($"No provider registered for {entry.Account.ProviderType}.");
     }
 
     /// <inheritdoc />
@@ -140,7 +130,7 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
         DateTimeOffset now = DateTimeOffset.Now;
         DateTimeOffset until = now.Add(lookAhead);
 
-        Task<IReadOnlyList<CalendarEvent>>[] tasks = _accounts.Keys
+        Task<IReadOnlyList<CalendarEvent>>[] tasks = _entries.Keys
             .Select(async accountId =>
             {
                 try
@@ -163,36 +153,29 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     /// <inheritdoc />
     public void Dispose()
     {
-        foreach (ICalendarAccountClient client in _clients.Values)
+        foreach (AccountEntry entry in _entries.Values)
         {
-            client.DisposeAsync().AsTask().GetAwaiter().GetResult();
+            entry.Client?.DisposeAsync().AsTask().GetAwaiter().GetResult();
         }
 
-        _clients.Clear();
-        _accounts.Clear();
+        _entries.Clear();
     }
 
     /// <summary>
-    /// Creates a callback that providers call when their auth data changes
-    /// (e.g., token refresh). The callback updates the in-memory data and
-    /// persists to disk. Becomes a no-op if the account has been deleted.
+    /// Creates a callback that providers call when their auth data changes.
+    /// Becomes a no-op if the account has been removed.
     /// </summary>
     private Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> CreatePersistCallback(string accountId)
     {
         return async (updatedAuthData, cancellationToken) =>
         {
-            if (_deleted.ContainsKey(accountId))
+            if (!_entries.TryGetValue(accountId, out AccountEntry? entry))
             {
                 return;
             }
 
-            if (!_accounts.TryGetValue(accountId, out CalendarAccount? existing))
-            {
-                return;
-            }
-
-            CalendarAccount updated = existing.WithAuthData(new Dictionary<string, string>(updatedAuthData));
-            _accounts[accountId] = updated;
+            CalendarAccount updated = entry.Account.WithAuthData(new Dictionary<string, string>(updatedAuthData));
+            _entries[accountId] = entry with { Account = updated };
 
             await _dataStore.SaveAsync(updated, cancellationToken);
         };
@@ -206,4 +189,9 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
             .OrderBy(e => e.StartTime)
             .ToList();
     }
+
+    /// <summary>
+    /// Tracks a connected account and its lazily-created client.
+    /// </summary>
+    private sealed record AccountEntry(CalendarAccount Account, ICalendarAccountClient? Client = null);
 }

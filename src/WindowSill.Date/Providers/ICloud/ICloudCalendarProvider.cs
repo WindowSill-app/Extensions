@@ -17,21 +17,17 @@ internal sealed class ICloudCalendarProvider : CalDavCalendarProvider
     public override string DisplayName => "Apple iCloud";
 
     /// <inheritdoc />
-    public override async Task<(CalendarAccount Account, Dictionary<string, string> AuthData)> ConnectAccountAsync(
-        CancellationToken cancellationToken)
+    public override async Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken)
     {
-        // iCloud uses app-specific passwords for CalDAV access.
         // TODO: Prompt user for Apple ID and app-specific password via UI.
-        // Return authData with server_url=https://caldav.icloud.com, username, password.
         throw new NotImplementedException("iCloud account setup not yet implemented.");
     }
 
     /// <inheritdoc />
     public override ICalendarAccountClient CreateClient(
         CalendarAccount account,
-        IReadOnlyDictionary<string, string> authData,
         Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> onAuthDataChanged)
     {
-        return new ICloudCalendarAccountClient(account, authData);
+        return new ICloudCalendarAccountClient(account, account.AuthData);
     }
 }

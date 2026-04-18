@@ -15,23 +15,17 @@ internal sealed class GoogleCalendarProvider : ICalendarProvider
     public string DisplayName => "Google Calendar";
 
     /// <inheritdoc />
-    public async Task<(CalendarAccount Account, Dictionary<string, string> AuthData)> ConnectAccountAsync(
-        CancellationToken cancellationToken)
+    public async Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken)
     {
         // TODO: Implement Google OAuth 2.0 flow.
-        // 1. Build authorize URL with Google Calendar scopes.
-        // 2. Open browser for user sign-in.
-        // 3. Exchange code for tokens.
-        // 4. Return account + authData with access_token, refresh_token.
         throw new NotImplementedException("Google OAuth flow not yet implemented.");
     }
 
     /// <inheritdoc />
     public ICalendarAccountClient CreateClient(
         CalendarAccount account,
-        IReadOnlyDictionary<string, string> authData,
         Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> onAuthDataChanged)
     {
-        return new GoogleCalendarAccountClient(account, authData, onAuthDataChanged);
+        return new GoogleCalendarAccountClient(account, account.AuthData, onAuthDataChanged);
     }
 }

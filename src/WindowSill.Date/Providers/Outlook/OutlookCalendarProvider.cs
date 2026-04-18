@@ -23,12 +23,10 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
     public string DisplayName => "Microsoft Outlook";
 
     /// <inheritdoc />
-    public async Task<(CalendarAccount Account, Dictionary<string, string> AuthData)> ConnectAccountAsync(
-        CancellationToken cancellationToken)
+    public async Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken)
     {
         IPublicClientApplication msalClient = BuildMsalClient();
 
-        // Capture the token cache after interactive auth.
         byte[]? capturedCache = null;
         msalClient.UserTokenCache.SetAfterAccess(args =>
         {
@@ -44,7 +42,6 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
             .ExecuteAsync(cancellationToken);
 
         string email = authResult.Account.Username ?? "unknown@outlook.com";
-        string accountId = $"outlook_{email}";
 
         var authData = new Dictionary<string, string>();
         if (capturedCache is { Length: > 0 })
@@ -52,27 +49,24 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
             authData[MsalCacheKey] = Convert.ToBase64String(capturedCache);
         }
 
-        CalendarAccount account = new()
+        return new CalendarAccount
         {
-            Id = accountId,
+            Id = $"outlook_{email}",
             DisplayName = authResult.Account.Username ?? "Outlook Account",
             Email = email,
             ProviderType = CalendarProviderType.Outlook,
+            AuthData = authData,
         };
-
-        return (account, authData);
     }
 
     /// <inheritdoc />
     public ICalendarAccountClient CreateClient(
         CalendarAccount account,
-        IReadOnlyDictionary<string, string> authData,
         Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> onAuthDataChanged)
     {
         IPublicClientApplication msalClient = BuildMsalClient();
 
-        // Load persisted cache into MSAL.
-        if (authData.TryGetValue(MsalCacheKey, out string? cached) && !string.IsNullOrEmpty(cached))
+        if (account.AuthData.TryGetValue(MsalCacheKey, out string? cached) && !string.IsNullOrEmpty(cached))
         {
             byte[] cacheData = Convert.FromBase64String(cached);
             msalClient.UserTokenCache.SetBeforeAccess(args =>
@@ -81,7 +75,6 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
             });
         }
 
-        // Persist cache updates via the manager's callback.
         msalClient.UserTokenCache.SetAfterAccessAsync(async args =>
         {
             if (args.HasStateChanged)
