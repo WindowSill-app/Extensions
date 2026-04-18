@@ -83,7 +83,7 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
         _accounts[account.Id] = account;
         _clients[account.Id] = provider.CreateClient(account);
 
-        PersistAccountsAsync().ConfigureAwait(false);
+        PersistAccountAsync(account).ConfigureAwait(false);
         AccountAdded?.Invoke(this, account);
         return account;
     }
@@ -99,7 +99,7 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
 
         if (_accounts.TryRemove(accountId, out CalendarAccount? account))
         {
-            PersistAccountsAsync().ConfigureAwait(false);
+            _dataStore.DeleteAccount(accountId);
             AccountRemoved?.Invoke(this, account);
         }
     }
@@ -166,11 +166,11 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     }
 
     /// <summary>
-    /// Persists the current account list to encrypted storage.
+    /// Persists a single account to its encrypted file.
     /// </summary>
-    private async Task PersistAccountsAsync()
+    private async Task PersistAccountAsync(CalendarAccount account)
     {
-        await _dataStore.SaveAccountsAsync(_accounts.Values.ToList());
+        await _dataStore.SaveAccountAsync(account);
     }
 
     /// <summary>

@@ -7,16 +7,18 @@ using Path = System.IO.Path;
 namespace WindowSill.Date.Core;
 
 /// <summary>
-/// Persists calendar account data and provider-specific caches (tokens, credentials)
-/// to encrypted files in the plugin data folder using DPAPI (current-user scope).
-/// This avoids the 8KB per-setting limit of <c>ISettingsProvider</c>.
-/// Also implements <see cref="ICalendarCredentialStore"/> so CalDAV, Google, and
-/// iCloud providers can store per-account credentials in the same encrypted store.
+/// Persists calendar data to DPAPI-encrypted files in the plugin data folder.
+/// Each connected account gets a single encrypted file (<c>{accountId}.dat</c>)
+/// containing the account metadata, string credentials (key/value), and an
+/// optional raw binary cache (e.g., MSAL token cache). The folder is scanned
+/// on startup to discover all accounts — no separate index file needed.
+///
+/// This avoids the 8KB per-setting limit of <c>ISettingsProvider</c> and keeps
+/// the storage model identical across all providers.
 /// </summary>
 internal sealed class CalendarDataStore : ICalendarCredentialStore
 {
-    private const string AccountsFileName = "accounts.dat";
-    private const string CredentialsFileName = "credentials.dat";
+    private const string FileExtension = ".dat";
 
     private readonly string _dataFolder;
     private readonly SemaphoreSlim _lock = new(1, 1);
@@ -31,164 +33,123 @@ internal sealed class CalendarDataStore : ICalendarCredentialStore
         Directory.CreateDirectory(_dataFolder);
     }
 
+    // --- Account discovery and persistence ---
+
     /// <summary>
-    /// Loads the saved calendar accounts. Returns an empty array if no data exists.
+    /// Discovers all saved accounts by scanning the data folder for <c>.dat</c> files.
+    /// Returns an empty array if no accounts exist.
     /// </summary>
     internal async Task<CalendarAccount[]> LoadAccountsAsync(CancellationToken cancellationToken = default)
     {
-        AccountRecord[]? records = await ReadEncryptedAsync<AccountRecord[]>(AccountsFileName, cancellationToken);
-        if (records is null or { Length: 0 })
+        var accounts = new List<CalendarAccount>();
+
+        string[] files = Directory.GetFiles(_dataFolder, $"*{FileExtension}");
+        foreach (string filePath in files)
+        {
+            AccountEnvelope? envelope = await ReadEnvelopeAsync(Path.GetFileName(filePath), cancellationToken);
+            if (envelope?.Account is not null)
+            {
+                accounts.Add(new CalendarAccount
+                {
+                    Id = envelope.Account.Id,
+                    DisplayName = envelope.Account.DisplayName,
+                    Email = envelope.Account.Email,
+                    ProviderType = envelope.Account.ProviderType,
+                });
+            }
+        }
+
+        return [.. accounts];
+    }
+
+    /// <summary>
+    /// Saves (creates or updates) the data file for a single account.
+    /// Preserves existing credentials and cache if the file already exists.
+    /// </summary>
+    internal async Task SaveAccountAsync(CalendarAccount account, CancellationToken cancellationToken = default)
+    {
+        string fileName = GetAccountFileName(account.Id);
+        AccountEnvelope envelope = await ReadEnvelopeAsync(fileName, cancellationToken) ?? new();
+
+        envelope.Account = new AccountRecord
+        {
+            Id = account.Id,
+            DisplayName = account.DisplayName,
+            Email = account.Email,
+            ProviderType = account.ProviderType,
+        };
+
+        await WriteEnvelopeAsync(fileName, envelope, cancellationToken);
+    }
+
+    /// <summary>
+    /// Deletes all data for a specific account.
+    /// </summary>
+    internal void DeleteAccount(string accountId)
+    {
+        TryDeleteFile(GetAccountFileName(accountId));
+    }
+
+    // --- Per-account raw binary cache (e.g., MSAL token cache) ---
+
+    /// <summary>
+    /// Loads the raw binary cache for a specific account.
+    /// </summary>
+    /// <param name="accountId">The account whose cache to load.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>The raw cache bytes, or an empty array if none exists.</returns>
+    internal async Task<byte[]> LoadAccountCacheAsync(string accountId, CancellationToken cancellationToken = default)
+    {
+        AccountEnvelope? envelope = await ReadEnvelopeAsync(GetAccountFileName(accountId), cancellationToken);
+        if (envelope?.BinaryCache is null or { Length: 0 })
         {
             return [];
         }
 
-        return records
-            .Select(r => new CalendarAccount
-            {
-                Id = r.Id,
-                DisplayName = r.DisplayName,
-                Email = r.Email,
-                ProviderType = r.ProviderType,
-            })
-            .ToArray();
+        return Convert.FromBase64String(envelope.BinaryCache);
     }
 
     /// <summary>
-    /// Saves the current list of calendar accounts.
+    /// Saves a raw binary cache for a specific account.
     /// </summary>
-    internal async Task SaveAccountsAsync(IReadOnlyList<CalendarAccount> accounts, CancellationToken cancellationToken = default)
-    {
-        AccountRecord[] records = accounts
-            .Select(a => new AccountRecord
-            {
-                Id = a.Id,
-                DisplayName = a.DisplayName,
-                Email = a.Email,
-                ProviderType = a.ProviderType,
-            })
-            .ToArray();
-
-        await WriteEncryptedAsync(AccountsFileName, records, cancellationToken);
-    }
-
-    /// <summary>
-    /// Loads a provider-specific token/credential cache.
-    /// Each provider gets its own encrypted file keyed by <paramref name="providerType"/>.
-    /// </summary>
-    /// <param name="providerType">The provider whose cache to load.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>The raw cache bytes, or an empty array if no data exists.</returns>
-    internal async Task<byte[]> LoadProviderCacheAsync(
-        CalendarProviderType providerType,
-        CancellationToken cancellationToken = default)
-    {
-        return await ReadEncryptedRawAsync(GetProviderCacheFileName(providerType), cancellationToken) ?? [];
-    }
-
-    /// <summary>
-    /// Saves a provider-specific token/credential cache.
-    /// Each provider gets its own encrypted file keyed by <paramref name="providerType"/>.
-    /// </summary>
-    /// <param name="providerType">The provider whose cache to save.</param>
+    /// <param name="accountId">The account whose cache to save.</param>
     /// <param name="cacheData">The raw cache bytes to persist.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    internal async Task SaveProviderCacheAsync(
-        CalendarProviderType providerType,
-        byte[] cacheData,
-        CancellationToken cancellationToken = default)
+    internal async Task SaveAccountCacheAsync(string accountId, byte[] cacheData, CancellationToken cancellationToken = default)
     {
-        await WriteEncryptedRawAsync(GetProviderCacheFileName(providerType), cacheData, cancellationToken);
+        string fileName = GetAccountFileName(accountId);
+        AccountEnvelope envelope = await ReadEnvelopeAsync(fileName, cancellationToken) ?? new();
+        envelope.BinaryCache = Convert.ToBase64String(cacheData);
+        await WriteEnvelopeAsync(fileName, envelope, cancellationToken);
     }
 
-    /// <summary>
-    /// Deletes the provider-specific token/credential cache.
-    /// </summary>
-    /// <param name="providerType">The provider whose cache to delete.</param>
-    internal void ClearProviderCache(CalendarProviderType providerType)
-    {
-        TryDeleteFile(GetProviderCacheFileName(providerType));
-    }
-
-    /// <summary>
-    /// Deletes all persisted data (accounts and all provider caches).
-    /// </summary>
-    internal void Clear()
-    {
-        TryDeleteFile(AccountsFileName);
-        TryDeleteFile(CredentialsFileName);
-        foreach (CalendarProviderType providerType in Enum.GetValues<CalendarProviderType>())
-        {
-            TryDeleteFile(GetProviderCacheFileName(providerType));
-        }
-    }
-
-    // --- ICalendarCredentialStore implementation ---
+    // --- ICalendarCredentialStore (per-account key/value strings) ---
 
     /// <inheritdoc />
     public async Task StoreAsync(string accountId, string key, string value, CancellationToken cancellationToken)
     {
-        Dictionary<string, string> credentials = await LoadCredentialsDictionaryAsync(cancellationToken);
-        credentials[$"{accountId}:{key}"] = value;
-        await WriteEncryptedAsync(CredentialsFileName, credentials, cancellationToken);
+        string fileName = GetAccountFileName(accountId);
+        AccountEnvelope envelope = await ReadEnvelopeAsync(fileName, cancellationToken) ?? new();
+        envelope.Credentials[key] = value;
+        await WriteEnvelopeAsync(fileName, envelope, cancellationToken);
     }
 
     /// <inheritdoc />
     public async Task<string?> RetrieveAsync(string accountId, string key, CancellationToken cancellationToken)
     {
-        Dictionary<string, string> credentials = await LoadCredentialsDictionaryAsync(cancellationToken);
-        return credentials.GetValueOrDefault($"{accountId}:{key}");
+        AccountEnvelope? envelope = await ReadEnvelopeAsync(GetAccountFileName(accountId), cancellationToken);
+        return envelope?.Credentials.GetValueOrDefault(key);
     }
 
     /// <inheritdoc />
     public async Task RemoveAsync(string accountId, CancellationToken cancellationToken)
     {
-        Dictionary<string, string> credentials = await LoadCredentialsDictionaryAsync(cancellationToken);
-        string prefix = $"{accountId}:";
-        List<string> keysToRemove = credentials.Keys.Where(k => k.StartsWith(prefix, StringComparison.Ordinal)).ToList();
-
-        if (keysToRemove.Count == 0)
-        {
-            return;
-        }
-
-        foreach (string credKey in keysToRemove)
-        {
-            credentials.Remove(credKey);
-        }
-
-        await WriteEncryptedAsync(CredentialsFileName, credentials, cancellationToken);
+        DeleteAccount(accountId);
     }
 
-    private async Task<Dictionary<string, string>> LoadCredentialsDictionaryAsync(CancellationToken cancellationToken)
-    {
-        return await ReadEncryptedAsync<Dictionary<string, string>>(CredentialsFileName, cancellationToken) ?? new();
-    }
+    // --- File I/O helpers ---
 
-    private static string GetProviderCacheFileName(CalendarProviderType providerType)
-    {
-        return $"{providerType.ToString().ToLowerInvariant()}_tokens.dat";
-    }
-
-    private async Task<T?> ReadEncryptedAsync<T>(string fileName, CancellationToken cancellationToken) where T : class
-    {
-        byte[]? plaintext = await ReadEncryptedRawAsync(fileName, cancellationToken);
-        if (plaintext is null or { Length: 0 })
-        {
-            return null;
-        }
-
-        string json = Encoding.UTF8.GetString(plaintext);
-        return JsonSerializer.Deserialize<T>(json, JsonSerializerOptions.Web);
-    }
-
-    private async Task WriteEncryptedAsync<T>(string fileName, T data, CancellationToken cancellationToken)
-    {
-        string json = JsonSerializer.Serialize(data, JsonSerializerOptions.Web);
-        byte[] plaintext = Encoding.UTF8.GetBytes(json);
-        await WriteEncryptedRawAsync(fileName, plaintext, cancellationToken);
-    }
-
-    private async Task<byte[]?> ReadEncryptedRawAsync(string fileName, CancellationToken cancellationToken)
+    private async Task<AccountEnvelope?> ReadEnvelopeAsync(string fileName, CancellationToken cancellationToken)
     {
         string filePath = Path.Combine(_dataFolder, fileName);
         if (!File.Exists(filePath))
@@ -200,11 +161,12 @@ internal sealed class CalendarDataStore : ICalendarCredentialStore
         try
         {
             byte[] encrypted = await File.ReadAllBytesAsync(filePath, cancellationToken);
-            return ProtectedData.Unprotect(encrypted, null, DataProtectionScope.CurrentUser);
+            byte[] plaintext = ProtectedData.Unprotect(encrypted, null, DataProtectionScope.CurrentUser);
+            string json = Encoding.UTF8.GetString(plaintext);
+            return JsonSerializer.Deserialize<AccountEnvelope>(json, JsonSerializerOptions.Web);
         }
         catch (Exception)
         {
-            // Corrupted or tampered — treat as empty.
             return null;
         }
         finally
@@ -213,20 +175,29 @@ internal sealed class CalendarDataStore : ICalendarCredentialStore
         }
     }
 
-    private async Task WriteEncryptedRawAsync(string fileName, byte[] data, CancellationToken cancellationToken)
+    private async Task WriteEnvelopeAsync(string fileName, AccountEnvelope envelope, CancellationToken cancellationToken)
     {
         string filePath = Path.Combine(_dataFolder, fileName);
 
         await _lock.WaitAsync(cancellationToken);
         try
         {
-            byte[] encrypted = ProtectedData.Protect(data, null, DataProtectionScope.CurrentUser);
+            string json = JsonSerializer.Serialize(envelope, JsonSerializerOptions.Web);
+            byte[] plaintext = Encoding.UTF8.GetBytes(json);
+            byte[] encrypted = ProtectedData.Protect(plaintext, null, DataProtectionScope.CurrentUser);
             await File.WriteAllBytesAsync(filePath, encrypted, cancellationToken);
         }
         finally
         {
             _lock.Release();
         }
+    }
+
+    private static string GetAccountFileName(string accountId)
+    {
+        char[] invalidChars = Path.GetInvalidFileNameChars();
+        string safe = new(accountId.Select(c => Array.IndexOf(invalidChars, c) >= 0 ? '_' : c).ToArray());
+        return $"{safe}{FileExtension}";
     }
 
     private void TryDeleteFile(string fileName)
@@ -245,9 +216,19 @@ internal sealed class CalendarDataStore : ICalendarCredentialStore
         }
     }
 
+    // --- Envelope model (what gets serialized into each .dat file) ---
+
     /// <summary>
-    /// Serializable record for calendar account persistence.
+    /// The single JSON structure persisted per account file. Contains the account
+    /// metadata, string credentials, and optional binary cache.
     /// </summary>
+    private sealed class AccountEnvelope
+    {
+        public AccountRecord? Account { get; set; }
+        public Dictionary<string, string> Credentials { get; set; } = new();
+        public string? BinaryCache { get; set; }
+    }
+
     private sealed record AccountRecord
     {
         public string Id { get; set; } = string.Empty;

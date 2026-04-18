@@ -1,4 +1,3 @@
-using System.ComponentModel.Composition;
 using Microsoft.Identity.Client;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
@@ -7,7 +6,8 @@ namespace WindowSill.Date.Providers.Outlook;
 
 /// <summary>
 /// Calendar provider for Microsoft Outlook using the Microsoft Graph API
-/// and MSAL for authentication. Supports multiple concurrent accounts.
+/// and MSAL for authentication. Creates one MSAL client per account so each
+/// account gets its own isolated token cache file.
 /// </summary>
 internal sealed class OutlookCalendarProvider : ICalendarProvider
 {
@@ -19,12 +19,11 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
     internal static readonly string[] Scopes = ["Calendars.Read", "Calendars.ReadWrite", "User.Read"];
 
     private readonly CalendarDataStore _dataStore;
-    private IPublicClientApplication? _msalClient;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OutlookCalendarProvider"/> class.
     /// </summary>
-    /// <param name="dataStore">The data store for persisting the MSAL token cache.</param>
+    /// <param name="dataStore">The data store for persisting per-account token caches.</param>
     internal OutlookCalendarProvider(CalendarDataStore dataStore)
     {
         _dataStore = dataStore;
@@ -39,16 +38,32 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
     /// <inheritdoc />
     public async Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken)
     {
-        IPublicClientApplication msalClient = GetOrCreateMsalClient();
+        // Use a temporary MSAL client for the interactive flow.
+        IPublicClientApplication tempClient = BuildMsalClient();
 
-        AuthenticationResult authResult
-            = await msalClient
-                .AcquireTokenInteractive(Scopes)
-                .WithPrompt(Prompt.SelectAccount)
-                .ExecuteAsync(cancellationToken);
+        // Hook a one-time cache capture so we can persist after auth.
+        byte[]? capturedCache = null;
+        tempClient.UserTokenCache.SetAfterAccess(args =>
+        {
+            if (args.HasStateChanged)
+            {
+                capturedCache = args.TokenCache.SerializeMsalV3();
+            }
+        });
+
+        AuthenticationResult authResult = await tempClient
+            .AcquireTokenInteractive(Scopes)
+            .WithPrompt(Prompt.SelectAccount)
+            .ExecuteAsync(cancellationToken);
 
         string email = authResult.Account.Username ?? "unknown@outlook.com";
         string accountId = $"outlook_{email}";
+
+        // Persist the captured token cache into the account's file.
+        if (capturedCache is { Length: > 0 })
+        {
+            await _dataStore.SaveAccountCacheAsync(accountId, capturedCache, cancellationToken);
+        }
 
         return new CalendarAccount
         {
@@ -62,49 +77,48 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
     /// <inheritdoc />
     public ICalendarAccountClient CreateClient(CalendarAccount account)
     {
-        return new OutlookCalendarAccountClient(account, GetOrCreateMsalClient());
+        IPublicClientApplication msalClient = BuildMsalClientForAccount(account.Id);
+        return new OutlookCalendarAccountClient(account, msalClient);
     }
 
     /// <summary>
-    /// Gets the shared MSAL client with token cache persistence.
-    /// A single MSAL client manages all Outlook accounts; MSAL internally
-    /// partitions token caches per account.
+    /// Builds a fresh MSAL client (no cache hooks).
     /// </summary>
-    internal IPublicClientApplication GetOrCreateMsalClient()
+    private static IPublicClientApplication BuildMsalClient()
     {
-        if (_msalClient is not null)
-        {
-            return _msalClient;
-        }
-
-        _msalClient = PublicClientApplicationBuilder
+        return PublicClientApplicationBuilder
             .Create(ClientId)
             .WithAuthority(Authority)
             .WithRedirectUri("http://localhost")
             .Build();
-
-        // Hook into MSAL's token cache to persist across app restarts.
-        _msalClient.UserTokenCache.SetBeforeAccessAsync(OnBeforeTokenCacheAccessAsync);
-        _msalClient.UserTokenCache.SetAfterAccessAsync(OnAfterTokenCacheAccessAsync);
-
-        return _msalClient;
     }
 
-    private async Task OnBeforeTokenCacheAccessAsync(TokenCacheNotificationArgs args)
+    /// <summary>
+    /// Builds an MSAL client for a specific account, with token cache
+    /// hooks that persist to the account's encrypted file.
+    /// </summary>
+    private IPublicClientApplication BuildMsalClientForAccount(string accountId)
     {
-        byte[] cacheData = await _dataStore.LoadProviderCacheAsync(CalendarProviderType.Outlook);
-        if (cacheData.Length > 0)
-        {
-            args.TokenCache.DeserializeMsalV3(cacheData);
-        }
-    }
+        IPublicClientApplication client = BuildMsalClient();
 
-    private async Task OnAfterTokenCacheAccessAsync(TokenCacheNotificationArgs args)
-    {
-        if (args.HasStateChanged)
+        client.UserTokenCache.SetBeforeAccessAsync(async args =>
         {
-            byte[] cacheData = args.TokenCache.SerializeMsalV3();
-            await _dataStore.SaveProviderCacheAsync(CalendarProviderType.Outlook, cacheData);
-        }
+            byte[] cacheData = await _dataStore.LoadAccountCacheAsync(accountId);
+            if (cacheData.Length > 0)
+            {
+                args.TokenCache.DeserializeMsalV3(cacheData);
+            }
+        });
+
+        client.UserTokenCache.SetAfterAccessAsync(async args =>
+        {
+            if (args.HasStateChanged)
+            {
+                byte[] cacheData = args.TokenCache.SerializeMsalV3();
+                await _dataStore.SaveAccountCacheAsync(accountId, cacheData);
+            }
+        });
+
+        return client;
     }
 }
