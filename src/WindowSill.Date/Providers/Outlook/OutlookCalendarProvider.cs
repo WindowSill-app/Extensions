@@ -1,8 +1,5 @@
 using System.ComponentModel.Composition;
-using Microsoft.Graph;
 using Microsoft.Identity.Client;
-using Microsoft.Kiota.Abstractions.Authentication;
-using WindowSill.API;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 
@@ -12,7 +9,6 @@ namespace WindowSill.Date.Providers.Outlook;
 /// Calendar provider for Microsoft Outlook using the Microsoft Graph API
 /// and MSAL for authentication. Supports multiple concurrent accounts.
 /// </summary>
-[Export(typeof(ICalendarProvider))]
 internal sealed class OutlookCalendarProvider : ICalendarProvider
 {
     // Multi-tenant app registration for calendar access.
@@ -22,17 +18,16 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
 
     internal static readonly string[] Scopes = ["Calendars.Read", "Calendars.ReadWrite", "User.Read"];
 
-    private readonly ISettingsProvider _settingsProvider;
+    private readonly CalendarDataStore _dataStore;
     private IPublicClientApplication? _msalClient;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="OutlookCalendarProvider"/> class.
     /// </summary>
-    /// <param name="settingsProvider">The settings provider for persisting the MSAL token cache.</param>
-    [ImportingConstructor]
-    public OutlookCalendarProvider(ISettingsProvider settingsProvider)
+    /// <param name="dataStore">The data store for persisting the MSAL token cache.</param>
+    internal OutlookCalendarProvider(CalendarDataStore dataStore)
     {
-        _settingsProvider = settingsProvider;
+        _dataStore = dataStore;
     }
 
     /// <inheritdoc />
@@ -46,12 +41,11 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
     {
         IPublicClientApplication msalClient = GetOrCreateMsalClient();
 
-        // Always go interactive with account picker so user can choose
-        // which account to add (supports adding multiple accounts).
-        AuthenticationResult authResult = await msalClient
-            .AcquireTokenInteractive(Scopes)
-            .WithPrompt(Prompt.SelectAccount)
-            .ExecuteAsync(cancellationToken);
+        AuthenticationResult authResult
+            = await msalClient
+                .AcquireTokenInteractive(Scopes)
+                .WithPrompt(Prompt.SelectAccount)
+                .ExecuteAsync(cancellationToken);
 
         string email = authResult.Account.Username ?? "unknown@outlook.com";
         string accountId = $"outlook_{email}";
@@ -96,27 +90,21 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
         return _msalClient;
     }
 
-    private Task OnBeforeTokenCacheAccessAsync(TokenCacheNotificationArgs args)
+    private async Task OnBeforeTokenCacheAccessAsync(TokenCacheNotificationArgs args)
     {
-        string serialized = _settingsProvider.GetSetting(Settings.Settings.OutlookTokenCache);
-        if (!string.IsNullOrEmpty(serialized))
+        byte[] cacheData = await _dataStore.LoadProviderCacheAsync(CalendarProviderType.Outlook);
+        if (cacheData.Length > 0)
         {
-            byte[] cacheData = Convert.FromBase64String(serialized);
             args.TokenCache.DeserializeMsalV3(cacheData);
         }
-
-        return Task.CompletedTask;
     }
 
-    private Task OnAfterTokenCacheAccessAsync(TokenCacheNotificationArgs args)
+    private async Task OnAfterTokenCacheAccessAsync(TokenCacheNotificationArgs args)
     {
         if (args.HasStateChanged)
         {
             byte[] cacheData = args.TokenCache.SerializeMsalV3();
-            string serialized = Convert.ToBase64String(cacheData);
-            _settingsProvider.SetSetting(Settings.Settings.OutlookTokenCache, serialized);
+            await _dataStore.SaveProviderCacheAsync(CalendarProviderType.Outlook, cacheData);
         }
-
-        return Task.CompletedTask;
     }
 }

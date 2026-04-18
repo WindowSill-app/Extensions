@@ -7,7 +7,6 @@ namespace WindowSill.Date.Providers.CalDav;
 /// <summary>
 /// Calendar provider for generic CalDAV servers (RFC 4791).
 /// </summary>
-[Export(typeof(ICalendarProvider))]
 internal class CalDavCalendarProvider : ICalendarProvider
 {
     private readonly ICalendarCredentialStore _credentialStore;
@@ -16,8 +15,7 @@ internal class CalDavCalendarProvider : ICalendarProvider
     /// Initializes a new instance of the <see cref="CalDavCalendarProvider"/> class.
     /// </summary>
     /// <param name="credentialStore">The credential store for persisting credentials.</param>
-    [ImportingConstructor]
-    public CalDavCalendarProvider(ICalendarCredentialStore credentialStore)
+    internal CalDavCalendarProvider(ICalendarCredentialStore credentialStore)
     {
         _credentialStore = credentialStore;
     }

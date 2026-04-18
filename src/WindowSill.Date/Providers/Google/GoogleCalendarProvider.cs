@@ -1,5 +1,3 @@
-using System.ComponentModel.Composition;
-using Google.Apis.Calendar.v3;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 
@@ -8,21 +6,16 @@ namespace WindowSill.Date.Providers.Google;
 /// <summary>
 /// Calendar provider for Google Calendar using the Google Calendar API.
 /// </summary>
-[Export(typeof(ICalendarProvider))]
 internal sealed class GoogleCalendarProvider : ICalendarProvider
 {
-    private readonly ICalendarAuthBroker _authBroker;
     private readonly ICalendarCredentialStore _credentialStore;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GoogleCalendarProvider"/> class.
     /// </summary>
-    /// <param name="authBroker">The auth broker for handling OAuth flows.</param>
     /// <param name="credentialStore">The credential store for persisting tokens.</param>
-    [ImportingConstructor]
-    public GoogleCalendarProvider(ICalendarAuthBroker authBroker, ICalendarCredentialStore credentialStore)
+    internal GoogleCalendarProvider(ICalendarCredentialStore credentialStore)
     {
-        _authBroker = authBroker;
         _credentialStore = credentialStore;
     }
 

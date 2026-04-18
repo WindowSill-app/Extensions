@@ -9,7 +9,6 @@ namespace WindowSill.Date.Providers.ICloud;
 /// Calendar provider for Apple iCloud Calendar, extending the CalDAV provider
 /// with Apple-specific server endpoints and authentication.
 /// </summary>
-[Export(typeof(ICalendarProvider))]
 internal sealed class ICloudCalendarProvider : CalDavCalendarProvider
 {
     private readonly ICalendarCredentialStore _credentialStore;
@@ -18,8 +17,7 @@ internal sealed class ICloudCalendarProvider : CalDavCalendarProvider
     /// Initializes a new instance of the <see cref="ICloudCalendarProvider"/> class.
     /// </summary>
     /// <param name="credentialStore">The credential store for persisting credentials.</param>
-    [ImportingConstructor]
-    public ICloudCalendarProvider(ICalendarCredentialStore credentialStore)
+    internal ICloudCalendarProvider(ICalendarCredentialStore credentialStore)
         : base(credentialStore)
     {
         _credentialStore = credentialStore;

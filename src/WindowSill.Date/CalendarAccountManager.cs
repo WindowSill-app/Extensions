@@ -3,36 +3,44 @@ using System.ComponentModel.Composition;
 using WindowSill.API;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
-using WindowSill.Date.Settings;
+using WindowSill.Date.Providers.CalDav;
+using WindowSill.Date.Providers.Google;
+using WindowSill.Date.Providers.ICloud;
+using WindowSill.Date.Providers.Outlook;
 
 namespace WindowSill.Date;
 
 /// <summary>
 /// Manages connected calendar accounts across all providers and provides
-/// aggregated access to calendar events. Uses MEF to discover available providers.
-/// Persists account information to <see cref="ISettingsProvider"/> so accounts
-/// survive app restarts.
+/// aggregated access to calendar events. Persists account information and
+/// auth tokens to DPAPI-encrypted files in the plugin data folder.
 /// </summary>
 [Export(typeof(ICalendarAccountManager))]
 internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposable
 {
     private readonly IReadOnlyDictionary<CalendarProviderType, ICalendarProvider> _providers;
-    private readonly ISettingsProvider _settingsProvider;
+    private readonly CalendarDataStore _dataStore;
     private readonly ConcurrentDictionary<string, CalendarAccount> _accounts = new();
     private readonly ConcurrentDictionary<string, ICalendarAccountClient> _clients = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CalendarAccountManager"/> class.
     /// </summary>
-    /// <param name="providers">All available calendar providers, discovered via MEF.</param>
-    /// <param name="settingsProvider">The settings provider for persisting accounts.</param>
+    /// <param name="pluginInfo">Plugin info for accessing the data folder.</param>
     [ImportingConstructor]
-    public CalendarAccountManager(
-        [ImportMany] IEnumerable<ICalendarProvider> providers,
-        ISettingsProvider settingsProvider)
+    public CalendarAccountManager(IPluginInfo pluginInfo)
     {
-        _providers = providers.ToDictionary(p => p.ProviderType);
-        _settingsProvider = settingsProvider;
+        _dataStore = new CalendarDataStore(pluginInfo.GetPluginDataFolder());
+
+        // Build providers, injecting the shared data store for both
+        // provider caches and per-account credentials.
+        _providers = new Dictionary<CalendarProviderType, ICalendarProvider>
+        {
+            [CalendarProviderType.Outlook] = new OutlookCalendarProvider(_dataStore),
+            [CalendarProviderType.Google] = new GoogleCalendarProvider(_dataStore),
+            [CalendarProviderType.CalDav] = new CalDavCalendarProvider(_dataStore),
+            [CalendarProviderType.ICloud] = new ICloudCalendarProvider(_dataStore),
+        };
     }
 
     /// <inheritdoc />
@@ -48,22 +56,16 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     }
 
     /// <summary>
-    /// Loads previously saved accounts from settings. Call this once during
-    /// app startup to restore accounts from a prior session. This does not
-    /// trigger <see cref="AccountAdded"/> events — it silently re-hydrates
+    /// Loads previously saved accounts from encrypted storage. Call this once
+    /// during app startup to restore accounts from a prior session. This does
+    /// not trigger <see cref="AccountAdded"/> events — it silently re-hydrates
     /// the in-memory state.
     /// </summary>
-    public void LoadAccounts()
+    public async Task LoadAccountsAsync(CancellationToken cancellationToken = default)
     {
-        AccountRecord[] records = _settingsProvider.GetSetting(Settings.Settings.ConnectedAccounts);
-        if (records is null or { Length: 0 })
+        CalendarAccount[] accounts = await _dataStore.LoadAccountsAsync(cancellationToken);
+        foreach (CalendarAccount account in accounts)
         {
-            return;
-        }
-
-        foreach (AccountRecord record in records)
-        {
-            CalendarAccount account = record.ToCalendarAccount();
             _accounts[account.Id] = account;
         }
     }
@@ -81,7 +83,7 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
         _accounts[account.Id] = account;
         _clients[account.Id] = provider.CreateClient(account);
 
-        PersistAccounts();
+        PersistAccountsAsync().ConfigureAwait(false);
         AccountAdded?.Invoke(this, account);
         return account;
     }
@@ -97,7 +99,7 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
 
         if (_accounts.TryRemove(accountId, out CalendarAccount? account))
         {
-            PersistAccounts();
+            PersistAccountsAsync().ConfigureAwait(false);
             AccountRemoved?.Invoke(this, account);
         }
     }
@@ -164,14 +166,11 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     }
 
     /// <summary>
-    /// Persists the current account list to settings.
+    /// Persists the current account list to encrypted storage.
     /// </summary>
-    private void PersistAccounts()
+    private async Task PersistAccountsAsync()
     {
-        AccountRecord[] records = _accounts.Values
-            .Select(AccountRecord.FromCalendarAccount)
-            .ToArray();
-        _settingsProvider.SetSetting(Settings.Settings.ConnectedAccounts, records);
+        await _dataStore.SaveAccountsAsync(_accounts.Values.ToList());
     }
 
     /// <summary>
