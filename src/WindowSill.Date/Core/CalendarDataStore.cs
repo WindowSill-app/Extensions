@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using WindowSill.API;
 using Path = System.IO.Path;
 
 namespace WindowSill.Date.Core;
@@ -15,7 +16,7 @@ internal sealed class CalendarDataStore
     private const string FileExtension = ".dat";
 
     private readonly string _dataFolder;
-    private readonly SemaphoreSlim _lock = new(1, 1);
+    private readonly DisposableSemaphore _semaphore = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CalendarDataStore"/> class.
@@ -56,17 +57,10 @@ internal sealed class CalendarDataStore
         string filePath = Path.Combine(_dataFolder, GetFileName(data.Id));
         string tempPath = filePath + ".tmp";
 
-        await _lock.WaitAsync(cancellationToken);
-        try
-        {
-            byte[] encrypted = Encrypt(data);
-            await File.WriteAllBytesAsync(tempPath, encrypted, cancellationToken);
-            File.Move(tempPath, filePath, overwrite: true);
-        }
-        finally
-        {
-            _lock.Release();
-        }
+        using IDisposable _ = await _semaphore.WaitAsync(cancellationToken);
+        byte[] encrypted = Encrypt(data);
+        await File.WriteAllBytesAsync(tempPath, encrypted, cancellationToken);
+        File.Move(tempPath, filePath, overwrite: true);
     }
 
     /// <summary>
@@ -74,31 +68,25 @@ internal sealed class CalendarDataStore
     /// </summary>
     internal async Task DeleteAsync(string accountId, CancellationToken cancellationToken = default)
     {
-        await _lock.WaitAsync(cancellationToken);
-        try
+        using IDisposable _ = await _semaphore.WaitAsync(cancellationToken);
+
+        string filePath = Path.Combine(_dataFolder, GetFileName(accountId));
+        string tempPath = filePath + ".tmp";
+
+        if (File.Exists(filePath))
         {
-            string filePath = Path.Combine(_dataFolder, GetFileName(accountId));
-            string tempPath = filePath + ".tmp";
-
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-
-            if (File.Exists(tempPath))
-            {
-                File.Delete(tempPath);
-            }
+            File.Delete(filePath);
         }
-        finally
+
+        if (File.Exists(tempPath))
         {
-            _lock.Release();
+            File.Delete(tempPath);
         }
     }
 
     private async Task<AccountData?> ReadAsync(string filePath, CancellationToken cancellationToken)
     {
-        await _lock.WaitAsync(cancellationToken);
+        using IDisposable _ = await _semaphore.WaitAsync(cancellationToken);
         try
         {
             byte[] encrypted = await File.ReadAllBytesAsync(filePath, cancellationToken);
@@ -109,10 +97,6 @@ internal sealed class CalendarDataStore
         catch (Exception)
         {
             return null;
-        }
-        finally
-        {
-            _lock.Release();
         }
     }
 
