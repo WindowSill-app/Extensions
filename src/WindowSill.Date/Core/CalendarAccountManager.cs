@@ -22,7 +22,7 @@ internal sealed class CalendarAccountManager : IDisposable
     private readonly CalendarDataStore _dataStore;
     private readonly ConcurrentDictionary<string, AccountEntry> _entries = new();
     private readonly CancellationTokenSource _cancellationTokenSource = new();
-    private readonly Task _initializationTask;
+    private readonly Lazy<Task> _initializationTask;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CalendarAccountManager"/> class.
@@ -55,7 +55,7 @@ internal sealed class CalendarAccountManager : IDisposable
         _logger = this.Log();
         _dataStore = dataStore;
         _providers = providers;
-        _initializationTask = LoadAccountsAsync(_cancellationTokenSource.Token);
+        _initializationTask = new Lazy<Task>(() => LoadAccountsAsync(_cancellationTokenSource.Token));
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ internal sealed class CalendarAccountManager : IDisposable
     /// <returns>A read-only list of connected calendar accounts.</returns>
     public async Task<IReadOnlyList<CalendarAccount>> GetAccountsAsync()
     {
-        await _initializationTask;
+        await _initializationTask.Value;
         return _entries.Values.Select(e => e.Account).ToList();
     }
 
@@ -113,9 +113,10 @@ internal sealed class CalendarAccountManager : IDisposable
             throw new NotSupportedException($"No provider registered for {account.ProviderType}.");
         }
 
-        ICalendarAccountClient client = provider.CreateClient(account, CreatePersistCallback(account.Id));
+        CalendarAccountClientDecorator client = new(
+            provider.CreateClient(account, CreatePersistCallback(account.Id)));
 
-        await _initializationTask;
+        await _initializationTask.Value;
         _entries[account.Id] = new AccountEntry(account, client);
 
         await _dataStore.SaveAsync(account, cancellationToken);
@@ -133,7 +134,7 @@ internal sealed class CalendarAccountManager : IDisposable
         {
             if (entry.Client is not null)
             {
-                await entry.Client.DisconnectAsync(cancellationToken);
+                await entry.Client.Client.DisconnectAsync(cancellationToken);
                 await entry.Client.DisposeAsync();
             }
 
@@ -143,11 +144,11 @@ internal sealed class CalendarAccountManager : IDisposable
     }
 
     /// <summary>
-    /// Gets the account client for a specific connected account.
+    /// Gets the decorated client for a specific connected account.
     /// </summary>
     /// <param name="accountId">The identifier of the account.</param>
-    /// <returns>The client scoped to the specified account.</returns>
-    public ICalendarAccountClient GetClientForAccount(string accountId)
+    /// <returns>The decorated client scoped to the specified account.</returns>
+    public CalendarAccountClientDecorator GetClientForAccount(string accountId)
     {
         if (!_entries.TryGetValue(accountId, out AccountEntry? entry))
         {
@@ -162,7 +163,8 @@ internal sealed class CalendarAccountManager : IDisposable
         // Lazily create a client from persisted data.
         if (_providers.TryGetValue(entry.Account.ProviderType, out ICalendarProvider? provider))
         {
-            ICalendarAccountClient client = provider.CreateClient(entry.Account, CreatePersistCallback(accountId));
+            CalendarAccountClientDecorator client = new(
+                provider.CreateClient(entry.Account, CreatePersistCallback(accountId)));
             _entries[accountId] = entry with { Client = client };
             return client;
         }
@@ -181,7 +183,7 @@ internal sealed class CalendarAccountManager : IDisposable
         TimeSpan lookAhead,
         CancellationToken cancellationToken)
     {
-        await _initializationTask;
+        await _initializationTask.Value;
 
         DateTimeOffset now = DateTimeOffset.Now;
         DateTimeOffset until = now.Add(lookAhead);
@@ -191,7 +193,7 @@ internal sealed class CalendarAccountManager : IDisposable
             {
                 try
                 {
-                    ICalendarAccountClient client = GetClientForAccount(accountId);
+                    CalendarAccountClientDecorator client = GetClientForAccount(accountId);
                     return await client.GetEventsAsync(now, until, cancellationToken);
                 }
                 catch (Exception)
@@ -211,7 +213,7 @@ internal sealed class CalendarAccountManager : IDisposable
     {
         _cancellationTokenSource.Cancel();
 
-        _initializationTask.GetAwaiter().GetResult();
+        _initializationTask.Value.GetAwaiter().GetResult();
 
         foreach (AccountEntry entry in _entries.Values)
         {
@@ -278,5 +280,5 @@ internal sealed class CalendarAccountManager : IDisposable
     /// <summary>
     /// Tracks a connected account and its lazily-created client.
     /// </summary>
-    private sealed record AccountEntry(CalendarAccount Account, ICalendarAccountClient? Client = null);
+    private sealed record AccountEntry(CalendarAccount Account, CalendarAccountClientDecorator? Client = null);
 }

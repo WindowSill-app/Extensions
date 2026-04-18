@@ -56,9 +56,15 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     }
 
     /// <inheritdoc/>
-    public ValueTask OnActivatedAsync()
+    public async ValueTask OnActivatedAsync()
     {
-        throw new NotImplementedException();
+        var accounts = await _calendarAccountManager.GetAccountsAsync();
+        for (var i = 0; i < accounts.Count; i++)
+        {
+            var account = accounts[i];
+            var client = _calendarAccountManager.GetClientForAccount(account.Id);
+            //client.GetCalendarsAsync
+        }
     }
 
     /// <inheritdoc/>

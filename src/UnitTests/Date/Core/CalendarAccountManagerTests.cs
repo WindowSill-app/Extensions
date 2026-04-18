@@ -193,7 +193,7 @@ public class CalendarAccountManagerTests : IDisposable
         CalendarAccount account = CreateAccount("client_test");
         await manager.RegisterAccountAsync(account, CancellationToken.None);
 
-        ICalendarAccountClient client = manager.GetClientForAccount("client_test");
+        CalendarAccountClientDecorator client = manager.GetClientForAccount("client_test");
 
         client.Should().NotBeNull();
         client.Account.Id.Should().Be("client_test");
@@ -220,7 +220,7 @@ public class CalendarAccountManagerTests : IDisposable
         // Wait for initialization to complete.
         await manager.GetAccountsAsync();
 
-        ICalendarAccountClient client = manager.GetClientForAccount("lazy_client");
+        CalendarAccountClientDecorator client = manager.GetClientForAccount("lazy_client");
 
         client.Should().NotBeNull();
         client.Account.Id.Should().Be("lazy_client");

@@ -22,6 +22,16 @@ internal sealed class FakeCalendarAccountClient : ICalendarAccountClient
     public CalendarAccount Account { get; }
 
     /// <summary>
+    /// Gets or sets the result that <see cref="RefreshAuthAsync"/> returns.
+    /// </summary>
+    public bool RefreshResult { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets a custom implementation for <see cref="GetCalendarsAsync"/>.
+    /// </summary>
+    public Func<CancellationToken, Task<IReadOnlyList<CalendarInfo>>>? GetCalendarsFunc { get; set; }
+
+    /// <summary>
     /// Gets a value indicating whether <see cref="DisconnectAsync"/> was called.
     /// </summary>
     public bool WasDisconnected { get; private set; }
@@ -34,6 +44,11 @@ internal sealed class FakeCalendarAccountClient : ICalendarAccountClient
     /// <inheritdoc />
     public Task<IReadOnlyList<CalendarInfo>> GetCalendarsAsync(CancellationToken cancellationToken = default)
     {
+        if (GetCalendarsFunc is not null)
+        {
+            return GetCalendarsFunc(cancellationToken);
+        }
+
         return Task.FromResult<IReadOnlyList<CalendarInfo>>([]);
     }
 
@@ -52,7 +67,7 @@ internal sealed class FakeCalendarAccountClient : ICalendarAccountClient
     /// <inheritdoc />
     public Task<bool> RefreshAuthAsync(CancellationToken cancellationToken = default)
     {
-        return Task.FromResult(true);
+        return Task.FromResult(RefreshResult);
     }
 
     /// <inheritdoc />
