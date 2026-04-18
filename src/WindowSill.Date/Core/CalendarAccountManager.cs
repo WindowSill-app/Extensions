@@ -30,18 +30,31 @@ internal sealed class CalendarAccountManager : IDisposable
     /// <param name="pluginInfo">Plugin info for accessing the data folder.</param>
     [ImportingConstructor]
     public CalendarAccountManager(IPluginInfo pluginInfo)
+        : this(
+            new CalendarDataStore(pluginInfo.GetPluginDataFolder()),
+            new Dictionary<CalendarProviderType, ICalendarProvider>
+            {
+                [CalendarProviderType.Outlook] = new OutlookCalendarProvider(),
+                [CalendarProviderType.Google] = new GoogleCalendarProvider(),
+                [CalendarProviderType.ICloud] = new ICloudCalendarProvider(),
+                [CalendarProviderType.CalDav] = new CalDavCalendarProvider(),
+            })
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CalendarAccountManager"/> class
+    /// with explicit dependencies, for testability.
+    /// </summary>
+    /// <param name="dataStore">The data store for persisting accounts.</param>
+    /// <param name="providers">The registered calendar providers.</param>
+    internal CalendarAccountManager(
+        CalendarDataStore dataStore,
+        IReadOnlyDictionary<CalendarProviderType, ICalendarProvider> providers)
     {
         _logger = this.Log();
-        _dataStore = new CalendarDataStore(pluginInfo.GetPluginDataFolder());
-
-        _providers = new Dictionary<CalendarProviderType, ICalendarProvider>
-        {
-            [CalendarProviderType.Outlook] = new OutlookCalendarProvider(),
-            [CalendarProviderType.Google] = new GoogleCalendarProvider(),
-            [CalendarProviderType.ICloud] = new ICloudCalendarProvider(),
-            [CalendarProviderType.CalDav] = new CalDavCalendarProvider(),
-        };
-
+        _dataStore = dataStore;
+        _providers = providers;
         _initializationTask = LoadAccountsAsync(_cancellationTokenSource.Token);
     }
 

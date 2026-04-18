@@ -9,7 +9,7 @@ namespace WindowSill.Date.Core;
 /// </summary>
 public static partial class VideoCallDetector
 {
-    private static readonly (Regex Pattern, VideoCallProvider Provider)[] KnownProviders =
+    private static readonly (Regex Pattern, VideoCallProvider Provider)[] knownProviders =
     [
         (ZoomRegex(), VideoCallProvider.Zoom),
         (GoogleMeetRegex(), VideoCallProvider.GoogleMeet),
@@ -20,7 +20,7 @@ public static partial class VideoCallDetector
     ];
 
     // Generic patterns for less common providers — matched as VideoCallProvider.Other.
-    private static readonly Regex[] GenericProviders =
+    private static readonly Regex[] genericProviders =
     [
         GoToMeetingRegex(),
         BlueJeansRegex(),
@@ -58,7 +58,7 @@ public static partial class VideoCallDetector
         }
 
         // Check known providers first for specific identification.
-        foreach ((Regex pattern, VideoCallProvider provider) in KnownProviders)
+        foreach ((Regex pattern, VideoCallProvider provider) in knownProviders)
         {
             Match match = pattern.Match(combined);
             if (match.Success && Uri.TryCreate(match.Value, UriKind.Absolute, out Uri? uri))
@@ -68,7 +68,7 @@ public static partial class VideoCallDetector
         }
 
         // Check generic providers.
-        foreach (Regex pattern in GenericProviders)
+        foreach (Regex pattern in genericProviders)
         {
             Match match = pattern.Match(combined);
             if (match.Success && Uri.TryCreate(match.Value, UriKind.Absolute, out Uri? uri))

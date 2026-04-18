@@ -73,6 +73,7 @@ internal sealed partial class SettingsViewModel : ObservableObject
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     public async Task RegisterAccountAsync(CalendarAccount account, CancellationToken cancellationToken)
     {
+        ThreadHelper.ThrowIfNotOnUIThread();
         await _calendarAccountManager.RegisterAccountAsync(account, cancellationToken);
         Accounts.Add(CreateAccountViewModel(account));
         HasNoAccounts = Accounts.Count == 0;
@@ -86,6 +87,7 @@ internal sealed partial class SettingsViewModel : ObservableObject
     [RelayCommand]
     private async Task RemoveAccountAsync(AccountViewModel accountViewModel, CancellationToken cancellationToken)
     {
+        ThreadHelper.ThrowIfNotOnUIThread();
         await _calendarAccountManager.RemoveAccountAsync(accountViewModel.Id, cancellationToken);
         Accounts.Remove(accountViewModel);
         HasNoAccounts = Accounts.Count == 0;
