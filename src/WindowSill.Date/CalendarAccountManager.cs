@@ -20,7 +20,6 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     private readonly IReadOnlyDictionary<CalendarProviderType, ICalendarProvider> _providers;
     private readonly CalendarDataStore _dataStore;
     private readonly ConcurrentDictionary<string, CalendarAccount> _accounts = new();
-    private readonly ConcurrentDictionary<string, AccountData> _accountData = new();
     private readonly ConcurrentDictionary<string, ICalendarAccountClient> _clients = new();
     private readonly ConcurrentDictionary<string, bool> _deleted = new();
 
@@ -60,12 +59,10 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     /// </summary>
     public async Task LoadAccountsAsync(CancellationToken cancellationToken = default)
     {
-        AccountData[] allData = await _dataStore.LoadAllAsync(cancellationToken);
-        foreach (AccountData data in allData)
+        CalendarAccount[] allAccounts = await _dataStore.LoadAllAsync(cancellationToken);
+        foreach (CalendarAccount account in allAccounts)
         {
-            CalendarAccount account = data.ToCalendarAccount();
             _accounts[account.Id] = account;
-            _accountData[account.Id] = data;
         }
     }
 
@@ -79,14 +76,20 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
 
         (CalendarAccount account, Dictionary<string, string> authData) = await provider.ConnectAccountAsync(cancellationToken);
 
-        AccountData data = AccountData.FromAccount(account, authData);
+        CalendarAccount accountWithAuth = new()
+        {
+            Id = account.Id,
+            DisplayName = account.DisplayName,
+            Email = account.Email,
+            ProviderType = account.ProviderType,
+            AuthData = authData,
+        };
 
-        _accounts[account.Id] = account;
-        _accountData[account.Id] = data;
-        _clients[account.Id] = provider.CreateClient(account, authData, CreatePersistCallback(account.Id));
+        _accounts[account.Id] = accountWithAuth;
+        _clients[account.Id] = provider.CreateClient(accountWithAuth, authData, CreatePersistCallback(account.Id));
 
-        await _dataStore.SaveAsync(data, cancellationToken);
-        AccountAdded?.Invoke(this, account);
+        await _dataStore.SaveAsync(accountWithAuth, cancellationToken);
+        AccountAdded?.Invoke(this, accountWithAuth);
         return account;
     }
 
@@ -101,8 +104,6 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
             await client.DisconnectAsync(cancellationToken);
             await client.DisposeAsync();
         }
-
-        _accountData.TryRemove(accountId, out _);
 
         if (_accounts.TryRemove(accountId, out CalendarAccount? account))
         {
@@ -121,10 +122,9 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
 
         // Lazily create a client from persisted data.
         if (_accounts.TryGetValue(accountId, out CalendarAccount? account)
-            && _accountData.TryGetValue(accountId, out AccountData? data)
             && _providers.TryGetValue(account.ProviderType, out ICalendarProvider? provider))
         {
-            client = provider.CreateClient(account, data.AuthData, CreatePersistCallback(accountId));
+            client = provider.CreateClient(account, account.AuthData, CreatePersistCallback(accountId));
             _clients[accountId] = client;
             return client;
         }
@@ -170,7 +170,6 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
 
         _clients.Clear();
         _accounts.Clear();
-        _accountData.Clear();
     }
 
     /// <summary>
@@ -187,14 +186,13 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
                 return;
             }
 
-            if (!_accountData.TryGetValue(accountId, out AccountData? existing))
+            if (!_accounts.TryGetValue(accountId, out CalendarAccount? existing))
             {
                 return;
             }
 
-            // Create updated AccountData with new auth data.
-            AccountData updated = AccountData.FromAccount(existing.ToCalendarAccount(), new Dictionary<string, string>(updatedAuthData));
-            _accountData[accountId] = updated;
+            CalendarAccount updated = existing.WithAuthData(new Dictionary<string, string>(updatedAuthData));
+            _accounts[accountId] = updated;
 
             await _dataStore.SaveAsync(updated, cancellationToken);
         };
