@@ -16,6 +16,9 @@ internal sealed class GoogleCalendarProvider : ICalendarProvider
     public string DisplayName => "Google Calendar";
 
     /// <inheritdoc />
+    public string IconAssetFileName => "google-calendar.png";
+
+    /// <inheritdoc />
     public ConnectExperience CreateConnectExperience()
     {
         return new GoogleConnectExperience();

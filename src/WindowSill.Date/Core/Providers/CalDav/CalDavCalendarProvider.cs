@@ -16,6 +16,9 @@ internal class CalDavCalendarProvider : ICalendarProvider
     public virtual string DisplayName => "CalDAV";
 
     /// <inheritdoc />
+    public virtual string IconAssetFileName => "package.svg";
+
+    /// <inheritdoc />
     public virtual ConnectExperience CreateConnectExperience()
     {
         return new CalDavConnectExperience();

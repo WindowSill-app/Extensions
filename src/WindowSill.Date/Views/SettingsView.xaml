@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:WindowSill.Date.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:vm="using:WindowSill.Date.ViewModels"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -28,28 +29,7 @@
                         <TextBlock api:Uids.Uid="/WindowSill.Date/Settings/AddAccount" />
                     </StackPanel>
                     <DropDownButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem api:Uids.Uid="/WindowSill.Date/Settings/AddOutlook" Click="AddOutlookMenuItem_Click">
-                                <MenuFlyoutItem.Icon>
-                                    <ImageIcon Source="{x:Bind ViewModel.OutlookIconSource}" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem api:Uids.Uid="/WindowSill.Date/Settings/AddGoogle" Click="AddGoogleMenuItem_Click">
-                                <MenuFlyoutItem.Icon>
-                                    <ImageIcon Source="{x:Bind ViewModel.GoogleIconSource}" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem api:Uids.Uid="/WindowSill.Date/Settings/AddICloud" Click="AddICloudMenuItem_Click">
-                                <MenuFlyoutItem.Icon>
-                                    <ImageIcon Source="{x:Bind ViewModel.ICloudIconSource}" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem api:Uids.Uid="/WindowSill.Date/Settings/AddCalDav" Click="AddCalDavMenuItem_Click">
-                                <MenuFlyoutItem.Icon>
-                                    <ImageIcon Source="{x:Bind ViewModel.CalDavIconSource}" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                        </MenuFlyout>
+                        <MenuFlyout x:Name="AddAccountMenuFlyout" Placement="Bottom" />
                     </DropDownButton.Flyout>
                 </DropDownButton>
 
@@ -72,7 +52,8 @@
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="vm:AccountViewModel">
                             <Border
-                                Height="48"
+                                Height="64"
+                                VerticalAlignment="Top"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="1"
@@ -91,27 +72,38 @@
                                         VerticalAlignment="Center"
                                         Source="{x:Bind ProviderIconSource}" />
 
-                                    <TextBlock
+                                    <StackPanel
                                         Grid.Column="1"
+                                        HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        Text="{x:Bind Email}"
-                                        TextTrimming="CharacterEllipsis" />
+                                        Orientation="Vertical">
+                                        <TextBlock
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Text="{x:Bind DisplayName}"
+                                            TextTrimming="CharacterEllipsis" />
+                                        <TextBlock
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{ThemeResource CaptionTextBlockStyle}"
+                                            Text="{x:Bind Email}"
+                                            TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
 
                                     <Button
                                         Grid.Column="2"
-                                        Width="28"
-                                        Height="28"
+                                        Width="32"
+                                        Height="32"
                                         Padding="0"
                                         VerticalAlignment="Center"
                                         api:Uids.Uid="/WindowSill.Date/Settings/RemoveAccount"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
-                                        Click="RemoveAccountButton_Click">
-                                        <FontIcon
-                                            FontFamily="{StaticResource SegoeFluentIcons}"
-                                            FontSize="12"
-                                            Glyph="&#xE74D;" />
-                                    </Button>
+                                        Click="RemoveAccountButton_Click"
+                                        Content="{ui:FontIcon FontFamily={StaticResource SegoeFluentIcons},
+                                                              Glyph=&#xE74D;,
+                                                              FontSize=16}" />
                                 </Grid>
                             </Border>
                         </DataTemplate>

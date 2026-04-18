@@ -33,10 +33,9 @@ internal sealed partial class SettingsViewModel : ObservableObject
         _calendarAccountManager = calendarAccountManager;
         _contentDirectory = contentDirectory;
 
-        OutlookIconSource = CreateProviderIconSource(contentDirectory, CalendarProviderType.Outlook);
-        GoogleIconSource = CreateProviderIconSource(contentDirectory, CalendarProviderType.Google);
-        ICloudIconSource = CreateProviderIconSource(contentDirectory, CalendarProviderType.ICloud);
-        CalDavIconSource = CreateProviderIconSource(contentDirectory, CalendarProviderType.CalDav);
+        Providers = calendarAccountManager.Providers
+            .Select(p => new ProviderMenuItemViewModel(p, CreateProviderIconSource(contentDirectory, p.IconAssetFileName)))
+            .ToList();
 
         LoadAccountsAsync().ForgetSafely();
     }
@@ -47,24 +46,9 @@ internal sealed partial class SettingsViewModel : ObservableObject
     public ObservableCollection<AccountViewModel> Accounts { get; } = [];
 
     /// <summary>
-    /// Gets the icon source for the Outlook provider.
+    /// Gets the provider menu items for the "Add account" flyout.
     /// </summary>
-    public ImageSource OutlookIconSource { get; }
-
-    /// <summary>
-    /// Gets the icon source for the Google provider.
-    /// </summary>
-    public ImageSource GoogleIconSource { get; }
-
-    /// <summary>
-    /// Gets the icon source for the iCloud provider.
-    /// </summary>
-    public ImageSource ICloudIconSource { get; }
-
-    /// <summary>
-    /// Gets the icon source for the CalDAV provider.
-    /// </summary>
-    public ImageSource CalDavIconSource { get; }
+    public IReadOnlyList<ProviderMenuItemViewModel> Providers { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the account list is empty.
@@ -124,24 +108,18 @@ internal sealed partial class SettingsViewModel : ObservableObject
 
     private AccountViewModel CreateAccountViewModel(CalendarAccount account)
     {
-        return new AccountViewModel(account, CreateProviderIconSource(_contentDirectory, account.ProviderType));
+        ProviderMenuItemViewModel? provider = Providers.FirstOrDefault(p => p.ProviderType == account.ProviderType);
+        ImageSource iconSource = provider?.IconSource
+            ?? CreateProviderIconSource(_contentDirectory, "package.svg");
+        return new AccountViewModel(account, iconSource);
     }
 
-    private static ImageSource CreateProviderIconSource(string contentDirectory, CalendarProviderType providerType)
+    private static ImageSource CreateProviderIconSource(string contentDirectory, string iconAssetFileName)
     {
-        string fileName = providerType switch
-        {
-            CalendarProviderType.Outlook => "outlook.png",
-            CalendarProviderType.Google => "google-calendar.png",
-            CalendarProviderType.ICloud => "icloud.png",
-            CalendarProviderType.CalDav => "package.svg",
-            _ => "package.svg",
-        };
-
-        string path = System.IO.Path.Combine(contentDirectory, "Assets", fileName);
+        string path = System.IO.Path.Combine(contentDirectory, "Assets", iconAssetFileName);
         Uri uri = new(path);
 
-        if (fileName.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
+        if (iconAssetFileName.EndsWith(".svg", StringComparison.OrdinalIgnoreCase))
         {
             return new SvgImageSource(uri);
         }

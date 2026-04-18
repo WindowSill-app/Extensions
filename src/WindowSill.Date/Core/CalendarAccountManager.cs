@@ -38,12 +38,17 @@ internal sealed class CalendarAccountManager : IDisposable
         {
             [CalendarProviderType.Outlook] = new OutlookCalendarProvider(),
             [CalendarProviderType.Google] = new GoogleCalendarProvider(),
-            [CalendarProviderType.CalDav] = new CalDavCalendarProvider(),
             [CalendarProviderType.ICloud] = new ICloudCalendarProvider(),
+            [CalendarProviderType.CalDav] = new CalDavCalendarProvider(),
         };
 
         _initializationTask = LoadAccountsAsync(_cancellationTokenSource.Token);
     }
+
+    /// <summary>
+    /// Gets the registered calendar providers in display order.
+    /// </summary>
+    public IReadOnlyList<ICalendarProvider> Providers => [.. _providers.Values];
 
     /// <summary>
     /// Raised when a new account is successfully connected.

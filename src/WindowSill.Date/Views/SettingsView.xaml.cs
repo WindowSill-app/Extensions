@@ -17,6 +17,7 @@ internal sealed partial class SettingsView : UserControl
     {
         ViewModel = new SettingsViewModel(settingsProvider, calendarAccountManager, contentDirectory);
         InitializeComponent();
+        PopulateAddAccountMenu();
     }
 
     /// <summary>
@@ -24,24 +25,21 @@ internal sealed partial class SettingsView : UserControl
     /// </summary>
     internal SettingsViewModel ViewModel { get; }
 
-    private void AddOutlookMenuItem_Click(object sender, RoutedEventArgs e)
+    private void PopulateAddAccountMenu()
     {
-        ShowConnectDialog(CalendarProviderType.Outlook);
-    }
+        foreach (ProviderMenuItemViewModel provider in ViewModel.Providers)
+        {
+            var item = new MenuFlyoutItem
+            {
+                Text = provider.DisplayName,
+                Icon = new ImageIcon { Source = provider.IconSource },
+            };
 
-    private void AddGoogleMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        ShowConnectDialog(CalendarProviderType.Google);
-    }
+            CalendarProviderType providerType = provider.ProviderType;
+            item.Click += (_, _) => ShowConnectDialog(providerType);
 
-    private void AddICloudMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        ShowConnectDialog(CalendarProviderType.ICloud);
-    }
-
-    private void AddCalDavMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        ShowConnectDialog(CalendarProviderType.CalDav);
+            AddAccountMenuFlyout.Items.Add(item);
+        }
     }
 
     private void ShowConnectDialog(CalendarProviderType providerType)

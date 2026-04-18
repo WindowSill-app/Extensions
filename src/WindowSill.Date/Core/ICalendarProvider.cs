@@ -21,6 +21,12 @@ public interface ICalendarProvider
     string DisplayName { get; }
 
     /// <summary>
+    /// Gets the asset file name for the provider icon (e.g., "outlook.png").
+    /// The file is expected to reside in the extension's Assets folder.
+    /// </summary>
+    string IconAssetFileName { get; }
+
+    /// <summary>
     /// Creates a <see cref="ConnectExperience"/> that defines the UI and behavior
     /// for adding a new account of this provider type.
     /// </summary>

@@ -39,23 +39,6 @@ internal sealed class AccountViewModel
     public string Email => Account.Email;
 
     /// <summary>
-    /// Gets the provider type for display purposes.
-    /// </summary>
-    public CalendarProviderType ProviderType => Account.ProviderType;
-
-    /// <summary>
-    /// Gets a human-readable label for the provider type.
-    /// </summary>
-    public string ProviderLabel => Account.ProviderType switch
-    {
-        CalendarProviderType.Outlook => "Outlook",
-        CalendarProviderType.Google => "Google",
-        CalendarProviderType.ICloud => "iCloud",
-        CalendarProviderType.CalDav => "CalDAV",
-        _ => Account.ProviderType.ToString(),
-    };
-
-    /// <summary>
     /// Gets the icon source for the calendar provider.
     /// </summary>
     public ImageSource ProviderIconSource { get; }

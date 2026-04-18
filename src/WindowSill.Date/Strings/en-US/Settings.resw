@@ -123,18 +123,6 @@
   <data name="AddAccount.TextProperty" xml:space="preserve">
     <value>Add account</value>
   </data>
-  <data name="AddOutlook.TextProperty" xml:space="preserve">
-    <value>Outlook</value>
-  </data>
-  <data name="AddGoogle.TextProperty" xml:space="preserve">
-    <value>Google</value>
-  </data>
-  <data name="AddICloud.TextProperty" xml:space="preserve">
-    <value>iCloud</value>
-  </data>
-  <data name="AddCalDav.TextProperty" xml:space="preserve">
-    <value>CalDAV</value>
-  </data>
   <data name="RemoveAccount.ToolTipService.ToolTipProperty" xml:space="preserve">
     <value>Remove account</value>
   </data>

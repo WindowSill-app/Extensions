@@ -20,6 +20,9 @@ internal sealed class ICloudCalendarProvider : CalDavCalendarProvider
     public override string DisplayName => "Apple iCloud";
 
     /// <inheritdoc />
+    public override string IconAssetFileName => "icloud.png";
+
+    /// <inheritdoc />
     public override ConnectExperience CreateConnectExperience()
     {
         return new ICloudConnectExperience();

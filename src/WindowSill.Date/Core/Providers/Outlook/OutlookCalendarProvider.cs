@@ -26,6 +26,9 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
     public string DisplayName => "Microsoft Outlook";
 
     /// <inheritdoc />
+    public string IconAssetFileName => "outlook.png";
+
+    /// <inheritdoc />
     public ConnectExperience CreateConnectExperience()
     {
         return new OutlookConnectExperience();
@@ -107,6 +110,9 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
                 .ExecuteAsync(cancellationToken);
 
             string email = authResult.Account.Username ?? "unknown@outlook.com";
+            string displayName
+                = authResult.Account.GetTenantProfiles().FirstOrDefault()?.ClaimsPrincipal.Claims.FirstOrDefault(c => c.Type == "name")?.Value
+                ?? "Outlook";
 
             var authData = new Dictionary<string, string>();
             if (capturedCache is { Length: > 0 })
@@ -117,7 +123,7 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
             return new CalendarAccount
             {
                 Id = $"outlook_{email}",
-                DisplayName = authResult.Account.Username ?? "Outlook Account",
+                DisplayName = displayName,
                 Email = email,
                 ProviderType = CalendarProviderType.Outlook,
                 AuthData = authData,
