@@ -11,9 +11,8 @@ using WindowSill.Date.Providers.Outlook;
 namespace WindowSill.Date;
 
 /// <summary>
-/// Manages connected calendar accounts across all providers and provides
-/// aggregated access to calendar events. Persists account information and
-/// auth tokens to DPAPI-encrypted files in the plugin data folder.
+/// Manages connected calendar accounts across all providers. Owns the persistence
+/// lifecycle — providers never access storage directly.
 /// </summary>
 [Export(typeof(ICalendarAccountManager))]
 internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposable
@@ -21,7 +20,9 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     private readonly IReadOnlyDictionary<CalendarProviderType, ICalendarProvider> _providers;
     private readonly CalendarDataStore _dataStore;
     private readonly ConcurrentDictionary<string, CalendarAccount> _accounts = new();
+    private readonly ConcurrentDictionary<string, AccountData> _accountData = new();
     private readonly ConcurrentDictionary<string, ICalendarAccountClient> _clients = new();
+    private readonly ConcurrentDictionary<string, bool> _deleted = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CalendarAccountManager"/> class.
@@ -32,14 +33,12 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     {
         _dataStore = new CalendarDataStore(pluginInfo.GetPluginDataFolder());
 
-        // Build providers, injecting the shared data store for both
-        // provider caches and per-account credentials.
         _providers = new Dictionary<CalendarProviderType, ICalendarProvider>
         {
-            [CalendarProviderType.Outlook] = new OutlookCalendarProvider(_dataStore),
-            [CalendarProviderType.Google] = new GoogleCalendarProvider(_dataStore),
-            [CalendarProviderType.CalDav] = new CalDavCalendarProvider(_dataStore),
-            [CalendarProviderType.ICloud] = new ICloudCalendarProvider(_dataStore),
+            [CalendarProviderType.Outlook] = new OutlookCalendarProvider(),
+            [CalendarProviderType.Google] = new GoogleCalendarProvider(),
+            [CalendarProviderType.CalDav] = new CalDavCalendarProvider(),
+            [CalendarProviderType.ICloud] = new ICloudCalendarProvider(),
         };
     }
 
@@ -56,17 +55,17 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     }
 
     /// <summary>
-    /// Loads previously saved accounts from encrypted storage. Call this once
-    /// during app startup to restore accounts from a prior session. This does
-    /// not trigger <see cref="AccountAdded"/> events — it silently re-hydrates
-    /// the in-memory state.
+    /// Loads previously saved accounts from encrypted storage. Call once on
+    /// app startup. Does not trigger <see cref="AccountAdded"/> events.
     /// </summary>
     public async Task LoadAccountsAsync(CancellationToken cancellationToken = default)
     {
-        CalendarAccount[] accounts = await _dataStore.LoadAccountsAsync(cancellationToken);
-        foreach (CalendarAccount account in accounts)
+        AccountData[] allData = await _dataStore.LoadAllAsync(cancellationToken);
+        foreach (AccountData data in allData)
         {
+            CalendarAccount account = data.ToCalendarAccount();
             _accounts[account.Id] = account;
+            _accountData[account.Id] = data;
         }
     }
 
@@ -78,12 +77,15 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
             throw new NotSupportedException($"No provider registered for {providerType}.");
         }
 
-        CalendarAccount account = await provider.ConnectAccountAsync(cancellationToken);
+        (CalendarAccount account, Dictionary<string, string> authData) = await provider.ConnectAccountAsync(cancellationToken);
+
+        AccountData data = AccountData.FromAccount(account, authData);
 
         _accounts[account.Id] = account;
-        _clients[account.Id] = provider.CreateClient(account);
+        _accountData[account.Id] = data;
+        _clients[account.Id] = provider.CreateClient(account, authData, CreatePersistCallback(account.Id));
 
-        PersistAccountAsync(account).ConfigureAwait(false);
+        await _dataStore.SaveAsync(data, cancellationToken);
         AccountAdded?.Invoke(this, account);
         return account;
     }
@@ -91,15 +93,20 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
     /// <inheritdoc />
     public async Task RemoveAccountAsync(string accountId, CancellationToken cancellationToken)
     {
+        // Mark as deleted so the persist callback becomes a no-op.
+        _deleted[accountId] = true;
+
         if (_clients.TryRemove(accountId, out ICalendarAccountClient? client))
         {
             await client.DisconnectAsync(cancellationToken);
             await client.DisposeAsync();
         }
 
+        _accountData.TryRemove(accountId, out _);
+
         if (_accounts.TryRemove(accountId, out CalendarAccount? account))
         {
-            _dataStore.DeleteAccount(accountId);
+            await _dataStore.DeleteAsync(accountId, cancellationToken);
             AccountRemoved?.Invoke(this, account);
         }
     }
@@ -112,11 +119,12 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
             return client;
         }
 
-        // Lazily create a client from the stored account.
+        // Lazily create a client from persisted data.
         if (_accounts.TryGetValue(accountId, out CalendarAccount? account)
+            && _accountData.TryGetValue(accountId, out AccountData? data)
             && _providers.TryGetValue(account.ProviderType, out ICalendarProvider? provider))
         {
-            client = provider.CreateClient(account);
+            client = provider.CreateClient(account, data.AuthData, CreatePersistCallback(accountId));
             _clients[accountId] = client;
             return client;
         }
@@ -132,7 +140,6 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
         DateTimeOffset now = DateTimeOffset.Now;
         DateTimeOffset until = now.Add(lookAhead);
 
-        // Fetch events from all accounts in parallel.
         Task<IReadOnlyList<CalendarEvent>>[] tasks = _accounts.Keys
             .Select(async accountId =>
             {
@@ -163,20 +170,36 @@ internal sealed class CalendarAccountManager : ICalendarAccountManager, IDisposa
 
         _clients.Clear();
         _accounts.Clear();
+        _accountData.Clear();
     }
 
     /// <summary>
-    /// Persists a single account to its encrypted file.
+    /// Creates a callback that providers call when their auth data changes
+    /// (e.g., token refresh). The callback updates the in-memory data and
+    /// persists to disk. Becomes a no-op if the account has been deleted.
     /// </summary>
-    private async Task PersistAccountAsync(CalendarAccount account)
+    private Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> CreatePersistCallback(string accountId)
     {
-        await _dataStore.SaveAccountAsync(account);
+        return async (updatedAuthData, cancellationToken) =>
+        {
+            if (_deleted.ContainsKey(accountId))
+            {
+                return;
+            }
+
+            if (!_accountData.TryGetValue(accountId, out AccountData? existing))
+            {
+                return;
+            }
+
+            // Create updated AccountData with new auth data.
+            AccountData updated = AccountData.FromAccount(existing.ToCalendarAccount(), new Dictionary<string, string>(updatedAuthData));
+            _accountData[accountId] = updated;
+
+            await _dataStore.SaveAsync(updated, cancellationToken);
+        };
     }
 
-    /// <summary>
-    /// Deduplicates events that appear in multiple calendars (same title, time, and organizer)
-    /// and sorts by start time.
-    /// </summary>
     private static List<CalendarEvent> DeduplicateAndSort(IEnumerable<CalendarEvent> events)
     {
         return events

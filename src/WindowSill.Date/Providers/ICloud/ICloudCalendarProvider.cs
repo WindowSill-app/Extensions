@@ -1,4 +1,3 @@
-using System.ComponentModel.Composition;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Providers.CalDav;
@@ -11,18 +10,6 @@ namespace WindowSill.Date.Providers.ICloud;
 /// </summary>
 internal sealed class ICloudCalendarProvider : CalDavCalendarProvider
 {
-    private readonly ICalendarCredentialStore _credentialStore;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ICloudCalendarProvider"/> class.
-    /// </summary>
-    /// <param name="credentialStore">The credential store for persisting credentials.</param>
-    internal ICloudCalendarProvider(ICalendarCredentialStore credentialStore)
-        : base(credentialStore)
-    {
-        _credentialStore = credentialStore;
-    }
-
     /// <inheritdoc />
     public override CalendarProviderType ProviderType => CalendarProviderType.ICloud;
 
@@ -30,20 +17,21 @@ internal sealed class ICloudCalendarProvider : CalDavCalendarProvider
     public override string DisplayName => "Apple iCloud";
 
     /// <inheritdoc />
-    public override async Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken)
+    public override async Task<(CalendarAccount Account, Dictionary<string, string> AuthData)> ConnectAccountAsync(
+        CancellationToken cancellationToken)
     {
         // iCloud uses app-specific passwords for CalDAV access.
         // TODO: Prompt user for Apple ID and app-specific password via UI.
-        // 1. User generates app-specific password at appleid.apple.com.
-        // 2. Store Apple ID + app-specific password via _credentialStore.
-        // 3. Store server URL (https://caldav.icloud.com) via _credentialStore.
-        // 4. Validate by doing a PROPFIND on the principal URL.
+        // Return authData with server_url=https://caldav.icloud.com, username, password.
         throw new NotImplementedException("iCloud account setup not yet implemented.");
     }
 
     /// <inheritdoc />
-    public override ICalendarAccountClient CreateClient(CalendarAccount account)
+    public override ICalendarAccountClient CreateClient(
+        CalendarAccount account,
+        IReadOnlyDictionary<string, string> authData,
+        Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> onAuthDataChanged)
     {
-        return new ICloudCalendarAccountClient(account, _credentialStore);
+        return new ICloudCalendarAccountClient(account, authData);
     }
 }

@@ -20,18 +20,18 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
     private static readonly XNamespace CalDavNs = "urn:ietf:params:xml:ns:caldav";
     private static readonly XNamespace AppleNs = "http://apple.com/ns/ical/";
 
-    private readonly ICalendarCredentialStore _credentialStore;
+    private readonly IReadOnlyDictionary<string, string> _authData;
     private HttpClient? _httpClient;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CalDavCalendarAccountClient"/> class.
     /// </summary>
     /// <param name="account">The account this client is scoped to.</param>
-    /// <param name="credentialStore">The credential store for retrieving credentials.</param>
-    internal CalDavCalendarAccountClient(CalendarAccount account, ICalendarCredentialStore credentialStore)
+    /// <param name="authData">The persisted auth data (server_url, username, password).</param>
+    internal CalDavCalendarAccountClient(CalendarAccount account, IReadOnlyDictionary<string, string> authData)
     {
         Account = account;
-        _credentialStore = credentialStore;
+        _authData = authData;
     }
 
     /// <inheritdoc />
@@ -48,7 +48,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
     {
         HttpClient client = await GetOrCreateHttpClientAsync(cancellationToken);
 
-        string serverUrl = await _credentialStore.RetrieveAsync(Account.Id, "server_url", cancellationToken)
+        string serverUrl = _authData.GetValueOrDefault("server_url")
             ?? CalDavBaseUrl;
 
         // PROPFIND to discover calendars.
@@ -106,7 +106,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
                 </c:calendar-query>
                 """;
 
-            string serverUrl = await _credentialStore.RetrieveAsync(Account.Id, "server_url", cancellationToken)
+            string serverUrl = _authData.GetValueOrDefault("server_url")
                 ?? CalDavBaseUrl;
             string calendarUrl = $"{serverUrl.TrimEnd('/')}/{calendar.Id}/";
 
@@ -139,11 +139,11 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
     }
 
     /// <inheritdoc />
-    public async Task DisconnectAsync(CancellationToken cancellationToken)
+    public Task DisconnectAsync(CancellationToken cancellationToken)
     {
-        await _credentialStore.RemoveAsync(Account.Id, cancellationToken);
         _httpClient?.Dispose();
         _httpClient = null;
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc />
@@ -154,15 +154,15 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
         return ValueTask.CompletedTask;
     }
 
-    private async Task<HttpClient> GetOrCreateHttpClientAsync(CancellationToken cancellationToken)
+    private Task<HttpClient> GetOrCreateHttpClientAsync(CancellationToken cancellationToken)
     {
         if (_httpClient is not null)
         {
-            return _httpClient;
+            return Task.FromResult(_httpClient);
         }
 
-        string? username = await _credentialStore.RetrieveAsync(Account.Id, "username", cancellationToken);
-        string? password = await _credentialStore.RetrieveAsync(Account.Id, "password", cancellationToken);
+        string? username = _authData.GetValueOrDefault("username");
+        string? password = _authData.GetValueOrDefault("password");
 
         _httpClient = new HttpClient();
 
@@ -172,7 +172,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", encoded);
         }
 
-        return _httpClient;
+        return Task.FromResult(_httpClient);
     }
 
     private List<CalendarInfo> ParseCalendarsFromPropfind(string xml)

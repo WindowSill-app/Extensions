@@ -8,17 +8,6 @@ namespace WindowSill.Date.Providers.Google;
 /// </summary>
 internal sealed class GoogleCalendarProvider : ICalendarProvider
 {
-    private readonly ICalendarCredentialStore _credentialStore;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="GoogleCalendarProvider"/> class.
-    /// </summary>
-    /// <param name="credentialStore">The credential store for persisting tokens.</param>
-    internal GoogleCalendarProvider(ICalendarCredentialStore credentialStore)
-    {
-        _credentialStore = credentialStore;
-    }
-
     /// <inheritdoc />
     public CalendarProviderType ProviderType => CalendarProviderType.Google;
 
@@ -26,20 +15,23 @@ internal sealed class GoogleCalendarProvider : ICalendarProvider
     public string DisplayName => "Google Calendar";
 
     /// <inheritdoc />
-    public async Task<CalendarAccount> ConnectAccountAsync(CancellationToken cancellationToken)
+    public async Task<(CalendarAccount Account, Dictionary<string, string> AuthData)> ConnectAccountAsync(
+        CancellationToken cancellationToken)
     {
         // TODO: Implement Google OAuth 2.0 flow.
         // 1. Build authorize URL with Google Calendar scopes.
-        // 2. Use _authBroker to acquire authorization code.
-        // 3. Exchange code for tokens via Google token endpoint.
-        // 4. Store tokens via _credentialStore.
-        // 5. Fetch user info to build CalendarAccount.
+        // 2. Open browser for user sign-in.
+        // 3. Exchange code for tokens.
+        // 4. Return account + authData with access_token, refresh_token.
         throw new NotImplementedException("Google OAuth flow not yet implemented.");
     }
 
     /// <inheritdoc />
-    public ICalendarAccountClient CreateClient(CalendarAccount account)
+    public ICalendarAccountClient CreateClient(
+        CalendarAccount account,
+        IReadOnlyDictionary<string, string> authData,
+        Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> onAuthDataChanged)
     {
-        return new GoogleCalendarAccountClient(account, _credentialStore);
+        return new GoogleCalendarAccountClient(account, authData, onAuthDataChanged);
     }
 }

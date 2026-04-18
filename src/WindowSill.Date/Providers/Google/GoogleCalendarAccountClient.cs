@@ -12,18 +12,24 @@ namespace WindowSill.Date.Providers.Google;
 /// </summary>
 internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
 {
-    private readonly ICalendarCredentialStore _credentialStore;
+    private readonly IReadOnlyDictionary<string, string> _authData;
+    private readonly Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> _onAuthDataChanged;
     private CalendarService? _calendarService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GoogleCalendarAccountClient"/> class.
     /// </summary>
     /// <param name="account">The account this client is scoped to.</param>
-    /// <param name="credentialStore">The credential store for token access.</param>
-    internal GoogleCalendarAccountClient(CalendarAccount account, ICalendarCredentialStore credentialStore)
+    /// <param name="authData">The persisted auth data (access_token, refresh_token).</param>
+    /// <param name="onAuthDataChanged">Callback to persist updated auth data.</param>
+    internal GoogleCalendarAccountClient(
+        CalendarAccount account,
+        IReadOnlyDictionary<string, string> authData,
+        Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> onAuthDataChanged)
     {
         Account = account;
-        _credentialStore = credentialStore;
+        _authData = authData;
+        _onAuthDataChanged = onAuthDataChanged;
     }
 
     /// <inheritdoc />
@@ -90,22 +96,23 @@ internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
     /// <inheritdoc />
     public async Task<bool> RefreshAuthAsync(CancellationToken cancellationToken)
     {
-        string? refreshToken = await _credentialStore.RetrieveAsync(Account.Id, "refresh_token", cancellationToken);
+        string? refreshToken = _authData.GetValueOrDefault("refresh_token");
         if (string.IsNullOrEmpty(refreshToken))
         {
             return false;
         }
 
         // TODO: Use refresh token to get new access token from Google token endpoint.
+        // Call _onAuthDataChanged with updated tokens.
         _calendarService = null;
         return true;
     }
 
     /// <inheritdoc />
-    public async Task DisconnectAsync(CancellationToken cancellationToken)
+    public Task DisconnectAsync(CancellationToken cancellationToken)
     {
-        await _credentialStore.RemoveAsync(Account.Id, cancellationToken);
         _calendarService = null;
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc />
@@ -123,7 +130,7 @@ internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
             return _calendarService;
         }
 
-        string? accessToken = await _credentialStore.RetrieveAsync(Account.Id, "access_token", cancellationToken);
+        string? accessToken = _authData.GetValueOrDefault("access_token");
         if (string.IsNullOrEmpty(accessToken))
         {
             throw new InvalidOperationException("No access token available. Call RefreshAuthAsync first.");

@@ -16,9 +16,9 @@ internal sealed class ICloudCalendarAccountClient : CalDavCalendarAccountClient
     /// Initializes a new instance of the <see cref="ICloudCalendarAccountClient"/> class.
     /// </summary>
     /// <param name="account">The account this client is scoped to.</param>
-    /// <param name="credentialStore">The credential store for retrieving credentials.</param>
-    internal ICloudCalendarAccountClient(CalendarAccount account, ICalendarCredentialStore credentialStore)
-        : base(account, credentialStore)
+    /// <param name="authData">The persisted auth data (username, password).</param>
+    internal ICloudCalendarAccountClient(CalendarAccount account, IReadOnlyDictionary<string, string> authData)
+        : base(account, authData)
     {
     }
 
