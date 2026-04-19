@@ -39,28 +39,9 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
         await _requestGate.WaitAsync(cancellationToken);
         try
         {
-            return await WithRetryAsync(async ct =>
-            {
-                CalendarCollectionResponse? calendars = await client.Me.Calendars.GetAsync(
-                    cancellationToken: ct);
-
-                if (calendars?.Value is null)
-                {
-                    return [];
-                }
-
-                return calendars.Value
-                    .Select(c => new CalendarInfo
-                    {
-                        Id = c.Id ?? string.Empty,
-                        AccountId = Account.Id,
-                        Name = c.Name ?? "Unnamed",
-                        Color = c.HexColor ?? MapCalendarColor(c.Color),
-                        IsDefault = c.IsDefaultCalendar ?? false,
-                        IsReadOnly = !(c.CanEdit ?? true),
-                    })
-                    .ToList();
-            }, cancellationToken);
+            return await WithRetryAsync(
+                ct => FetchCalendarsAsync(client, ct),
+                cancellationToken);
         }
         catch (Exception)
         {
@@ -70,6 +51,30 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
         {
             _requestGate.Release();
         }
+    }
+
+    private async Task<IReadOnlyList<CalendarInfo>> FetchCalendarsAsync(
+        GraphServiceClient client, CancellationToken cancellationToken)
+    {
+        CalendarCollectionResponse? calendars = await client.Me.Calendars.GetAsync(
+            cancellationToken: cancellationToken);
+
+        if (calendars?.Value is null)
+        {
+            return [];
+        }
+
+        return calendars.Value
+            .Select(c => new CalendarInfo
+            {
+                Id = c.Id ?? string.Empty,
+                AccountId = Account.Id,
+                Name = c.Name ?? "Unnamed",
+                Color = c.HexColor ?? MapCalendarColor(c.Color),
+                IsDefault = c.IsDefaultCalendar ?? false,
+                IsReadOnly = !(c.CanEdit ?? true),
+            })
+            .ToList();
     }
 
     /// <inheritdoc />
@@ -85,27 +90,35 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
         {
             return await WithRetryAsync(async ct =>
             {
-                EventCollectionResponse? events = await client.Me.CalendarView.GetAsync(
-                    config =>
-                    {
-                        config.QueryParameters.StartDateTime = from.UtcDateTime.ToString("o");
-                        config.QueryParameters.EndDateTime = to.UtcDateTime.ToString("o");
-                        config.QueryParameters.Top = 250;
-                        config.QueryParameters.Orderby = ["start/dateTime"];
-                        config.QueryParameters.Select = [
-                            "id", "subject", "body", "bodyPreview", "location", "start", "end",
-                            "isAllDay", "isCancelled", "showAs", "responseStatus", "onlineMeeting",
-                            "onlineMeetingUrl", "webLink", "organizer", "attendees", "recurrence", "sensitivity",
-                        ];
-                    },
-                    cancellationToken: ct);
+                // Fetch calendars first, then query each one individually
+                // so every event has a valid CalendarId.
+                IReadOnlyList<CalendarInfo> calendars = await FetchCalendarsAsync(client, ct);
+                var allEvents = new List<CalendarEvent>();
 
-                if (events?.Value is null)
+                foreach (CalendarInfo calendar in calendars)
                 {
-                    return [];
+                    EventCollectionResponse? events = await client.Me.Calendars[calendar.Id].CalendarView.GetAsync(
+                        config =>
+                        {
+                            config.QueryParameters.StartDateTime = from.UtcDateTime.ToString("o");
+                            config.QueryParameters.EndDateTime = to.UtcDateTime.ToString("o");
+                            config.QueryParameters.Top = 250;
+                            config.QueryParameters.Orderby = ["start/dateTime"];
+                            config.QueryParameters.Select = [
+                                "id", "subject", "body", "bodyPreview", "location", "start", "end",
+                                "isAllDay", "isCancelled", "showAs", "responseStatus", "onlineMeeting",
+                                "onlineMeetingUrl", "webLink", "organizer", "attendees", "recurrence", "sensitivity",
+                            ];
+                        },
+                        cancellationToken: ct);
+
+                    if (events?.Value is not null)
+                    {
+                        allEvents.AddRange(events.Value.Select(e => MapToCalendarEvent(e, calendar)));
+                    }
                 }
 
-                return events.Value.Select(MapToCalendarEvent).ToList();
+                return (IReadOnlyList<CalendarEvent>)allEvents;
             }, cancellationToken);
         }
         catch (Exception)
@@ -187,23 +200,23 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
     /// </summary>
     private static async Task<T> WithRetryAsync<T>(Func<CancellationToken, Task<T>> operation, CancellationToken cancellationToken)
     {
-        const int maxRetries = 3;
+        const int MaxRetries = 3;
 
-        for (int attempt = 0; attempt <= maxRetries; attempt++)
+        for (int attempt = 0; attempt <= MaxRetries; attempt++)
         {
             try
             {
                 return await operation(cancellationToken);
             }
             catch (Microsoft.Graph.Models.ODataErrors.ODataError ex) when (
-                attempt < maxRetries
+                attempt < MaxRetries
                 && ex.ResponseStatusCode == 429)
             {
                 int delaySeconds = (int)Math.Pow(2, attempt + 1);
                 await Task.Delay(TimeSpan.FromSeconds(delaySeconds), cancellationToken);
             }
             catch (HttpRequestException ex) when (
-                attempt < maxRetries
+                attempt < MaxRetries
                 && ex.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
             {
                 int delaySeconds = (int)Math.Pow(2, attempt + 1);
@@ -214,7 +227,7 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
         return await operation(cancellationToken);
     }
 
-    private CalendarEvent MapToCalendarEvent(Event graphEvent)
+    private CalendarEvent MapToCalendarEvent(Event graphEvent, CalendarInfo calendar)
     {
         VideoCallInfo? videoCall = null;
 
@@ -246,7 +259,7 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
         return new CalendarEvent
         {
             Id = graphEvent.Id ?? string.Empty,
-            CalendarId = string.Empty,
+            CalendarId = calendar.Id,
             AccountId = Account.Id,
             Title = graphEvent.Subject ?? "No Title",
             Description = graphEvent.BodyPreview,

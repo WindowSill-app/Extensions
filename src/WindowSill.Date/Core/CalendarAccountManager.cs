@@ -173,6 +173,28 @@ internal sealed class CalendarAccountManager : IDisposable
     }
 
     /// <summary>
+    /// Updates the set of hidden calendar IDs for a specific account and persists the change.
+    /// </summary>
+    /// <param name="accountId">The identifier of the account.</param>
+    /// <param name="hiddenCalendarIds">The updated set of hidden calendar IDs.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    public async Task UpdateHiddenCalendarsAsync(
+        string accountId,
+        HashSet<string> hiddenCalendarIds,
+        CancellationToken cancellationToken)
+    {
+        if (!_entries.TryGetValue(accountId, out AccountEntry? entry))
+        {
+            return;
+        }
+
+        CalendarAccount updated = entry.Account.WithHiddenCalendarIds(hiddenCalendarIds);
+        _entries[accountId] = entry with { Account = updated };
+
+        await _dataStore.SaveAsync(updated, cancellationToken);
+    }
+
+    /// <summary>
     /// Retrieves upcoming events across all connected accounts within the specified look-ahead window.
     /// Events are sorted by start time and deduplicated across calendars.
     /// </summary>
@@ -188,13 +210,25 @@ internal sealed class CalendarAccountManager : IDisposable
         DateTimeOffset now = DateTimeOffset.Now;
         DateTimeOffset until = now.Add(lookAhead);
 
-        Task<IReadOnlyList<CalendarEvent>>[] tasks = _entries.Keys
-            .Select(async accountId =>
+        Task<IReadOnlyList<CalendarEvent>>[] tasks = _entries
+            .Select(async kvp =>
             {
                 try
                 {
-                    CalendarAccountClientDecorator client = GetClientForAccount(accountId);
-                    return await client.GetEventsAsync(now, until, cancellationToken);
+                    CalendarAccountClientDecorator client = GetClientForAccount(kvp.Key);
+                    IReadOnlyList<CalendarEvent> events = await client.GetEventsAsync(now, until, cancellationToken);
+
+                    // Filter out events from hidden calendars before deduplication
+                    // so a hidden duplicate can't suppress a visible one.
+                    IReadOnlySet<string> hidden = kvp.Value.Account.HiddenCalendarIds;
+                    if (hidden.Count > 0)
+                    {
+                        return (IReadOnlyList<CalendarEvent>)events
+                            .Where(e => !hidden.Contains(e.CalendarId))
+                            .ToList();
+                    }
+
+                    return events;
                 }
                 catch (Exception)
                 {

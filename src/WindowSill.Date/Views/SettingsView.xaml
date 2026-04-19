@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:api="using:WindowSill.API"
     xmlns:converters1="using:CommunityToolkit.WinUI.Converters"
+    xmlns:ctk="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:WindowSill.Date.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -40,75 +41,54 @@
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Visibility="{x:Bind ViewModel.HasNoAccounts, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
 
-                <!--  Account list  -->
-                <ListView ItemsSource="{x:Bind ViewModel.Accounts}" SelectionMode="None">
-                    <ListView.ItemContainerStyle>
-                        <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                            <Setter Property="Margin" Value="0" />
-                            <Setter Property="Padding" Value="0,2,0,0" />
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
+                <!--  Account list as SettingsExpanders  -->
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Accounts}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="2" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="vm:AccountViewModel">
-                            <Border
-                                Height="64"
-                                VerticalAlignment="Top"
-                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                BorderThickness="1"
-                                CornerRadius="{ThemeResource ControlCornerRadius}">
-                                <Grid Padding="12,0" ColumnSpacing="12">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="24" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <Image
-                                        Grid.Column="0"
-                                        Width="20"
-                                        Height="20"
-                                        VerticalAlignment="Center"
-                                        Source="{x:Bind ProviderIconSource}" />
-
-                                    <StackPanel
-                                        Grid.Column="1"
+                            <ctk:SettingsExpander
+                                Description="{x:Bind Email}"
+                                Header="{x:Bind DisplayName}"
+                                ItemsSource="{x:Bind Calendars}">
+                                <ctk:SettingsExpander.HeaderIcon>
+                                    <ImageIcon Source="{x:Bind ProviderIconSource}" />
+                                </ctk:SettingsExpander.HeaderIcon>
+                                <ctk:SettingsExpander.ItemsHeader>
+                                    <InfoBar
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Orientation="Vertical">
-                                        <TextBlock
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Center"
-                                            Text="{x:Bind DisplayName}"
-                                            TextTrimming="CharacterEllipsis" />
-                                        <TextBlock
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Center"
-                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                            Style="{ThemeResource CaptionTextBlockStyle}"
-                                            Text="{x:Bind Email}"
-                                            TextTrimming="CharacterEllipsis" />
-                                    </StackPanel>
-
-                                    <Button
-                                        Grid.Column="2"
-                                        Width="32"
-                                        Height="32"
-                                        Padding="0"
-                                        VerticalAlignment="Center"
-                                        api:Uids.Uid="/WindowSill.Date/Settings/RemoveAccount"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        Click="RemoveAccountButton_Click"
-                                        Content="{ui:FontIcon FontFamily={StaticResource SegoeFluentIcons},
-                                                              Glyph=&#xE74D;,
-                                                              FontSize=16}" />
-                                </Grid>
-                            </Border>
+                                        api:Uids.Uid="/WindowSill.Date/Settings/LoadingCalendars"
+                                        BorderThickness="0"
+                                        CornerRadius="0"
+                                        IsClosable="False"
+                                        IsIconVisible="False"
+                                        IsOpen="{x:Bind IsLoadingCalendars, Mode=OneWay}"
+                                        Severity="Informational" />
+                                </ctk:SettingsExpander.ItemsHeader>
+                                <Button
+                                    Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    VerticalAlignment="Center"
+                                    api:Uids.Uid="/WindowSill.Date/Settings/RemoveAccount"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Command="{x:Bind RemoveCommand}"
+                                    Content="{ui:FontIcon FontFamily={StaticResource SegoeFluentIcons},
+                                                          Glyph=&#xE74D;,
+                                                          FontSize=16}" />
+                                <ctk:SettingsExpander.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:CalendarViewModel">
+                                        <ctk:SettingsCard Header="{x:Bind Name}">
+                                            <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        </ctk:SettingsCard>
+                                    </DataTemplate>
+                                </ctk:SettingsExpander.ItemTemplate>
+                            </ctk:SettingsExpander>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
             </StackPanel>
 
             <!--  Future settings sections go here  -->

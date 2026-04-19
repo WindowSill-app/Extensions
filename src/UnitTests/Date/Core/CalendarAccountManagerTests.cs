@@ -477,6 +477,77 @@ public class CalendarAccountManagerTests : IDisposable
 
     #endregion
 
+    #region UpdateHiddenCalendarsAsync
+
+    [Fact]
+    public async Task UpdateHiddenCalendarsAsync_PersistsHiddenCalendarIds()
+    {
+        using CalendarAccountManager manager = CreateManager();
+        CalendarAccount account = CreateAccount("hidden_test");
+        await manager.RegisterAccountAsync(account, CancellationToken.None);
+
+        await manager.UpdateHiddenCalendarsAsync("hidden_test", ["cal_a", "cal_b"], CancellationToken.None);
+
+        // Verify in-memory.
+        IReadOnlyList<CalendarAccount> accounts = await manager.GetAccountsAsync();
+        accounts[0].HiddenCalendarIds.Should().BeEquivalentTo(["cal_a", "cal_b"]);
+
+        // Verify persisted.
+        CalendarAccount[] stored = await _dataStore.LoadAllAsync();
+        stored[0].HiddenCalendarIds.Should().BeEquivalentTo(["cal_a", "cal_b"]);
+    }
+
+    [Fact]
+    public async Task UpdateHiddenCalendarsAsync_NonExistentAccount_IsNoOp()
+    {
+        using CalendarAccountManager manager = CreateManager();
+
+        Func<Task> act = () => manager.UpdateHiddenCalendarsAsync("nope", ["cal"], CancellationToken.None);
+
+        await act.Should().NotThrowAsync();
+    }
+
+    #endregion
+
+    #region GetUpcomingEventsAsync filtering
+
+    [Fact]
+    public async Task GetUpcomingEventsAsync_FiltersHiddenCalendars()
+    {
+        DateTimeOffset now = DateTimeOffset.Now;
+        CalendarEvent visibleEvent = CreateEvent("e1", "Visible", now.AddHours(1), now.AddHours(2), "acc_1", calendarId: "cal_visible");
+        CalendarEvent hiddenEvent = CreateEvent("e2", "Hidden", now.AddHours(3), now.AddHours(4), "acc_1", calendarId: "cal_hidden");
+
+        FakeCalendarProvider provider = new(CalendarProviderType.Outlook, (account, _) =>
+            new FakeCalendarAccountClient(account, (_, _, _) =>
+                Task.FromResult<IReadOnlyList<CalendarEvent>>([visibleEvent, hiddenEvent])));
+
+        using CalendarAccountManager manager = CreateManager(
+            new Dictionary<CalendarProviderType, ICalendarProvider>
+            {
+                [CalendarProviderType.Outlook] = provider,
+            });
+
+        CalendarAccount account = new()
+        {
+            Id = "acc_1",
+            DisplayName = "Test",
+            Email = "test@test.com",
+            ProviderType = CalendarProviderType.Outlook,
+            HiddenCalendarIds = ["cal_hidden"],
+        };
+
+        await manager.RegisterAccountAsync(account, CancellationToken.None);
+
+        IReadOnlyList<CalendarEvent> events = await manager.GetUpcomingEventsAsync(
+            TimeSpan.FromHours(24), CancellationToken.None);
+
+        events.Should().HaveCount(1);
+        events[0].Title.Should().Be("Visible");
+    }
+
+    #endregion
+
     #region Helpers
 
     private CalendarAccountManager CreateManager() =>
@@ -502,12 +573,12 @@ public class CalendarAccountManagerTests : IDisposable
 
     private static CalendarEvent CreateEvent(
         string id, string title, DateTimeOffset start, DateTimeOffset end,
-        string accountId, string? organizerEmail = null)
+        string accountId, string? organizerEmail = null, string calendarId = "cal_1")
     {
         return new CalendarEvent
         {
             Id = id,
-            CalendarId = "cal_1",
+            CalendarId = calendarId,
             AccountId = accountId,
             Title = title,
             StartTime = start,

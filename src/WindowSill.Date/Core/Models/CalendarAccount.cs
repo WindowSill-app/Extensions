@@ -37,6 +37,13 @@ public sealed class CalendarAccount
     public IReadOnlyDictionary<string, string> AuthData { get; init; } = new Dictionary<string, string>();
 
     /// <summary>
+    /// Gets the set of calendar IDs that the user has chosen to hide.
+    /// Calendars not in this set are visible by default.
+    /// </summary>
+    [JsonPropertyName("hiddenCalendarIds")]
+    public HashSet<string> HiddenCalendarIds { get; init; } = [];
+
+    /// <summary>
     /// Creates a copy of this account with updated auth data.
     /// </summary>
     /// <param name="authData">The new auth data.</param>
@@ -50,6 +57,25 @@ public sealed class CalendarAccount
             Email = Email,
             ProviderType = ProviderType,
             AuthData = authData,
+            HiddenCalendarIds = HiddenCalendarIds,
+        };
+    }
+
+    /// <summary>
+    /// Creates a copy of this account with updated hidden calendar IDs.
+    /// </summary>
+    /// <param name="hiddenCalendarIds">The new set of hidden calendar IDs.</param>
+    /// <returns>A new account with the same metadata but updated hidden calendars.</returns>
+    public CalendarAccount WithHiddenCalendarIds(HashSet<string> hiddenCalendarIds)
+    {
+        return new CalendarAccount
+        {
+            Id = Id,
+            DisplayName = DisplayName,
+            Email = Email,
+            ProviderType = ProviderType,
+            AuthData = AuthData,
+            HiddenCalendarIds = hiddenCalendarIds,
         };
     }
 }

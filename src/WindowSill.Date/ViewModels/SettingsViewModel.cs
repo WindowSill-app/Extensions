@@ -57,6 +57,13 @@ internal sealed partial class SettingsViewModel : ObservableObject
     public partial bool HasNoAccounts { get; set; } = true;
 
     /// <summary>
+    /// Raised when the user requests to remove an account, before the removal occurs.
+    /// The View should show a confirmation dialog and return <see langword="true"/>
+    /// to proceed or <see langword="false"/> to cancel.
+    /// </summary>
+    public event Func<AccountViewModel, Task<bool>>? ConfirmRemoveAccountRequested;
+
+    /// <summary>
     /// Creates a connect experience for the specified provider type.
     /// </summary>
     /// <param name="providerType">The provider to connect.</param>
@@ -75,20 +82,25 @@ internal sealed partial class SettingsViewModel : ObservableObject
     {
         ThreadHelper.ThrowIfNotOnUIThread();
         await _calendarAccountManager.RegisterAccountAsync(account, cancellationToken);
-        Accounts.Add(CreateAccountViewModel(account));
+        AccountViewModel accountVm = CreateAccountViewModel(account);
+        Accounts.Add(accountVm);
         HasNoAccounts = Accounts.Count == 0;
+
+        LoadCalendarsForAccountAsync(accountVm).ForgetSafely();
     }
 
-    /// <summary>
-    /// Removes the specified account after the caller has confirmed with the user.
-    /// </summary>
-    /// <param name="accountViewModel">The account to remove.</param>
-    /// <param name="cancellationToken">A token to cancel the operation.</param>
-    [RelayCommand]
-    private async Task RemoveAccountAsync(AccountViewModel accountViewModel, CancellationToken cancellationToken)
+    private async Task RemoveAccountAsync(AccountViewModel accountViewModel)
     {
-        ThreadHelper.ThrowIfNotOnUIThread();
-        await _calendarAccountManager.RemoveAccountAsync(accountViewModel.Id, cancellationToken);
+        if (ConfirmRemoveAccountRequested is not null)
+        {
+            bool confirmed = await ConfirmRemoveAccountRequested.Invoke(accountViewModel);
+            if (!confirmed)
+            {
+                return;
+            }
+        }
+
+        await _calendarAccountManager.RemoveAccountAsync(accountViewModel.Id, CancellationToken.None);
         Accounts.Remove(accountViewModel);
         HasNoAccounts = Accounts.Count == 0;
     }
@@ -101,11 +113,57 @@ internal sealed partial class SettingsViewModel : ObservableObject
         {
             foreach (CalendarAccount account in accounts)
             {
-                Accounts.Add(CreateAccountViewModel(account));
+                AccountViewModel accountVm = CreateAccountViewModel(account);
+                Accounts.Add(accountVm);
+                LoadCalendarsForAccountAsync(accountVm).ForgetSafely();
             }
 
             HasNoAccounts = Accounts.Count == 0;
         });
+    }
+
+    private async Task LoadCalendarsForAccountAsync(AccountViewModel accountVm)
+    {
+        try
+        {
+            await Task.Delay(3000);
+
+            CalendarAccountClientDecorator client = _calendarAccountManager.GetClientForAccount(accountVm.Id);
+            IReadOnlyList<CalendarInfo> calendars = await client.GetCalendarsAsync();
+            HashSet<string> hidden = accountVm.Account.HiddenCalendarIds;
+
+            await ThreadHelper.RunOnUIThreadAsync(() =>
+            {
+                accountVm.Calendars.Clear();
+                foreach (CalendarInfo cal in calendars)
+                {
+                    var calVm = new CalendarViewModel(cal, isVisible: !hidden.Contains(cal.Id));
+                    calVm.VisibilityChanged += (_, _) => PersistCalendarVisibilityAsync(accountVm).ForgetSafely();
+                    accountVm.Calendars.Add(calVm);
+                }
+            });
+        }
+        catch
+        {
+        }
+        finally
+        {
+            await ThreadHelper.RunOnUIThreadAsync(() =>
+            {
+                accountVm.IsLoadingCalendars = false;
+            });
+        }
+    }
+
+    private async Task PersistCalendarVisibilityAsync(AccountViewModel accountVm)
+    {
+        HashSet<string> hidden = accountVm.Calendars
+            .Where(c => !c.IsVisible)
+            .Select(c => c.Id)
+            .ToHashSet();
+
+        await _calendarAccountManager.UpdateHiddenCalendarsAsync(
+            accountVm.Id, hidden, CancellationToken.None);
     }
 
     private AccountViewModel CreateAccountViewModel(CalendarAccount account)
@@ -113,7 +171,13 @@ internal sealed partial class SettingsViewModel : ObservableObject
         ProviderMenuItemViewModel? provider = Providers.FirstOrDefault(p => p.ProviderType == account.ProviderType);
         ImageSource iconSource = provider?.IconSource
             ?? CreateProviderIconSource(_contentDirectory, "package.svg");
-        return new AccountViewModel(account, iconSource);
+
+        AccountViewModel accountVm = null!;
+        accountVm = new AccountViewModel(
+            account,
+            iconSource,
+            new AsyncRelayCommand(() => RemoveAccountAsync(accountVm)));
+        return accountVm;
     }
 
     private static ImageSource CreateProviderIconSource(string contentDirectory, string iconAssetFileName)

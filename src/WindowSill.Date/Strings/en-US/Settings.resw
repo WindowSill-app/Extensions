@@ -171,4 +171,7 @@
   <data name="ICloudAppPasswordHelp.ContentProperty" xml:space="preserve">
     <value>How to generate an app-specific password</value>
   </data>
+  <data name="LoadingCalendars.MessageProperty" xml:space="preserve">
+    <value>Loading calendars…</value>
+  </data>
 </root>

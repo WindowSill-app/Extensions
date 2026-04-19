@@ -50,4 +50,42 @@ public class CalendarAccountTests
         account.AuthData.Should().NotBeNull();
         account.AuthData.Should().BeEmpty();
     }
+
+    [Fact]
+    public void WithHiddenCalendarIds_CreatesNewInstanceWithUpdatedHiddenCalendars()
+    {
+        CalendarAccount original = new()
+        {
+            Id = "test_1",
+            DisplayName = "Test",
+            Email = "test@test.com",
+            ProviderType = CalendarProviderType.Outlook,
+            HiddenCalendarIds = ["cal_1"],
+        };
+
+        HashSet<string> newHidden = ["cal_2", "cal_3"];
+        CalendarAccount updated = original.WithHiddenCalendarIds(newHidden);
+
+        updated.Should().NotBeSameAs(original);
+        updated.HiddenCalendarIds.Should().BeEquivalentTo(["cal_2", "cal_3"]);
+        updated.Id.Should().Be("test_1");
+        updated.AuthData.Should().BeEmpty();
+
+        original.HiddenCalendarIds.Should().BeEquivalentTo(["cal_1"]);
+    }
+
+    [Fact]
+    public void HiddenCalendarIds_DefaultsToEmpty()
+    {
+        CalendarAccount account = new()
+        {
+            Id = "test",
+            DisplayName = "Test",
+            Email = "test@test.com",
+            ProviderType = CalendarProviderType.Google,
+        };
+
+        account.HiddenCalendarIds.Should().NotBeNull();
+        account.HiddenCalendarIds.Should().BeEmpty();
+    }
 }

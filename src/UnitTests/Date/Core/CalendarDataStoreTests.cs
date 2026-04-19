@@ -157,6 +157,25 @@ public class CalendarDataStoreTests : IDisposable
         Directory.GetFiles(_tempFolder).Should().BeEmpty();
     }
 
+    [Fact]
+    public async Task SaveAsync_WithHiddenCalendarIds_PreservesHiddenCalendarIds()
+    {
+        CalendarAccount account = new()
+        {
+            Id = "hidden_test",
+            DisplayName = "Test",
+            Email = "test@test.com",
+            ProviderType = CalendarProviderType.Outlook,
+            HiddenCalendarIds = ["cal_1", "cal_2"],
+        };
+
+        await _store.SaveAsync(account);
+        CalendarAccount[] loaded = await _store.LoadAllAsync();
+
+        loaded.Should().HaveCount(1);
+        loaded[0].HiddenCalendarIds.Should().BeEquivalentTo(["cal_1", "cal_2"]);
+    }
+
     private static CalendarAccount CreateAccount(
         string id, string displayName, string email, CalendarProviderType providerType,
         Dictionary<string, string>? authData = null)

@@ -16,6 +16,7 @@ internal sealed partial class SettingsView : UserControl
         string contentDirectory)
     {
         ViewModel = new SettingsViewModel(settingsProvider, calendarAccountManager, contentDirectory);
+        ViewModel.ConfirmRemoveAccountRequested += OnConfirmRemoveAccountRequested;
         InitializeComponent();
         PopulateAddAccountMenu();
     }
@@ -139,31 +140,20 @@ internal sealed partial class SettingsView : UserControl
         }).ForgetSafely();
     }
 
-    private void RemoveAccountButton_Click(object sender, RoutedEventArgs e)
+    private async Task<bool> OnConfirmRemoveAccountRequested(AccountViewModel account)
     {
-        if (sender is not FrameworkElement { DataContext: AccountViewModel account })
+        var dialog = new ContentDialog
         {
-            return;
-        }
+            Title = "/WindowSill.Date/Settings/RemoveAccountDialogTitle".GetLocalizedString(),
+            Content = string.Format(
+                "/WindowSill.Date/Settings/RemoveAccountDialogContent".GetLocalizedString(),
+                account.Email),
+            PrimaryButtonText = "/WindowSill.Date/Settings/RemoveAccountDialogConfirm".GetLocalizedString(),
+            CloseButtonText = "/WindowSill.Date/Settings/RemoveAccountDialogCancel".GetLocalizedString(),
+            PrimaryButtonStyle = Application.Current.Resources["AccentButtonStyle"] as Style,
+            XamlRoot = XamlRoot,
+        };
 
-        ThreadHelper.RunOnUIThreadAsync(async () =>
-        {
-            var dialog = new ContentDialog
-            {
-                Title = "/WindowSill.Date/Settings/RemoveAccountDialogTitle".GetLocalizedString(),
-                Content = string.Format(
-                    "/WindowSill.Date/Settings/RemoveAccountDialogContent".GetLocalizedString(),
-                    account.Email),
-                PrimaryButtonText = "/WindowSill.Date/Settings/RemoveAccountDialogConfirm".GetLocalizedString(),
-                CloseButtonText = "/WindowSill.Date/Settings/RemoveAccountDialogCancel".GetLocalizedString(),
-                PrimaryButtonStyle = Application.Current.Resources["AccentButtonStyle"] as Style,
-                XamlRoot = XamlRoot,
-            };
-
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
-            {
-                await ViewModel.RemoveAccountCommand.ExecuteAsync(account);
-            }
-        }).ForgetSafely();
+        return await dialog.ShowAsync() == ContentDialogResult.Primary;
     }
 }
