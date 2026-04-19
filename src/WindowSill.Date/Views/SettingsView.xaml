@@ -93,6 +93,67 @@
 
             <!--  Future settings sections go here  -->
 
+            <!--  General section  -->
+            <StackPanel Spacing="2">
+                <TextBlock
+                    Margin="0,8,0,8"
+                    api:Uids.Uid="/WindowSill.Date/Display/GeneralSectionHeader"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <!--  Sill content mode  -->
+                <ctk:SettingsExpander api:Uids.Uid="/WindowSill.Date/Display/DisplayMode">
+                    <ctk:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xE787;" />
+                    </ctk:SettingsExpander.HeaderIcon>
+                    <ComboBox
+                        Width="180"
+                        ItemsSource="{x:Bind ViewModel.AvailableDisplayModes}"
+                        SelectedItem="{x:Bind ViewModel.SelectedDisplayMode, Mode=TwoWay}" />
+
+                    <ctk:SettingsExpander.Items>
+                        <!--  Icon mode info  -->
+                        <ctk:SettingsCard Visibility="{x:Bind ViewModel.IsIconModeInfoVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ctk:SettingsCard.Header>
+                                <TextBlock
+                                    api:Uids.Uid="/WindowSill.Date/Display/IconModeInfo"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}" />
+                            </ctk:SettingsCard.Header>
+                        </ctk:SettingsCard>
+
+                        <!--  Date format  -->
+                        <ctk:SettingsCard
+                            x:Name="DateFormatCard"
+                            api:Uids.Uid="/WindowSill.Date/Display/DateFormat"
+                            Visibility="{x:Bind ViewModel.IsDateTimeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ComboBox
+                                Width="220"
+                                ItemsSource="{x:Bind ViewModel.AvailableDateFormats, Mode=OneWay}"
+                                SelectedItem="{x:Bind ViewModel.SelectedDateFormat, Mode=TwoWay}" />
+                        </ctk:SettingsCard>
+
+                        <!--  Time format  -->
+                        <ctk:SettingsCard
+                            x:Name="TimeFormatCard"
+                            api:Uids.Uid="/WindowSill.Date/Display/TimeFormat"
+                            Visibility="{x:Bind ViewModel.IsDateTimeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ComboBox
+                                Width="180"
+                                ItemsSource="{x:Bind ViewModel.AvailableTimeFormats, Mode=OneWay}"
+                                SelectedItem="{x:Bind ViewModel.SelectedTimeFormat, Mode=TwoWay}" />
+                        </ctk:SettingsCard>
+
+                        <!--  Show seconds  -->
+                        <ctk:SettingsCard
+                            x:Name="ShowSecondsCard"
+                            api:Uids.Uid="/WindowSill.Date/Display/ShowSeconds"
+                            Visibility="{x:Bind ViewModel.IsShowSecondsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ToggleSwitch IsOn="{x:Bind ViewModel.ShowSeconds, Mode=TwoWay}" />
+                        </ctk:SettingsCard>
+                    </ctk:SettingsExpander.Items>
+                </ctk:SettingsExpander>
+            </StackPanel>
+
         </StackPanel>
     </ScrollViewer>
 </UserControl>

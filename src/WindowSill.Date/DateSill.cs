@@ -3,19 +3,27 @@ using System.ComponentModel.Composition;
 using Microsoft.UI.Xaml.Media.Imaging;
 using WindowSill.API;
 using WindowSill.Date.Core;
+using WindowSill.Date.ViewModels;
 using WindowSill.Date.Views;
 
 namespace WindowSill.Date;
 
+/// <summary>
+/// Entry point for the Date extension. Shows a calendar icon or live date/time in the sill bar,
+/// and will host the calendar popup and upcoming meeting items.
+/// </summary>
 [Export(typeof(ISill))]
 [Name("Date")]
 [Priority(Priority.Lowest)]
 [SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
+[HideIconInSillListView]
 internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFirstTimeSetup
 {
     private readonly IPluginInfo _pluginInfo;
     private readonly ISettingsProvider _settingsProvider;
     private readonly CalendarAccountManager _calendarAccountManager;
+
+    private DateBarViewModel? _dateBarViewModel;
 
     [ImportingConstructor]
     public DateSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, CalendarAccountManager calendarAccountManager)
@@ -40,7 +48,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     public ObservableCollection<SillListViewItem> ViewList { get; } = [];
 
     /// <inheritdoc/>
-    public SillView? PlaceholderView => throw new NotImplementedException();
+    public SillView? PlaceholderView => null;
 
     /// <inheritdoc/>
     public IconElement CreateIcon()
@@ -58,18 +66,25 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     /// <inheritdoc/>
     public async ValueTask OnActivatedAsync()
     {
-        var accounts = await _calendarAccountManager.GetAccountsAsync();
-        for (var i = 0; i < accounts.Count; i++)
+        await ThreadHelper.RunOnUIThreadAsync(() =>
         {
-            var account = accounts[i];
-            var client = _calendarAccountManager.GetClientForAccount(account.Id);
-            //client.GetCalendarsAsync
-        }
+            if (_dateBarViewModel is null)
+            {
+                _dateBarViewModel = new DateBarViewModel(_settingsProvider, _pluginInfo.GetPluginContentDirectory());
+                SillListViewPopupItem barItem = DateBarContent.CreateViewListItem(_dateBarViewModel);
+                ViewList.Add(barItem);
+            }
+        });
     }
 
     /// <inheritdoc/>
-    public ValueTask OnDeactivatedAsync()
+    public async ValueTask OnDeactivatedAsync()
     {
-        throw new NotImplementedException();
+        await ThreadHelper.RunOnUIThreadAsync(() =>
+        {
+            _dateBarViewModel?.Dispose();
+            _dateBarViewModel = null;
+            ViewList.Clear();
+        });
     }
 }

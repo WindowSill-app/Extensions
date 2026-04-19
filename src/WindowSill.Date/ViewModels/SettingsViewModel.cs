@@ -1,22 +1,26 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
 using WindowSill.API;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
+using WindowSill.Date.Settings;
 
 namespace WindowSill.Date.ViewModels;
 
 /// <summary>
 /// View model for the Date extension settings page.
-/// Manages calendar account list and add/remove operations.
+/// Manages calendar account list, add/remove operations, and display settings.
 /// </summary>
 internal sealed partial class SettingsViewModel : ObservableObject
 {
     private readonly ISettingsProvider _settingsProvider;
     private readonly CalendarAccountManager _calendarAccountManager;
     private readonly string _contentDirectory;
+    private readonly IReadOnlyList<FormatOptionItem<DateFormat>> _allDateFormats;
+    private readonly IReadOnlyList<FormatOptionItem<TimeFormat>> _allTimeFormats;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
@@ -37,6 +41,10 @@ internal sealed partial class SettingsViewModel : ObservableObject
             .Select(p => new ProviderMenuItemViewModel(p, CreateProviderIconSource(contentDirectory, p.IconAssetFileName)))
             .ToList();
 
+        AvailableDisplayModes = BuildDisplayModeItems();
+        _allDateFormats = BuildDateFormatItems();
+        _allTimeFormats = BuildTimeFormatItems();
+
         LoadAccountsAsync().ForgetSafely();
     }
 
@@ -55,6 +63,123 @@ internal sealed partial class SettingsViewModel : ObservableObject
     /// </summary>
     [ObservableProperty]
     public partial bool HasNoAccounts { get; set; } = true;
+
+    /// <summary>
+    /// Gets the available display mode options.
+    /// </summary>
+    public IReadOnlyList<FormatOptionItem<SillDisplayMode>> AvailableDisplayModes { get; }
+
+    /// <summary>
+    /// Gets the available date format options. The "(None)" item is excluded
+    /// when the time format is already set to None.
+    /// </summary>
+    public IReadOnlyList<FormatOptionItem<DateFormat>> AvailableDateFormats
+        => _settingsProvider.GetSetting(Settings.Settings.TimeFormat) == TimeFormat.None
+            ? _allDateFormats.Where(i => i.Value != DateFormat.None).ToList()
+            : _allDateFormats;
+
+    /// <summary>
+    /// Gets the available time format options. The "(None)" item is excluded
+    /// when the date format is already set to None.
+    /// </summary>
+    public IReadOnlyList<FormatOptionItem<TimeFormat>> AvailableTimeFormats
+        => _settingsProvider.GetSetting(Settings.Settings.DateFormat) == DateFormat.None
+            ? _allTimeFormats.Where(i => i.Value != TimeFormat.None).ToList()
+            : _allTimeFormats;
+
+    /// <summary>
+    /// Gets or sets the selected display mode item.
+    /// </summary>
+    public FormatOptionItem<SillDisplayMode>? SelectedDisplayMode
+    {
+        get => AvailableDisplayModes.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.DisplayMode));
+        set
+        {
+            if (value is not null
+                && value.Value != _settingsProvider.GetSetting(Settings.Settings.DisplayMode))
+            {
+                _settingsProvider.SetSetting(Settings.Settings.DisplayMode, value.Value);
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsDateTimeMode));
+                OnPropertyChanged(nameof(IsShowSecondsVisible));
+                OnPropertyChanged(nameof(IsIconModeInfoVisible));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the selected date format item.
+    /// </summary>
+    public FormatOptionItem<DateFormat>? SelectedDateFormat
+    {
+        get => _allDateFormats.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.DateFormat));
+        set
+        {
+            if (value is null
+                || value.Value == _settingsProvider.GetSetting(Settings.Settings.DateFormat))
+            {
+                return;
+            }
+
+            _settingsProvider.SetSetting(Settings.Settings.DateFormat, value.Value);
+            OnPropertyChanged();
+            // Refresh the time format combo to show/hide its None option.
+            OnPropertyChanged(nameof(AvailableTimeFormats));
+            OnPropertyChanged(nameof(SelectedTimeFormat));
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the selected time format item.
+    /// </summary>
+    public FormatOptionItem<TimeFormat>? SelectedTimeFormat
+    {
+        get => _allTimeFormats.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.TimeFormat));
+        set
+        {
+            if (value is null
+                || value.Value == _settingsProvider.GetSetting(Settings.Settings.TimeFormat))
+            {
+                return;
+            }
+
+            _settingsProvider.SetSetting(Settings.Settings.TimeFormat, value.Value);
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(IsShowSecondsVisible));
+            // Refresh the date format combo to show/hide its None option.
+            OnPropertyChanged(nameof(AvailableDateFormats));
+            OnPropertyChanged(nameof(SelectedDateFormat));
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether to show seconds in the time display.
+    /// </summary>
+    public bool ShowSeconds
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.ShowSeconds);
+        set => _settingsProvider.SetSetting(Settings.Settings.ShowSeconds, value);
+    }
+
+    /// <summary>
+    /// Gets whether the date/time settings section should be visible.
+    /// </summary>
+    public bool IsDateTimeMode
+        => _settingsProvider.GetSetting(Settings.Settings.DisplayMode) == SillDisplayMode.DateTime;
+
+    /// <summary>
+    /// Gets whether the "Show seconds" toggle should be visible.
+    /// Only visible in DateTime mode when a time format is selected.
+    /// </summary>
+    public bool IsShowSecondsVisible
+        => IsDateTimeMode
+        && _settingsProvider.GetSetting(Settings.Settings.TimeFormat) != TimeFormat.None;
+
+    /// <summary>
+    /// Gets whether the icon-mode info message should be visible.
+    /// </summary>
+    public bool IsIconModeInfoVisible
+        => _settingsProvider.GetSetting(Settings.Settings.DisplayMode) == SillDisplayMode.Icon;
 
     /// <summary>
     /// Raised when the user requests to remove an account, before the removal occurs.
@@ -191,5 +316,69 @@ internal sealed partial class SettingsViewModel : ObservableObject
         }
 
         return new BitmapImage(uri);
+    }
+
+    private static IReadOnlyList<FormatOptionItem<SillDisplayMode>> BuildDisplayModeItems()
+    {
+        return
+        [
+            new FormatOptionItem<SillDisplayMode>(
+                SillDisplayMode.Icon,
+                "/WindowSill.Date/Display/DisplayModeIcon".GetLocalizedString()),
+            new FormatOptionItem<SillDisplayMode>(
+                SillDisplayMode.DateTime,
+                "/WindowSill.Date/Display/DisplayModeDateTime".GetLocalizedString()),
+        ];
+    }
+
+    private static IReadOnlyList<FormatOptionItem<DateFormat>> BuildDateFormatItems()
+    {
+        DateTime now = DateTime.Now;
+        var items = new List<FormatOptionItem<DateFormat>>
+        {
+            new(DateFormat.None, "/WindowSill.Date/Display/FormatNone".GetLocalizedString()),
+        };
+
+        DateFormat[] formats =
+        [
+            DateFormat.AbbreviatedDayMonth,
+            DateFormat.ShortMonthDay,
+            DateFormat.DayShortMonth,
+            DateFormat.FullDayMonth,
+            DateFormat.MonthSlashDayCompact,
+            DateFormat.MonthSlashDay,
+            DateFormat.DaySlashMonthCompact,
+            DateFormat.DaySlashMonth,
+            DateFormat.MonthDayYear,
+            DateFormat.DayMonthYear,
+            DateFormat.Iso8601,
+        ];
+
+        foreach (DateFormat format in formats)
+        {
+            string preview = format.FormatDate(now);
+            string? suffix = format.GetLabelSuffix();
+            string displayName = suffix is null ? preview : $"{preview}  {suffix}";
+            items.Add(new FormatOptionItem<DateFormat>(format, displayName));
+        }
+
+        return items;
+    }
+
+    private static IReadOnlyList<FormatOptionItem<TimeFormat>> BuildTimeFormatItems()
+    {
+        DateTime now = DateTime.Now;
+        return
+        [
+            new FormatOptionItem<TimeFormat>(
+                TimeFormat.None,
+                "/WindowSill.Date/Display/FormatNone".GetLocalizedString()),
+            new FormatOptionItem<TimeFormat>(
+                TimeFormat.TwelveHour,
+                TimeFormat.TwelveHour.FormatTime(now, showSeconds: false)),
+            new FormatOptionItem<TimeFormat>(
+                TimeFormat.TwentyFourHour,
+                TimeFormat.TwentyFourHour.FormatTime(now, showSeconds: false)),
+        ];
     }
 }
