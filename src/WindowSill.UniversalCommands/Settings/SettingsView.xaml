@@ -61,7 +61,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="core:UniversalCommand">
                     <Border
-                        Height="48"
+                        Height="64"
                         VerticalAlignment="Top"
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
