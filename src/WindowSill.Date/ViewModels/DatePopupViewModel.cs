@@ -1,0 +1,350 @@
+using System.Collections.ObjectModel;
+
+using CommunityToolkit.Mvvm.ComponentModel;
+
+using Microsoft.UI.Dispatching;
+
+using WindowSill.API;
+using WindowSill.Date.Core;
+using WindowSill.Date.Core.Models;
+using WindowSill.Date.Core.Services;
+using WindowSill.Date.Settings;
+
+namespace WindowSill.Date.ViewModels;
+
+/// <summary>
+/// ViewModel for the Date popup. Orchestrates calendar day selection, event loading,
+/// world clock display, and the time-travel slider.
+/// </summary>
+internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
+{
+    private readonly CalendarAccountManager _calendarAccountManager;
+    private readonly WorldClockService _worldClockService;
+    private readonly ISettingsProvider _settingsProvider;
+
+    private DispatcherQueueTimer? _timer;
+    private CancellationTokenSource? _loadEventsCts;
+    private bool _disposed;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DatePopupViewModel"/> class.
+    /// </summary>
+    /// <param name="calendarAccountManager">The calendar account manager for fetching events.</param>
+    /// <param name="worldClockService">The world clock service for timezone data.</param>
+    /// <param name="settingsProvider">The settings provider for reading display preferences.</param>
+    public DatePopupViewModel(
+        CalendarAccountManager calendarAccountManager,
+        WorldClockService worldClockService,
+        ISettingsProvider settingsProvider)
+    {
+        _calendarAccountManager = calendarAccountManager;
+        _worldClockService = worldClockService;
+        _settingsProvider = settingsProvider;
+    }
+
+    /// <summary>
+    /// Gets the events for the selected day.
+    /// </summary>
+    public ObservableCollection<EventItemViewModel> Events { get; } = [];
+
+    /// <summary>
+    /// Gets the world clock items.
+    /// </summary>
+    public ObservableCollection<WorldClockItemViewModel> WorldClocks { get; } = [];
+
+    /// <summary>
+    /// Gets or sets the selected date.
+    /// </summary>
+    [ObservableProperty]
+    public partial DateTimeOffset SelectedDate { get; set; } = DateTimeOffset.Now.Date;
+
+    /// <summary>
+    /// Gets or sets the time travel offset in minutes.
+    /// </summary>
+    public int TimeTravelOffsetMinutes
+    {
+        get;
+        set
+        {
+            if (SetProperty(ref field, value))
+            {
+                UpdateTimeTravelLabel();
+                RefreshWorldClockTimes();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets the time travel label text (e.g., "Now", "+3h", "-2h 15m").
+    /// </summary>
+    [ObservableProperty]
+    public partial string TimeTravelLabel { get; private set; } = "Now";
+
+    /// <summary>
+    /// Gets the projected local time text when time-traveling (e.g., "02:00").
+    /// </summary>
+    [ObservableProperty]
+    public partial string TimeTravelProjectedTime { get; private set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the projected relative day text when time-traveling (e.g., "Tomorrow", "Today").
+    /// </summary>
+    [ObservableProperty]
+    public partial string TimeTravelProjectedDay { get; private set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the projected date text when time-traveling (e.g., "Wed, 1 Mar").
+    /// </summary>
+    [ObservableProperty]
+    public partial string TimeTravelProjectedDate { get; private set; } = string.Empty;
+
+    /// <summary>
+    /// Gets a value indicating whether the time travel info block should be visible.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsTimeTraveling { get; private set; }
+
+    /// <summary>
+    /// Gets a value indicating whether the event list is empty.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool HasNoEvents { get; private set; } = true;
+
+    /// <summary>
+    /// Gets a value indicating whether events are currently loading.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsLoadingEvents { get; private set; }
+
+    /// <summary>
+    /// Gets the header text for the event list (e.g., "Today", "Tomorrow", or a date).
+    /// </summary>
+    [ObservableProperty]
+    public partial string EventListHeader { get; private set; } = string.Empty;
+
+    /// <summary>
+    /// Gets a value indicating whether there are world clocks configured.
+    /// </summary>
+    public bool HasWorldClocks => WorldClocks.Count > 0;
+
+    /// <summary>
+    /// Called when the popup opens. Initializes data and starts the timer.
+    /// </summary>
+    /// <param name="dispatcherQueue">The UI thread dispatcher queue.</param>
+    public void OnPopupOpening(DispatcherQueue dispatcherQueue)
+    {
+        TimeTravelOffsetMinutes = 0;
+        SelectedDate = DateTimeOffset.Now.Date;
+
+        RefreshWorldClocks();
+        LoadEventsForSelectedDayAsync().ForgetSafely();
+        UpdateEventListHeader();
+
+        _timer?.Stop();
+        _timer = dispatcherQueue.CreateTimer();
+        _timer.Interval = TimeSpan.FromSeconds(1);
+        _timer.Tick += OnTimerTick;
+        _timer.Start();
+    }
+
+    /// <summary>
+    /// Called when the popup closes. Stops the timer and resets time travel.
+    /// </summary>
+    public void OnPopupClosing()
+    {
+        _timer?.Stop();
+        if (_timer is not null)
+        {
+            _timer.Tick -= OnTimerTick;
+            _timer = null;
+        }
+
+        _loadEventsCts?.Cancel();
+        TimeTravelOffsetMinutes = 0;
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        _disposed = true;
+        OnPopupClosing();
+        _loadEventsCts?.Dispose();
+    }
+
+    partial void OnSelectedDateChanged(DateTimeOffset value)
+    {
+        UpdateEventListHeader();
+        LoadEventsForSelectedDayAsync().ForgetSafely();
+    }
+
+    private void OnTimerTick(DispatcherQueueTimer sender, object args)
+    {
+        RefreshWorldClockTimes();
+        UpdateTimeTravelLabel();
+    }
+
+    private async Task LoadEventsForSelectedDayAsync()
+    {
+        _loadEventsCts?.Cancel();
+        _loadEventsCts?.Dispose();
+        _loadEventsCts = new CancellationTokenSource();
+        CancellationToken ct = _loadEventsCts.Token;
+
+        IsLoadingEvents = true;
+
+        try
+        {
+            DateTimeOffset dayStart = SelectedDate.Date;
+            DateTimeOffset dayEnd = dayStart.AddDays(1);
+
+            IReadOnlyList<CalendarEvent> events = await _calendarAccountManager.GetEventsAsync(dayStart, dayEnd, ct);
+
+            if (ct.IsCancellationRequested)
+            {
+                return;
+            }
+
+            Events.Clear();
+
+            // Filter out cancelled events.
+            IEnumerable<CalendarEvent> filtered = events
+                .Where(e => e.Status != CalendarEventStatus.Cancelled);
+
+            // Sort: all-day first, then by start time.
+            IEnumerable<CalendarEvent> sorted = filtered
+                .OrderBy(e => e.IsAllDay ? 0 : 1)
+                .ThenBy(e => e.StartTime);
+
+            foreach (CalendarEvent calEvent in sorted)
+            {
+                Events.Add(new EventItemViewModel(calEvent));
+            }
+
+            HasNoEvents = Events.Count == 0;
+        }
+        catch (OperationCanceledException)
+        {
+            // Expected when the selected day changes rapidly.
+        }
+        catch
+        {
+            Events.Clear();
+            HasNoEvents = true;
+        }
+        finally
+        {
+            IsLoadingEvents = false;
+        }
+    }
+
+    private void RefreshWorldClocks()
+    {
+        WorldClocks.Clear();
+
+        IReadOnlyList<WorldClockEntry> entries = _worldClockService.GetEntries();
+        foreach (WorldClockEntry entry in entries)
+        {
+            NodaTime.DateTimeZone zone = _worldClockService.GetTimeZone(entry.TimeZoneId);
+            WorldClocks.Add(new WorldClockItemViewModel(entry, zone));
+        }
+
+        OnPropertyChanged(nameof(HasWorldClocks));
+    }
+
+    private void RefreshWorldClockTimes()
+    {
+        string timeFormat = GetEffectiveTimeFormatString();
+        foreach (WorldClockItemViewModel clock in WorldClocks)
+        {
+            clock.Update(TimeTravelOffsetMinutes, timeFormat);
+        }
+    }
+
+    private void UpdateTimeTravelLabel()
+    {
+        IsTimeTraveling = TimeTravelOffsetMinutes != 0;
+
+        // Offset label
+        if (TimeTravelOffsetMinutes == 0)
+        {
+            TimeTravelLabel = "Now";
+        }
+        else
+        {
+            string sign = TimeTravelOffsetMinutes > 0 ? "+" : "−";
+            int absMinutes = Math.Abs(TimeTravelOffsetMinutes);
+            int hours = absMinutes / 60;
+            int mins = absMinutes % 60;
+
+            TimeTravelLabel = mins == 0
+                ? $"{sign}{hours}h"
+                : $"{sign}{hours}h {mins}m";
+        }
+
+        // Projected (or current) local time
+        DateTime projected = DateTime.Now.AddMinutes(TimeTravelOffsetMinutes);
+        string timeFormat = GetEffectiveTimeFormatString();
+        TimeTravelProjectedTime = projected.ToString(timeFormat, System.Globalization.CultureInfo.CurrentCulture);
+
+        // Projected relative day
+        var projectedDate = DateOnly.FromDateTime(projected);
+        var today = DateOnly.FromDateTime(DateTime.Today);
+        int dayDiff = projectedDate.DayNumber - today.DayNumber;
+
+        TimeTravelProjectedDay = dayDiff switch
+        {
+            0 => "/WindowSill.Date/Popup/Today".GetLocalizedString(),
+            1 => "/WindowSill.Date/Popup/Tomorrow".GetLocalizedString(),
+            -1 => "/WindowSill.Date/Popup/Yesterday".GetLocalizedString(),
+            _ => projectedDate.ToString("dddd", System.Globalization.CultureInfo.CurrentCulture),
+        };
+
+        // Projected date
+        TimeTravelProjectedDate = projected.ToString("ddd, d MMM", System.Globalization.CultureInfo.CurrentCulture);
+    }
+
+    /// <summary>
+    /// Gets the effective time format string based on user settings.
+    /// If the user's time format is None, falls back to the culture's default short time pattern.
+    /// </summary>
+    private string GetEffectiveTimeFormatString()
+    {
+        Settings.TimeFormat userFormat = _settingsProvider.GetSetting(Settings.Settings.TimeFormat);
+
+        if (userFormat == Settings.TimeFormat.None)
+        {
+            // Use the culture's default short time pattern (e.g., "h:mm tt" for en-US, "HH:mm" for fr-FR).
+            return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;
+        }
+
+        return userFormat.ToFormatString(showSeconds: false);
+    }
+
+    private void UpdateEventListHeader()
+    {
+        var selected = DateOnly.FromDateTime(SelectedDate.Date);
+        var today = DateOnly.FromDateTime(DateTime.Today);
+
+        if (selected == today)
+        {
+            EventListHeader = "/WindowSill.Date/Popup/Today".GetLocalizedString();
+        }
+        else if (selected == today.AddDays(1))
+        {
+            EventListHeader = "/WindowSill.Date/Popup/Tomorrow".GetLocalizedString();
+        }
+        else if (selected == today.AddDays(-1))
+        {
+            EventListHeader = "/WindowSill.Date/Popup/Yesterday".GetLocalizedString();
+        }
+        else
+        {
+            EventListHeader = SelectedDate.Date.ToString("dddd, MMMM d", System.Globalization.CultureInfo.CurrentCulture);
+        }
+    }
+}

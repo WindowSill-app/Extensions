@@ -25,15 +25,16 @@ internal sealed partial class DateBarContent : UserControl
     /// orientation change handling.
     /// </summary>
     /// <param name="viewModel">The date bar view model.</param>
+    /// <param name="popupView">The popup view to show when clicked.</param>
     /// <returns>A configured <see cref="SillListViewPopupItem"/>.</returns>
-    internal static SillListViewPopupItem CreateViewListItem(DateBarViewModel viewModel)
+    internal static SillListViewPopupItem CreateViewListItem(DateBarViewModel viewModel, DatePopupView popupView)
     {
         var content = new DateBarContent(viewModel);
 
         var viewItem = new SillListViewPopupItem
         {
             Content = content,
-            PopupContent = new SillPopupContent(),
+            PopupContent = popupView,
         };
 
         viewItem.IsSillOrientationOrSizeChanged += (_, _) =>
@@ -61,54 +62,6 @@ internal sealed partial class DateBarContent : UserControl
             _ => throw new NotSupportedException($"Unsupported {nameof(SillOrientationAndSize)}: {orientationAndSize}")
         };
 
-        if (!VisualStateManager.GoToState(this, stateName, useTransitions: true))
-        {
-            ApplyOrientationFallback(orientationAndSize);
-        }
-    }
-
-    /// <summary>
-    /// Fallback for when VisualStateManager.GoToState returns false in dynamically loaded extensions.
-    /// </summary>
-    private void ApplyOrientationFallback(SillOrientationAndSize orientationAndSize)
-    {
-        bool isLarge = orientationAndSize
-            is SillOrientationAndSize.HorizontalLarge
-            or SillOrientationAndSize.VerticalLarge;
-
-        bool isVertical = orientationAndSize
-            is SillOrientationAndSize.VerticalLarge
-            or SillOrientationAndSize.VerticalMedium
-            or SillOrientationAndSize.VerticalSmall;
-
-        bool isSmall = orientationAndSize
-            is SillOrientationAndSize.HorizontalSmall
-            or SillOrientationAndSize.VerticalSmall;
-
-        // Layout: two-line for Large or any Vertical; single-line for Horizontal Medium/Small.
-        if (isLarge || isVertical)
-        {
-            DateTimePanel.Orientation = Orientation.Vertical;
-            DateTimePanel.Spacing = 0;
-            DateText.HorizontalAlignment = HorizontalAlignment.Center;
-            TimeText.HorizontalAlignment = HorizontalAlignment.Center;
-        }
-        else
-        {
-            DateTimePanel.Orientation = Orientation.Horizontal;
-            DateTimePanel.Spacing = 6;
-            DateText.HorizontalAlignment = HorizontalAlignment.Left;
-            TimeText.HorizontalAlignment = HorizontalAlignment.Left;
-        }
-
-        // Icon size
-        double iconSize = isSmall ? 12 : (isLarge ? 20 : 16);
-        CalendarIcon.Width = iconSize;
-        CalendarIcon.Height = iconSize;
-
-        // Margin
-        RootPanel.Margin = isSmall
-            ? new Thickness(0)
-            : (Thickness)Application.Current.Resources["SillCommandContentMargin"];
+        VisualStateManager.GoToState(this, stateName, useTransitions: true);
     }
 }

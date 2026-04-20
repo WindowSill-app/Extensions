@@ -195,6 +195,51 @@ internal sealed class CalendarAccountManager : IDisposable
     }
 
     /// <summary>
+    /// Retrieves events across all connected accounts within the specified date range.
+    /// Events are sorted by start time and deduplicated across calendars.
+    /// </summary>
+    /// <param name="from">The start of the date range (inclusive).</param>
+    /// <param name="to">The end of the date range (exclusive).</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A sorted, deduplicated list of events in the range.</returns>
+    public async Task<IReadOnlyList<CalendarEvent>> GetEventsAsync(
+        DateTimeOffset from,
+        DateTimeOffset to,
+        CancellationToken cancellationToken)
+    {
+        await _initializationTask.Value;
+
+        Task<IReadOnlyList<CalendarEvent>>[] tasks = _entries
+            .Select(async kvp =>
+            {
+                try
+                {
+                    CalendarAccountClientDecorator client = GetClientForAccount(kvp.Key);
+                    IReadOnlyList<CalendarEvent> events = await client.GetEventsAsync(from, to, cancellationToken);
+
+                    IReadOnlySet<string> hidden = kvp.Value.Account.HiddenCalendarIds;
+                    if (hidden.Count > 0)
+                    {
+                        return (IReadOnlyList<CalendarEvent>)events
+                            .Where(e => !hidden.Contains(e.CalendarId))
+                            .ToList();
+                    }
+
+                    return events;
+                }
+                catch (Exception)
+                {
+                    return (IReadOnlyList<CalendarEvent>)[];
+                }
+            })
+            .ToArray();
+
+        IReadOnlyList<CalendarEvent>[] results = await Task.WhenAll(tasks);
+
+        return DeduplicateAndSort(results.SelectMany(r => r));
+    }
+
+    /// <summary>
     /// Retrieves upcoming events across all connected accounts within the specified look-ahead window.
     /// Events are sorted by start time and deduplicated across calendars.
     /// </summary>

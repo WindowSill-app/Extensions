@@ -179,7 +179,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
 
         try
         {
-            XDocument doc = XDocument.Parse(xml);
+            var doc = XDocument.Parse(xml);
 
             foreach (XElement responseEl in doc.Descendants(DavNs + "response"))
             {
@@ -218,7 +218,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
 
         try
         {
-            XDocument doc = XDocument.Parse(xml);
+            var doc = XDocument.Parse(xml);
 
             foreach (XElement responseEl in doc.Descendants(DavNs + "response"))
             {
@@ -228,7 +228,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
                     continue;
                 }
 
-                Calendar ical = Calendar.Load(icalData);
+                var ical = Calendar.Load(icalData);
                 foreach (ICalCalendarEvent vEvent in ical.Events)
                 {
                     events.Add(MapVEventToCalendarEvent(vEvent, calendar));

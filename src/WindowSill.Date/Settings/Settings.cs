@@ -30,4 +30,10 @@ internal static class Settings
     /// </summary>
     internal static readonly SettingDefinition<bool> ShowSeconds
         = new(false, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// JSON-serialized list of world clock entries.
+    /// </summary>
+    internal static readonly SettingDefinition<string> WorldClockEntries
+        = new("[]", typeof(Settings).Assembly);
 }

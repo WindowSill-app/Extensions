@@ -16,7 +16,6 @@
         x:Name="RootPanel"
         Margin="{ThemeResource SillCommandContentMargin}"
         VerticalAlignment="Center">
-
         <!--  Icon mode  -->
         <Image
             x:Name="CalendarIcon"

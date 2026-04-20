@@ -3,7 +3,7 @@ namespace WindowSill.Date.Settings;
 /// <summary>
 /// Controls what the Date sill displays in the bar.
 /// </summary>
-internal enum SillDisplayMode
+public enum SillDisplayMode
 {
     /// <summary>
     /// Show the calendar icon.

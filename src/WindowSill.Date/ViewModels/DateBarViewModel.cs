@@ -1,7 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 
 using WindowSill.API;

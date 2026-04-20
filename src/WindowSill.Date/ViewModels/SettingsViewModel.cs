@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -282,7 +281,7 @@ internal sealed partial class SettingsViewModel : ObservableObject
 
     private async Task PersistCalendarVisibilityAsync(AccountViewModel accountVm)
     {
-        HashSet<string> hidden = accountVm.Calendars
+        var hidden = accountVm.Calendars
             .Where(c => !c.IsVisible)
             .Select(c => c.Id)
             .ToHashSet();

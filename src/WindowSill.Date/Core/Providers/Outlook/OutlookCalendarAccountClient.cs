@@ -306,7 +306,7 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
         {
             try
             {
-                TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById(dateTime.TimeZone ?? "UTC");
+                var tz = TimeZoneInfo.FindSystemTimeZoneById(dateTime.TimeZone ?? "UTC");
                 return new DateTimeOffset(dt, tz.GetUtcOffset(dt));
             }
             catch
