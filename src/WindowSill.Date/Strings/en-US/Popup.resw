@@ -79,4 +79,10 @@
   <data name="OpenInCalendar.TextProperty" xml:space="preserve">
     <value>Open in calendar</value>
   </data>
+  <data name="CalendarHeader.TextProperty" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+  <data name="TimeTravelLabel.TextProperty" xml:space="preserve">
+    <value>Time travel</value>
+  </data>
 </root>

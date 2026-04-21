@@ -31,18 +31,53 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <CalendarView
-            x:Name="CalendarControl"
+        <StackPanel
             Grid.Row="0"
-            HorizontalAlignment="Stretch"
-            Background="Transparent"
-            CalendarViewDayItemChanging="CalendarControl_DayItemChanging"
-            CornerRadius="0"
-            IsTodayHighlighted="True"
-            SelectedDatesChanged="CalendarControl_SelectedDatesChanged"
-            SelectionMode="Single" />
+            BorderBrush="{ThemeResource CalendarViewBorderBrush}"
+            BorderThickness="0,0,0,1">
+            <Button
+                Padding="16,6"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                Background="Transparent"
+                BorderThickness="0"
+                Click="ToggleCalendar_Click"
+                CornerRadius="0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        api:Uids.Uid="/WindowSill.Date/Popup/CalendarHeader"
+                        FontWeight="SemiBold"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                    <FontIcon
+                        x:Name="CalendarChevron"
+                        Grid.Column="1"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        FontSize="12"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Glyph="&#xE70E;" />
+                </Grid>
+            </Button>
+            <Border Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}">
+                <CalendarView
+                    x:Name="CalendarControl"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    CalendarViewDayItemChanging="CalendarControl_DayItemChanging"
+                    CornerRadius="0"
+                    IsTodayHighlighted="True"
+                    SelectedDatesChanged="CalendarControl_SelectedDatesChanged"
+                    SelectionMode="Single"
+                    Visibility="{x:Bind ViewModel.IsCalendarVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            </Border>
+        </StackPanel>
 
-        <Grid Grid.Row="1" MinHeight="80">
+        <Grid Grid.Row="1" MinHeight="90">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -157,135 +192,183 @@
 
         <StackPanel
             Grid.Row="2"
-            Padding="16,8,16,12"
             BorderBrush="{ThemeResource CalendarViewBorderBrush}"
             BorderThickness="0,1,0,0"
-            Spacing="4"
+            Spacing="0"
             Visibility="{x:Bind ViewModel.HasWorldClocks, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-
-            <!--  World Clocks header  -->
-            <TextBlock
-                Margin="0,0,0,2"
-                api:Uids.Uid="/WindowSill.Date/Popup/WorldClocksHeader"
-                FontWeight="SemiBold"
-                Style="{ThemeResource BodyStrongTextBlockStyle}" />
-
-            <!--  Clock list  -->
-            <ItemsRepeater ItemsSource="{x:Bind ViewModel.WorldClocks}">
-                <ItemsRepeater.Layout>
-                    <StackLayout Spacing="2" />
-                </ItemsRepeater.Layout>
-                <ItemsRepeater.ItemTemplate>
-                    <DataTemplate x:DataType="vm:WorldClockItemViewModel">
-                        <Grid Padding="0,4" ColumnSpacing="8">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <!--  Day/night indicator  -->
-                            <FontIcon
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                FontSize="14"
-                                Glyph="{x:Bind IsDaytime, Mode=OneWay, Converter={StaticResource DayNightGlyphConverter}}" />
-
-                            <!--  Name and offset  -->
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="{x:Bind DisplayName}" TextTrimming="CharacterEllipsis" />
-                                <TextBlock
-                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind OffsetText, Mode=OneWay}" />
-                            </StackPanel>
-
-                            <!--  Time and day  -->
-                            <StackPanel
-                                Grid.Column="2"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center">
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    FontWeight="SemiBold"
-                                    Text="{x:Bind CurrentTime, Mode=OneWay}"
-                                    Typography.NumeralAlignment="Tabular" />
-                                <TextBlock
-                                    HorizontalAlignment="Right"
-                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind DayText, Mode=OneWay}" />
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-            </ItemsRepeater>
-
-            <!--  Time travel info + slider  -->
-            <StackPanel Margin="0,6,0,0" Spacing="4">
-
-                <Grid
-                    Padding="10,8"
-                    Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
-                    CornerRadius="{ThemeResource ControlCornerRadius}">
+            <Button
+                Padding="16,6"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                Background="Transparent"
+                BorderThickness="0"
+                Click="ToggleWorldClocks_Click"
+                CornerRadius="0">
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        api:Uids.Uid="/WindowSill.Date/Popup/WorldClocksHeader"
+                        FontWeight="SemiBold"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}" />
+                    <FontIcon
+                        x:Name="WorldClocksChevron"
+                        Grid.Column="1"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        FontSize="12"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Glyph="&#xE70E;" />
+                </Grid>
+            </Button>
+
+            <StackPanel
+                Padding="16,0,16,4"
+                Spacing="4"
+                Visibility="{x:Bind ViewModel.IsWorldClocksVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+
+                <!--  Clock list  -->
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.WorldClocks}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="2" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="vm:WorldClockItemViewModel">
+                            <Grid Padding="0,4" ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!--  Day/night indicator  -->
+                                <FontIcon
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                    FontSize="14"
+                                    Glyph="{x:Bind IsDaytime, Mode=OneWay, Converter={StaticResource DayNightGlyphConverter}}" />
+
+                                <!--  Name and offset  -->
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="{x:Bind DisplayName}" TextTrimming="CharacterEllipsis" />
+                                    <TextBlock
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind OffsetText, Mode=OneWay}" />
+                                </StackPanel>
+
+                                <!--  Time and day  -->
+                                <StackPanel
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center">
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        FontWeight="SemiBold"
+                                        Text="{x:Bind CurrentTime, Mode=OneWay}"
+                                        Typography.NumeralAlignment="Tabular" />
+                                    <TextBlock
+                                        HorizontalAlignment="Right"
+                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                        Text="{x:Bind DayText, Mode=OneWay}" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+
+                <!--  Time travel card (slider + info unified)  -->
+                <Grid
+                    Margin="0,6,0,0"
+                    Padding="0,8,0,8"
+                    CornerRadius="{ThemeResource ControlCornerRadius}"
+                    RowSpacing="2">
                     <Grid.RowDefinitions>
+                        <!--  Header: label + offset  -->
                         <RowDefinition Height="Auto" />
+                        <!--  Slider  -->
+                        <RowDefinition Height="Auto" />
+                        <!--  Projected time (only when traveling)  -->
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <!--  Offset badge  -->
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="0,0,0,2"
-                        FontWeight="SemiBold"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="{x:Bind ViewModel.TimeTravelLabel, Mode=OneWay}"
-                        Typography.NumeralAlignment="Tabular" />
-
-                    <!--  Projected time + relative day  -->
-                    <StackPanel
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Orientation="Horizontal"
-                        Spacing="6">
+                    <!--  Row 0: "Time travel" label + offset badge  -->
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel
+                            Grid.Column="0"
+                            Orientation="Horizontal"
+                            Spacing="6">
+                            <FontIcon
+                                VerticalAlignment="Center"
+                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                FontSize="12"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Glyph="&#xE81C;" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                api:Uids.Uid="/WindowSill.Date/Popup/TimeTravelLabel"
+                                FontWeight="SemiBold"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                        </StackPanel>
                         <TextBlock
-                            FontSize="16"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
                             FontWeight="SemiBold"
-                            Text="{x:Bind ViewModel.TimeTravelProjectedTime, Mode=OneWay}"
+                            Text="{x:Bind ViewModel.TimeTravelLabel, Mode=OneWay}"
                             Typography.NumeralAlignment="Tabular" />
-                        <TextBlock
-                            VerticalAlignment="Bottom"
-                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Text="{x:Bind ViewModel.TimeTravelProjectedDay, Mode=OneWay}" />
-                    </StackPanel>
+                    </Grid>
 
-                    <!--  Projected date  -->
-                    <TextBlock
+                    <!--  Row 1: Slider  -->
+                    <Slider
+                        x:Name="TimeTravelSlider"
                         Grid.Row="1"
-                        Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="{x:Bind ViewModel.TimeTravelProjectedDate, Mode=OneWay}" />
-                </Grid>
+                        Margin="-4,0"
+                        IsThumbToolTipEnabled="False"
+                        Maximum="1440"
+                        Minimum="-1440"
+                        SnapsTo="StepValues"
+                        StepFrequency="60"
+                        Value="{x:Bind ViewModel.TimeTravelOffsetMinutes, Mode=TwoWay}" />
 
-                <Slider
-                    x:Name="TimeTravelSlider"
-                    IsThumbToolTipEnabled="False"
-                    Maximum="1440"
-                    Minimum="-1440"
-                    SnapsTo="StepValues"
-                    StepFrequency="60"
-                    Value="{x:Bind ViewModel.TimeTravelOffsetMinutes, Mode=TwoWay}" />
+                    <!--  Row 2: Projected time details (visible when offset != 0)  -->
+                    <Grid Grid.Row="2" Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <!--  Projected time + relative day  -->
+                        <StackPanel
+                            Grid.Column="0"
+                            Orientation="Horizontal"
+                            Spacing="6">
+                            <TextBlock
+                                FontWeight="SemiBold"
+                                Text="{x:Bind ViewModel.TimeTravelProjectedTime, Mode=OneWay}"
+                                Typography.NumeralAlignment="Tabular" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{x:Bind ViewModel.TimeTravelProjectedDay, Mode=OneWay}" />
+                        </StackPanel>
+                        <!--  Projected date  -->
+                        <TextBlock
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.TimeTravelProjectedDate, Mode=OneWay}" />
+                    </Grid>
+                </Grid>
             </StackPanel>
         </StackPanel>
     </Grid>

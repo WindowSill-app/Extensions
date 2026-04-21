@@ -99,12 +99,6 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
     public partial string TimeTravelProjectedDate { get; private set; } = string.Empty;
 
     /// <summary>
-    /// Gets a value indicating whether the time travel info block should be visible.
-    /// </summary>
-    [ObservableProperty]
-    public partial bool IsTimeTraveling { get; private set; }
-
-    /// <summary>
     /// Gets a value indicating whether the event list is empty.
     /// </summary>
     [ObservableProperty]
@@ -128,6 +122,30 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
     public bool HasWorldClocks => WorldClocks.Count > 0;
 
     /// <summary>
+    /// Gets or sets whether the calendar section is expanded in the popup.
+    /// Persisted to settings as the default state for next open.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsCalendarVisible { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the world clocks section is expanded in the popup.
+    /// Persisted to settings as the default state for next open.
+    /// </summary>
+    [ObservableProperty]
+    public partial bool IsWorldClocksVisible { get; set; }
+
+    partial void OnIsCalendarVisibleChanged(bool value)
+    {
+        _settingsProvider.SetSetting(Settings.Settings.ShowCalendarInPopup, value);
+    }
+
+    partial void OnIsWorldClocksVisibleChanged(bool value)
+    {
+        _settingsProvider.SetSetting(Settings.Settings.ShowWorldClocksInPopup, value);
+    }
+
+    /// <summary>
     /// Called when the popup opens. Initializes data and starts the timer.
     /// </summary>
     /// <param name="dispatcherQueue">The UI thread dispatcher queue.</param>
@@ -136,6 +154,10 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
         TimeTravelOffsetMinutes = 0;
         SelectedDate = DateTimeOffset.Now.Date;
 
+        IsCalendarVisible = _settingsProvider.GetSetting(Settings.Settings.ShowCalendarInPopup);
+        IsWorldClocksVisible = _settingsProvider.GetSetting(Settings.Settings.ShowWorldClocksInPopup);
+
+        UpdateTimeTravelLabel();
         RefreshWorldClocks();
         LoadEventsForSelectedDayAsync().ForgetSafely();
         UpdateEventListHeader();
@@ -267,8 +289,6 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
 
     private void UpdateTimeTravelLabel()
     {
-        IsTimeTraveling = TimeTravelOffsetMinutes != 0;
-
         // Offset label
         if (TimeTravelOffsetMinutes == 0)
         {

@@ -34,6 +34,7 @@ internal sealed partial class DatePopupView : SillPopupContent
     public override void OnOpening()
     {
         ViewModel.OnPopupOpening(DispatcherQueue);
+        UpdateChevrons();
     }
 
     /// <summary>
@@ -72,5 +73,25 @@ internal sealed partial class DatePopupView : SillPopupContent
         {
             Launcher.LaunchUriAsync(eventVm.WebLink).AsTask().ForgetSafely();
         }
+    }
+
+    private void ToggleCalendar_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.IsCalendarVisible = !ViewModel.IsCalendarVisible;
+        UpdateChevrons();
+        DispatcherQueue.TryEnqueue(ResizePopupToFitContent);
+    }
+
+    private void ToggleWorldClocks_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.IsWorldClocksVisible = !ViewModel.IsWorldClocksVisible;
+        UpdateChevrons();
+        DispatcherQueue.TryEnqueue(ResizePopupToFitContent);
+    }
+
+    private void UpdateChevrons()
+    {
+        CalendarChevron.Glyph = ViewModel.IsCalendarVisible ? "\uE70E" : "\uE70D";
+        WorldClocksChevron.Glyph = ViewModel.IsWorldClocksVisible ? "\uE70E" : "\uE70D";
     }
 }

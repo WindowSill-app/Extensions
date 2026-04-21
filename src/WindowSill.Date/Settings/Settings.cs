@@ -36,4 +36,16 @@ internal static class Settings
     /// </summary>
     internal static readonly SettingDefinition<string> WorldClockEntries
         = new("[]", typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether the calendar section is expanded by default in the popup.
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowCalendarInPopup
+        = new(true, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether the world clocks section is expanded by default in the popup.
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowWorldClocksInPopup
+        = new(true, typeof(Settings).Assembly);
 }
