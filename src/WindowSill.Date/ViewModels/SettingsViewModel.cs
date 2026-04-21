@@ -181,6 +181,15 @@ internal sealed partial class SettingsViewModel : ObservableObject
         => _settingsProvider.GetSetting(Settings.Settings.DisplayMode) == SillDisplayMode.Icon;
 
     /// <summary>
+    /// Gets or sets whether past events are shown in the popup event list.
+    /// </summary>
+    public bool ShowPastEvents
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.ShowPastEvents);
+        set => _settingsProvider.SetSetting(Settings.Settings.ShowPastEvents, value);
+    }
+
+    /// <summary>
     /// Raised when the user requests to remove an account, before the removal occurs.
     /// The View should show a confirmation dialog and return <see langword="true"/>
     /// to proceed or <see langword="false"/> to cancel.

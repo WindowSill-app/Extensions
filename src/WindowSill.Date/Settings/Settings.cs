@@ -49,6 +49,13 @@ internal static class Settings
     internal static readonly SettingDefinition<bool> ShowWorldClocksInPopup
         = new(true, typeof(Settings).Assembly);
 
+    /// <summary>
+    /// Whether to show past events in the popup event list.
+    /// When disabled, only upcoming (not yet ended) events are shown for today.
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowPastEvents
+        = new(true, typeof(Settings).Assembly);
+
     // ──────────────────────────────────────────────
     //  Travel time settings
     // ──────────────────────────────────────────────

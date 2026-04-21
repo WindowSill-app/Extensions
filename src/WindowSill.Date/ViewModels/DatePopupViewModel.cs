@@ -243,6 +243,14 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
             IEnumerable<CalendarEvent> filtered = events
                 .Where(e => e.Status != CalendarEventStatus.Cancelled);
 
+            // When viewing today and the setting is off, hide events that have already ended.
+            bool isToday = DateOnly.FromDateTime(SelectedDate.Date) == DateOnly.FromDateTime(DateTime.Today);
+            if (isToday && !_settingsProvider.GetSetting(Settings.Settings.ShowPastEvents))
+            {
+                DateTimeOffset now = DateTimeOffset.Now;
+                filtered = filtered.Where(e => e.IsAllDay || e.EndTime > now);
+            }
+
             // Sort: all-day first, then by start time.
             IEnumerable<CalendarEvent> sorted = filtered
                 .OrderBy(e => e.IsAllDay ? 0 : 1)

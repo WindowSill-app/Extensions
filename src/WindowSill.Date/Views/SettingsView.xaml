@@ -171,6 +171,14 @@
                         </ctk:SettingsCard>
                     </ctk:SettingsExpander.Items>
                 </ctk:SettingsExpander>
+
+                <!--  Show past events  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Display/ShowPastEvents">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE81C;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowPastEvents, Mode=TwoWay}" />
+                </ctk:SettingsCard>
             </StackPanel>
 
         </StackPanel>

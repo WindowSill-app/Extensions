@@ -147,4 +147,10 @@
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
     <value>The calendar icon is displayed as-is. Switch to "Date and time" for more display options.</value>
   </data>
+  <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
+    <value>Show past events</value>
+  </data>
+  <data name="ShowPastEvents.DescriptionProperty" xml:space="preserve">
+    <value>When off, only upcoming events are shown in the popup for today</value>
+  </data>
 </root>
