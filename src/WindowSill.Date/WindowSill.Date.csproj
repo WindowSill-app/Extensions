@@ -61,5 +61,8 @@
     <PackageReference Include="System.Memory.Data" />
     <PackageReference Include="System.Security.Cryptography.ProtectedData" />
     <PackageReference Include="WindowSill.API" />
+    <PackageReference Include="Microsoft.Windows.CsWin32">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>
