@@ -10,12 +10,12 @@ namespace WindowSill.Date.Views;
 /// <summary>
 /// Per-DateSill-instance adapter that creates unique UI elements for each meeting
 /// and manages their lifecycle in the ViewList. Subscribes to the singleton
-/// <see cref="IMeetingStateService"/> for state changes.
+/// <see cref="MeetingStateService"/> for state changes.
 /// Does NOT own timers, VMs, hidden state, or notification logic.
 /// </summary>
 internal sealed class MeetingViewListAdapter : IDisposable
 {
-    private readonly IMeetingStateService _stateService;
+    private readonly MeetingStateService _stateService;
     private readonly WorldClockService _worldClockService;
     private readonly ISettingsProvider _settingsProvider;
     private readonly ObservableCollection<SillListViewItem> _viewList;
@@ -36,7 +36,7 @@ internal sealed class MeetingViewListAdapter : IDisposable
     /// <param name="settingsProvider">The settings provider.</param>
     /// <param name="viewList">This DateSill instance's ViewList.</param>
     internal MeetingViewListAdapter(
-        IMeetingStateService stateService,
+        MeetingStateService stateService,
         WorldClockService worldClockService,
         ISettingsProvider settingsProvider,
         ObservableCollection<SillListViewItem> viewList)

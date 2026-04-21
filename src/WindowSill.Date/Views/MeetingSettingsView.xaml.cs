@@ -14,7 +14,7 @@ internal sealed partial class MeetingSettingsView : UserControl
     /// </summary>
     /// <param name="settingsProvider">The settings provider.</param>
     /// <param name="meetingService">The meeting countdown service for on-demand sync.</param>
-    public MeetingSettingsView(ISettingsProvider settingsProvider, IMeetingStateService? meetingStateService = null)
+    public MeetingSettingsView(ISettingsProvider settingsProvider, MeetingStateService? meetingStateService = null)
     {
         ViewModel = new MeetingSettingsViewModel(settingsProvider, meetingStateService);
         InitializeComponent();

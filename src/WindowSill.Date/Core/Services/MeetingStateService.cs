@@ -12,10 +12,9 @@ namespace WindowSill.Date.Core.Services;
 /// <summary>
 /// MEF singleton that manages the canonical state of upcoming meetings.
 /// Owns the single timer, event fetch cycle, VMs, hidden set, and notification dedup.
-/// Each DateSill instance creates its own UI via <see cref="MeetingViewListAdapter"/>.
 /// </summary>
-[Export(typeof(IMeetingStateService))]
-internal sealed class MeetingStateService : IMeetingStateService, IDisposable
+[Export]
+internal sealed class MeetingStateService : IDisposable
 {
     private readonly ILogger _logger;
     private readonly CalendarAccountManager _calendarAccountManager;

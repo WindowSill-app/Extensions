@@ -24,7 +24,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     private readonly ISettingsProvider _settingsProvider;
     private readonly CalendarAccountManager _calendarAccountManager;
     private readonly WorldClockService _worldClockService;
-    private readonly IMeetingStateService _meetingStateService;
+    private readonly MeetingStateService _meetingStateService;
 
     private DateBarViewModel? _dateBarViewModel;
     private DatePopupViewModel? _popupViewModel;
@@ -36,7 +36,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
         ISettingsProvider settingsProvider,
         CalendarAccountManager calendarAccountManager,
         WorldClockService worldClockService,
-        IMeetingStateService meetingStateService)
+        MeetingStateService meetingStateService)
     {
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;

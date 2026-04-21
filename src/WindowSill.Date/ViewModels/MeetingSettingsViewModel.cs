@@ -12,14 +12,14 @@ namespace WindowSill.Date.ViewModels;
 internal sealed partial class MeetingSettingsViewModel : ObservableObject
 {
     private readonly ISettingsProvider _settingsProvider;
-    private readonly IMeetingStateService? _meetingStateService;
+    private readonly MeetingStateService? _meetingStateService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MeetingSettingsViewModel"/> class.
     /// </summary>
     /// <param name="settingsProvider">The settings provider.</param>
     /// <param name="meetingStateService">The shared meeting state service for on-demand sync.</param>
-    public MeetingSettingsViewModel(ISettingsProvider settingsProvider, IMeetingStateService? meetingStateService = null)
+    public MeetingSettingsViewModel(ISettingsProvider settingsProvider, MeetingStateService? meetingStateService = null)
     {
         _settingsProvider = settingsProvider;
         _meetingStateService = meetingStateService;
