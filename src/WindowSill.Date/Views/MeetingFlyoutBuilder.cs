@@ -4,6 +4,7 @@ using Windows.System;
 using WindowSill.API;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Core.Services;
+using WindowSill.Date.Settings;
 using WindowSill.Date.ViewModels;
 
 namespace WindowSill.Date.Views;
@@ -20,11 +21,13 @@ internal static class MeetingFlyoutBuilder
     /// </summary>
     /// <param name="viewModel">The meeting view model.</param>
     /// <param name="worldClockService">The world clock service for time zone sub-menu.</param>
+    /// <param name="settingsProvider">The settings provider for maps preference.</param>
     /// <param name="onHide">Callback invoked when the user chooses to hide the meeting.</param>
     /// <returns>A configured menu flyout.</returns>
     internal static MenuFlyout Build(
         MeetingSillItemViewModel viewModel,
         WorldClockService worldClockService,
+        ISettingsProvider settingsProvider,
         Action onHide)
     {
         var flyout = new MenuFlyout();
@@ -78,14 +81,19 @@ internal static class MeetingFlyoutBuilder
         };
         flyout.Items.Add(dateTimeItem);
 
-        // ── Location (if present) ──
+        // ── Location (if present) — clickable, opens maps ──
         if (viewModel.HasLocation)
         {
             var locationItem = new MenuFlyoutItem
             {
                 Text = viewModel.Location!,
-                IsEnabled = false,
                 Icon = new FontIcon { Glyph = "\uE707" }, // MapPin
+            };
+            locationItem.Click += (_, _) =>
+            {
+                MapsProvider provider = settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider);
+                Uri mapsUrl = provider.BuildDirectionsUrl(viewModel.Location!);
+                Launcher.LaunchUriAsync(mapsUrl).AsTask().ForgetSafely();
             };
             flyout.Items.Add(locationItem);
         }
@@ -140,12 +148,18 @@ internal static class MeetingFlyoutBuilder
 
         if (viewModel.HasLocation)
         {
-            moreSubMenu.Items.Add(new MenuFlyoutItem
+            var moreLocationItem = new MenuFlyoutItem
             {
                 Text = viewModel.Location!,
-                IsEnabled = false,
                 Icon = new FontIcon { Glyph = "\uE707" }, // MapPin
-            });
+            };
+            moreLocationItem.Click += (_, _) =>
+            {
+                MapsProvider provider = settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider);
+                Uri mapsUrl = provider.BuildDirectionsUrl(viewModel.Location!);
+                Launcher.LaunchUriAsync(mapsUrl).AsTask().ForgetSafely();
+            };
+            moreSubMenu.Items.Add(moreLocationItem);
         }
 
         if (viewModel.OrganizerText is not null)

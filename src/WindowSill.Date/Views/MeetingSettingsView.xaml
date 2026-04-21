@@ -178,6 +178,17 @@
                         SpinButtonPlacementMode="Compact"
                         Value="{x:Bind ViewModel.DepartureBufferMinutes, Mode=TwoWay}" />
                 </ctk:SettingsCard>
+
+                <!--  Maps provider  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/PreferredMapsProvider">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE707;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox
+                        Width="160"
+                        ItemsSource="{x:Bind ViewModel.MapsProviderOptions}"
+                        SelectedItem="{x:Bind ViewModel.PreferredMapsProvider, Mode=TwoWay}" />
+                </ctk:SettingsCard>
             </StackPanel>
 
         </StackPanel>

@@ -7,41 +7,38 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Dwm;
 
 using WindowSill.API;
-using WindowSill.Date.Core.Models;
-using WindowSill.Date.ViewModels;
 
 using WinUIEx;
 
 namespace WindowSill.Date.Views;
 
 /// <summary>
-/// Orchestrates a full-screen acrylic window for a meeting notification.
-/// Manages PInvoke window configuration, multi-monitor positioning, and lifecycle.
+/// Generic full-screen acrylic notification window that displays any UserControl as content.
+/// Handles PInvoke window configuration, multi-monitor positioning, and lifecycle.
+/// Used for both meeting-start and departure notifications.
 /// </summary>
-internal sealed class MeetingNotificationWindow
+internal sealed class FullScreenNotificationWindow
 {
     private readonly AcrylicWindowFrameworkElement _view;
     private readonly TaskCompletionSource<bool> _windowClosedTcs = new();
-    private readonly Action<MeetingNotificationWindow>? _onWindowClosed;
+    private readonly Action<FullScreenNotificationWindow>? _onWindowClosed;
     private readonly RECT? _monitorRect;
 
-    internal MeetingNotificationWindow(
-        CalendarEvent calendarEvent,
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FullScreenNotificationWindow"/> class.
+    /// </summary>
+    /// <param name="content">The notification content to display.</param>
+    /// <param name="monitorRect">The target monitor bounds, or null for maximized single-monitor fallback.</param>
+    /// <param name="onWindowClosed">Callback invoked when this window closes (for close-all coordination).</param>
+    internal FullScreenNotificationWindow(
+        UserControl content,
         RECT? monitorRect = null,
-        Action<MeetingNotificationWindow>? onWindowClosed = null,
-        bool playAudio = true)
+        Action<FullScreenNotificationWindow>? onWindowClosed = null)
     {
         _monitorRect = monitorRect;
         _onWindowClosed = onWindowClosed;
 
-        _view = new AcrylicWindowFrameworkElement();
-
-        var viewModel = new MeetingNotificationViewModel(
-            calendarEvent,
-            () => _view.UnderlyingWindow.Close());
-
-        var content = new MeetingNotificationContent(viewModel, playAudio);
-        _view.Content = content;
+        _view = new AcrylicWindowFrameworkElement { Content = content };
 
         ConfigureWindow();
 
@@ -57,10 +54,8 @@ internal sealed class MeetingNotificationWindow
         {
             RECT rect = _monitorRect.Value;
             _view.UnderlyingWindow.MoveAndResize(
-                rect.left,
-                rect.top,
-                rect.right - rect.left,
-                rect.bottom - rect.top);
+                rect.left, rect.top,
+                rect.right - rect.left, rect.bottom - rect.top);
         }
         else
         {
@@ -96,7 +91,6 @@ internal sealed class MeetingNotificationWindow
             && _view.UnderlyingWindow.Presenter is OverlappedPresenter overlappedPresenter)
         {
             overlappedPresenter.SetBorderAndTitleBar(false, false);
-
             WindowStyle style = _view.UnderlyingWindow.GetWindowStyle();
             style &= ~WindowStyle.DlgFrame;
             _view.UnderlyingWindow.SetWindowStyle(style);
@@ -104,16 +98,14 @@ internal sealed class MeetingNotificationWindow
 
         unsafe
         {
-            if (IsWindows11OrGreater())
+            if (Environment.OSVersion.Version >= new Version(10, 0, 22000))
             {
                 uint cornerPreference = (uint)DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_DONOTROUND;
                 Guard.IsTrue(
                     PInvoke.DwmSetWindowAttribute(
                         (HWND)_view.UnderlyingWindow.GetWindowHandle(),
                         DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE,
-                        &cornerPreference,
-                        sizeof(uint))
-                    .Succeeded);
+                        &cornerPreference, sizeof(uint)).Succeeded);
             }
 
             int renderPolicy = (int)DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED;
@@ -121,9 +113,7 @@ internal sealed class MeetingNotificationWindow
                 PInvoke.DwmSetWindowAttribute(
                     (HWND)_view.UnderlyingWindow.GetWindowHandle(),
                     DWMWINDOWATTRIBUTE.DWMWA_EXCLUDED_FROM_PEEK,
-                    &renderPolicy,
-                    sizeof(int))
-                .Succeeded);
+                    &renderPolicy, sizeof(int)).Succeeded);
         }
     }
 
@@ -131,10 +121,5 @@ internal sealed class MeetingNotificationWindow
     {
         _windowClosedTcs.TrySetResult(true);
         _onWindowClosed?.Invoke(this);
-    }
-
-    private static bool IsWindows11OrGreater()
-    {
-        return Environment.OSVersion.Version >= new Version(10, 0, 22000);
     }
 }

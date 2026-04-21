@@ -15,9 +15,7 @@
             TextWrapping="Wrap" />
 
         <!--  Countdown: "in 22 minutes"  -->
-        <TextBlock
-            x:Name="CountdownText"
-            Foreground="{ThemeResource SystemAccentColorLight2}" />
+        <TextBlock x:Name="CountdownText" Foreground="{ThemeResource SystemAccentColorLight2}" />
 
         <!--  Exact date/time: "Saturday, April 18, 2026 at 9:30 PM"  -->
         <TextBlock

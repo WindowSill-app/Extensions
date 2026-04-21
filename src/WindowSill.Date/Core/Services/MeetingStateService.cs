@@ -5,6 +5,7 @@ using Microsoft.UI.Dispatching;
 
 using WindowSill.API;
 using WindowSill.Date.Core.Models;
+using WindowSill.Date.Settings;
 using WindowSill.Date.ViewModels;
 
 namespace WindowSill.Date.Core.Services;
@@ -24,7 +25,8 @@ internal sealed class MeetingStateService : IDisposable
 
     private readonly Dictionary<MeetingKey, MeetingSillItemViewModel> _meetings = [];
     private readonly HashSet<MeetingKey> _hiddenMeetings = [];
-    private readonly HashSet<MeetingKey> _notifiedMeetings = [];
+    private readonly HashSet<MeetingKey> _departureNotified = [];
+    private readonly HashSet<MeetingKey> _liveNotified = [];
 
     private DispatcherQueueTimer? _timer;
     private CancellationTokenSource? _refreshCts;
@@ -118,7 +120,8 @@ internal sealed class MeetingStateService : IDisposable
 
         _meetings.Clear();
         _hiddenMeetings.Clear();
-        _notifiedMeetings.Clear();
+        _departureNotified.Clear();
+        _liveNotified.Clear();
     }
 
     private void OnTimerTick(DispatcherQueueTimer sender, object args)
@@ -155,12 +158,19 @@ internal sealed class MeetingStateService : IDisposable
                 toRemove.Add(key);
             }
 
-            // Centralized notification dedup: fire once per meeting, on Departure or Live.
-            if (vm.Phase is MeetingPhase.Departure or MeetingPhase.Live
-                && enableFullScreen
-                && _notifiedMeetings.Add(key))
+            // Centralized notification dispatch — different notification per phase.
+            if (enableFullScreen && vm.Phase != previousPhase)
             {
-                _notificationService.ShowNotificationAsync(vm.Event).ForgetSafely();
+                if (vm.Phase == MeetingPhase.Departure && _departureNotified.Add(key))
+                {
+                    MapsProvider mapsProvider = _settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider);
+                    _notificationService.ShowDepartureNotificationAsync(
+                        vm.Event, vm.TravelTimeText, mapsProvider).ForgetSafely();
+                }
+                else if (vm.Phase == MeetingPhase.Live && _liveNotified.Add(key))
+                {
+                    _notificationService.ShowNotificationAsync(vm.Event).ForgetSafely();
+                }
             }
         }
 

@@ -199,4 +199,16 @@
   <data name="DepartureBuffer.DescriptionProperty" xml:space="preserve">
     <value>Extra time added before travel to give you time to wrap up and get ready</value>
   </data>
+  <data name="DepartureNotificationHeader.TextProperty" xml:space="preserve">
+    <value>TIME TO LEAVE</value>
+  </data>
+  <data name="DepartureOpenMaps.TextProperty" xml:space="preserve">
+    <value>Open in Maps</value>
+  </data>
+  <data name="PreferredMapsProvider.HeaderProperty" xml:space="preserve">
+    <value>Maps provider</value>
+  </data>
+  <data name="PreferredMapsProvider.DescriptionProperty" xml:space="preserve">
+    <value>Which maps service to open for directions to meeting locations</value>
+  </data>
 </root>

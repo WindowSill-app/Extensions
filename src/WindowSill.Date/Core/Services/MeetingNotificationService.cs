@@ -1,4 +1,4 @@
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
 
 using Microsoft.Extensions.Logging;
 
@@ -8,21 +8,22 @@ using Windows.Win32.Graphics.Gdi;
 
 using WindowSill.API;
 using WindowSill.Date.Core.Models;
+using WindowSill.Date.Settings;
+using WindowSill.Date.ViewModels;
 using WindowSill.Date.Views;
 
 namespace WindowSill.Date.Core.Services;
 
 /// <summary>
-/// Orchestrates showing full-screen meeting notifications across all monitors.
+/// Orchestrates showing full-screen notifications across all monitors.
+/// Creates the appropriate content (meeting-start or departure) and delegates
+/// to <see cref="FullScreenNotificationWindow"/> for window management.
 /// </summary>
 [Export]
 internal sealed class MeetingNotificationService
 {
     private readonly ILogger _logger;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="MeetingNotificationService"/> class.
-    /// </summary>
     [ImportingConstructor]
     internal MeetingNotificationService()
     {
@@ -30,58 +31,90 @@ internal sealed class MeetingNotificationService
     }
 
     /// <summary>
-    /// Shows a full-screen meeting notification on all monitors.
+    /// Shows a full-screen meeting-start notification on all monitors.
+    /// </summary>
+    internal Task ShowNotificationAsync(CalendarEvent calendarEvent, bool playAudio = true)
+    {
+        return ShowOnAllMonitorsAsync(
+            (isFirst, closeWindow) => new MeetingNotificationContent(
+                new MeetingNotificationViewModel(calendarEvent, closeWindow),
+                playAudio: isFirst && playAudio),
+            calendarEvent.Title);
+    }
+
+    /// <summary>
+    /// Shows a full-screen departure notification on all monitors.
+    /// </summary>
+    internal Task ShowDepartureNotificationAsync(
+        CalendarEvent calendarEvent,
+        string? travelTimeText,
+        MapsProvider mapsProvider,
+        bool playAudio = true)
+    {
+        return ShowOnAllMonitorsAsync(
+            (isFirst, closeWindow) => new DepartureNotificationContent(
+                new DepartureNotificationViewModel(calendarEvent, travelTimeText, mapsProvider, closeWindow),
+                playAudio: isFirst && playAudio),
+            calendarEvent.Title);
+    }
+
+    /// <summary>
+    /// Shows a full-screen notification on every monitor.
     /// Audio plays on the first monitor only. Dismissing any window closes all.
     /// </summary>
-    /// <param name="calendarEvent">The meeting event to notify about.</param>
-    /// <param name="playAudio">Whether to play the notification sound.</param>
-    internal async Task ShowNotificationAsync(CalendarEvent calendarEvent, bool playAudio = true)
+    /// <param name="createContent">
+    /// Factory: (bool isFirstMonitor, Action closeThisWindow) → UserControl.
+    /// </param>
+    /// <param name="titleForLogging">Meeting title for error logging.</param>
+    private async Task ShowOnAllMonitorsAsync(
+        Func<bool, Action, UserControl> createContent,
+        string titleForLogging)
     {
         await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
             try
             {
-                var monitors = EnumerateMonitors();
+                List<RECT> monitors = EnumerateMonitors();
+                var windows = new List<FullScreenNotificationWindow>();
+
+                Action<FullScreenNotificationWindow> closeAll = (FullScreenNotificationWindow closed) =>
+                {
+                    foreach (FullScreenNotificationWindow w in windows)
+                    {
+                        if (w != closed)
+                        {
+                            w.Close();
+                        }
+                    }
+                };
 
                 if (monitors.Count == 0)
                 {
-                    // Fallback to single maximized window.
-                    var fallbackWindow = new MeetingNotificationWindow(calendarEvent, playAudio: playAudio);
-                    await fallbackWindow.ShowAsync();
+                    // Capture the window reference so the close action can find it.
+                    FullScreenNotificationWindow? windowRef = null;
+                    var content = createContent(true, () => windowRef?.Close());
+                    windowRef = new FullScreenNotificationWindow(content, onWindowClosed: closeAll);
+                    windows.Add(windowRef);
                 }
                 else
                 {
-                    var windows = new List<MeetingNotificationWindow>();
-                    Action<MeetingNotificationWindow> closeAllWindows = (MeetingNotificationWindow closedWindow) =>
-                    {
-                        foreach (MeetingNotificationWindow window in windows)
-                        {
-                            if (window != closedWindow)
-                            {
-                                window.Close();
-                            }
-                        }
-                    };
-
-                    bool isFirstWindow = true;
+                    bool isFirst = true;
                     foreach (RECT monitorRect in monitors)
                     {
-                        var window = new MeetingNotificationWindow(
-                            calendarEvent,
-                            monitorRect,
-                            closeAllWindows,
-                            playAudio: isFirstWindow && playAudio);
-                        windows.Add(window);
-                        isFirstWindow = false;
+                        FullScreenNotificationWindow? windowRef = null;
+                        var content = createContent(isFirst, () => windowRef?.Close());
+                        windowRef = new FullScreenNotificationWindow(content, monitorRect, closeAll);
+                        windows.Add(windowRef);
+                        isFirst = false;
                     }
-
-                    Task[] tasks = windows.Select(w => w.ShowAsync()).ToArray();
-                    await Task.WhenAny(tasks);
                 }
+
+                Task[] tasks = windows.Select(w => w.ShowAsync()).ToArray();
+                await Task.WhenAny(tasks);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to show meeting notification for: {Title}", calendarEvent.Title);
+                _logger.LogError(ex, "Failed to show notification for: {Title}", titleForLogging);
             }
         });
     }
@@ -100,12 +133,10 @@ internal sealed class MeetingNotificationService
                     {
                         monitors.Add(*lprcMonitor);
                     }
-
                     return true;
                 },
                 (LPARAM)0);
         }
-
         return monitors;
     }
 }

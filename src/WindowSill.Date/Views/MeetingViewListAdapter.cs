@@ -125,6 +125,7 @@ internal sealed class MeetingViewListAdapter : IDisposable
             MenuFlyout menuFlyout = MeetingFlyoutBuilder.Build(
                 vm,
                 _worldClockService,
+                _settingsProvider,
                 onHide: () => _stateService.HideMeeting(capturedKey));
 
             var sillItem = new SillListViewMenuFlyoutItem(

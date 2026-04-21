@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 
 using WindowSill.API;
 using WindowSill.Date.Core.Services;
+using WindowSill.Date.Settings;
 
 namespace WindowSill.Date.ViewModels;
 
@@ -163,5 +164,27 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     {
         get => _settingsProvider.GetSetting(Settings.Settings.DepartureBufferMinutes);
         set => _settingsProvider.SetSetting(Settings.Settings.DepartureBufferMinutes, value);
+    }
+
+    /// <summary>
+    /// Gets the available maps provider options.
+    /// </summary>
+    public MapsProvider[] MapsProviderOptions { get; } =
+        [MapsProvider.GoogleMaps, MapsProvider.BingMaps, MapsProvider.AppleMaps];
+
+    /// <summary>
+    /// Gets or sets the preferred maps provider.
+    /// </summary>
+    public MapsProvider PreferredMapsProvider
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider);
+        set
+        {
+            if (value != _settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider))
+            {
+                _settingsProvider.SetSetting(Settings.Settings.PreferredMapsProvider, value);
+                OnPropertyChanged();
+            }
+        }
     }
 }

@@ -72,6 +72,12 @@ internal static class Settings
     internal static readonly SettingDefinition<int> DepartureBufferMinutes
         = new(10, typeof(Settings).Assembly);
 
+    /// <summary>
+    /// The user's preferred maps provider for "Open in Maps" actions.
+    /// </summary>
+    internal static readonly SettingDefinition<MapsProvider> PreferredMapsProvider
+        = new(MapsProvider.GoogleMaps, typeof(Settings).Assembly);
+
     // ──────────────────────────────────────────────
     //  Meeting sill settings
     // ──────────────────────────────────────────────
