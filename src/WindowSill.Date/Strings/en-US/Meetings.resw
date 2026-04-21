@@ -241,4 +241,19 @@
   <data name="MapsProviderApple" xml:space="preserve">
     <value>Apple Maps</value>
   </data>
+  <data name="TravelMode.HeaderProperty" xml:space="preserve">
+    <value>Travel mode</value>
+  </data>
+  <data name="TravelMode.DescriptionProperty" xml:space="preserve">
+    <value>How you typically travel to in-person meetings</value>
+  </data>
+  <data name="TravelModeDriving" xml:space="preserve">
+    <value>Driving</value>
+  </data>
+  <data name="TravelModeWalking" xml:space="preserve">
+    <value>Walking</value>
+  </data>
+  <data name="TravelModeCycling" xml:space="preserve">
+    <value>Cycling</value>
+  </data>
 </root>

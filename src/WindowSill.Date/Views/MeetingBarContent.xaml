@@ -64,7 +64,7 @@
                 Click="JoinButton_Click"
                 Visibility="{x:Bind ViewModel.IsJoinVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                 <FontIcon
-                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontFamily="{ThemeResource SegoeFluentIcons}"
                     FontSize="{ThemeResource SillFontIconSize}"
                     Glyph="&#xE714;" />
             </Button>
@@ -111,7 +111,7 @@
                     Click="JoinButton_Click"
                     Visibility="{x:Bind ViewModel.IsJoinVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <FontIcon
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        FontFamily="{ThemeResource SegoeFluentIcons}"
                         FontSize="12"
                         Glyph="&#xE714;" />
                 </Button>

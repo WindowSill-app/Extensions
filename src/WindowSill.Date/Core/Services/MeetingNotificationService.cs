@@ -49,11 +49,12 @@ internal sealed class MeetingNotificationService
         CalendarEvent calendarEvent,
         string? travelTimeText,
         MapsProvider mapsProvider,
+        TravelMode travelMode,
         bool playAudio = true)
     {
         return ShowOnAllMonitorsAsync(
             (isFirst, closeWindow) => new DepartureNotificationContent(
-                new DepartureNotificationViewModel(calendarEvent, travelTimeText, mapsProvider, closeWindow),
+                new DepartureNotificationViewModel(calendarEvent, travelTimeText, mapsProvider, travelMode, closeWindow),
                 playAudio: isFirst && playAudio),
             calendarEvent.Title);
     }

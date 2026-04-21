@@ -101,11 +101,12 @@ internal static class MeetingFlyoutBuilder
         // ── Travel time (if estimated) ──
         if (viewModel.HasTravelTime)
         {
+            Settings.TravelMode travelMode = settingsProvider.GetSetting(Settings.Settings.TravelMode);
             var travelItem = new MenuFlyoutItem
             {
                 Text = viewModel.TravelTimeText!,
                 IsEnabled = false,
-                Icon = new FontIcon { Glyph = "\uE804" }, // Car
+                Icon = new FontIcon { FontFamily = new FontFamily("Segoe UI Emoji"), Glyph = travelMode.ToIconGlyph() },
             };
             flyout.Items.Add(travelItem);
         }

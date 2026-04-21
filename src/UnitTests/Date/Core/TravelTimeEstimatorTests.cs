@@ -13,7 +13,6 @@ public class TravelTimeEstimatorTests
     {
         LoggingSetup.EnsureInitialized();
         _settings = new FakeSettingsProvider();
-        _settings.SetSetting(WindowSill.Date.Settings.Settings.FallbackCommuteMinutes, 30);
         _settings.SetSetting(WindowSill.Date.Settings.Settings.OpenRouteServiceApiKey, "test-key");
     }
 
@@ -58,42 +57,6 @@ public class TravelTimeEstimatorTests
 
     #endregion
 
-    #region No user location — falls back
-
-    [Fact]
-    public async Task EstimateTravelTimeAsync_NoUserLocation_ReturnsFallback()
-    {
-        var estimator = CreateEstimator(userLocation: null, useDefaults: false);
-        CalendarEvent evt = CreateEvent();
-
-        TravelTimeEstimateResult result = await estimator.EstimateTravelTimeAsync(evt);
-
-        result.IsSuccess.Should().BeTrue();
-        result.UsedFallback.Should().BeTrue();
-        result.Duration.Should().Be(TimeSpan.FromMinutes(30));
-    }
-
-    #endregion
-
-    #region Geocoding fails — falls back
-
-    [Fact]
-    public async Task EstimateTravelTimeAsync_GeocodeFails_ReturnsFallback()
-    {
-        var estimator = CreateEstimator(
-            userLocation: new GeoCoordinate(47.6, -122.3),
-            meetingLocation: null,
-            useDefaults: false);
-        CalendarEvent evt = CreateEvent();
-
-        TravelTimeEstimateResult result = await estimator.EstimateTravelTimeAsync(evt);
-
-        result.IsSuccess.Should().BeTrue();
-        result.UsedFallback.Should().BeTrue();
-    }
-
-    #endregion
-
     #region Routing succeeds
 
     [Fact]
@@ -113,56 +76,6 @@ public class TravelTimeEstimatorTests
         result.Duration.Should().Be(TimeSpan.FromMinutes(18));
         result.Provider.Should().Be("TestRouter");
         result.DistanceMeters.Should().Be(15000);
-    }
-
-    #endregion
-
-    #region Routing fails — falls back
-
-    [Fact]
-    public async Task EstimateTravelTimeAsync_RoutingFails_ReturnsFallback()
-    {
-        var estimator = CreateEstimator(
-            userLocation: new GeoCoordinate(47.6, -122.3),
-            meetingLocation: new GeoCoordinate(47.64, -122.13),
-            routeResult: TravelTimeEstimateResult.Failed(TravelTimeFailureReason.RoutingProviderError));
-        CalendarEvent evt = CreateEvent();
-
-        TravelTimeEstimateResult result = await estimator.EstimateTravelTimeAsync(evt);
-
-        result.IsSuccess.Should().BeTrue();
-        result.UsedFallback.Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task EstimateTravelTimeAsync_NoApiKey_ReturnsFallback()
-    {
-        var estimator = CreateEstimator(
-            userLocation: new GeoCoordinate(47.6, -122.3),
-            meetingLocation: new GeoCoordinate(47.64, -122.13),
-            routeResult: TravelTimeEstimateResult.Failed(TravelTimeFailureReason.NoApiKey));
-        CalendarEvent evt = CreateEvent();
-
-        TravelTimeEstimateResult result = await estimator.EstimateTravelTimeAsync(evt);
-
-        result.IsSuccess.Should().BeTrue();
-        result.UsedFallback.Should().BeTrue();
-    }
-
-    #endregion
-
-    #region Configurable fallback
-
-    [Fact]
-    public async Task EstimateTravelTimeAsync_FallbackRespectsSettings()
-    {
-        _settings.SetSetting(WindowSill.Date.Settings.Settings.FallbackCommuteMinutes, 45);
-        var estimator = CreateEstimator(userLocation: null, useDefaults: false);
-        CalendarEvent evt = CreateEvent();
-
-        TravelTimeEstimateResult result = await estimator.EstimateTravelTimeAsync(evt);
-
-        result.Duration.Should().Be(TimeSpan.FromMinutes(45));
     }
 
     #endregion

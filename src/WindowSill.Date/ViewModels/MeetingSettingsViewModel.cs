@@ -159,12 +159,30 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     }
 
     /// <summary>
-    /// Gets or sets the fallback commute time in minutes.
+    /// Gets the available travel mode options with localized display names.
     /// </summary>
-    public int FallbackCommuteMinutes
+    public IReadOnlyList<FormatOptionItem<TravelMode>> TravelModeOptions { get; } =
+    [
+        new(TravelMode.Driving, "/WindowSill.Date/Meetings/TravelModeDriving".GetLocalizedString()),
+        new(TravelMode.Walking, "/WindowSill.Date/Meetings/TravelModeWalking".GetLocalizedString()),
+        new(TravelMode.Cycling, "/WindowSill.Date/Meetings/TravelModeCycling".GetLocalizedString()),
+    ];
+
+    /// <summary>
+    /// Gets or sets the selected travel mode.
+    /// </summary>
+    public FormatOptionItem<TravelMode>? SelectedTravelMode
     {
-        get => _settingsProvider.GetSetting(Settings.Settings.FallbackCommuteMinutes);
-        set => _settingsProvider.SetSetting(Settings.Settings.FallbackCommuteMinutes, value);
+        get => TravelModeOptions.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.TravelMode));
+        set
+        {
+            if (value is not null
+                && value.Value != _settingsProvider.GetSetting(Settings.Settings.TravelMode))
+            {
+                _settingsProvider.SetSetting(Settings.Settings.TravelMode, value.Value);
+                OnPropertyChanged();
+            }
+        }
     }
 
     /// <summary>

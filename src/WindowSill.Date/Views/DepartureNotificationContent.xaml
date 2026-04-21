@@ -78,10 +78,10 @@
                         Spacing="8">
                         <FontIcon
                             VerticalAlignment="Center"
-                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            FontFamily="Segoe UI Emoji"
                             FontSize="16"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Glyph="&#xE707;" />
+                            Glyph="&#x1F4CD;" />
                         <TextBlock
                             FontSize="16"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
@@ -97,10 +97,10 @@
                         Visibility="{x:Bind ViewModel.HasTravelTime, Converter={StaticResource BoolToVisibilityConverter}}">
                         <FontIcon
                             VerticalAlignment="Center"
-                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            FontFamily="Segoe UI Emoji"
                             FontSize="16"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                            Glyph="&#xE804;" />
+                            Glyph="{x:Bind ViewModel.TravelModeIconGlyph}" />
                         <TextBlock
                             FontSize="16"
                             Foreground="{ThemeResource TextFillColorSecondaryBrush}"

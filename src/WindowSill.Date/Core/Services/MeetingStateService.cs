@@ -164,8 +164,9 @@ internal sealed class MeetingStateService : IDisposable
                 if (vm.Phase == MeetingPhase.Departure && _departureNotified.Add(key))
                 {
                     MapsProvider mapsProvider = _settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider);
+                    Settings.TravelMode travelMode = _settingsProvider.GetSetting(Settings.Settings.TravelMode);
                     _notificationService.ShowDepartureNotificationAsync(
-                        vm.Event, vm.TravelTimeText, mapsProvider).ForgetSafely();
+                        vm.Event, vm.TravelTimeText, mapsProvider, travelMode).ForgetSafely();
                 }
                 else if (vm.Phase == MeetingPhase.Live && _liveNotified.Add(key))
                 {
@@ -205,13 +206,12 @@ internal sealed class MeetingStateService : IDisposable
         try
         {
             int reminderMinutes = _settingsProvider.GetSetting(Settings.Settings.ReminderWindowMinutes);
-            int fallbackCommute = _settingsProvider.GetSetting(Settings.Settings.FallbackCommuteMinutes);
             int departureBuffer = _settingsProvider.GetSetting(Settings.Settings.DepartureBufferMinutes);
             int maxSills = _settingsProvider.GetSetting(Settings.Settings.MaxMeetingSills);
             bool showAllDay = _settingsProvider.GetSetting(Settings.Settings.ShowAllDayMeetings);
             bool showJoinButton = _settingsProvider.GetSetting(Settings.Settings.ShowJoinButton);
 
-            int lookAheadMinutes = reminderMinutes + fallbackCommute + departureBuffer;
+            int lookAheadMinutes = reminderMinutes + departureBuffer;
 
             IReadOnlyList<CalendarEvent> events = await _calendarAccountManager.GetUpcomingEventsAsync(
                 TimeSpan.FromMinutes(lookAheadMinutes), ct);
@@ -298,7 +298,7 @@ internal sealed class MeetingStateService : IDisposable
     {
         try
         {
-            TravelTimeEstimateResult result = await _travelTimeEstimator.Value.EstimateTravelTimeAsync(vm.Event);
+            TravelTimeEstimateResult? result = await _travelTimeEstimator.Value.EstimateTravelTimeAsync(vm.Event);
             await ThreadHelper.RunOnUIThreadAsync(() =>
             {
                 if (!_disposed)

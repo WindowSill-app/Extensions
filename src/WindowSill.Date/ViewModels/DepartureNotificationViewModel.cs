@@ -28,6 +28,7 @@ internal sealed partial class DepartureNotificationViewModel : ObservableObject
         CalendarEvent calendarEvent,
         string? travelTimeText,
         MapsProvider mapsProvider,
+        TravelMode travelMode,
         Action closeAction)
     {
         _closeAction = closeAction;
@@ -36,6 +37,7 @@ internal sealed partial class DepartureNotificationViewModel : ObservableObject
         Location = calendarEvent.Location ?? string.Empty;
         TravelTimeText = travelTimeText ?? string.Empty;
         HasTravelTime = !string.IsNullOrEmpty(travelTimeText);
+        TravelModeIconGlyph = travelMode.ToIconGlyph();
         MeetingTimeText = calendarEvent.StartTime.LocalDateTime
             .ToString("h:mm tt", System.Globalization.CultureInfo.CurrentCulture);
 
@@ -64,6 +66,11 @@ internal sealed partial class DepartureNotificationViewModel : ObservableObject
     /// Gets a value indicating whether travel time info is available.
     /// </summary>
     public bool HasTravelTime { get; }
+
+    /// <summary>
+    /// Gets the Segoe Fluent Icons glyph for the travel mode (car/walk/bike).
+    /// </summary>
+    public string TravelModeIconGlyph { get; }
 
     /// <summary>
     /// Gets the meeting start time text (e.g., "10:00 AM").

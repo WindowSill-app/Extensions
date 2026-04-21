@@ -342,7 +342,7 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
     {
         Settings.TimeFormat userFormat = _settingsProvider.GetSetting(Settings.Settings.TimeFormat);
 
-        if (userFormat == Settings.TimeFormat.None)
+        if (userFormat == TimeFormat.None)
         {
             // Use the culture's default short time pattern (e.g., "h:mm tt" for en-US, "HH:mm" for fr-FR).
             return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;

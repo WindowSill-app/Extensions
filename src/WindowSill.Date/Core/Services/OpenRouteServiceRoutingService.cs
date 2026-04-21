@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 using WindowSill.API;
 using WindowSill.Date.Core.Models;
+using WindowSill.Date.Settings;
 
 namespace WindowSill.Date.Core.Services;
 
@@ -16,7 +17,7 @@ namespace WindowSill.Date.Core.Services;
 [Export(typeof(IRoutingService))]
 internal sealed class OpenRouteServiceRoutingService : IRoutingService, IDisposable
 {
-    private const string OrsBaseUrl = "https://api.openrouteservice.org/v2/directions/driving-car";
+    private const string OrsBaseUrl = "https://api.openrouteservice.org/v2/directions";
 
     private readonly ILogger _logger;
     private readonly ISettingsProvider _settingsProvider;
@@ -50,8 +51,12 @@ internal sealed class OpenRouteServiceRoutingService : IRoutingService, IDisposa
 
         try
         {
+            // Build URL with the user's selected travel mode profile.
+            Settings.TravelMode travelMode = _settingsProvider.GetSetting(Settings.Settings.TravelMode);
+            string profile = travelMode.ToOrsProfile();
+
             // ORS expects coordinates as lon,lat (not lat,lon).
-            string url = $"{OrsBaseUrl}?start={from.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)},{from.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture)}&end={to.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)},{to.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+            string url = $"{OrsBaseUrl}/{profile}?start={from.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)},{from.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture)}&end={to.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)},{to.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
 
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);

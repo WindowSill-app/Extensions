@@ -54,7 +54,7 @@ internal sealed class TravelTimeEstimator : ITravelTimeEstimator
         if (userLocation is null)
         {
             _logger.LogInformation("User location unavailable, using fallback commute time.");
-            return GetFallbackResult();
+            return TravelTimeEstimateResult.Failed(TravelTimeFailureReason.NoUserLocation);
         }
 
         // Step 2: Geocode the meeting address.
@@ -64,7 +64,7 @@ internal sealed class TravelTimeEstimator : ITravelTimeEstimator
             _logger.LogInformation(
                 "Could not geocode meeting address: {Address}. Using fallback commute time.",
                 calendarEvent.Location);
-            return GetFallbackResult();
+            return TravelTimeEstimateResult.Failed(TravelTimeFailureReason.InvalidMeetingAddress);
         }
 
         // Step 3: Get routing estimate.
@@ -82,23 +82,17 @@ internal sealed class TravelTimeEstimator : ITravelTimeEstimator
         if (routeResult?.FailureReason == TravelTimeFailureReason.NoApiKey)
         {
             // No API key configured — return fallback.
-            return GetFallbackResult();
+            return TravelTimeEstimateResult.Failed(TravelTimeFailureReason.NoApiKey);
         }
 
         if (routeResult?.FailureReason == TravelTimeFailureReason.RateLimited)
         {
             _logger.LogWarning("Routing provider rate-limited. Using fallback commute time.");
-            return GetFallbackResult();
+            return TravelTimeEstimateResult.Failed(TravelTimeFailureReason.RateLimited);
         }
 
         // Generic routing failure — use fallback.
         _logger.LogWarning("Routing failed ({Reason}). Using fallback commute time.", routeResult?.FailureReason);
-        return GetFallbackResult();
-    }
-
-    private TravelTimeEstimateResult GetFallbackResult()
-    {
-        int fallbackMinutes = _settingsProvider.GetSetting(Settings.Settings.FallbackCommuteMinutes);
-        return TravelTimeEstimateResult.FromFallback(TimeSpan.FromMinutes(fallbackMinutes));
+        return TravelTimeEstimateResult.Failed(TravelTimeFailureReason.RoutingProviderError);
     }
 }

@@ -153,6 +153,17 @@
                     </ctk:SettingsExpander.Items>
                 </ctk:SettingsExpander>
 
+                <!--  Travel mode  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/TravelMode">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE804;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox
+                        Width="160"
+                        ItemsSource="{x:Bind ViewModel.TravelModeOptions}"
+                        SelectedItem="{x:Bind ViewModel.SelectedTravelMode, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
                 <!--  Departure buffer  -->
                 <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/DepartureBuffer">
                     <ctk:SettingsCard.HeaderIcon>

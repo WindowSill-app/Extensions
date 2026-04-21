@@ -17,13 +17,13 @@ internal static class Settings
     /// The date format to display in the sill bar.
     /// </summary>
     internal static readonly SettingDefinition<DateFormat> DateFormat
-        = new(global::WindowSill.Date.Settings.DateFormat.AbbreviatedDayMonth, typeof(Settings).Assembly);
+        = new(Date.Settings.DateFormat.AbbreviatedDayMonth, typeof(Settings).Assembly);
 
     /// <summary>
     /// The time format to display in the sill bar.
     /// </summary>
     internal static readonly SettingDefinition<TimeFormat> TimeFormat
-        = new(global::WindowSill.Date.Settings.TimeFormat.TwelveHour, typeof(Settings).Assembly);
+        = new(Date.Settings.TimeFormat.TwelveHour, typeof(Settings).Assembly);
 
     /// <summary>
     /// Whether to show seconds in the time display.
@@ -60,12 +60,6 @@ internal static class Settings
         = new(string.Empty, typeof(Settings).Assembly);
 
     /// <summary>
-    /// Fallback commute time in minutes when routing fails or is unavailable.
-    /// </summary>
-    internal static readonly SettingDefinition<int> FallbackCommuteMinutes
-        = new(30, typeof(Settings).Assembly);
-
-    /// <summary>
     /// Extra buffer in minutes added to the travel time to give the user time to get ready.
     /// departure time = meeting start − travel time − buffer.
     /// </summary>
@@ -78,9 +72,11 @@ internal static class Settings
     internal static readonly SettingDefinition<MapsProvider> PreferredMapsProvider
         = new(MapsProvider.GoogleMaps, typeof(Settings).Assembly);
 
-    // ──────────────────────────────────────────────
-    //  Meeting sill settings
-    // ──────────────────────────────────────────────
+    /// <summary>
+    /// The travel mode used for route time estimation (Driving, Walking, Cycling).
+    /// </summary>
+    internal static readonly SettingDefinition<TravelMode> TravelMode
+        = new(Date.Settings.TravelMode.Driving, typeof(Settings).Assembly);
 
     /// <summary>
     /// How many minutes before a meeting the sill item appears.
@@ -128,5 +124,5 @@ internal static class Settings
     /// How frequently (in seconds) to poll for upcoming meetings.
     /// </summary>
     internal static readonly SettingDefinition<int> MeetingPollIntervalSeconds
-        = new(60, typeof(Settings).Assembly);
+        = new(900 /* 15 min */, typeof(Settings).Assembly);
 }
