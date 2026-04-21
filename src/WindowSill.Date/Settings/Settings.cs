@@ -48,4 +48,20 @@ internal static class Settings
     /// </summary>
     internal static readonly SettingDefinition<bool> ShowWorldClocksInPopup
         = new(true, typeof(Settings).Assembly);
+
+    // ──────────────────────────────────────────────
+    //  Travel time settings
+    // ──────────────────────────────────────────────
+
+    /// <summary>
+    /// The user's OpenRouteService API key for routing. Empty = feature disabled.
+    /// </summary>
+    internal static readonly SettingDefinition<string> OpenRouteServiceApiKey
+        = new(string.Empty, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Fallback commute time in minutes when routing fails or is unavailable.
+    /// </summary>
+    internal static readonly SettingDefinition<int> FallbackCommuteMinutes
+        = new(30, typeof(Settings).Assembly);
 }
