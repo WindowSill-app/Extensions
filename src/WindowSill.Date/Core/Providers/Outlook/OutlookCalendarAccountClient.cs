@@ -335,7 +335,7 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
     {
         return response switch
         {
-            ResponseType.Accepted => AttendeeResponseStatus.Accepted,
+            ResponseType.Accepted or ResponseType.Organizer => AttendeeResponseStatus.Accepted,
             ResponseType.TentativelyAccepted => AttendeeResponseStatus.Tentative,
             ResponseType.Declined => AttendeeResponseStatus.Declined,
             _ => AttendeeResponseStatus.NotResponded,

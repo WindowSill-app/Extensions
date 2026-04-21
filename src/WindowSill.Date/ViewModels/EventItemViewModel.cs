@@ -109,6 +109,13 @@ internal sealed partial class EventItemViewModel : ObservableObject
     public bool IsDeclined => _event.ResponseStatus == AttendeeResponseStatus.Declined;
 
     /// <summary>
+    /// Gets a value indicating whether this event is tentative (not fully accepted).
+    /// </summary>
+    public bool IsTentative => _event.ResponseStatus
+        is AttendeeResponseStatus.Tentative
+        or AttendeeResponseStatus.NotResponded;
+
+    /// <summary>
     /// Gets a value indicating whether this event has a web link for opening in calendar.
     /// </summary>
     public bool HasWebLink => _event.WebLink is not null;
