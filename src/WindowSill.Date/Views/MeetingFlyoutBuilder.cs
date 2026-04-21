@@ -17,20 +17,22 @@ namespace WindowSill.Date.Views;
 internal static class MeetingFlyoutBuilder
 {
     /// <summary>
-    /// Creates a rich <see cref="MenuFlyout"/> for a meeting sill item.
+    /// Populates a <see cref="MenuFlyout"/> with meeting items.
+    /// Called on every flyout open so content always reflects current state
+    /// (travel time, countdown text, etc.).
     /// </summary>
+    /// <param name="flyout">The flyout to populate (items are cleared first by the caller).</param>
     /// <param name="viewModel">The meeting view model.</param>
     /// <param name="worldClockService">The world clock service for time zone sub-menu.</param>
-    /// <param name="settingsProvider">The settings provider for maps preference.</param>
+    /// <param name="settingsProvider">The settings provider for maps/travel preferences.</param>
     /// <param name="onHide">Callback invoked when the user chooses to hide the meeting.</param>
-    /// <returns>A configured menu flyout.</returns>
-    internal static MenuFlyout Build(
+    internal static void PopulateItems(
+        MenuFlyout flyout,
         MeetingSillItemViewModel viewModel,
         WorldClockService worldClockService,
         ISettingsProvider settingsProvider,
         Action onHide)
     {
-        var flyout = new MenuFlyout();
 
         // ── Join action (top, if video call exists) ──
         if (viewModel.HasVideoCall)
@@ -240,7 +242,5 @@ internal static class MeetingFlyoutBuilder
             };
             flyout.Items.Add(showInCalItem);
         }
-
-        return flyout;
     }
 }

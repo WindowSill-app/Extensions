@@ -123,12 +123,20 @@ internal sealed class MeetingViewListAdapter : IDisposable
             MeetingBarContent barContent = MeetingBarContent.Create(vm);
             var previewFlyout = new MeetingPreviewFlyout(vm);
 
+            // Build the flyout lazily on each open so it always reflects current state
+            // (travel time arrives asynchronously, countdown text changes every second).
             MeetingKey capturedKey = vm.Key;
-            MenuFlyout menuFlyout = MeetingFlyoutBuilder.Build(
-                vm,
-                _worldClockService,
-                _settingsProvider,
-                onHide: () => _stateService.HideMeeting(capturedKey));
+            var menuFlyout = new MenuFlyout();
+            menuFlyout.Opening += (_, _) =>
+            {
+                menuFlyout.Items.Clear();
+                MeetingFlyoutBuilder.PopulateItems(
+                    menuFlyout,
+                    vm,
+                    _worldClockService,
+                    _settingsProvider,
+                    onHide: () => _stateService.HideMeeting(capturedKey));
+            };
 
             var sillItem = new SillListViewMenuFlyoutItem(
                 barContent,
