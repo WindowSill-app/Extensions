@@ -152,6 +152,7 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
     public void OnPopupOpening(DispatcherQueue dispatcherQueue)
     {
         TimeTravelOffsetMinutes = 0;
+        IsLoadingEvents = true;
         SelectedDate = DateTimeOffset.Now.Date;
 
         IsCalendarVisible = _settingsProvider.GetSetting(Settings.Settings.ShowCalendarInPopup);
@@ -159,8 +160,8 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
 
         UpdateTimeTravelLabel();
         RefreshWorldClocks();
-        LoadEventsForSelectedDayAsync().ForgetSafely();
         UpdateEventListHeader();
+        LoadEventsForSelectedDayAsync().ForgetSafely();
 
         _timer?.Stop();
         _timer = dispatcherQueue.CreateTimer();
@@ -274,7 +275,11 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
         }
         finally
         {
-            IsLoadingEvents = false;
+            // Only clear the loading state if this load was not superseded by a newer one.
+            if (!ct.IsCancellationRequested)
+            {
+                IsLoadingEvents = false;
+            }
         }
     }
 
