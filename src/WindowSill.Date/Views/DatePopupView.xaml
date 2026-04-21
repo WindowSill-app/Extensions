@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:api="using:WindowSill.API"
+    xmlns:controls="using:WindowSill.Date.Core.UI.Controls"
     xmlns:conv="using:WindowSill.Date.Core.UI.Converters"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -124,7 +125,7 @@
                                         Width="6"
                                         VerticalAlignment="Stretch"
                                         Background="{x:Bind Color, Converter={StaticResource HexColorBrushConverter}}"
-                                        CornerRadius="3"
+                                        CornerRadius="2"
                                         Visibility="{x:Bind IsTentative, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
                                     <!--  Zebra-striped bar (tentative / not responded)  -->
                                     <Border
@@ -133,18 +134,9 @@
                                         VerticalAlignment="Stretch"
                                         BorderBrush="{x:Bind Color, Converter={StaticResource HexColorBrushConverter}}"
                                         BorderThickness="2"
-                                        CornerRadius="3"
+                                        CornerRadius="2"
                                         Visibility="{x:Bind IsTentative, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <Rectangle RadiusX="2" RadiusY="2">
-                                            <Rectangle.Fill>
-                                                <LinearGradientBrush MappingMode="Absolute" SpreadMethod="Repeat" StartPoint="0,0" EndPoint="4,4">
-                                                    <GradientStop Offset="0" Color="{x:Bind Color, Converter={StaticResource HexToColorConverter}}" />
-                                                    <GradientStop Offset="0.33" Color="{x:Bind Color, Converter={StaticResource HexToColorConverter}}" />
-                                                    <GradientStop Offset="0.33" Color="Transparent" />
-                                                    <GradientStop Offset="1.0" Color="Transparent" />
-                                                </LinearGradientBrush>
-                                            </Rectangle.Fill>
-                                        </Rectangle>
+                                        <controls:DiagonalStripePanel StrokeBrush="{x:Bind Color, Converter={StaticResource HexColorBrushConverter}}" />
                                     </Border>
 
                                     <!--  Title and time  -->
