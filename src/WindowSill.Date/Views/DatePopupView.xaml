@@ -100,106 +100,105 @@
                 Visibility="{x:Bind ViewModel.IsLoadingEvents, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
             <!--  Event list  -->
-            <ListView
-                x:Name="EventListView"
+            <ScrollView
                 Grid.Row="1"
-                Padding="4,0"
-                ItemsSource="{x:Bind ViewModel.Events}"
-                SelectionMode="None"
+                HorizontalScrollBarVisibility="Hidden"
+                HorizontalScrollChainMode="Never"
+                HorizontalScrollMode="Disabled"
                 Visibility="{x:Bind ViewModel.HasNoEvents, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="vm:EventItemViewModel">
-                        <Grid
-                            Padding="0,6"
-                            Background="Transparent"
-                            ColumnSpacing="8"
-                            Opacity="{x:Bind IsPast, Converter={StaticResource PastOpacityConverter}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                <ItemsControl x:Name="EventListView" ItemsSource="{x:Bind ViewModel.Events}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:EventItemViewModel">
+                            <Border Opacity="{x:Bind IsPast, Converter={StaticResource PastOpacityConverter}}">
+                                <Grid Padding="16,8,16,4" ColumnSpacing="8">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                            <!--  Calendar color vertical bar  -->
-                            <!--  Solid bar (accepted)  -->
-                            <Border
-                                Grid.Column="0"
-                                Width="6"
-                                VerticalAlignment="Stretch"
-                                Background="{x:Bind Color, Converter={StaticResource HexColorBrushConverter}}"
-                                CornerRadius="3"
-                                Visibility="{x:Bind IsTentative, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
-                            <!--  Zebra-striped bar (tentative / not responded)  -->
-                            <Border
-                                Grid.Column="0"
-                                Width="6"
-                                VerticalAlignment="Stretch"
-                                BorderBrush="{x:Bind Color, Converter={StaticResource HexColorBrushConverter}}"
-                                BorderThickness="2"
-                                CornerRadius="3"
-                                Visibility="{x:Bind IsTentative, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <Rectangle RadiusX="2" RadiusY="2">
-                                    <Rectangle.Fill>
-                                        <LinearGradientBrush MappingMode="Absolute" SpreadMethod="Repeat" StartPoint="0,0" EndPoint="4,4">
-                                            <GradientStop Offset="0" Color="{x:Bind Color, Converter={StaticResource HexToColorConverter}}" />
-                                            <GradientStop Offset="0.33" Color="{x:Bind Color, Converter={StaticResource HexToColorConverter}}" />
-                                            <GradientStop Offset="0.33" Color="Transparent" />
-                                            <GradientStop Offset="1.0" Color="Transparent" />
-                                        </LinearGradientBrush>
-                                    </Rectangle.Fill>
-                                </Rectangle>
+                                    <!--  Calendar color vertical bar  -->
+                                    <!--  Solid bar (accepted)  -->
+                                    <Border
+                                        Grid.Column="0"
+                                        Width="6"
+                                        VerticalAlignment="Stretch"
+                                        Background="{x:Bind Color, Converter={StaticResource HexColorBrushConverter}}"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind IsTentative, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+                                    <!--  Zebra-striped bar (tentative / not responded)  -->
+                                    <Border
+                                        Grid.Column="0"
+                                        Width="6"
+                                        VerticalAlignment="Stretch"
+                                        BorderBrush="{x:Bind Color, Converter={StaticResource HexColorBrushConverter}}"
+                                        BorderThickness="2"
+                                        CornerRadius="3"
+                                        Visibility="{x:Bind IsTentative, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <Rectangle RadiusX="2" RadiusY="2">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush MappingMode="Absolute" SpreadMethod="Repeat" StartPoint="0,0" EndPoint="4,4">
+                                                    <GradientStop Offset="0" Color="{x:Bind Color, Converter={StaticResource HexToColorConverter}}" />
+                                                    <GradientStop Offset="0.33" Color="{x:Bind Color, Converter={StaticResource HexToColorConverter}}" />
+                                                    <GradientStop Offset="0.33" Color="Transparent" />
+                                                    <GradientStop Offset="1.0" Color="Transparent" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </Border>
+
+                                    <!--  Title and time  -->
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock
+                                            FontWeight="{x:Bind IsNow, Converter={StaticResource NowFontWeightConverter}}"
+                                            Text="{x:Bind Title}"
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap" />
+                                        <TextBlock
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            Style="{ThemeResource CaptionTextBlockStyle}"
+                                            Text="{x:Bind TimeRangeText}" />
+                                    </StackPanel>
+
+                                    <!--  Video call indicator  -->
+                                    <FontIcon
+                                        Grid.Column="2"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                        FontSize="14"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Glyph="&#xE714;"
+                                        Visibility="{x:Bind HasVideoCall, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                                    <!--  Context menu  -->
+                                    <Grid.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem
+                                                api:Uids.Uid="/WindowSill.Date/Popup/JoinMeeting"
+                                                Click="JoinMeeting_Click"
+                                                DataContext="{x:Bind}"
+                                                Visibility="{x:Bind HasVideoCall, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE714;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem
+                                                api:Uids.Uid="/WindowSill.Date/Popup/OpenInCalendar"
+                                                Click="OpenInCalendar_Click"
+                                                DataContext="{x:Bind}"
+                                                Visibility="{x:Bind HasWebLink, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE8A7;" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Grid.ContextFlyout>
+                                </Grid>
                             </Border>
-
-                            <!--  Title and time  -->
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock
-                                    FontWeight="{x:Bind IsNow, Converter={StaticResource NowFontWeightConverter}}"
-                                    Text="{x:Bind Title}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="NoWrap" />
-                                <TextBlock
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind TimeRangeText}" />
-                            </StackPanel>
-
-                            <!--  Video call indicator  -->
-                            <FontIcon
-                                Grid.Column="2"
-                                VerticalAlignment="Center"
-                                FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                FontSize="14"
-                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                Glyph="&#xE714;"
-                                Visibility="{x:Bind HasVideoCall, Converter={StaticResource BoolToVisibilityConverter}}" />
-
-                            <!--  Context menu  -->
-                            <Grid.ContextFlyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem
-                                        api:Uids.Uid="/WindowSill.Date/Popup/JoinMeeting"
-                                        Click="JoinMeeting_Click"
-                                        DataContext="{x:Bind}"
-                                        Visibility="{x:Bind HasVideoCall, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE714;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem
-                                        api:Uids.Uid="/WindowSill.Date/Popup/OpenInCalendar"
-                                        Click="OpenInCalendar_Click"
-                                        DataContext="{x:Bind}"
-                                        Visibility="{x:Bind HasWebLink, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8A7;" />
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout>
-                            </Grid.ContextFlyout>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollView>
 
             <!--  Empty state  -->
             <TextBlock

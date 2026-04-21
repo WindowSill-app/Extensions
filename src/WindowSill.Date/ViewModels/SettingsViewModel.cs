@@ -261,8 +261,10 @@ internal sealed partial class SettingsViewModel : ObservableObject
                 accountVm.Calendars.Clear();
                 foreach (CalendarInfo cal in calendars)
                 {
-                    var calVm = new CalendarViewModel(cal, isVisible: !hidden.Contains(cal.Id));
+                    accountVm.Account.CalendarColorOverrides.TryGetValue(cal.Id, out string? colorOverride);
+                    var calVm = new CalendarViewModel(cal, isVisible: !hidden.Contains(cal.Id), colorOverride);
                     calVm.VisibilityChanged += (_, _) => PersistCalendarVisibilityAsync(accountVm).ForgetSafely();
+                    calVm.ColorChanged += (_, _) => PersistCalendarColorAsync(accountVm).ForgetSafely();
                     accountVm.Calendars.Add(calVm);
                 }
             });
@@ -288,6 +290,16 @@ internal sealed partial class SettingsViewModel : ObservableObject
 
         await _calendarAccountManager.UpdateHiddenCalendarsAsync(
             accountVm.Id, hidden, CancellationToken.None);
+    }
+
+    private async Task PersistCalendarColorAsync(AccountViewModel accountVm)
+    {
+        var overrides = accountVm.Calendars
+            .Where(c => c.Color != c.CalendarInfo.Color)
+            .ToDictionary(c => c.Id, c => c.Color!);
+
+        await _calendarAccountManager.UpdateCalendarColorAsync(
+            accountVm.Id, overrides, CancellationToken.None);
     }
 
     private AccountViewModel CreateAccountViewModel(CalendarAccount account)

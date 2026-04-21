@@ -287,6 +287,7 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
                     MapResponseStatus(a.Status?.Response)))
                 .ToList() ?? [],
             RecurrenceRule = null,
+            Color = calendar.Color,
             IsPrivate = graphEvent.Sensitivity == Sensitivity.Private || graphEvent.Sensitivity == Sensitivity.Confidential,
             ProviderType = CalendarProviderType.Outlook,
         };

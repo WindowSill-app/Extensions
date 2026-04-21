@@ -195,6 +195,29 @@ internal sealed class CalendarAccountManager : IDisposable
     }
 
     /// <summary>
+    /// Replaces the calendar color overrides for a specific account and persists the change.
+    /// Pass an empty dictionary to clear all overrides.
+    /// </summary>
+    /// <param name="accountId">The identifier of the account.</param>
+    /// <param name="calendarColorOverrides">The complete set of color overrides (calendarId → hex color).</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    public async Task UpdateCalendarColorAsync(
+        string accountId,
+        IReadOnlyDictionary<string, string> calendarColorOverrides,
+        CancellationToken cancellationToken)
+    {
+        if (!_entries.TryGetValue(accountId, out AccountEntry? entry))
+        {
+            return;
+        }
+
+        CalendarAccount updated = entry.Account.WithCalendarColorOverrides(calendarColorOverrides);
+        _entries[accountId] = entry with { Account = updated };
+
+        await _dataStore.SaveAsync(updated, cancellationToken);
+    }
+
+    /// <summary>
     /// Retrieves events across all connected accounts within the specified date range.
     /// Events are sorted by start time and deduplicated across calendars.
     /// </summary>
@@ -220,12 +243,12 @@ internal sealed class CalendarAccountManager : IDisposable
                     IReadOnlySet<string> hidden = kvp.Value.Account.HiddenCalendarIds;
                     if (hidden.Count > 0)
                     {
-                        return (IReadOnlyList<CalendarEvent>)events
+                        events = events
                             .Where(e => !hidden.Contains(e.CalendarId))
                             .ToList();
                     }
 
-                    return events;
+                    return ApplyColorOverrides(events, kvp.Value.Account.CalendarColorOverrides);
                 }
                 catch (Exception)
                 {
@@ -268,12 +291,12 @@ internal sealed class CalendarAccountManager : IDisposable
                     IReadOnlySet<string> hidden = kvp.Value.Account.HiddenCalendarIds;
                     if (hidden.Count > 0)
                     {
-                        return (IReadOnlyList<CalendarEvent>)events
+                        events = events
                             .Where(e => !hidden.Contains(e.CalendarId))
                             .ToList();
                     }
 
-                    return events;
+                    return ApplyColorOverrides(events, kvp.Value.Account.CalendarColorOverrides);
                 }
                 catch (Exception)
                 {
@@ -345,6 +368,20 @@ internal sealed class CalendarAccountManager : IDisposable
 
             await _dataStore.SaveAsync(updated, cancellationToken);
         };
+    }
+
+    private static IReadOnlyList<CalendarEvent> ApplyColorOverrides(
+        IReadOnlyList<CalendarEvent> events,
+        IReadOnlyDictionary<string, string> colorOverrides)
+    {
+        if (colorOverrides.Count == 0)
+        {
+            return events;
+        }
+
+        return events
+            .Select(e => colorOverrides.TryGetValue(e.CalendarId, out string? color) ? e.WithColor(color) : e)
+            .ToList();
     }
 
     private static List<CalendarEvent> DeduplicateAndSort(IEnumerable<CalendarEvent> events)

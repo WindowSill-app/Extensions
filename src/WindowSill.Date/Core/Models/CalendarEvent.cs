@@ -111,4 +111,34 @@ public sealed class CalendarEvent
     /// Gets the provider type that sourced this event.
     /// </summary>
     public required CalendarProviderType ProviderType { get; init; }
+
+    /// <summary>
+    /// Creates a copy of this event with a different color.
+    /// </summary>
+    /// <param name="color">The new hex color string, or <see langword="null"/> to clear.</param>
+    /// <returns>A new event with the specified color.</returns>
+    public CalendarEvent WithColor(string? color) => new()
+    {
+        Id = Id,
+        CalendarId = CalendarId,
+        AccountId = AccountId,
+        Title = Title,
+        Description = Description,
+        HtmlDescription = HtmlDescription,
+        Location = Location,
+        StartTime = StartTime,
+        EndTime = EndTime,
+        IsAllDay = IsAllDay,
+        Status = Status,
+        BusyStatus = BusyStatus,
+        ResponseStatus = ResponseStatus,
+        VideoCall = VideoCall,
+        WebLink = WebLink,
+        Organizer = Organizer,
+        Attendees = Attendees,
+        RecurrenceRule = RecurrenceRule,
+        Color = color,
+        IsPrivate = IsPrivate,
+        ProviderType = ProviderType,
+    };
 }

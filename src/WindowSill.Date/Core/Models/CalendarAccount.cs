@@ -44,6 +44,15 @@ public sealed class CalendarAccount
     public HashSet<string> HiddenCalendarIds { get; init; } = [];
 
     /// <summary>
+    /// Gets the user-defined color overrides per calendar, keyed by calendar ID.
+    /// Values are hex color strings (e.g., "#FF5733"). Calendars not in this
+    /// dictionary use their provider-assigned color.
+    /// </summary>
+    [JsonPropertyName("calendarColorOverrides")]
+    public IReadOnlyDictionary<string, string> CalendarColorOverrides { get; init; } =
+        new Dictionary<string, string>();
+
+    /// <summary>
     /// Creates a copy of this account with updated auth data.
     /// </summary>
     /// <param name="authData">The new auth data.</param>
@@ -57,7 +66,8 @@ public sealed class CalendarAccount
             Email = Email,
             ProviderType = ProviderType,
             AuthData = authData,
-            HiddenCalendarIds = HiddenCalendarIds,
+            HiddenCalendarIds = new HashSet<string>(HiddenCalendarIds),
+            CalendarColorOverrides = new Dictionary<string, string>(CalendarColorOverrides),
         };
     }
 
@@ -76,6 +86,26 @@ public sealed class CalendarAccount
             ProviderType = ProviderType,
             AuthData = AuthData,
             HiddenCalendarIds = hiddenCalendarIds,
+            CalendarColorOverrides = new Dictionary<string, string>(CalendarColorOverrides),
+        };
+    }
+
+    /// <summary>
+    /// Creates a copy of this account with updated calendar color overrides.
+    /// </summary>
+    /// <param name="calendarColorOverrides">The new color overrides dictionary.</param>
+    /// <returns>A new account with the same metadata but updated color overrides.</returns>
+    public CalendarAccount WithCalendarColorOverrides(IReadOnlyDictionary<string, string> calendarColorOverrides)
+    {
+        return new CalendarAccount
+        {
+            Id = Id,
+            DisplayName = DisplayName,
+            Email = Email,
+            ProviderType = ProviderType,
+            AuthData = AuthData,
+            HiddenCalendarIds = new HashSet<string>(HiddenCalendarIds),
+            CalendarColorOverrides = calendarColorOverrides,
         };
     }
 }

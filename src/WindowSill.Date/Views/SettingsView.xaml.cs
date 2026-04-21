@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Microsoft.UI;
 using WindowSill.API;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
@@ -155,5 +156,48 @@ internal sealed partial class SettingsView : UserControl
         };
 
         return await dialog.ShowAsync() == ContentDialogResult.Primary;
+    }
+
+    private void CalendarColorButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button || button.DataContext is not CalendarViewModel calVm)
+        {
+            return;
+        }
+
+        var picker = new ColorPicker
+        {
+            ColorSpectrumShape = ColorSpectrumShape.Ring,
+            IsAlphaEnabled = false,
+            IsMoreButtonVisible = false,
+        };
+
+        if (calVm.Color is string hex)
+        {
+            hex = hex.TrimStart('#');
+            if (hex.Length == 6)
+            {
+                byte r = Convert.ToByte(hex[..2], 16);
+                byte g = Convert.ToByte(hex[2..4], 16);
+                byte b = Convert.ToByte(hex[4..6], 16);
+                picker.Color = ColorHelper.FromArgb(255, r, g, b);
+            }
+        }
+
+        // Update the preview circle live while the user drags.
+        picker.ColorChanged += (_, args) =>
+        {
+            calVm.PreviewColor($"#{args.NewColor.R:X2}{args.NewColor.G:X2}{args.NewColor.B:X2}");
+        };
+
+        var flyout = new Flyout { Content = picker };
+
+        // Persist once when the flyout closes (not on every drag).
+        flyout.Closed += (_, _) =>
+        {
+            calVm.CommitColor();
+        };
+
+        flyout.ShowAt(button);
     }
 }

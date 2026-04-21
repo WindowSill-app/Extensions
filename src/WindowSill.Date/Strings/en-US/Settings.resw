@@ -174,4 +174,7 @@
   <data name="LoadingCalendars.MessageProperty" xml:space="preserve">
     <value>Loading calendars…</value>
   </data>
+  <data name="CalendarColor.ToolTipService.ToolTipProperty" xml:space="preserve">
+    <value>Change calendar color</value>
+  </data>
 </root>
