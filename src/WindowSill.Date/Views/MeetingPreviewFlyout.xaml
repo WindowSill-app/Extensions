@@ -10,18 +10,20 @@
     <StackPanel MaxWidth="300" Spacing="4">
         <!--  Full meeting title (no truncation)  -->
         <TextBlock
-            x:Name="TitleText"
             FontWeight="SemiBold"
+            Text="{x:Bind ViewModel.Title}"
             TextWrapping="Wrap" />
 
-        <!--  Countdown: "in 22 minutes"  -->
-        <TextBlock x:Name="CountdownText" Foreground="{ThemeResource SystemAccentColorLight2}" />
+        <!--  Countdown: "in 22 minutes" (live-updating)  -->
+        <TextBlock
+            Foreground="{ThemeResource SystemAccentColorLight2}"
+            Text="{x:Bind ViewModel.CountdownText, Mode=OneWay}" />
 
         <!--  Exact date/time: "Saturday, April 18, 2026 at 9:30 PM"  -->
         <TextBlock
-            x:Name="DateTimeText"
             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
             Style="{ThemeResource CaptionTextBlockStyle}"
+            Text="{x:Bind ViewModel.FullDateTimeText}"
             TextWrapping="Wrap" />
     </StackPanel>
 

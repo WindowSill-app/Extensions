@@ -14,19 +14,12 @@ internal sealed partial class MeetingPreviewFlyout : UserControl
     /// <param name="viewModel">The meeting view model.</param>
     internal MeetingPreviewFlyout(MeetingSillItemViewModel viewModel)
     {
+        ViewModel = viewModel;
         InitializeComponent();
-
-        TitleText.Text = viewModel.Title;
-        CountdownText.Text = viewModel.CountdownText;
-        DateTimeText.Text = viewModel.FullDateTimeText;
-
-        // Keep countdown text live.
-        viewModel.PropertyChanged += (_, args) =>
-        {
-            if (args.PropertyName == nameof(MeetingSillItemViewModel.CountdownText))
-            {
-                CountdownText.Text = viewModel.CountdownText;
-            }
-        };
     }
+
+    /// <summary>
+    /// Gets the view model for x:Bind.
+    /// </summary>
+    internal MeetingSillItemViewModel ViewModel { get; }
 }

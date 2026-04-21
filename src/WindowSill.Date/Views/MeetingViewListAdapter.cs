@@ -70,6 +70,7 @@ internal sealed class MeetingViewListAdapter : IDisposable
 
         foreach (ViewListEntry entry in _entries.Values)
         {
+            UnsubscribeEntry(entry);
             _viewList.Remove(entry.SillItem);
         }
 
@@ -103,6 +104,7 @@ internal sealed class MeetingViewListAdapter : IDisposable
         {
             if (_entries.Remove(key, out ViewListEntry? entry))
             {
+                UnsubscribeEntry(entry);
                 _viewList.Remove(entry.SillItem);
             }
         }
@@ -142,15 +144,21 @@ internal sealed class MeetingViewListAdapter : IDisposable
             barContent.ApplyOrientationState(sillItem.SillOrientationAndSize);
 
             // Wire flashing: shared VM event → per-instance sill item.
+            // Track the handler so we can unsubscribe on dispose.
+            Action? flashHandler = null;
             if (enableFlashing)
             {
-                vm.FlashRequested += () => sillItem.StartFlashing();
+                flashHandler = () => sillItem.StartFlashing();
+                vm.FlashRequested += flashHandler;
             }
+
+            // Track PropertyChanged for preview flyout live updates.
+            // MeetingPreviewFlyout subscribes internally — we track VM ref for cleanup.
 
             // NOTE: No NotificationRequested subscription.
             // Notifications are dispatched centrally by MeetingStateService.
 
-            _entries[vm.Key] = new ViewListEntry(sillItem);
+            _entries[vm.Key] = new ViewListEntry(vm, sillItem, flashHandler);
 
             // Insert before the date bar item (which is always last).
             int insertIndex = Math.Max(0, _viewList.Count - 1);
@@ -159,7 +167,21 @@ internal sealed class MeetingViewListAdapter : IDisposable
     }
 
     /// <summary>
-    /// Tracks the per-instance sill item for a meeting.
+    /// Unsubscribes event handlers from a shared VM to prevent leaks.
     /// </summary>
-    private sealed record ViewListEntry(SillListViewMenuFlyoutItem SillItem);
+    private static void UnsubscribeEntry(ViewListEntry entry)
+    {
+        if (entry.FlashHandler is not null)
+        {
+            entry.Vm.FlashRequested -= entry.FlashHandler;
+        }
+    }
+
+    /// <summary>
+    /// Tracks the per-instance sill item and event handlers for cleanup.
+    /// </summary>
+    private sealed record ViewListEntry(
+        MeetingSillItemViewModel Vm,
+        SillListViewMenuFlyoutItem SillItem,
+        Action? FlashHandler);
 }

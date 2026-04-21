@@ -107,7 +107,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
                 _viewListAdapter.Start();
 
                 // Refresh meetings when popup closes.
-                _popupViewModel.PopupClosed += () => _meetingStateService.RequestRefresh();
+                _popupViewModel.PopupClosed += OnPopupClosed;
             }
         });
     }
@@ -119,6 +119,12 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
         {
             _viewListAdapter?.Dispose();
             _viewListAdapter = null;
+
+            if (_popupViewModel is not null)
+            {
+                _popupViewModel.PopupClosed -= OnPopupClosed;
+            }
+
             _popupViewModel?.Dispose();
             _popupViewModel = null;
             _dateBarViewModel?.Dispose();
@@ -126,4 +132,6 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
             ViewList.Clear();
         });
     }
+
+    private void OnPopupClosed() => _meetingStateService.RequestRefresh();
 }

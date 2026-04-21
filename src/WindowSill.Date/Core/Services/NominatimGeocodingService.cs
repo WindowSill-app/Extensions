@@ -15,7 +15,7 @@ namespace WindowSill.Date.Core.Services;
 /// Caches results in-memory and throttles requests to 1 per second per Nominatim policy.
 /// </summary>
 [Export(typeof(IGeocodingService))]
-internal sealed class NominatimGeocodingService : IGeocodingService
+internal sealed class NominatimGeocodingService : IGeocodingService, IDisposable
 {
     private const string NominatimBaseUrl = "https://nominatim.openstreetmap.org/search";
     private const string UserAgent = "WindowSill-Date-Extension/1.0 (https://getwindowsill.app)";
@@ -98,6 +98,13 @@ internal sealed class NominatimGeocodingService : IGeocodingService
         {
             _throttle.Release();
         }
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        _httpClient.Dispose();
+        _throttle.Dispose();
     }
 
     private sealed class NominatimResult

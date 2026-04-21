@@ -14,7 +14,7 @@ namespace WindowSill.Date.Core.Services;
 /// Requires the user to provide an API key in settings.
 /// </summary>
 [Export(typeof(IRoutingService))]
-internal sealed class OpenRouteServiceRoutingService : IRoutingService
+internal sealed class OpenRouteServiceRoutingService : IRoutingService, IDisposable
 {
     private const string OrsBaseUrl = "https://api.openrouteservice.org/v2/directions/driving-car";
 
@@ -89,6 +89,12 @@ internal sealed class OpenRouteServiceRoutingService : IRoutingService
             _logger.LogError(ex, "Unexpected error in ORS routing.");
             return TravelTimeEstimateResult.Failed(TravelTimeFailureReason.RoutingProviderError);
         }
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        _httpClient.Dispose();
     }
 
     // ── ORS response JSON model ──

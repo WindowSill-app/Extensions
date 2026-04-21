@@ -132,6 +132,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
     public Task<bool> RefreshAuthAsync(CancellationToken cancellationToken)
     {
         // CalDAV uses basic auth or app-specific passwords — no token refresh needed.
+        _httpClient?.Dispose();
         _httpClient = null;
         return Task.FromResult(true);
     }
