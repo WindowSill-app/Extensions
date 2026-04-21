@@ -24,12 +24,11 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     private readonly ISettingsProvider _settingsProvider;
     private readonly CalendarAccountManager _calendarAccountManager;
     private readonly WorldClockService _worldClockService;
-    private readonly Lazy<ITravelTimeEstimator> _travelTimeEstimator;
+    private readonly IMeetingStateService _meetingStateService;
 
     private DateBarViewModel? _dateBarViewModel;
     private DatePopupViewModel? _popupViewModel;
-    private MeetingCountdownService? _meetingService;
-    private MeetingNotificationService? _notificationService;
+    private MeetingViewListAdapter? _viewListAdapter;
 
     [ImportingConstructor]
     public DateSill(
@@ -37,13 +36,13 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
         ISettingsProvider settingsProvider,
         CalendarAccountManager calendarAccountManager,
         WorldClockService worldClockService,
-        Lazy<ITravelTimeEstimator> travelTimeEstimator)
+        IMeetingStateService meetingStateService)
     {
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _calendarAccountManager = calendarAccountManager;
         _worldClockService = worldClockService;
-        _travelTimeEstimator = travelTimeEstimator;
+        _meetingStateService = meetingStateService;
     }
 
     /// <inheritdoc/>
@@ -60,7 +59,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
             new(() => new WorldClockSettingsView(_worldClockService))),
         new SillSettingsView(
             "/WindowSill.Date/Meetings/SettingsTabName".GetLocalizedString(),
-            new(() => new MeetingSettingsView(_settingsProvider, _meetingService))),
+            new(() => new MeetingSettingsView(_settingsProvider, _meetingStateService))),
     ];
 
     /// <inheritdoc/>
@@ -96,19 +95,19 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
                 SillListViewPopupItem barItem = DateBarContent.CreateViewListItem(_dateBarViewModel, popupView);
                 ViewList.Add(barItem);
 
-                // Start meeting countdown service.
-                _notificationService = new MeetingNotificationService();
-                _meetingService = new MeetingCountdownService(
-                    _calendarAccountManager,
+                // Start the singleton meeting state service (idempotent — first instance wins).
+                _meetingStateService.Start(popupView.DispatcherQueue);
+
+                // Create per-instance adapter that syncs this ViewList with shared state.
+                _viewListAdapter = new MeetingViewListAdapter(
+                    _meetingStateService,
                     _worldClockService,
-                    _notificationService,
                     _settingsProvider,
-                    ViewList,
-                    _travelTimeEstimator);
-                _meetingService.Start(popupView.DispatcherQueue);
+                    ViewList);
+                _viewListAdapter.Start();
 
                 // Refresh meetings when popup closes.
-                _popupViewModel.PopupClosed += () => _meetingService?.RequestRefresh();
+                _popupViewModel.PopupClosed += () => _meetingStateService.RequestRefresh();
             }
         });
     }
@@ -118,9 +117,8 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     {
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
-            _meetingService?.Dispose();
-            _meetingService = null;
-            _notificationService = null;
+            _viewListAdapter?.Dispose();
+            _viewListAdapter = null;
             _popupViewModel?.Dispose();
             _popupViewModel = null;
             _dateBarViewModel?.Dispose();

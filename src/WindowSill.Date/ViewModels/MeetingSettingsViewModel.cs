@@ -12,17 +12,17 @@ namespace WindowSill.Date.ViewModels;
 internal sealed partial class MeetingSettingsViewModel : ObservableObject
 {
     private readonly ISettingsProvider _settingsProvider;
-    private readonly MeetingCountdownService? _meetingService;
+    private readonly IMeetingStateService? _meetingStateService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MeetingSettingsViewModel"/> class.
     /// </summary>
     /// <param name="settingsProvider">The settings provider.</param>
-    /// <param name="meetingService">The meeting countdown service for on-demand sync.</param>
-    public MeetingSettingsViewModel(ISettingsProvider settingsProvider, MeetingCountdownService? meetingService = null)
+    /// <param name="meetingStateService">The shared meeting state service for on-demand sync.</param>
+    public MeetingSettingsViewModel(ISettingsProvider settingsProvider, IMeetingStateService? meetingStateService = null)
     {
         _settingsProvider = settingsProvider;
-        _meetingService = meetingService;
+        _meetingStateService = meetingStateService;
     }
 
     // ── Upcoming meeting sills ──
@@ -133,7 +133,7 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     [RelayCommand]
     private void SyncNow()
     {
-        _meetingService?.RequestRefresh();
+        _meetingStateService?.RequestRefresh();
     }
 
     // ── Travel time ──

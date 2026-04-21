@@ -1,3 +1,5 @@
+using System.ComponentModel.Composition;
+
 using Microsoft.Extensions.Logging;
 
 using Windows.Win32;
@@ -13,6 +15,7 @@ namespace WindowSill.Date.Core.Services;
 /// <summary>
 /// Orchestrates showing full-screen meeting notifications across all monitors.
 /// </summary>
+[Export]
 internal sealed class MeetingNotificationService
 {
     private readonly ILogger _logger;
@@ -20,6 +23,7 @@ internal sealed class MeetingNotificationService
     /// <summary>
     /// Initializes a new instance of the <see cref="MeetingNotificationService"/> class.
     /// </summary>
+    [ImportingConstructor]
     internal MeetingNotificationService()
     {
         _logger = this.Log();
