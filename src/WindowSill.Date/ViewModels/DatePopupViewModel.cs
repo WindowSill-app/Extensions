@@ -170,6 +170,11 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
+    /// Raised when the popup closes, allowing subscribers to trigger actions (e.g., meeting refresh).
+    /// </summary>
+    public event Action? PopupClosed;
+
+    /// <summary>
     /// Called when the popup closes. Stops the timer and resets time travel.
     /// </summary>
     public void OnPopupClosing()
@@ -183,6 +188,7 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
 
         _loadEventsCts?.Cancel();
         TimeTravelOffsetMinutes = 0;
+        PopupClosed?.Invoke();
     }
 
     /// <inheritdoc/>

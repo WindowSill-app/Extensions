@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.Date.Views.MeetingSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:ctk="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Padding="0,0,0,16" Spacing="16">
+
+            <!--  ── Upcoming meeting sills ──  -->
+            <StackPanel Spacing="2">
+                <TextBlock
+                    Margin="0,0,0,8"
+                    api:Uids.Uid="/WindowSill.Date/Meetings/UpcomingSillsHeader"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <!--  Reminder window  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ReminderWindow">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE823;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox
+                        Width="120"
+                        ItemsSource="{x:Bind ViewModel.ReminderWindowOptions}"
+                        SelectedItem="{x:Bind ViewModel.ReminderWindowMinutes, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Max meeting sills  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/MaxSills">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE762;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <NumberBox
+                        Width="100"
+                        Maximum="10"
+                        Minimum="1"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{x:Bind ViewModel.MaxMeetingSills, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Show all-day events  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ShowAllDay">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE787;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowAllDayMeetings, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Show join button  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ShowJoinButton">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE714;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowJoinButton, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+            </StackPanel>
+
+            <!--  ── Notifications ──  -->
+            <StackPanel Spacing="2">
+                <TextBlock
+                    Margin="0,0,0,8"
+                    api:Uids.Uid="/WindowSill.Date/Meetings/NotificationsHeader"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <!--  Full-screen notification  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/FullScreenNotification">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE740;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.EnableFullScreenNotification, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Toast notification  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ToastNotification">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE7E7;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.EnableToastNotification, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Sill flashing  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/EnableFlashing">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEA80;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.EnableSillFlashing, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+            </StackPanel>
+
+            <!--  ── Sync ──  -->
+            <StackPanel Spacing="2">
+                <TextBlock
+                    Margin="0,0,0,8"
+                    api:Uids.Uid="/WindowSill.Date/Meetings/SyncHeader"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <!--  Poll interval  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/PollInterval">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE895;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox
+                        Width="120"
+                        ItemsSource="{x:Bind ViewModel.PollIntervalOptions}"
+                        SelectedItem="{x:Bind ViewModel.PollIntervalSeconds, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Sync now  -->
+                <ctk:SettingsCard
+                    api:Uids.Uid="/WindowSill.Date/Meetings/SyncNow"
+                    Click="SyncNowCard_Click"
+                    IsClickEnabled="True">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE72C;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ctk:SettingsCard.ActionIcon>
+                        <FontIcon Glyph="&#xE72C;" />
+                    </ctk:SettingsCard.ActionIcon>
+                </ctk:SettingsCard>
+            </StackPanel>
+
+            <!--  ── Travel time ──  -->
+            <StackPanel Spacing="2">
+                <TextBlock
+                    Margin="0,0,0,8"
+                    api:Uids.Uid="/WindowSill.Date/Meetings/TravelHeader"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <!--  OpenRouteService API key  -->
+                <ctk:SettingsExpander api:Uids.Uid="/WindowSill.Date/Meetings/OrsApiKey">
+                    <ctk:SettingsExpander.HeaderIcon>
+                        <FontIcon Glyph="&#xE72E;" />
+                    </ctk:SettingsExpander.HeaderIcon>
+                    <PasswordBox
+                        Width="250"
+                        Password="{x:Bind ViewModel.OpenRouteServiceApiKey, Mode=TwoWay}"
+                        PlaceholderText="Paste API key..." />
+                    <ctk:SettingsExpander.Items>
+                        <ctk:SettingsCard>
+                            <ctk:SettingsCard.Header>
+                                <TextBlock
+                                    api:Uids.Uid="/WindowSill.Date/Meetings/OrsApiKeyHelp"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                    TextWrapping="Wrap" />
+                            </ctk:SettingsCard.Header>
+                        </ctk:SettingsCard>
+                    </ctk:SettingsExpander.Items>
+                </ctk:SettingsExpander>
+
+                <!--  Fallback commute time  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/FallbackCommute">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE804;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <NumberBox
+                        Width="100"
+                        Maximum="120"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{x:Bind ViewModel.FallbackCommuteMinutes, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Departure buffer  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/DepartureBuffer">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE823;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <NumberBox
+                        Width="100"
+                        Maximum="30"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{x:Bind ViewModel.DepartureBufferMinutes, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

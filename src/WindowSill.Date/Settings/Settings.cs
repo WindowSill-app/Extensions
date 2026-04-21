@@ -64,4 +64,63 @@ internal static class Settings
     /// </summary>
     internal static readonly SettingDefinition<int> FallbackCommuteMinutes
         = new(30, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Extra buffer in minutes added to the travel time to give the user time to get ready.
+    /// departure time = meeting start − travel time − buffer.
+    /// </summary>
+    internal static readonly SettingDefinition<int> DepartureBufferMinutes
+        = new(10, typeof(Settings).Assembly);
+
+    // ──────────────────────────────────────────────
+    //  Meeting sill settings
+    // ──────────────────────────────────────────────
+
+    /// <summary>
+    /// How many minutes before a meeting the sill item appears.
+    /// </summary>
+    internal static readonly SettingDefinition<int> ReminderWindowMinutes
+        = new(30, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Maximum number of meeting sill items shown simultaneously.
+    /// </summary>
+    internal static readonly SettingDefinition<int> MaxMeetingSills
+        = new(5, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether to show a "Join" button in the sill when a video call link is detected.
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowJoinButton
+        = new(true, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether sill items flash when a meeting is about to start.
+    /// </summary>
+    internal static readonly SettingDefinition<bool> EnableSillFlashing
+        = new(true, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether to show a full-screen notification when a meeting starts.
+    /// </summary>
+    internal static readonly SettingDefinition<bool> EnableFullScreenNotification
+        = new(true, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether to show a toast notification when a meeting starts.
+    /// </summary>
+    internal static readonly SettingDefinition<bool> EnableToastNotification
+        = new(false, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether to show all-day events as meeting sill items.
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowAllDayMeetings
+        = new(false, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// How frequently (in seconds) to poll for upcoming meetings.
+    /// </summary>
+    internal static readonly SettingDefinition<int> MeetingPollIntervalSeconds
+        = new(60, typeof(Settings).Assembly);
 }

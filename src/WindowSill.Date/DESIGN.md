@@ -93,10 +93,10 @@ A Dato-inspired calendar/meeting/timezone extension for WindowSill. Two logical 
 | Phase | Bar Text | Visual | Audio |
 |-------|----------|--------|-------|
 | ≥5 min before | `"Team Sync in 22 min"` | Normal style | None |
-| <5 min before | `"Team Sync in 4:32"` | Accent color background | None |
+| <5 min before | `"Team Sync in 4:32"` | Accent color background, you can use {ThemeResource} to get the accent background resource. | None |
 | ≤30 sec before | `"Team Sync in 0:28"` | `StartFlashing()` | Optional countdown beeps (setting) |
-| Start time reached | `"Team Sync is live!"` | Intense flash + optional full-screen notification | Optional chime (setting) |
-| Meeting in progress | `"Team Sync • 12 min"` | Calm, elapsed timer | None |
+| Start time reached | `"Team Sync is live!"` | `StartFlashing()` + optional full-screen notification. We stay in this stay for 1min. | Optional chime (setting) |
+| Meeting in progress, 1min after it started | `"Team Sync • 12 min"` | Calm, elapsed timer | None |
 | Meeting ended | Item removed | `ShouldAppearInSill = false` | None |
 
 - **Physical location meetings** — additional phase:
@@ -116,7 +116,7 @@ A Dato-inspired calendar/meeting/timezone extension for WindowSill. Two logical 
 - **Full meeting title** (bold, top).
 - **Time info**: "in 22 minutes — 9:30 PM – 10:00 PM, Saturday April 18".
 - **Location** (if present): Address text.
-- **Travel time** (if physical location): "🚗 ~25 min travel" (source: estimated via external API or user-configured default commute time for v1).
+- **Travel time** (if physical location): "🚗 ~25 min travel".
 - **Separator**.
 - **Actions**:
   - 🎥 **"Join Meeting"** (if video call URL detected) → launch URL.
@@ -140,6 +140,7 @@ When it's meeting time (or travel-departure time for physical meetings):
 - Add/remove calendar accounts (Outlook, Google, CalDAV).
 - Per-calendar toggle (show/hide specific calendars).
 - Sync interval (5 / 15 / 30 / 60 min, default 15).
+- Allow to Sync on demand.
 
 ### Display Tab
 - **Sill content**: Calendar icon (default) / Date-time.
@@ -202,7 +203,7 @@ MeetingCountdownService (1-sec timer per active meeting)
 5. **MeetingSillItem.cs** — Custom SillListViewMenuFlyoutItem per meeting (text updates, flyout content).
 6. **MeetingNotificationService.cs** — Full-screen + toast notification orchestration.
 7. **WorldClockModel.cs** — Timezone display name, IANA zone, day/night icon logic.
-8. **TravelTimeEstimator.cs** — v1: fixed commute time from settings. v2: maps API integration.
+8. **TravelTimeEstimator.cs** — API integration.
 9. **VideoCallDetector.cs** — Already exists. Detects Teams/Zoom/Meet/Webex/Slack URLs.
 10. **EventDeduplicator.cs** — Matches events across calendars by title + time overlap.
 11. **SettingsView updates** — New tabs: Display, Meetings, World Clocks.
@@ -252,4 +253,4 @@ MeetingCountdownService (1-sec timer per active meeting)
 - Focus time / DND detection.
 - Hourly chime.
 - Global keyboard shortcuts.
-- Maps API travel time integration (v1 uses fixed commute setting).
+- Maps API travel time integration.

@@ -24,21 +24,26 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     private readonly ISettingsProvider _settingsProvider;
     private readonly CalendarAccountManager _calendarAccountManager;
     private readonly WorldClockService _worldClockService;
+    private readonly Lazy<ITravelTimeEstimator> _travelTimeEstimator;
 
     private DateBarViewModel? _dateBarViewModel;
     private DatePopupViewModel? _popupViewModel;
+    private MeetingCountdownService? _meetingService;
+    private MeetingNotificationService? _notificationService;
 
     [ImportingConstructor]
     public DateSill(
         IPluginInfo pluginInfo,
         ISettingsProvider settingsProvider,
         CalendarAccountManager calendarAccountManager,
-        WorldClockService worldClockService)
+        WorldClockService worldClockService,
+        Lazy<ITravelTimeEstimator> travelTimeEstimator)
     {
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _calendarAccountManager = calendarAccountManager;
         _worldClockService = worldClockService;
+        _travelTimeEstimator = travelTimeEstimator;
     }
 
     /// <inheritdoc/>
@@ -53,6 +58,9 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
         new SillSettingsView(
             "/WindowSill.Date/WorldClocks/SettingsTabName".GetLocalizedString(),
             new(() => new WorldClockSettingsView(_worldClockService))),
+        new SillSettingsView(
+            "/WindowSill.Date/Meetings/SettingsTabName".GetLocalizedString(),
+            new(() => new MeetingSettingsView(_settingsProvider, _meetingService))),
     ];
 
     /// <inheritdoc/>
@@ -87,6 +95,20 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
                 var popupView = new DatePopupView(_popupViewModel);
                 SillListViewPopupItem barItem = DateBarContent.CreateViewListItem(_dateBarViewModel, popupView);
                 ViewList.Add(barItem);
+
+                // Start meeting countdown service.
+                _notificationService = new MeetingNotificationService();
+                _meetingService = new MeetingCountdownService(
+                    _calendarAccountManager,
+                    _worldClockService,
+                    _notificationService,
+                    _settingsProvider,
+                    ViewList,
+                    _travelTimeEstimator);
+                _meetingService.Start(popupView.DispatcherQueue);
+
+                // Refresh meetings when popup closes.
+                _popupViewModel.PopupClosed += () => _meetingService?.RequestRefresh();
             }
         });
     }
@@ -96,6 +118,9 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     {
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
+            _meetingService?.Dispose();
+            _meetingService = null;
+            _notificationService = null;
             _popupViewModel?.Dispose();
             _popupViewModel = null;
             _dateBarViewModel?.Dispose();

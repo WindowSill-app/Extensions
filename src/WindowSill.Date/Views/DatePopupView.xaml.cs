@@ -18,9 +18,6 @@ internal sealed partial class DatePopupView : SillPopupContent
     {
         ViewModel = viewModel;
         InitializeComponent();
-
-        // Select today in the CalendarView.
-        CalendarControl.SelectedDates.Add(DateTimeOffset.Now);
     }
 
     /// <summary>
@@ -33,6 +30,10 @@ internal sealed partial class DatePopupView : SillPopupContent
     /// </summary>
     public override void OnOpening()
     {
+        // Select today in the CalendarView.
+        CalendarControl.SelectedDates.Clear();
+        CalendarControl.SelectedDates.Add(DateTimeOffset.Now);
+
         ViewModel.OnPopupOpening(DispatcherQueue);
         UpdateChevrons();
     }
