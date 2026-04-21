@@ -1,10 +1,10 @@
 namespace WindowSill.Date.Settings;
 
 /// <summary>
-/// Represents an item in a format combo box with a value and localized display name.
+/// Represents an item in a combo box with a value and localized display name.
 /// </summary>
-/// <typeparam name="T">The enum type of the format option.</typeparam>
-internal sealed class FormatOptionItem<T> where T : struct, Enum
+/// <typeparam name="T">The value type.</typeparam>
+internal sealed class FormatOptionItem<T> where T : struct
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="FormatOptionItem{T}"/> class.

@@ -211,4 +211,34 @@
   <data name="PreferredMapsProvider.DescriptionProperty" xml:space="preserve">
     <value>Which maps service to open for directions to meeting locations</value>
   </data>
+  <data name="PollInterval1Min" xml:space="preserve">
+    <value>1 minute</value>
+  </data>
+  <data name="PollInterval3Min" xml:space="preserve">
+    <value>3 minutes</value>
+  </data>
+  <data name="PollInterval5Min" xml:space="preserve">
+    <value>5 minutes</value>
+  </data>
+  <data name="PollInterval15Min" xml:space="preserve">
+    <value>15 minutes</value>
+  </data>
+  <data name="PollInterval30Min" xml:space="preserve">
+    <value>30 minutes</value>
+  </data>
+  <data name="PollInterval1Hour" xml:space="preserve">
+    <value>1 hour</value>
+  </data>
+  <data name="PollInterval2Hours" xml:space="preserve">
+    <value>2 hours</value>
+  </data>
+  <data name="MapsProviderGoogle" xml:space="preserve">
+    <value>Google Maps</value>
+  </data>
+  <data name="MapsProviderBing" xml:space="preserve">
+    <value>Bing Maps</value>
+  </data>
+  <data name="MapsProviderApple" xml:space="preserve">
+    <value>Apple Maps</value>
+  </data>
 </root>

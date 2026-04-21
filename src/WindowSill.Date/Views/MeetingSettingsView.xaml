@@ -105,9 +105,9 @@
                         <FontIcon Glyph="&#xE895;" />
                     </ctk:SettingsCard.HeaderIcon>
                     <ComboBox
-                        Width="120"
+                        Width="160"
                         ItemsSource="{x:Bind ViewModel.PollIntervalOptions}"
-                        SelectedItem="{x:Bind ViewModel.PollIntervalSeconds, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind ViewModel.SelectedPollInterval, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
                 <!--  Sync now  -->
@@ -153,19 +153,6 @@
                     </ctk:SettingsExpander.Items>
                 </ctk:SettingsExpander>
 
-                <!--  Fallback commute time  -->
-                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/FallbackCommute">
-                    <ctk:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE804;" />
-                    </ctk:SettingsCard.HeaderIcon>
-                    <NumberBox
-                        Width="100"
-                        Maximum="120"
-                        Minimum="0"
-                        SpinButtonPlacementMode="Compact"
-                        Value="{x:Bind ViewModel.FallbackCommuteMinutes, Mode=TwoWay}" />
-                </ctk:SettingsCard>
-
                 <!--  Departure buffer  -->
                 <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/DepartureBuffer">
                     <ctk:SettingsCard.HeaderIcon>
@@ -187,7 +174,7 @@
                     <ComboBox
                         Width="160"
                         ItemsSource="{x:Bind ViewModel.MapsProviderOptions}"
-                        SelectedItem="{x:Bind ViewModel.PreferredMapsProvider, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind ViewModel.SelectedMapsProvider, Mode=TwoWay}" />
                 </ctk:SettingsCard>
             </StackPanel>
 

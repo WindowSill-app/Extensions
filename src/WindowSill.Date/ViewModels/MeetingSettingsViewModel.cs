@@ -108,21 +108,31 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     // ── Sync ──
 
     /// <summary>
-    /// Gets the available poll interval options in seconds.
+    /// Gets the available poll interval options.
     /// </summary>
-    public int[] PollIntervalOptions { get; } = [15, 30, 60, 120, 300];
+    public IReadOnlyList<FormatOptionItem<int>> PollIntervalOptions { get; } =
+    [
+        new(60, "/WindowSill.Date/Meetings/PollInterval1Min".GetLocalizedString()),
+        new(180, "/WindowSill.Date/Meetings/PollInterval3Min".GetLocalizedString()),
+        new(300, "/WindowSill.Date/Meetings/PollInterval5Min".GetLocalizedString()),
+        new(900, "/WindowSill.Date/Meetings/PollInterval15Min".GetLocalizedString()),
+        new(1800, "/WindowSill.Date/Meetings/PollInterval30Min".GetLocalizedString()),
+        new(3600, "/WindowSill.Date/Meetings/PollInterval1Hour".GetLocalizedString()),
+        new(7200, "/WindowSill.Date/Meetings/PollInterval2Hours".GetLocalizedString()),
+    ];
 
     /// <summary>
-    /// Gets or sets the poll interval in seconds.
+    /// Gets or sets the selected poll interval item.
     /// </summary>
-    public int PollIntervalSeconds
+    public FormatOptionItem<int>? SelectedPollInterval
     {
-        get => _settingsProvider.GetSetting(Settings.Settings.MeetingPollIntervalSeconds);
+        get => PollIntervalOptions.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.MeetingPollIntervalSeconds));
         set
         {
-            if (value != _settingsProvider.GetSetting(Settings.Settings.MeetingPollIntervalSeconds))
+            if (value is not null
+                && value.Value != _settingsProvider.GetSetting(Settings.Settings.MeetingPollIntervalSeconds))
             {
-                _settingsProvider.SetSetting(Settings.Settings.MeetingPollIntervalSeconds, value);
+                _settingsProvider.SetSetting(Settings.Settings.MeetingPollIntervalSeconds, value.Value);
                 OnPropertyChanged();
             }
         }
@@ -167,22 +177,27 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     }
 
     /// <summary>
-    /// Gets the available maps provider options.
+    /// Gets the available maps provider options with localized display names.
     /// </summary>
-    public MapsProvider[] MapsProviderOptions { get; } =
-        [MapsProvider.GoogleMaps, MapsProvider.BingMaps, MapsProvider.AppleMaps];
+    public IReadOnlyList<FormatOptionItem<MapsProvider>> MapsProviderOptions { get; } =
+    [
+        new(MapsProvider.GoogleMaps, "/WindowSill.Date/Meetings/MapsProviderGoogle".GetLocalizedString()),
+        new(MapsProvider.BingMaps, "/WindowSill.Date/Meetings/MapsProviderBing".GetLocalizedString()),
+        new(MapsProvider.AppleMaps, "/WindowSill.Date/Meetings/MapsProviderApple".GetLocalizedString()),
+    ];
 
     /// <summary>
-    /// Gets or sets the preferred maps provider.
+    /// Gets or sets the selected maps provider item.
     /// </summary>
-    public MapsProvider PreferredMapsProvider
+    public FormatOptionItem<MapsProvider>? SelectedMapsProvider
     {
-        get => _settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider);
+        get => MapsProviderOptions.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider));
         set
         {
-            if (value != _settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider))
+            if (value is not null
+                && value.Value != _settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider))
             {
-                _settingsProvider.SetSetting(Settings.Settings.PreferredMapsProvider, value);
+                _settingsProvider.SetSetting(Settings.Settings.PreferredMapsProvider, value.Value);
                 OnPropertyChanged();
             }
         }
