@@ -62,12 +62,9 @@
                                     <ImageIcon Source="{x:Bind ProviderIconSource}" />
                                 </ctk:SettingsExpander.HeaderIcon>
                                 <ctk:SettingsExpander.ItemsHeader>
-                                    <StackPanel
-                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                        BorderThickness="0,0,0,1">
+                                    <StackPanel Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                                         <!--  Column headers  -->
-                                        <Grid Padding="16,8,16,4">
+                                        <Grid Padding="56,8,32,4">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
                                                 <ColumnDefinition Width="60" />
@@ -94,7 +91,7 @@
                                         <InfoBar
                                             HorizontalAlignment="Stretch"
                                             api:Uids.Uid="/WindowSill.Date/Settings/LoadingCalendars"
-                                            BorderThickness="0"
+                                            Background="Transparent"
                                             CornerRadius="0"
                                             IsClosable="False"
                                             IsIconVisible="False"
@@ -116,31 +113,20 @@
                                                           FontSize=16}" />
                                 <ctk:SettingsExpander.ItemTemplate>
                                     <DataTemplate x:DataType="vm:CalendarViewModel">
-                                        <Border
-                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                            BorderThickness="0,0,0,1">
-                                            <Grid Padding="16,6" ColumnSpacing="4">
+                                        <ctk:SettingsCard Header="{x:Bind Name}">
+                                            <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="60" />
                                                     <ColumnDefinition Width="60" />
                                                 </Grid.ColumnDefinitions>
 
-                                                <!--  Calendar name  -->
-                                                <TextBlock
-                                                    Grid.Column="0"
-                                                    VerticalAlignment="Center"
-                                                    Text="{x:Bind Name}"
-                                                    TextTrimming="CharacterEllipsis" />
-
                                                 <!--  Color circle  -->
                                                 <Button
-                                                    Grid.Column="1"
+                                                    Grid.Column="0"
                                                     Width="32"
                                                     Height="32"
                                                     Padding="0"
-                                                    HorizontalAlignment="Center"
+                                                    HorizontalAlignment="Right"
                                                     VerticalAlignment="Center"
                                                     api:Uids.Uid="/WindowSill.Date/Settings/CalendarColor"
                                                     Background="Transparent"
@@ -155,11 +141,11 @@
 
                                                 <!--  Visibility toggle (eye icon)  -->
                                                 <Button
-                                                    Grid.Column="2"
+                                                    Grid.Column="1"
                                                     Width="32"
                                                     Height="32"
                                                     Padding="0"
-                                                    HorizontalAlignment="Center"
+                                                    HorizontalAlignment="Right"
                                                     VerticalAlignment="Center"
                                                     Background="Transparent"
                                                     BorderBrush="Transparent"
@@ -180,7 +166,7 @@
                                                     </Grid>
                                                 </Button>
                                             </Grid>
-                                        </Border>
+                                        </ctk:SettingsCard>
                                     </DataTemplate>
                                 </ctk:SettingsExpander.ItemTemplate>
                             </ctk:SettingsExpander>
