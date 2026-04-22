@@ -20,7 +20,6 @@
             FalseValue="Visible"
             TrueValue="Collapsed" />
         <conv:HexColorBrushConverter x:Key="HexColorBrushConverter" />
-        <conv:HexToColorConverter x:Key="HexToColorConverter" />
         <conv:PastOpacityConverter x:Key="PastOpacityConverter" />
         <conv:NowFontWeightConverter x:Key="NowFontWeightConverter" />
         <conv:DayNightGlyphConverter x:Key="DayNightGlyphConverter" />

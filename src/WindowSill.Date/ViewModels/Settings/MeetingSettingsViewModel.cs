@@ -1,8 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 using WindowSill.API;
-using WindowSill.Date.Core.Services;
 using WindowSill.Date.Settings;
 
 namespace WindowSill.Date.ViewModels;
@@ -13,17 +11,14 @@ namespace WindowSill.Date.ViewModels;
 internal sealed partial class MeetingSettingsViewModel : ObservableObject
 {
     private readonly ISettingsProvider _settingsProvider;
-    private readonly MeetingStateService? _meetingStateService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MeetingSettingsViewModel"/> class.
     /// </summary>
     /// <param name="settingsProvider">The settings provider.</param>
-    /// <param name="meetingStateService">The shared meeting state service for on-demand sync.</param>
-    public MeetingSettingsViewModel(ISettingsProvider settingsProvider, MeetingStateService? meetingStateService = null)
+    public MeetingSettingsViewModel(ISettingsProvider settingsProvider)
     {
         _settingsProvider = settingsProvider;
-        _meetingStateService = meetingStateService;
     }
 
     // ── Upcoming meeting sills ──
@@ -112,48 +107,6 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     {
         get => _settingsProvider.GetSetting(Settings.Settings.ShowJoinButton);
         set => _settingsProvider.SetSetting(Settings.Settings.ShowJoinButton, value);
-    }
-
-    // ── Sync ──
-
-    /// <summary>
-    /// Gets the available poll interval options.
-    /// </summary>
-    public IReadOnlyList<FormatOptionItem<int>> PollIntervalOptions { get; } =
-    [
-        new(60, "/WindowSill.Date/Meetings/PollInterval1Min".GetLocalizedString()),
-        new(180, "/WindowSill.Date/Meetings/PollInterval3Min".GetLocalizedString()),
-        new(300, "/WindowSill.Date/Meetings/PollInterval5Min".GetLocalizedString()),
-        new(900, "/WindowSill.Date/Meetings/PollInterval15Min".GetLocalizedString()),
-        new(1800, "/WindowSill.Date/Meetings/PollInterval30Min".GetLocalizedString()),
-        new(3600, "/WindowSill.Date/Meetings/PollInterval1Hour".GetLocalizedString()),
-        new(7200, "/WindowSill.Date/Meetings/PollInterval2Hours".GetLocalizedString()),
-    ];
-
-    /// <summary>
-    /// Gets or sets the selected poll interval item.
-    /// </summary>
-    public FormatOptionItem<int>? SelectedPollInterval
-    {
-        get => PollIntervalOptions.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.MeetingPollIntervalSeconds));
-        set
-        {
-            if (value is not null
-                && value.Value != _settingsProvider.GetSetting(Settings.Settings.MeetingPollIntervalSeconds))
-            {
-                _settingsProvider.SetSetting(Settings.Settings.MeetingPollIntervalSeconds, value.Value);
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Triggers an immediate refresh of upcoming meetings.
-    /// </summary>
-    [RelayCommand]
-    private void SyncNow()
-    {
-        _meetingStateService?.RequestRefresh();
     }
 
     // ── Travel time ──

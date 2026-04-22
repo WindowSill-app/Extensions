@@ -1,5 +1,4 @@
 using WindowSill.API;
-using WindowSill.Date.Core.Services;
 using WindowSill.Date.ViewModels;
 
 namespace WindowSill.Date.Views;
@@ -14,9 +13,9 @@ internal sealed partial class MeetingSettingsView : UserControl
     /// </summary>
     /// <param name="settingsProvider">The settings provider.</param>
     /// <param name="meetingService">The meeting countdown service for on-demand sync.</param>
-    public MeetingSettingsView(ISettingsProvider settingsProvider, MeetingStateService? meetingStateService = null)
+    public MeetingSettingsView(ISettingsProvider settingsProvider)
     {
-        ViewModel = new MeetingSettingsViewModel(settingsProvider, meetingStateService);
+        ViewModel = new MeetingSettingsViewModel(settingsProvider);
         InitializeComponent();
     }
 

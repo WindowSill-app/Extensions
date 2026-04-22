@@ -8,17 +8,17 @@ using WindowSill.Date.ViewModels;
 
 namespace WindowSill.Date.Views;
 
-internal sealed partial class SettingsView : UserControl
+internal sealed partial class AccountsSettingsView : UserControl
 {
     [DllImport("user32.dll")]
     private static extern IntPtr GetActiveWindow();
-    public SettingsView(
+    public AccountsSettingsView(
         ISettingsProvider settingsProvider,
         CalendarAccountManager calendarAccountManager,
         string contentDirectory,
         MeetingStateService? meetingStateService = null)
     {
-        ViewModel = new SettingsViewModel(settingsProvider, calendarAccountManager, contentDirectory, meetingStateService);
+        ViewModel = new AccountsSettingsViewModel(settingsProvider, calendarAccountManager, contentDirectory, meetingStateService);
         ViewModel.ConfirmRemoveAccountRequested += OnConfirmRemoveAccountRequested;
         InitializeComponent();
         PopulateAddAccountMenu();
@@ -27,7 +27,7 @@ internal sealed partial class SettingsView : UserControl
     /// <summary>
     /// Gets the view model for the settings view.
     /// </summary>
-    internal SettingsViewModel ViewModel { get; }
+    internal AccountsSettingsViewModel ViewModel { get; }
 
     private void PopulateAddAccountMenu()
     {

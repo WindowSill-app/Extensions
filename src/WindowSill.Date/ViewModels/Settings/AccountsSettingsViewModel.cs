@@ -14,7 +14,7 @@ namespace WindowSill.Date.ViewModels;
 /// View model for the Date extension settings page.
 /// Manages calendar account list, add/remove operations, and display settings.
 /// </summary>
-internal sealed partial class SettingsViewModel : ObservableObject
+internal sealed partial class AccountsSettingsViewModel : ObservableObject
 {
     private readonly ISettingsProvider _settingsProvider;
     private readonly CalendarAccountManager _calendarAccountManager;
@@ -22,13 +22,13 @@ internal sealed partial class SettingsViewModel : ObservableObject
     private readonly string _contentDirectory;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
+    /// Initializes a new instance of the <see cref="AccountsSettingsViewModel"/> class.
     /// </summary>
     /// <param name="settingsProvider">The settings provider for persisting preferences.</param>
     /// <param name="calendarAccountManager">The manager for calendar account operations.</param>
     /// <param name="contentDirectory">The plugin content directory for resolving asset paths.</param>
     /// <param name="meetingStateService">The meeting state service for on-demand sync.</param>
-    public SettingsViewModel(
+    public AccountsSettingsViewModel(
         ISettingsProvider settingsProvider,
         CalendarAccountManager calendarAccountManager,
         string contentDirectory,

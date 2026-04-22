@@ -54,7 +54,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     [
         new SillSettingsView(
             "/WindowSill.Date/Settings/AccountsTabName".GetLocalizedString(),
-            new(() => new SettingsView(_settingsProvider, _calendarAccountManager, _pluginInfo.GetPluginContentDirectory(), _meetingStateService))),
+            new(() => new AccountsSettingsView(_settingsProvider, _calendarAccountManager, _pluginInfo.GetPluginContentDirectory(), _meetingStateService))),
         new SillSettingsView(
             "/WindowSill.Date/Display/DateTimeTabName".GetLocalizedString(),
             new(() => new DateTimeSettingsView(_settingsProvider))),
@@ -63,7 +63,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
             new(() => new WorldClockSettingsView(_worldClockService))),
         new SillSettingsView(
             "/WindowSill.Date/Meetings/SettingsTabName".GetLocalizedString(),
-            new(() => new MeetingSettingsView(_settingsProvider, _meetingStateService))),
+            new(() => new MeetingSettingsView(_settingsProvider))),
     ];
 
     /// <inheritdoc/>

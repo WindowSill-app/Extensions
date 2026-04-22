@@ -44,9 +44,7 @@
                         </ctk:SettingsCard>
 
                         <!--  Date format  -->
-                        <ctk:SettingsCard
-                            api:Uids.Uid="/WindowSill.Date/Display/DateFormat"
-                            Visibility="{x:Bind ViewModel.IsDateTimeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Display/DateFormat" Visibility="{x:Bind ViewModel.IsDateTimeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                             <ComboBox
                                 Width="220"
                                 ItemsSource="{x:Bind ViewModel.AvailableDateFormats, Mode=OneWay}"
@@ -54,9 +52,7 @@
                         </ctk:SettingsCard>
 
                         <!--  Time format  -->
-                        <ctk:SettingsCard
-                            api:Uids.Uid="/WindowSill.Date/Display/TimeFormat"
-                            Visibility="{x:Bind ViewModel.IsDateTimeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Display/TimeFormat" Visibility="{x:Bind ViewModel.IsDateTimeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                             <ComboBox
                                 Width="180"
                                 ItemsSource="{x:Bind ViewModel.AvailableTimeFormats, Mode=OneWay}"
@@ -64,9 +60,7 @@
                         </ctk:SettingsCard>
 
                         <!--  Show seconds  -->
-                        <ctk:SettingsCard
-                            api:Uids.Uid="/WindowSill.Date/Display/ShowSeconds"
-                            Visibility="{x:Bind ViewModel.IsShowSecondsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Display/ShowSeconds" Visibility="{x:Bind ViewModel.IsShowSecondsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                             <ToggleSwitch IsOn="{x:Bind ViewModel.ShowSeconds, Mode=TwoWay}" />
                         </ctk:SettingsCard>
                     </ctk:SettingsExpander.Items>
