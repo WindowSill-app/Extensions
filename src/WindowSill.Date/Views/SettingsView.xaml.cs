@@ -158,6 +158,14 @@ internal sealed partial class SettingsView : UserControl
         return await dialog.ShowAsync() == ContentDialogResult.Primary;
     }
 
+    private void ToggleCalendarVisibility_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button { DataContext: CalendarViewModel calVm })
+        {
+            calVm.IsVisible = !calVm.IsVisible;
+        }
+    }
+
     private void CalendarColorButton_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not Button button || button.DataContext is not CalendarViewModel calVm)

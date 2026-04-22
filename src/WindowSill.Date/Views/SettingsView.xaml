@@ -15,6 +15,10 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <converters1:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters1:BoolToVisibilityConverter
+            x:Key="InverseBoolToVisibilityConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
         <conv:HexColorBrushConverter x:Key="HexColorBrushConverter" />
     </UserControl.Resources>
 
@@ -58,15 +62,45 @@
                                     <ImageIcon Source="{x:Bind ProviderIconSource}" />
                                 </ctk:SettingsExpander.HeaderIcon>
                                 <ctk:SettingsExpander.ItemsHeader>
-                                    <InfoBar
-                                        HorizontalAlignment="Stretch"
-                                        api:Uids.Uid="/WindowSill.Date/Settings/LoadingCalendars"
-                                        BorderThickness="0"
-                                        CornerRadius="0"
-                                        IsClosable="False"
-                                        IsIconVisible="False"
-                                        IsOpen="{x:Bind IsLoadingCalendars, Mode=OneWay}"
-                                        Severity="Informational" />
+                                    <StackPanel
+                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="0,0,0,1">
+                                        <InfoBar
+                                            HorizontalAlignment="Stretch"
+                                            api:Uids.Uid="/WindowSill.Date/Settings/LoadingCalendars"
+                                            BorderThickness="0"
+                                            CornerRadius="0"
+                                            IsClosable="False"
+                                            IsIconVisible="False"
+                                            IsOpen="{x:Bind IsLoadingCalendars, Mode=OneWay}"
+                                            Severity="Informational" />
+                                        <!--  Column headers  -->
+                                        <Grid Padding="16,8,16,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="60" />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                api:Uids.Uid="/WindowSill.Date/Settings/CalendarNameHeader"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Center"
+                                                api:Uids.Uid="/WindowSill.Date/Settings/ColorHeader"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                HorizontalAlignment="Center"
+                                                api:Uids.Uid="/WindowSill.Date/Settings/VisibilityHeader"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                        </Grid>
+                                    </StackPanel>
                                 </ctk:SettingsExpander.ItemsHeader>
                                 <Button
                                     Width="32"
@@ -82,15 +116,31 @@
                                                           FontSize=16}" />
                                 <ctk:SettingsExpander.ItemTemplate>
                                     <DataTemplate x:DataType="vm:CalendarViewModel">
-                                        <ctk:SettingsCard Header="{x:Bind Name}">
-                                            <StackPanel
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal"
-                                                Spacing="8">
+                                        <Border
+                                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                            BorderThickness="0,0,0,1">
+                                            <Grid Padding="16,6" ColumnSpacing="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="60" />
+                                                    <ColumnDefinition Width="60" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <!--  Calendar name  -->
+                                                <TextBlock
+                                                    Grid.Column="0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{x:Bind Name}"
+                                                    TextTrimming="CharacterEllipsis" />
+
+                                                <!--  Color circle  -->
                                                 <Button
+                                                    Grid.Column="1"
                                                     Width="32"
                                                     Height="32"
                                                     Padding="0"
+                                                    HorizontalAlignment="Center"
                                                     VerticalAlignment="Center"
                                                     api:Uids.Uid="/WindowSill.Date/Settings/CalendarColor"
                                                     Background="Transparent"
@@ -102,9 +152,35 @@
                                                         Height="16"
                                                         Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource HexColorBrushConverter}}" />
                                                 </Button>
-                                                <CheckBox IsChecked="{x:Bind IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                            </StackPanel>
-                                        </ctk:SettingsCard>
+
+                                                <!--  Visibility toggle (eye icon)  -->
+                                                <Button
+                                                    Grid.Column="2"
+                                                    Width="32"
+                                                    Height="32"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    Click="ToggleCalendarVisibility_Click"
+                                                    DataContext="{x:Bind}">
+                                                    <Grid>
+                                                        <FontIcon
+                                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                            FontSize="14"
+                                                            Glyph="&#xE7B3;"
+                                                            Visibility="{x:Bind IsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                        <FontIcon
+                                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                            FontSize="14"
+                                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                            Glyph="&#xED1A;"
+                                                            Visibility="{x:Bind IsVisible, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+                                                    </Grid>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
                                     </DataTemplate>
                                 </ctk:SettingsExpander.ItemTemplate>
                             </ctk:SettingsExpander>

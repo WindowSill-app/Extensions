@@ -177,4 +177,13 @@
   <data name="CalendarColor.ToolTipService.ToolTipProperty" xml:space="preserve">
     <value>Change calendar color</value>
   </data>
+  <data name="CalendarNameHeader.TextProperty" xml:space="preserve">
+    <value>Calendar name</value>
+  </data>
+  <data name="VisibilityHeader.TextProperty" xml:space="preserve">
+    <value>Visibility</value>
+  </data>
+  <data name="ColorHeader.TextProperty" xml:space="preserve">
+    <value>Color</value>
+  </data>
 </root>
