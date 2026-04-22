@@ -7,7 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel MaxWidth="300" Spacing="4">
+    <StackPanel
+        MaxWidth="300"
+        Padding="8"
+        Spacing="8">
         <!--  Full meeting title (no truncation)  -->
         <TextBlock
             FontWeight="SemiBold"

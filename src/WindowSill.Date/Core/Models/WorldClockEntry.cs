@@ -20,6 +20,12 @@ internal sealed class WorldClockEntry
     public string? CustomDisplayName { get; set; }
 
     /// <summary>
+    /// Gets or sets a value indicating whether this clock is pinned to the sill bar.
+    /// </summary>
+    [JsonPropertyName("pin")]
+    public bool ShowInBar { get; set; }
+
+    /// <summary>
     /// Gets the display name to show in the UI. Returns the custom name if set,
     /// otherwise derives a friendly name from the timezone ID.
     /// </summary>

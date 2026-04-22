@@ -29,6 +29,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     private DateBarViewModel? _dateBarViewModel;
     private DatePopupViewModel? _popupViewModel;
     private MeetingViewListAdapter? _viewListAdapter;
+    private WorldClockViewListAdapter? _worldClockViewListAdapter;
 
     [ImportingConstructor]
     public DateSill(
@@ -106,6 +107,13 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
                     ViewList);
                 _viewListAdapter.Start();
 
+                // Create per-instance adapter for pinned world clocks.
+                _worldClockViewListAdapter = new WorldClockViewListAdapter(
+                    _worldClockService,
+                    _settingsProvider,
+                    ViewList);
+                _worldClockViewListAdapter.Start(popupView.DispatcherQueue);
+
                 // Refresh meetings when popup closes.
                 _popupViewModel.PopupClosed += OnPopupClosed;
             }
@@ -117,6 +125,9 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     {
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
+            _worldClockViewListAdapter?.Dispose();
+            _worldClockViewListAdapter = null;
+
             _viewListAdapter?.Dispose();
             _viewListAdapter = null;
 

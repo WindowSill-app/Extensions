@@ -73,11 +73,8 @@
   <data name="NoClocksMessage.TextProperty" xml:space="preserve">
     <value>No world clocks configured yet. Search for a city above to add one.</value>
   </data>
-  <data name="CustomName.HeaderProperty" xml:space="preserve">
+  <data name="CustomNameBox.HeaderProperty" xml:space="preserve">
     <value>Custom display name</value>
-  </data>
-  <data name="CustomName.DescriptionProperty" xml:space="preserve">
-    <value>Leave empty to use the default city name</value>
   </data>
   <data name="SaveName.ContentProperty" xml:space="preserve">
     <value>Save</value>
@@ -87,5 +84,11 @@
   </data>
   <data name="CustomNameHint.TextProperty" xml:space="preserve">
     <value>Leave empty to use the default city name.</value>
+  </data>
+  <data name="ShowInBar.HeaderProperty" xml:space="preserve">
+    <value>Show in bar</value>
+  </data>
+  <data name="ShowInBarHint.TextProperty" xml:space="preserve">
+    <value>Pin this clock to the WindowSill bar for quick access.</value>
   </data>
 </root>

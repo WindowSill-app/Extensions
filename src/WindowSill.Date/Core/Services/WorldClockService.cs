@@ -57,6 +57,35 @@ internal sealed class WorldClockService
     }
 
     /// <summary>
+    /// Gets only the entries that are pinned to the sill bar.
+    /// </summary>
+    /// <returns>The entries where <see cref="WorldClockEntry.ShowInBar"/> is <see langword="true"/>.</returns>
+    public IReadOnlyList<WorldClockEntry> GetPinnedEntries()
+    {
+        return GetEntries().Where(e => e.ShowInBar).ToList();
+    }
+
+    /// <summary>
+    /// Sets whether a world clock entry is pinned to the sill bar.
+    /// </summary>
+    /// <param name="timeZoneId">The IANA timezone identifier.</param>
+    /// <param name="showInBar">Whether to show this clock in the bar.</param>
+    public void SetShowInBar(string timeZoneId, bool showInBar)
+    {
+        List<WorldClockEntry> entries = GetMutableEntries();
+        WorldClockEntry? entry = entries.FirstOrDefault(e => e.TimeZoneId == timeZoneId);
+
+        if (entry is null || entry.ShowInBar == showInBar)
+        {
+            return;
+        }
+
+        entry.ShowInBar = showInBar;
+        SaveEntries(entries);
+        EntriesChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>
     /// Searches for cities matching the given query string.
     /// Returns IANA timezone IDs with friendly city names.
     /// </summary>

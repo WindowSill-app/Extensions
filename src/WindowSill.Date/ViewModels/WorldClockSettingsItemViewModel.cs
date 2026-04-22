@@ -29,6 +29,7 @@ internal sealed partial class WorldClockSettingsItemViewModel : ObservableObject
         TimeZoneId = entry.TimeZoneId;
         DefaultCityName = GetDefaultCityName(entry.TimeZoneId);
         EditableName = entry.CustomDisplayName ?? string.Empty;
+        ShowInBar = entry.ShowInBar;
     }
 
     /// <summary>
@@ -53,16 +54,21 @@ internal sealed partial class WorldClockSettingsItemViewModel : ObservableObject
     public partial string EditableName { get; set; }
 
     /// <summary>
-    /// Saves the current <see cref="EditableName"/> as the custom display name.
-    /// An empty value reverts to the default city name.
+    /// Gets or sets whether this clock is pinned to the sill bar.
     /// </summary>
-    [RelayCommand]
-    private void SaveName()
+    [ObservableProperty]
+    public partial bool ShowInBar { get; set; }
+
+    partial void OnEditableNameChanged(string value)
     {
-        string? customName = string.IsNullOrWhiteSpace(EditableName) ? null : EditableName;
+        string? customName = string.IsNullOrWhiteSpace(value) ? null : value;
         _worldClockService.UpdateDisplayName(TimeZoneId, customName);
         OnPropertyChanged(nameof(DisplayName));
-        _onChanged();
+    }
+
+    partial void OnShowInBarChanged(bool value)
+    {
+        _worldClockService.SetShowInBar(TimeZoneId, value);
     }
 
     /// <summary>

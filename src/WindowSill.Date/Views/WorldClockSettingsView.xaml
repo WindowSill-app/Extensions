@@ -95,9 +95,7 @@
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
                                     Spacing="0">
-                                    <TextBlock
-                                        Text="{x:Bind DisplayName, Mode=OneWay}"
-                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
                                     <TextBlock
                                         Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                         Style="{ThemeResource CaptionTextBlockStyle}"
@@ -125,9 +123,6 @@
                                         <Button.Flyout>
                                             <Flyout>
                                                 <StackPanel Width="220" Spacing="8">
-                                                    <TextBlock
-                                                        api:Uids.Uid="/WindowSill.Date/WorldClocks/CustomName"
-                                                        Style="{ThemeResource BodyStrongTextBlockStyle}" />
                                                     <TextBox
                                                         api:Uids.Uid="/WindowSill.Date/WorldClocks/CustomNameBox"
                                                         PlaceholderText="{x:Bind DefaultCityName}"
@@ -137,11 +132,23 @@
                                                         Foreground="{ThemeResource TextFillColorTertiaryBrush}"
                                                         Style="{ThemeResource CaptionTextBlockStyle}"
                                                         TextWrapping="Wrap" />
-                                                    <Button
-                                                        HorizontalAlignment="Right"
-                                                        api:Uids.Uid="/WindowSill.Date/WorldClocks/SaveName"
-                                                        Command="{x:Bind SaveNameCommand}"
-                                                        Style="{ThemeResource AccentButtonStyle}" />
+
+                                                    <!--  Show in bar  -->
+                                                    <Rectangle
+                                                        Height="1"
+                                                        Margin="0,4"
+                                                        Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+                                                    <ToggleSwitch
+                                                        MinWidth="0"
+                                                        api:Uids.Uid="/WindowSill.Date/WorldClocks/ShowInBar"
+                                                        IsOn="{x:Bind ShowInBar, Mode=TwoWay}"
+                                                        OffContent=""
+                                                        OnContent="" />
+                                                    <TextBlock
+                                                        api:Uids.Uid="/WindowSill.Date/WorldClocks/ShowInBarHint"
+                                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                        Style="{ThemeResource CaptionTextBlockStyle}"
+                                                        TextWrapping="Wrap" />
                                                 </StackPanel>
                                             </Flyout>
                                         </Button.Flyout>
