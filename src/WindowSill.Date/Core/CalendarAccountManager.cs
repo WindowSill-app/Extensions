@@ -74,6 +74,12 @@ internal sealed class CalendarAccountManager : IDisposable
     public event EventHandler<CalendarAccount>? AccountRemoved;
 
     /// <summary>
+    /// Raised when calendar display data changes (e.g., color overrides, hidden calendars)
+    /// and consumers should refresh their event lists.
+    /// </summary>
+    public event EventHandler? CalendarDisplayChanged;
+
+    /// <summary>
     /// Gets all currently connected accounts.
     /// </summary>
     /// <returns>A read-only list of connected calendar accounts.</returns>
@@ -192,6 +198,7 @@ internal sealed class CalendarAccountManager : IDisposable
         _entries[accountId] = entry with { Account = updated };
 
         await _dataStore.SaveAsync(updated, cancellationToken);
+        CalendarDisplayChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>
@@ -215,6 +222,7 @@ internal sealed class CalendarAccountManager : IDisposable
         _entries[accountId] = entry with { Account = updated };
 
         await _dataStore.SaveAsync(updated, cancellationToken);
+        CalendarDisplayChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>

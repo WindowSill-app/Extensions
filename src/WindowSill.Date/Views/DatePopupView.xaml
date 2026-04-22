@@ -106,11 +106,14 @@
                 HorizontalScrollChainMode="Never"
                 HorizontalScrollMode="Disabled"
                 Visibility="{x:Bind ViewModel.HasNoEvents, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-                <ItemsControl x:Name="EventListView" ItemsSource="{x:Bind ViewModel.Events}">
+                <ItemsControl
+                    x:Name="EventListView"
+                    Margin="0,12,0,0"
+                    ItemsSource="{x:Bind ViewModel.Events}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:EventItemViewModel">
                             <Border Opacity="{x:Bind IsPast, Converter={StaticResource PastOpacityConverter}}">
-                                <Grid Padding="16,8,16,4" ColumnSpacing="8">
+                                <Grid Padding="16,0,16,12" ColumnSpacing="8">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
@@ -123,7 +126,7 @@
                                         Grid.Column="0"
                                         Width="6"
                                         VerticalAlignment="Stretch"
-                                        Background="{x:Bind Color, Converter={StaticResource HexColorBrushConverter}}"
+                                        Background="{x:Bind Color, Mode=OneWay, Converter={StaticResource HexColorBrushConverter}}"
                                         CornerRadius="2"
                                         Visibility="{x:Bind IsTentative, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
                                     <!--  Zebra-striped bar (tentative / not responded)  -->
@@ -131,7 +134,7 @@
                                         Grid.Column="0"
                                         Width="6"
                                         VerticalAlignment="Stretch"
-                                        BorderBrush="{x:Bind Color, Converter={StaticResource HexColorBrushConverter}}"
+                                        BorderBrush="{x:Bind Color, Mode=OneWay, Converter={StaticResource HexColorBrushConverter}}"
                                         BorderThickness="2"
                                         CornerRadius="2"
                                         Visibility="{x:Bind IsTentative, Converter={StaticResource BoolToVisibilityConverter}}">

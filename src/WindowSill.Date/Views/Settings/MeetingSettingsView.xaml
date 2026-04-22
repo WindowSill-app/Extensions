@@ -28,10 +28,7 @@
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE81E;" />
                     </ctk:SettingsCard.HeaderIcon>
-                    <ComboBox
-                        Width="200"
-                        ItemsSource="{x:Bind ViewModel.PlacementOptions}"
-                        SelectedItem="{x:Bind ViewModel.SelectedPlacement, Mode=TwoWay}" />
+                    <ComboBox ItemsSource="{x:Bind ViewModel.PlacementOptions}" SelectedItem="{x:Bind ViewModel.SelectedPlacement, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
                 <!--  Reminder window  -->
@@ -39,10 +36,7 @@
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE823;" />
                     </ctk:SettingsCard.HeaderIcon>
-                    <ComboBox
-                        Width="120"
-                        ItemsSource="{x:Bind ViewModel.ReminderWindowOptions}"
-                        SelectedItem="{x:Bind ViewModel.ReminderWindowMinutes, Mode=TwoWay}" />
+                    <ComboBox ItemsSource="{x:Bind ViewModel.ReminderWindowOptions}" SelectedItem="{x:Bind ViewModel.ReminderWindowMinutes, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
                 <!--  Max meeting sills  -->
@@ -87,10 +81,7 @@
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE7E7;" />
                     </ctk:SettingsCard.HeaderIcon>
-                    <ComboBox
-                        Width="180"
-                        ItemsSource="{x:Bind ViewModel.NotificationModeOptions}"
-                        SelectedItem="{x:Bind ViewModel.SelectedConfirmedNotificationMode, Mode=TwoWay}" />
+                    <ComboBox ItemsSource="{x:Bind ViewModel.NotificationModeOptions}" SelectedItem="{x:Bind ViewModel.SelectedConfirmedNotificationMode, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
                 <!--  Tentative meeting notification  -->
@@ -98,10 +89,7 @@
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE7E7;" />
                     </ctk:SettingsCard.HeaderIcon>
-                    <ComboBox
-                        Width="180"
-                        ItemsSource="{x:Bind ViewModel.NotificationModeOptions}"
-                        SelectedItem="{x:Bind ViewModel.SelectedTentativeNotificationMode, Mode=TwoWay}" />
+                    <ComboBox ItemsSource="{x:Bind ViewModel.NotificationModeOptions}" SelectedItem="{x:Bind ViewModel.SelectedTentativeNotificationMode, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
                 <!--  Sill flashing  -->
@@ -155,10 +143,7 @@
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE804;" />
                     </ctk:SettingsCard.HeaderIcon>
-                    <ComboBox
-                        Width="160"
-                        ItemsSource="{x:Bind ViewModel.TravelModeOptions}"
-                        SelectedItem="{x:Bind ViewModel.SelectedTravelMode, Mode=TwoWay}" />
+                    <ComboBox ItemsSource="{x:Bind ViewModel.TravelModeOptions}" SelectedItem="{x:Bind ViewModel.SelectedTravelMode, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
                 <!--  Departure buffer  -->
@@ -179,10 +164,7 @@
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE707;" />
                     </ctk:SettingsCard.HeaderIcon>
-                    <ComboBox
-                        Width="160"
-                        ItemsSource="{x:Bind ViewModel.MapsProviderOptions}"
-                        SelectedItem="{x:Bind ViewModel.SelectedMapsProvider, Mode=TwoWay}" />
+                    <ComboBox ItemsSource="{x:Bind ViewModel.MapsProviderOptions}" SelectedItem="{x:Bind ViewModel.SelectedMapsProvider, Mode=TwoWay}" />
                 </ctk:SettingsCard>
             </StackPanel>
 

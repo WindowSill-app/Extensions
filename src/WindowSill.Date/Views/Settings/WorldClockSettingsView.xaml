@@ -111,14 +111,14 @@
                                     Spacing="4">
                                     <!--  Rename  -->
                                     <Button
-                                        Width="24"
-                                        Height="24"
+                                        Width="32"
+                                        Height="32"
                                         Padding="0"
                                         Background="Transparent"
                                         BorderBrush="Transparent">
                                         <FontIcon
                                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                            FontSize="12"
+                                            FontSize="16"
                                             Glyph="&#xE70F;" />
                                         <Button.Flyout>
                                             <Flyout>
@@ -155,15 +155,15 @@
                                     </Button>
                                     <!--  Delete  -->
                                     <Button
-                                        Width="24"
-                                        Height="24"
+                                        Width="32"
+                                        Height="32"
                                         Padding="0"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
                                         Command="{x:Bind RemoveCommand}">
                                         <FontIcon
                                             FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                            FontSize="12"
+                                            FontSize="16"
                                             Glyph="&#xE74D;" />
                                     </Button>
                                 </StackPanel>
@@ -185,10 +185,7 @@
                 <ctk:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE81E;" />
                 </ctk:SettingsCard.HeaderIcon>
-                <ComboBox
-                    Width="200"
-                    ItemsSource="{x:Bind ViewModel.PlacementOptions}"
-                    SelectedItem="{x:Bind ViewModel.SelectedPlacement, Mode=TwoWay}" />
+                <ComboBox ItemsSource="{x:Bind ViewModel.PlacementOptions}" SelectedItem="{x:Bind ViewModel.SelectedPlacement, Mode=TwoWay}" />
             </ctk:SettingsCard>
         </StackPanel>
 

@@ -40,6 +40,8 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
         _calendarAccountManager = calendarAccountManager;
         _worldClockService = worldClockService;
         _settingsProvider = settingsProvider;
+
+        _calendarAccountManager.CalendarDisplayChanged += OnCalendarDisplayChanged;
     }
 
     /// <summary>
@@ -201,8 +203,14 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
         }
 
         _disposed = true;
+        _calendarAccountManager.CalendarDisplayChanged -= OnCalendarDisplayChanged;
         OnPopupClosing();
         _loadEventsCts?.Dispose();
+    }
+
+    private void OnCalendarDisplayChanged(object? sender, EventArgs e)
+    {
+        LoadEventsForSelectedDayAsync().ForgetSafely();
     }
 
     partial void OnSelectedDateChanged(DateTimeOffset value)
