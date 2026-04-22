@@ -24,9 +24,4 @@ internal sealed partial class MeetingSettingsView : UserControl
     /// Gets the view model.
     /// </summary>
     internal MeetingSettingsViewModel ViewModel { get; }
-
-    private void SyncNowCard_Click(object sender, RoutedEventArgs e)
-    {
-        ViewModel.SyncNowCommand.Execute(null);
-    }
 }

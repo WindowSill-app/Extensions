@@ -53,8 +53,11 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     public SillSettingsView[]? SettingsViews =>
     [
         new SillSettingsView(
-            DisplayName,
-            new(() => new SettingsView(_settingsProvider, _calendarAccountManager, _pluginInfo.GetPluginContentDirectory()))),
+            "/WindowSill.Date/Settings/AccountsTabName".GetLocalizedString(),
+            new(() => new SettingsView(_settingsProvider, _calendarAccountManager, _pluginInfo.GetPluginContentDirectory(), _meetingStateService))),
+        new SillSettingsView(
+            "/WindowSill.Date/Display/DateTimeTabName".GetLocalizedString(),
+            new(() => new DateTimeSettingsView(_settingsProvider))),
         new SillSettingsView(
             "/WindowSill.Date/WorldClocks/SettingsTabName".GetLocalizedString(),
             new(() => new WorldClockSettingsView(_worldClockService))),

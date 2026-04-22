@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DateTimeTabName" xml:space="preserve">
+    <value>Date &amp; Time</value>
+  </data>
+  <data name="SillDisplayHeader.TextProperty" xml:space="preserve">
+    <value>Sill display</value>
+  </data>
+  <data name="PopupHeader.TextProperty" xml:space="preserve">
+    <value>Popup</value>
+  </data>
   <data name="GeneralSectionHeader.TextProperty" xml:space="preserve">
     <value>General</value>
   </data>

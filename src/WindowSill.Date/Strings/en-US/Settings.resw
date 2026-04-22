@@ -120,6 +120,9 @@
   <data name="AccountsSectionHeader.TextProperty" xml:space="preserve">
     <value>Accounts</value>
   </data>
+  <data name="AccountsTabName" xml:space="preserve">
+    <value>Accounts</value>
+  </data>
   <data name="AddAccount.TextProperty" xml:space="preserve">
     <value>Add account</value>
   </data>
@@ -185,5 +188,20 @@
   </data>
   <data name="ColorHeader.TextProperty" xml:space="preserve">
     <value>Color</value>
+  </data>
+  <data name="SyncHeader.TextProperty" xml:space="preserve">
+    <value>Sync</value>
+  </data>
+  <data name="PollInterval.HeaderProperty" xml:space="preserve">
+    <value>Sync interval</value>
+  </data>
+  <data name="PollInterval.DescriptionProperty" xml:space="preserve">
+    <value>How often to check for new or updated events</value>
+  </data>
+  <data name="SyncNow.HeaderProperty" xml:space="preserve">
+    <value>Sync now</value>
+  </data>
+  <data name="SyncNow.DescriptionProperty" xml:space="preserve">
+    <value>Refresh events from all connected accounts</value>
   </data>
 </root>

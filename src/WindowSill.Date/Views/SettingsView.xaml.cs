@@ -3,6 +3,7 @@ using Microsoft.UI;
 using WindowSill.API;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
+using WindowSill.Date.Core.Services;
 using WindowSill.Date.ViewModels;
 
 namespace WindowSill.Date.Views;
@@ -14,9 +15,10 @@ internal sealed partial class SettingsView : UserControl
     public SettingsView(
         ISettingsProvider settingsProvider,
         CalendarAccountManager calendarAccountManager,
-        string contentDirectory)
+        string contentDirectory,
+        MeetingStateService? meetingStateService = null)
     {
-        ViewModel = new SettingsViewModel(settingsProvider, calendarAccountManager, contentDirectory);
+        ViewModel = new SettingsViewModel(settingsProvider, calendarAccountManager, contentDirectory, meetingStateService);
         ViewModel.ConfirmRemoveAccountRequested += OnConfirmRemoveAccountRequested;
         InitializeComponent();
         PopulateAddAccountMenu();
@@ -207,5 +209,10 @@ internal sealed partial class SettingsView : UserControl
         };
 
         flyout.ShowAt(button);
+    }
+
+    private void SyncNowCard_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.SyncNowCommand.Execute(null);
     }
 }

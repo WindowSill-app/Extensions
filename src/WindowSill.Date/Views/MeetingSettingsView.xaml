@@ -87,38 +87,6 @@
                 </ctk:SettingsCard>
             </StackPanel>
 
-            <!--  ── Sync ──  -->
-            <StackPanel Spacing="2">
-                <TextBlock
-                    Margin="0,0,0,8"
-                    api:Uids.Uid="/WindowSill.Date/Meetings/SyncHeader"
-                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
-
-                <!--  Poll interval  -->
-                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/PollInterval">
-                    <ctk:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE895;" />
-                    </ctk:SettingsCard.HeaderIcon>
-                    <ComboBox
-                        Width="160"
-                        ItemsSource="{x:Bind ViewModel.PollIntervalOptions}"
-                        SelectedItem="{x:Bind ViewModel.SelectedPollInterval, Mode=TwoWay}" />
-                </ctk:SettingsCard>
-
-                <!--  Sync now  -->
-                <ctk:SettingsCard
-                    api:Uids.Uid="/WindowSill.Date/Meetings/SyncNow"
-                    Click="SyncNowCard_Click"
-                    IsClickEnabled="True">
-                    <ctk:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE72C;" />
-                    </ctk:SettingsCard.HeaderIcon>
-                    <ctk:SettingsCard.ActionIcon>
-                        <FontIcon Glyph="&#xE72C;" />
-                    </ctk:SettingsCard.ActionIcon>
-                </ctk:SettingsCard>
-            </StackPanel>
-
             <!--  ── Travel time ──  -->
             <StackPanel Spacing="2">
                 <TextBlock
