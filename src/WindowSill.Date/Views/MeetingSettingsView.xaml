@@ -67,20 +67,15 @@
                     api:Uids.Uid="/WindowSill.Date/Meetings/NotificationsHeader"
                     Style="{ThemeResource BodyStrongTextBlockStyle}" />
 
-                <!--  Full-screen notification  -->
-                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/FullScreenNotification">
-                    <ctk:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE740;" />
-                    </ctk:SettingsCard.HeaderIcon>
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.EnableFullScreenNotification, Mode=TwoWay}" />
-                </ctk:SettingsCard>
-
-                <!--  Toast notification  -->
-                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ToastNotification">
+                <!--  Notification mode  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/NotificationMode">
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE7E7;" />
                     </ctk:SettingsCard.HeaderIcon>
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.EnableToastNotification, Mode=TwoWay}" />
+                    <ComboBox
+                        Width="180"
+                        ItemsSource="{x:Bind ViewModel.NotificationModeOptions}"
+                        SelectedItem="{x:Bind ViewModel.SelectedNotificationMode, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
                 <!--  Sill flashing  -->

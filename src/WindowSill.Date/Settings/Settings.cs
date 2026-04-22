@@ -110,16 +110,10 @@ internal static class Settings
         = new(true, typeof(Settings).Assembly);
 
     /// <summary>
-    /// Whether to show a full-screen notification when a meeting starts.
+    /// The notification mode for upcoming meetings (None, FullScreen, or Toast).
     /// </summary>
-    internal static readonly SettingDefinition<bool> EnableFullScreenNotification
-        = new(true, typeof(Settings).Assembly);
-
-    /// <summary>
-    /// Whether to show a toast notification when a meeting starts.
-    /// </summary>
-    internal static readonly SettingDefinition<bool> EnableToastNotification
-        = new(false, typeof(Settings).Assembly);
+    internal static readonly SettingDefinition<NotificationMode> NotificationMode
+        = new(Date.Settings.NotificationMode.FullScreen, typeof(Settings).Assembly);
 
     /// <summary>
     /// Whether to show all-day events as meeting sill items.

@@ -70,21 +70,30 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     // ── Notifications ──
 
     /// <summary>
-    /// Gets or sets whether full-screen notifications are enabled.
+    /// Gets the notification mode options for the combo box.
     /// </summary>
-    public bool EnableFullScreenNotification
-    {
-        get => _settingsProvider.GetSetting(Settings.Settings.EnableFullScreenNotification);
-        set => _settingsProvider.SetSetting(Settings.Settings.EnableFullScreenNotification, value);
-    }
+    public IReadOnlyList<FormatOptionItem<NotificationMode>> NotificationModeOptions { get; } =
+    [
+        new(NotificationMode.None, "/WindowSill.Date/Meetings/NotificationModeNone".GetLocalizedString()),
+        new(NotificationMode.FullScreen, "/WindowSill.Date/Meetings/NotificationModeFullScreen".GetLocalizedString()),
+        new(NotificationMode.Toast, "/WindowSill.Date/Meetings/NotificationModeToast".GetLocalizedString()),
+    ];
 
     /// <summary>
-    /// Gets or sets whether toast notifications are enabled.
+    /// Gets or sets the selected notification mode.
     /// </summary>
-    public bool EnableToastNotification
+    public FormatOptionItem<NotificationMode>? SelectedNotificationMode
     {
-        get => _settingsProvider.GetSetting(Settings.Settings.EnableToastNotification);
-        set => _settingsProvider.SetSetting(Settings.Settings.EnableToastNotification, value);
+        get => NotificationModeOptions.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.NotificationMode));
+        set
+        {
+            if (value is not null
+                && value.Value != _settingsProvider.GetSetting(Settings.Settings.NotificationMode))
+            {
+                _settingsProvider.SetSetting(Settings.Settings.NotificationMode, value.Value);
+                OnPropertyChanged();
+            }
+        }
     }
 
     /// <summary>

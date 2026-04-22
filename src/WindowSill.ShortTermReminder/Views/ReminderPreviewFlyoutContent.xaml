@@ -8,20 +8,18 @@
     xmlns:views="using:WindowSill.ShortTermReminder.Views"
     mc:Ignorable="d">
 
-    <StackPanel
-        Spacing="8"
-        Padding="8">
+    <StackPanel Padding="8" Spacing="8">
 
         <RichTextBlock
+            VerticalAlignment="Center"
+            views:RichTextBlockLinkBehavior.LinkedText="{x:Bind ViewModel.ReminderTitle, Mode=OneWay}"
             FontSize="{ThemeResource BodyTextBlockFontSize}"
             TextTrimming="CharacterEllipsis"
-            TextWrapping="NoWrap"
-            VerticalAlignment="Center"
-            views:RichTextBlockLinkBehavior.LinkedText="{x:Bind ViewModel.ReminderTitle, Mode=OneWay}" />
+            TextWrapping="NoWrap" />
 
         <TextBlock
-            Style="{ThemeResource CaptionTextBlockStyle}"
             Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+            Style="{ThemeResource CaptionTextBlockStyle}"
             Text="{x:Bind ViewModel.PreviewTimeText, Mode=OneWay}" />
     </StackPanel>
 </UserControl>

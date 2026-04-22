@@ -145,6 +145,21 @@
   <data name="ToastNotification.DescriptionProperty" xml:space="preserve">
     <value>Show a Windows toast notification when a meeting starts</value>
   </data>
+  <data name="NotificationMode.HeaderProperty" xml:space="preserve">
+    <value>Notification style</value>
+  </data>
+  <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
+    <value>How to alert you when a meeting is about to start</value>
+  </data>
+  <data name="NotificationModeNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="NotificationModeFullScreen" xml:space="preserve">
+    <value>Full-screen</value>
+  </data>
+  <data name="NotificationModeToast" xml:space="preserve">
+    <value>Toast</value>
+  </data>
   <data name="EnableFlashing.HeaderProperty" xml:space="preserve">
     <value>Flash when meeting starts</value>
   </data>

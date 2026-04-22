@@ -138,8 +138,7 @@ internal sealed class MeetingStateService : IDisposable
         // Fast tick: update countdowns for all meetings.
         bool showJoinButton = _settingsProvider.GetSetting(Settings.Settings.ShowJoinButton);
         int departureBuffer = _settingsProvider.GetSetting(Settings.Settings.DepartureBufferMinutes);
-        bool enableFullScreen = _settingsProvider.GetSetting(Settings.Settings.EnableFullScreenNotification);
-        bool enableToast = _settingsProvider.GetSetting(Settings.Settings.EnableToastNotification);
+        NotificationMode notificationMode = _settingsProvider.GetSetting(Settings.Settings.NotificationMode);
         bool changed = false;
         List<MeetingKey>? toRemove = null;
 
@@ -160,32 +159,30 @@ internal sealed class MeetingStateService : IDisposable
             }
 
             // Centralized notification dispatch — different notification per phase.
-            if (vm.Phase != previousPhase)
+            if (notificationMode != NotificationMode.None && vm.Phase != previousPhase)
             {
                 if (vm.Phase == MeetingPhase.Departure && _departureNotified.Add(key))
                 {
                     MapsProvider mapsProvider = _settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider);
                     Settings.TravelMode travelMode = _settingsProvider.GetSetting(Settings.Settings.TravelMode);
 
-                    if (enableFullScreen)
+                    if (notificationMode == NotificationMode.FullScreen)
                     {
                         _notificationService.ShowDepartureNotificationAsync(
                             vm.Event, vm.TravelTimeText, mapsProvider, travelMode).ForgetSafely();
                     }
-
-                    if (enableToast)
+                    else
                     {
                         _notificationService.ShowDepartureToastNotification(vm.Event, vm.TravelTimeText);
                     }
                 }
                 else if (vm.Phase == MeetingPhase.Live && _liveNotified.Add(key))
                 {
-                    if (enableFullScreen)
+                    if (notificationMode == NotificationMode.FullScreen)
                     {
                         _notificationService.ShowNotificationAsync(vm.Event).ForgetSafely();
                     }
-
-                    if (enableToast)
+                    else
                     {
                         _notificationService.ShowToastNotification(vm.Event);
                     }
