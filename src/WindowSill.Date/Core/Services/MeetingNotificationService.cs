@@ -68,11 +68,19 @@ internal sealed class MeetingNotificationService
     {
         try
         {
-            AppNotification notification = new AppNotificationBuilder()
+            var builder = new AppNotificationBuilder()
                 .AddText(calendarEvent.Title)
                 .AddText(FormatMeetingTime(calendarEvent))
-                .SetAudioEvent(AppNotificationSoundEvent.Reminder)
-                .BuildNotification();
+                .SetAudioEvent(AppNotificationSoundEvent.Reminder);
+
+            if (calendarEvent.VideoCall?.JoinUrl is Uri joinUrl)
+            {
+                builder.AddButton(new AppNotificationButton(
+                    calendarEvent.VideoCall.Provider.GetJoinButtonText())
+                    .SetInvokeUri(joinUrl));
+            }
+
+            AppNotification notification = builder.BuildNotification();
             notification.ExpiresOnReboot = true;
             notification.Priority = AppNotificationPriority.High;
 

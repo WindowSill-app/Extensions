@@ -37,12 +37,9 @@ internal static class MeetingFlyoutBuilder
         // ── Join action (top, if video call exists) ──
         if (viewModel.HasVideoCall)
         {
-            string providerName = viewModel.VideoCallProviderName ?? "Meeting";
             var joinItem = new MenuFlyoutItem
             {
-                Text = string.Format(
-                    "/WindowSill.Date/Meetings/JoinWith".GetLocalizedString(),
-                    providerName),
+                Text = viewModel.Event.VideoCall!.Provider.GetJoinButtonText(),
                 Icon = new FontIcon { Glyph = "\uE714" },
                 KeyboardAcceleratorTextOverride = "J",
             };

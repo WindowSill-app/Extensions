@@ -67,6 +67,12 @@
   <data name="NotificationDismiss.TextProperty" xml:space="preserve">
     <value>Dismiss</value>
   </data>
+  <data name="ToastJoinButton" xml:space="preserve">
+    <value>Join meeting</value>
+  </data>
+  <data name="ToastJoinOnProvider" xml:space="preserve">
+    <value>Join on {0}</value>
+  </data>
   <data name="InNMinutes" xml:space="preserve">
     <value>in {0} min</value>
   </data>

@@ -33,6 +33,8 @@ internal sealed partial class MeetingNotificationViewModel : ObservableObject
         HasVideoCall = calendarEvent.VideoCall is not null;
         VideoCallUrl = calendarEvent.VideoCall?.JoinUrl;
         VideoCallProviderName = calendarEvent.VideoCall?.Provider.ToString();
+        JoinButtonText = calendarEvent.VideoCall?.Provider.GetJoinButtonText()
+            ?? "/WindowSill.Date/Meetings/ToastJoinButton".GetLocalizedString();
     }
 
     /// <summary>
@@ -60,6 +62,11 @@ internal sealed partial class MeetingNotificationViewModel : ObservableObject
     /// Gets the video call provider name (e.g., "MicrosoftTeams"), if available.
     /// </summary>
     public string? VideoCallProviderName { get; }
+
+    /// <summary>
+    /// Gets the localized join button text (e.g., "Join on Microsoft Teams").
+    /// </summary>
+    public string JoinButtonText { get; }
 
     /// <summary>
     /// Joins the video call and dismisses the notification.
