@@ -26,15 +26,12 @@ internal sealed class MeetingViewListAdapter : IDisposable
     /// </summary>
     private readonly Dictionary<MeetingKey, ViewListEntry> _entries = [];
 
+    private Action? _requestReorder;
     private bool _disposed;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MeetingViewListAdapter"/> class.
     /// </summary>
-    /// <param name="stateService">The shared meeting state singleton.</param>
-    /// <param name="worldClockService">The world clock service for flyout time zones.</param>
-    /// <param name="settingsProvider">The settings provider.</param>
-    /// <param name="viewList">This DateSill instance's ViewList.</param>
     internal MeetingViewListAdapter(
         MeetingStateService stateService,
         WorldClockService worldClockService,
@@ -48,6 +45,17 @@ internal sealed class MeetingViewListAdapter : IDisposable
 
         _stateService.MeetingsChanged += OnMeetingsChanged;
     }
+
+    /// <summary>
+    /// Sets the callback invoked after items are added or removed to reorder the ViewList.
+    /// </summary>
+    internal Action? RequestReorder { set => _requestReorder = value; }
+
+    /// <summary>
+    /// Gets the sill items owned by this adapter for ordering purposes.
+    /// </summary>
+    internal IReadOnlyCollection<SillListViewItem> GetSillItems()
+        => _entries.Values.Select(e => (SillListViewItem)e.SillItem).ToList();
 
     /// <summary>
     /// Performs the initial sync with whatever meetings already exist.
@@ -168,10 +176,13 @@ internal sealed class MeetingViewListAdapter : IDisposable
 
             _entries[vm.Key] = new ViewListEntry(vm, sillItem, flashHandler);
 
-            // Insert before the date bar item (which is always last).
-            int insertIndex = Math.Max(0, _viewList.Count - 1);
-            _viewList.Insert(insertIndex, sillItem);
+            if (!_viewList.Contains(sillItem))
+            {
+                _viewList.Add(sillItem);
+            }
         }
+
+        _requestReorder?.Invoke();
     }
 
     /// <summary>

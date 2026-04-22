@@ -56,6 +56,18 @@ internal static class Settings
     internal static readonly SettingDefinition<bool> ShowPastEvents
         = new(true, typeof(Settings).Assembly);
 
+    /// <summary>
+    /// Where pinned world clocks appear relative to the main date sill in the bar.
+    /// </summary>
+    internal static readonly SettingDefinition<WorldClockPlacement> WorldClockPlacement
+        = new(Date.Settings.WorldClockPlacement.AfterDateSill, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Where upcoming meeting sills appear relative to world clocks and the date sill.
+    /// </summary>
+    internal static readonly SettingDefinition<MeetingPlacement> MeetingPlacement
+        = new(Date.Settings.MeetingPlacement.BeforeAll, typeof(Settings).Assembly);
+
     // ──────────────────────────────────────────────
     //  Travel time settings
     // ──────────────────────────────────────────────

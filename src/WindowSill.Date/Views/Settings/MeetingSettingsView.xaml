@@ -23,6 +23,17 @@
                     api:Uids.Uid="/WindowSill.Date/Meetings/UpcomingSillsHeader"
                     Style="{ThemeResource BodyStrongTextBlockStyle}" />
 
+                <!--  Bar placement  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/MeetingPlacement">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE81E;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox
+                        Width="200"
+                        ItemsSource="{x:Bind ViewModel.PlacementOptions}"
+                        SelectedItem="{x:Bind ViewModel.SelectedPlacement, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
                 <!--  Reminder window  -->
                 <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ReminderWindow">
                     <ctk:SettingsCard.HeaderIcon>
@@ -107,9 +118,7 @@
                 </ctk:SettingsCard>
 
                 <!--  OpenRouteService API key  -->
-                <ctk:SettingsExpander
-                    api:Uids.Uid="/WindowSill.Date/Meetings/OrsApiKey"
-                    Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ctk:SettingsExpander api:Uids.Uid="/WindowSill.Date/Meetings/OrsApiKey" Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ctk:SettingsExpander.HeaderIcon>
                         <FontIcon Glyph="&#xE72E;" />
                     </ctk:SettingsExpander.HeaderIcon>
@@ -131,9 +140,7 @@
                 </ctk:SettingsExpander>
 
                 <!--  Travel mode  -->
-                <ctk:SettingsCard
-                    api:Uids.Uid="/WindowSill.Date/Meetings/TravelMode"
-                    Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/TravelMode" Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE804;" />
                     </ctk:SettingsCard.HeaderIcon>
@@ -144,9 +151,7 @@
                 </ctk:SettingsCard>
 
                 <!--  Departure buffer  -->
-                <ctk:SettingsCard
-                    api:Uids.Uid="/WindowSill.Date/Meetings/DepartureBuffer"
-                    Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/DepartureBuffer" Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE823;" />
                     </ctk:SettingsCard.HeaderIcon>
@@ -159,9 +164,7 @@
                 </ctk:SettingsCard>
 
                 <!--  Maps provider  -->
-                <ctk:SettingsCard
-                    api:Uids.Uid="/WindowSill.Date/Meetings/PreferredMapsProvider"
-                    Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/PreferredMapsProvider" Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE707;" />
                     </ctk:SettingsCard.HeaderIcon>

@@ -106,6 +106,18 @@
   <data name="UpcomingSillsHeader.TextProperty" xml:space="preserve">
     <value>Upcoming meeting sills</value>
   </data>
+  <data name="MeetingPlacement.HeaderProperty" xml:space="preserve">
+    <value>Position in bar</value>
+  </data>
+  <data name="MeetingPlacement.DescriptionProperty" xml:space="preserve">
+    <value>Where meeting sills appear relative to the date sill and world clocks</value>
+  </data>
+  <data name="PlacementBefore" xml:space="preserve">
+    <value>Before everything</value>
+  </data>
+  <data name="PlacementAfter" xml:space="preserve">
+    <value>After everything</value>
+  </data>
   <data name="ReminderWindow.HeaderProperty" xml:space="preserve">
     <value>Reminder window</value>
   </data>

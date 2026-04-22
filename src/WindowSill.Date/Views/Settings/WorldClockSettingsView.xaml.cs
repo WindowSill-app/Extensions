@@ -1,3 +1,4 @@
+using WindowSill.API;
 using WindowSill.Date.Core.Services;
 using WindowSill.Date.ViewModels;
 
@@ -13,9 +14,10 @@ internal sealed partial class WorldClockSettingsView : UserControl
     /// Initializes a new instance of the <see cref="WorldClockSettingsView"/> class.
     /// </summary>
     /// <param name="worldClockService">The world clock service for CRUD operations.</param>
-    public WorldClockSettingsView(WorldClockService worldClockService)
+    /// <param name="settingsProvider">The settings provider.</param>
+    public WorldClockSettingsView(WorldClockService worldClockService, ISettingsProvider settingsProvider)
     {
-        ViewModel = new WorldClockSettingsViewModel(worldClockService);
+        ViewModel = new WorldClockSettingsViewModel(worldClockService, settingsProvider);
         InitializeComponent();
     }
 

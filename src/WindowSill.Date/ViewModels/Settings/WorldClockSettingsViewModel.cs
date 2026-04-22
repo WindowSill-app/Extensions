@@ -2,8 +2,10 @@ using System.Collections.ObjectModel;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
+using WindowSill.API;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Core.Services;
+using WindowSill.Date.Settings;
 
 namespace WindowSill.Date.ViewModels;
 
@@ -14,14 +16,17 @@ namespace WindowSill.Date.ViewModels;
 internal sealed partial class WorldClockSettingsViewModel : ObservableObject
 {
     private readonly WorldClockService _worldClockService;
+    private readonly ISettingsProvider _settingsProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WorldClockSettingsViewModel"/> class.
     /// </summary>
     /// <param name="worldClockService">The world clock service for CRUD operations.</param>
-    public WorldClockSettingsViewModel(WorldClockService worldClockService)
+    /// <param name="settingsProvider">The settings provider.</param>
+    public WorldClockSettingsViewModel(WorldClockService worldClockService, ISettingsProvider settingsProvider)
     {
         _worldClockService = worldClockService;
+        _settingsProvider = settingsProvider;
         LoadEntries();
     }
 
@@ -74,6 +79,35 @@ internal sealed partial class WorldClockSettingsViewModel : ObservableObject
     {
         var orderedIds = Entries.Select(e => e.TimeZoneId).ToList();
         _worldClockService.ReorderEntries(orderedIds);
+    }
+
+    // ── Bar placement ──
+
+    /// <summary>
+    /// Gets the available world clock placement options.
+    /// </summary>
+    public IReadOnlyList<FormatOptionItem<WorldClockPlacement>> PlacementOptions { get; } =
+    [
+        new(WorldClockPlacement.BeforeDateSill, "/WindowSill.Date/WorldClocks/PlacementBefore".GetLocalizedString()),
+        new(WorldClockPlacement.AfterDateSill, "/WindowSill.Date/WorldClocks/PlacementAfter".GetLocalizedString()),
+        new(WorldClockPlacement.ByTimezone, "/WindowSill.Date/WorldClocks/PlacementByTimezone".GetLocalizedString()),
+    ];
+
+    /// <summary>
+    /// Gets or sets the selected world clock placement.
+    /// </summary>
+    public FormatOptionItem<WorldClockPlacement>? SelectedPlacement
+    {
+        get => PlacementOptions.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.WorldClockPlacement));
+        set
+        {
+            if (value is not null
+                && value.Value != _settingsProvider.GetSetting(Settings.Settings.WorldClockPlacement))
+            {
+                _settingsProvider.SetSetting(Settings.Settings.WorldClockPlacement, value.Value);
+                OnPropertyChanged();
+            }
+        }
     }
 
     private void LoadEntries()

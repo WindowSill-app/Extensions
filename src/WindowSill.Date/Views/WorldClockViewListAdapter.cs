@@ -16,7 +16,7 @@ namespace WindowSill.Date.Views;
 /// and keeps them in sync with <see cref="WorldClockService"/>. Owns a 1-second
 /// timer to update displayed times.
 /// </summary>
-internal sealed class WorldClockViewListAdapter : IDisposable
+internal sealed partial class WorldClockViewListAdapter : IDisposable
 {
     private readonly WorldClockService _worldClockService;
     private readonly ISettingsProvider _settingsProvider;
@@ -24,6 +24,7 @@ internal sealed class WorldClockViewListAdapter : IDisposable
 
     private readonly Dictionary<string, ViewListEntry> _entries = [];
     private DispatcherQueueTimer? _timer;
+    private Action? _requestReorder;
     private bool _disposed;
 
     /// <summary>
@@ -43,6 +44,16 @@ internal sealed class WorldClockViewListAdapter : IDisposable
 
         _worldClockService.EntriesChanged += OnEntriesChanged;
     }
+
+    /// <summary>
+    /// Sets the callback invoked after items are added or removed to reorder the ViewList.
+    /// </summary>
+    internal Action? RequestReorder { set => _requestReorder = value; }
+
+    /// <summary>
+    /// Gets the current world clock sill entries for ordering purposes.
+    /// </summary>
+    internal IReadOnlyCollection<ViewListEntry> GetEntries() => _entries.Values;
 
     /// <summary>
     /// Performs the initial sync and starts the update timer.
@@ -151,10 +162,13 @@ internal sealed class WorldClockViewListAdapter : IDisposable
 
             _entries[wcEntry.TimeZoneId] = new ViewListEntry(vm, sillItem);
 
-            // Insert before the date bar item (always last).
-            int insertIndex = Math.Max(0, _viewList.Count - 1);
-            _viewList.Insert(insertIndex, sillItem);
+            if (!_viewList.Contains(sillItem))
+            {
+                _viewList.Add(sillItem);
+            }
         }
+
+        _requestReorder?.Invoke();
     }
 
     /// <summary>
@@ -167,6 +181,4 @@ internal sealed class WorldClockViewListAdapter : IDisposable
             ? CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern
             : userFormat.ToFormatString(showSeconds: false);
     }
-
-    private sealed record ViewListEntry(WorldClockSillItemViewModel Vm, SillListViewPopupItem SillItem);
 }

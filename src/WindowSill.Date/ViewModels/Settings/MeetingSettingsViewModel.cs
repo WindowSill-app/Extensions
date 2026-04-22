@@ -24,6 +24,32 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     // ── Upcoming meeting sills ──
 
     /// <summary>
+    /// Gets the available meeting placement options.
+    /// </summary>
+    public IReadOnlyList<FormatOptionItem<MeetingPlacement>> PlacementOptions { get; } =
+    [
+        new(MeetingPlacement.BeforeAll, "/WindowSill.Date/Meetings/PlacementBefore".GetLocalizedString()),
+        new(MeetingPlacement.AfterAll, "/WindowSill.Date/Meetings/PlacementAfter".GetLocalizedString()),
+    ];
+
+    /// <summary>
+    /// Gets or sets the selected meeting placement.
+    /// </summary>
+    public FormatOptionItem<MeetingPlacement>? SelectedPlacement
+    {
+        get => PlacementOptions.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.MeetingPlacement));
+        set
+        {
+            if (value is not null
+                && value.Value != _settingsProvider.GetSetting(Settings.Settings.MeetingPlacement))
+            {
+                _settingsProvider.SetSetting(Settings.Settings.MeetingPlacement, value.Value);
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets the available reminder window options in minutes.
     /// </summary>
     public int[] ReminderWindowOptions { get; } = [5, 10, 15, 30, 60];

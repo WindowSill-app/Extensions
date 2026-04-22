@@ -91,4 +91,22 @@
   <data name="ShowInBarHint.TextProperty" xml:space="preserve">
     <value>Pin this clock to the WindowSill bar for quick access.</value>
   </data>
+  <data name="BarPlacementHeader.TextProperty" xml:space="preserve">
+    <value>Bar placement</value>
+  </data>
+  <data name="ClockPlacement.HeaderProperty" xml:space="preserve">
+    <value>Pinned clock position</value>
+  </data>
+  <data name="ClockPlacement.DescriptionProperty" xml:space="preserve">
+    <value>Where pinned clocks appear relative to the date sill in the bar</value>
+  </data>
+  <data name="PlacementBefore" xml:space="preserve">
+    <value>Before date sill</value>
+  </data>
+  <data name="PlacementAfter" xml:space="preserve">
+    <value>After date sill</value>
+  </data>
+  <data name="PlacementByTimezone" xml:space="preserve">
+    <value>By timezone (earlier before, later after)</value>
+  </data>
 </root>
