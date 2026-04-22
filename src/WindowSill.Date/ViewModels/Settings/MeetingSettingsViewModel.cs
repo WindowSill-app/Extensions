@@ -112,6 +112,22 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     // ── Travel time ──
 
     /// <summary>
+    /// Gets or sets whether travel time estimation is enabled.
+    /// </summary>
+    public bool EnableTravelTime
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.EnableTravelTime);
+        set
+        {
+            if (value != _settingsProvider.GetSetting(Settings.Settings.EnableTravelTime))
+            {
+                _settingsProvider.SetSetting(Settings.Settings.EnableTravelTime, value);
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the OpenRouteService API key.
     /// </summary>
     public string OpenRouteServiceApiKey

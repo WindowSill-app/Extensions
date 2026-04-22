@@ -86,6 +86,12 @@ internal static class Settings
         = new(Date.Settings.TravelMode.Driving, typeof(Settings).Assembly);
 
     /// <summary>
+    /// Whether travel time estimation is enabled.
+    /// </summary>
+    internal static readonly SettingDefinition<bool> EnableTravelTime
+        = new(true, typeof(Settings).Assembly);
+
+    /// <summary>
     /// How many minutes before a meeting the sill item appears.
     /// </summary>
     internal static readonly SettingDefinition<int> ReminderWindowMinutes

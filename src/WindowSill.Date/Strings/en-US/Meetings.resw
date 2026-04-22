@@ -184,6 +184,12 @@
   <data name="TravelHeader.TextProperty" xml:space="preserve">
     <value>Travel time</value>
   </data>
+  <data name="EnableTravelTime.HeaderProperty" xml:space="preserve">
+    <value>Travel time reminders</value>
+  </data>
+  <data name="EnableTravelTime.DescriptionProperty" xml:space="preserve">
+    <value>Estimate travel time and notify you when it's time to leave for in-person meetings</value>
+  </data>
   <data name="OrsApiKey.HeaderProperty" xml:space="preserve">
     <value>OpenRouteService API key</value>
   </data>

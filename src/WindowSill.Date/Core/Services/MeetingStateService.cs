@@ -246,13 +246,16 @@ internal sealed class MeetingStateService : IDisposable
             bool changed = SyncMeetings(filtered, showJoinButton, departureBuffer);
 
             // Request travel time for new meetings with locations.
-            List<MeetingSillItemViewModel> needsTravel = _meetings.Values
-                .Where(vm => vm.HasLocation && vm.TravelTimeEstimate is null)
-                .ToList();
-
-            foreach (MeetingSillItemViewModel vm in needsTravel)
+            if (_settingsProvider.GetSetting(Settings.Settings.EnableTravelTime))
             {
-                RequestTravelTimeAsync(vm).ForgetSafely();
+                List<MeetingSillItemViewModel> needsTravel = _meetings.Values
+                    .Where(vm => vm.HasLocation && vm.TravelTimeEstimate is null)
+                    .ToList();
+
+                foreach (MeetingSillItemViewModel vm in needsTravel)
+                {
+                    RequestTravelTimeAsync(vm).ForgetSafely();
+                }
             }
 
             if (changed)
