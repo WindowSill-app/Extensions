@@ -101,17 +101,34 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     ];
 
     /// <summary>
-    /// Gets or sets the selected notification mode.
+    /// Gets or sets the notification mode for confirmed meetings.
     /// </summary>
-    public FormatOptionItem<NotificationMode>? SelectedNotificationMode
+    public FormatOptionItem<NotificationMode>? SelectedConfirmedNotificationMode
     {
-        get => NotificationModeOptions.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.NotificationMode));
+        get => NotificationModeOptions.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.ConfirmedNotificationMode));
         set
         {
             if (value is not null
-                && value.Value != _settingsProvider.GetSetting(Settings.Settings.NotificationMode))
+                && value.Value != _settingsProvider.GetSetting(Settings.Settings.ConfirmedNotificationMode))
             {
-                _settingsProvider.SetSetting(Settings.Settings.NotificationMode, value.Value);
+                _settingsProvider.SetSetting(Settings.Settings.ConfirmedNotificationMode, value.Value);
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the notification mode for tentative / not-responded meetings.
+    /// </summary>
+    public FormatOptionItem<NotificationMode>? SelectedTentativeNotificationMode
+    {
+        get => NotificationModeOptions.FirstOrDefault(i => i.Value == _settingsProvider.GetSetting(Settings.Settings.TentativeNotificationMode));
+        set
+        {
+            if (value is not null
+                && value.Value != _settingsProvider.GetSetting(Settings.Settings.TentativeNotificationMode))
+            {
+                _settingsProvider.SetSetting(Settings.Settings.TentativeNotificationMode, value.Value);
                 OnPropertyChanged();
             }
         }

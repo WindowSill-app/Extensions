@@ -128,10 +128,16 @@ internal static class Settings
         = new(true, typeof(Settings).Assembly);
 
     /// <summary>
-    /// The notification mode for upcoming meetings (None, FullScreen, or Toast).
+    /// The notification mode for confirmed meetings (accepted or organized).
     /// </summary>
-    internal static readonly SettingDefinition<NotificationMode> NotificationMode
-        = new(Date.Settings.NotificationMode.FullScreen, typeof(Settings).Assembly);
+    internal static readonly SettingDefinition<NotificationMode> ConfirmedNotificationMode
+        = new(NotificationMode.FullScreen, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// The notification mode for tentative or not-responded meetings.
+    /// </summary>
+    internal static readonly SettingDefinition<NotificationMode> TentativeNotificationMode
+        = new(NotificationMode.Toast, typeof(Settings).Assembly);
 
     /// <summary>
     /// Whether to show all-day events as meeting sill items.

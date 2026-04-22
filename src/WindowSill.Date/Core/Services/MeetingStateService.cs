@@ -138,7 +138,8 @@ internal sealed class MeetingStateService : IDisposable
         // Fast tick: update countdowns for all meetings.
         bool showJoinButton = _settingsProvider.GetSetting(Settings.Settings.ShowJoinButton);
         int departureBuffer = _settingsProvider.GetSetting(Settings.Settings.DepartureBufferMinutes);
-        NotificationMode notificationMode = _settingsProvider.GetSetting(Settings.Settings.NotificationMode);
+        NotificationMode confirmedMode = _settingsProvider.GetSetting(Settings.Settings.ConfirmedNotificationMode);
+        NotificationMode tentativeMode = _settingsProvider.GetSetting(Settings.Settings.TentativeNotificationMode);
         bool changed = false;
         List<MeetingKey>? toRemove = null;
 
@@ -157,6 +158,12 @@ internal sealed class MeetingStateService : IDisposable
                 toRemove ??= [];
                 toRemove.Add(key);
             }
+
+            // Pick the notification mode based on event response status.
+            bool isTentative = vm.Event.ResponseStatus
+                is AttendeeResponseStatus.Tentative
+                or AttendeeResponseStatus.NotResponded;
+            NotificationMode notificationMode = isTentative ? tentativeMode : confirmedMode;
 
             // Centralized notification dispatch — different notification per phase.
             if (notificationMode != NotificationMode.None && vm.Phase != previousPhase)

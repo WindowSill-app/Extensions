@@ -163,6 +163,18 @@
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
     <value>How to alert you when a meeting is about to start</value>
   </data>
+  <data name="ConfirmedNotification.HeaderProperty" xml:space="preserve">
+    <value>Notification for confirmed meetings</value>
+  </data>
+  <data name="ConfirmedNotification.DescriptionProperty" xml:space="preserve">
+    <value>Meetings you accepted or organized</value>
+  </data>
+  <data name="TentativeNotification.HeaderProperty" xml:space="preserve">
+    <value>Notification for tentative meetings</value>
+  </data>
+  <data name="TentativeNotification.DescriptionProperty" xml:space="preserve">
+    <value>Meetings you haven't responded to or marked as tentative</value>
+  </data>
   <data name="NotificationModeNone" xml:space="preserve">
     <value>None</value>
   </data>

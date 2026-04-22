@@ -82,15 +82,26 @@
                     api:Uids.Uid="/WindowSill.Date/Meetings/NotificationsHeader"
                     Style="{ThemeResource BodyStrongTextBlockStyle}" />
 
-                <!--  Notification mode  -->
-                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/NotificationMode">
+                <!--  Confirmed meeting notification  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ConfirmedNotification">
                     <ctk:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE7E7;" />
                     </ctk:SettingsCard.HeaderIcon>
                     <ComboBox
                         Width="180"
                         ItemsSource="{x:Bind ViewModel.NotificationModeOptions}"
-                        SelectedItem="{x:Bind ViewModel.SelectedNotificationMode, Mode=TwoWay}" />
+                        SelectedItem="{x:Bind ViewModel.SelectedConfirmedNotificationMode, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Tentative meeting notification  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/TentativeNotification">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE7E7;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox
+                        Width="180"
+                        ItemsSource="{x:Bind ViewModel.NotificationModeOptions}"
+                        SelectedItem="{x:Bind ViewModel.SelectedTentativeNotificationMode, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
                 <!--  Sill flashing  -->
