@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.Composition;
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Windows.AppNotifications;
+using Microsoft.Windows.AppNotifications.Builder;
 
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -57,6 +59,63 @@ internal sealed class MeetingNotificationService
                 new DepartureNotificationViewModel(calendarEvent, travelTimeText, mapsProvider, travelMode, closeWindow),
                 playAudio: isFirst && playAudio),
             calendarEvent.Title);
+    }
+
+    /// <summary>
+    /// Shows a toast notification for a meeting that is starting.
+    /// </summary>
+    internal void ShowToastNotification(CalendarEvent calendarEvent)
+    {
+        try
+        {
+            AppNotification notification = new AppNotificationBuilder()
+                .AddText(calendarEvent.Title)
+                .AddText(FormatMeetingTime(calendarEvent))
+                .SetAudioEvent(AppNotificationSoundEvent.Reminder)
+                .BuildNotification();
+            notification.ExpiresOnReboot = true;
+            notification.Priority = AppNotificationPriority.High;
+
+            AppNotificationManager.Default.Show(notification);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to show toast for: {Title}", calendarEvent.Title);
+        }
+    }
+
+    /// <summary>
+    /// Shows a toast notification for a departure reminder.
+    /// </summary>
+    internal void ShowDepartureToastNotification(CalendarEvent calendarEvent, string? travelTimeText)
+    {
+        try
+        {
+            string subtitle = travelTimeText is not null
+                ? $"{FormatMeetingTime(calendarEvent)} · {travelTimeText}"
+                : FormatMeetingTime(calendarEvent);
+
+            AppNotification notification = new AppNotificationBuilder()
+                .AddText(calendarEvent.Title)
+                .AddText(subtitle)
+                .SetAudioEvent(AppNotificationSoundEvent.Reminder)
+                .BuildNotification();
+            notification.ExpiresOnReboot = true;
+            notification.Priority = AppNotificationPriority.High;
+
+            AppNotificationManager.Default.Show(notification);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to show departure toast for: {Title}", calendarEvent.Title);
+        }
+    }
+
+    private static string FormatMeetingTime(CalendarEvent calendarEvent)
+    {
+        string start = calendarEvent.StartTime.LocalDateTime.ToString("t", System.Globalization.CultureInfo.CurrentCulture);
+        string end = calendarEvent.EndTime.LocalDateTime.ToString("t", System.Globalization.CultureInfo.CurrentCulture);
+        return $"{start} – {end}";
     }
 
     /// <summary>

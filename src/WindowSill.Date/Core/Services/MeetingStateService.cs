@@ -139,6 +139,7 @@ internal sealed class MeetingStateService : IDisposable
         bool showJoinButton = _settingsProvider.GetSetting(Settings.Settings.ShowJoinButton);
         int departureBuffer = _settingsProvider.GetSetting(Settings.Settings.DepartureBufferMinutes);
         bool enableFullScreen = _settingsProvider.GetSetting(Settings.Settings.EnableFullScreenNotification);
+        bool enableToast = _settingsProvider.GetSetting(Settings.Settings.EnableToastNotification);
         bool changed = false;
         List<MeetingKey>? toRemove = null;
 
@@ -159,18 +160,35 @@ internal sealed class MeetingStateService : IDisposable
             }
 
             // Centralized notification dispatch — different notification per phase.
-            if (enableFullScreen && vm.Phase != previousPhase)
+            if (vm.Phase != previousPhase)
             {
                 if (vm.Phase == MeetingPhase.Departure && _departureNotified.Add(key))
                 {
                     MapsProvider mapsProvider = _settingsProvider.GetSetting(Settings.Settings.PreferredMapsProvider);
                     Settings.TravelMode travelMode = _settingsProvider.GetSetting(Settings.Settings.TravelMode);
-                    _notificationService.ShowDepartureNotificationAsync(
-                        vm.Event, vm.TravelTimeText, mapsProvider, travelMode).ForgetSafely();
+
+                    if (enableFullScreen)
+                    {
+                        _notificationService.ShowDepartureNotificationAsync(
+                            vm.Event, vm.TravelTimeText, mapsProvider, travelMode).ForgetSafely();
+                    }
+
+                    if (enableToast)
+                    {
+                        _notificationService.ShowDepartureToastNotification(vm.Event, vm.TravelTimeText);
+                    }
                 }
                 else if (vm.Phase == MeetingPhase.Live && _liveNotified.Add(key))
                 {
-                    _notificationService.ShowNotificationAsync(vm.Event).ForgetSafely();
+                    if (enableFullScreen)
+                    {
+                        _notificationService.ShowNotificationAsync(vm.Event).ForgetSafely();
+                    }
+
+                    if (enableToast)
+                    {
+                        _notificationService.ShowToastNotification(vm.Event);
+                    }
                 }
             }
         }
