@@ -125,7 +125,7 @@ internal static class MeetingFlyoutBuilder
             foreach (WorldClockEntry clock in worldClocks)
             {
                 NodaTime.DateTimeZone zone = worldClockService.GetTimeZone(clock.TimeZoneId);
-                NodaTime.Instant meetingStart = NodaTime.Instant.FromDateTimeOffset(viewModel.Event.StartTime);
+                var meetingStart = NodaTime.Instant.FromDateTimeOffset(viewModel.Event.StartTime);
                 NodaTime.ZonedDateTime remoteTime = meetingStart.InZone(zone);
                 string formattedTime = remoteTime.ToDateTimeUnspecified()
                     .ToString("HH:mm", System.Globalization.CultureInfo.CurrentCulture);

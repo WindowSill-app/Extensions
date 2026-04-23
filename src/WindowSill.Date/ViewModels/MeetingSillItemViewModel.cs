@@ -17,7 +17,7 @@ internal sealed partial class MeetingSillItemViewModel : ObservableObject, IDisp
     /// <summary>
     /// Duration the "Live" phase lasts before transitioning to "Elapsed".
     /// </summary>
-    private static readonly TimeSpan LivePhaseDuration = TimeSpan.FromMinutes(1);
+    private static readonly TimeSpan livePhaseDuration = TimeSpan.FromMinutes(1);
 
     private bool _disposed;
     private bool _flashFired;
@@ -322,7 +322,7 @@ internal sealed partial class MeetingSillItemViewModel : ObservableObject, IDisp
         {
             // Meeting has started.
             TimeSpan elapsed = -timeUntilStart;
-            if (elapsed < LivePhaseDuration)
+            if (elapsed < livePhaseDuration)
             {
                 return MeetingPhase.Live;
             }

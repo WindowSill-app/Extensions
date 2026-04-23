@@ -182,7 +182,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
         WorldClockPlacement clockPlacement = _settingsProvider.GetSetting(Settings.Settings.WorldClockPlacement);
         MeetingPlacement meetingPlacement = _settingsProvider.GetSetting(Settings.Settings.MeetingPlacement);
 
-        HashSet<SillListViewItem> meetingItems = _viewListAdapter.GetSillItems().ToHashSet();
+        var meetingItems = _viewListAdapter.GetSillItems().ToHashSet();
 
         // Partition world clocks into before/after groups.
         var clocksBefore = new List<SillListViewItem>();

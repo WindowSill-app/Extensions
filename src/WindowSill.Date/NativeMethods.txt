@@ -5,3 +5,6 @@ DWM_WINDOW_CORNER_PREFERENCE
 
 // Monitor Enumeration
 EnumDisplayMonitors
+
+// User32
+GetActiveWindow

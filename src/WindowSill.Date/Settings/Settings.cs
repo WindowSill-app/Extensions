@@ -68,10 +68,6 @@ internal static class Settings
     internal static readonly SettingDefinition<MeetingPlacement> MeetingPlacement
         = new(Date.Settings.MeetingPlacement.BeforeAll, typeof(Settings).Assembly);
 
-    // ──────────────────────────────────────────────
-    //  Travel time settings
-    // ──────────────────────────────────────────────
-
     /// <summary>
     /// The user's OpenRouteService API key for routing. Empty = feature disabled.
     /// </summary>

@@ -72,7 +72,7 @@ public sealed class ImageHelperSill : ISillActivatedByDragAndDrop, ISillListView
             ViewList.Clear();
             if (compatibleFiles.Count == 1)
             {
-                var resizePopup = CreateResizePopup(compatibleFiles[0]);
+                ResizeImagePopup resizePopup = CreateResizePopup(compatibleFiles[0]);
                 ViewList.Add(
                     new SillListViewPopupItem(
                         "/WindowSill.ImageHelper/ResizeImage/Title".GetLocalizedString(),
@@ -80,14 +80,14 @@ public sealed class ImageHelperSill : ISillActivatedByDragAndDrop, ISillListView
                         resizePopup));
             }
 
-            var convertPopup = CreateConvertPopup(compatibleFiles);
+            ConvertImagePopup convertPopup = CreateConvertPopup(compatibleFiles);
             ViewList.Add(
                 new SillListViewPopupItem(
                     "/WindowSill.ImageHelper/ConvertImage/Title".GetLocalizedString(),
                     null,
                     convertPopup));
 
-            var compressPopup = CreateCompressPopup(compatibleFiles);
+            CompressImagePopup compressPopup = CreateCompressPopup(compatibleFiles);
             ViewList.Add(
                 new SillListViewPopupItem(
                     "/WindowSill.ImageHelper/CompressImage/Title".GetLocalizedString(),

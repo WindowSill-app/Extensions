@@ -39,7 +39,7 @@ internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
     /// <inheritdoc />
     public async Task<IReadOnlyList<CalendarInfo>> GetCalendarsAsync(CancellationToken cancellationToken)
     {
-        CalendarService service = await GetOrCreateServiceAsync(cancellationToken);
+        CalendarService service =  GetOrCreateService();
 
         CalendarList? calendarList = await service.CalendarList.List().ExecuteAsync(cancellationToken);
 
@@ -67,7 +67,7 @@ internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
         DateTimeOffset to,
         CancellationToken cancellationToken)
     {
-        CalendarService service = await GetOrCreateServiceAsync(cancellationToken);
+        CalendarService service = GetOrCreateService();
 
         // Fetch calendars first, then events from each.
         IReadOnlyList<CalendarInfo> calendars = await GetCalendarsAsync(cancellationToken);
@@ -135,11 +135,11 @@ internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
         return ValueTask.CompletedTask;
     }
 
-    private Task<CalendarService> GetOrCreateServiceAsync(CancellationToken cancellationToken)
+    private CalendarService GetOrCreateService()
     {
         if (_calendarService is not null)
         {
-            return Task.FromResult(_calendarService);
+            return _calendarService;
         }
 
         _credential ??= CreateCredential();
@@ -150,7 +150,7 @@ internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
             ApplicationName = "WindowSill.Date",
         });
 
-        return Task.FromResult(_calendarService);
+        return _calendarService;
     }
 
     private UserCredential CreateCredential()

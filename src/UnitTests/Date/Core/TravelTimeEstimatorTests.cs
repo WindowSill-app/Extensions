@@ -34,7 +34,7 @@ public class TravelTimeEstimatorTests
     [Fact]
     public async Task EstimateTravelTimeAsync_NoLocation_ReturnsNoMeetingAddress()
     {
-        var estimator = CreateEstimator();
+        TravelTimeEstimator estimator = CreateEstimator();
         CalendarEvent evt = CreateEvent(location: null);
 
         TravelTimeEstimateResult result = await estimator.EstimateTravelTimeAsync(evt);
@@ -46,7 +46,7 @@ public class TravelTimeEstimatorTests
     [Fact]
     public async Task EstimateTravelTimeAsync_EmptyLocation_ReturnsNoMeetingAddress()
     {
-        var estimator = CreateEstimator();
+        TravelTimeEstimator estimator = CreateEstimator();
         CalendarEvent evt = CreateEvent(location: "   ");
 
         TravelTimeEstimateResult result = await estimator.EstimateTravelTimeAsync(evt);
@@ -62,7 +62,7 @@ public class TravelTimeEstimatorTests
     [Fact]
     public async Task EstimateTravelTimeAsync_AllSucceed_ReturnsProviderResult()
     {
-        var estimator = CreateEstimator(
+        TravelTimeEstimator estimator = CreateEstimator(
             userLocation: new GeoCoordinate(47.6, -122.3),
             meetingLocation: new GeoCoordinate(47.64, -122.13),
             routeResult: TravelTimeEstimateResult.FromProvider(

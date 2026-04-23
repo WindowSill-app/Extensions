@@ -119,10 +119,10 @@ internal sealed partial class WorldClockViewListAdapter : IDisposable
     private void SyncPinnedEntries()
     {
         IReadOnlyList<WorldClockEntry> pinned = _worldClockService.GetPinnedEntries();
-        HashSet<string> pinnedIds = pinned.Select(e => e.TimeZoneId).ToHashSet();
+        var pinnedIds = pinned.Select(e => e.TimeZoneId).ToHashSet();
 
         // Remove entries that are no longer pinned.
-        List<string> toRemove = _entries.Keys.Where(k => !pinnedIds.Contains(k)).ToList();
+        var toRemove = _entries.Keys.Where(k => !pinnedIds.Contains(k)).ToList();
         foreach (string id in toRemove)
         {
             if (_entries.Remove(id, out ViewListEntry? entry))
@@ -145,7 +145,7 @@ internal sealed partial class WorldClockViewListAdapter : IDisposable
             var vm = new WorldClockSillItemViewModel(wcEntry, zone);
             vm.Update(timeFormat);
 
-            WorldClockBarContent barContent = WorldClockBarContent.Create(vm);
+            var barContent = WorldClockBarContent.Create(vm);
             var previewFlyout = new WorldClockPreviewFlyout(vm);
 
             var sillItem = new SillListViewPopupItem

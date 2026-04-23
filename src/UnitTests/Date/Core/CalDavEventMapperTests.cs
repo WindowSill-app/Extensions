@@ -31,8 +31,9 @@ public class CalDavEventMapperTests
         };
 
         CalendarInfo calendar = CreateCalendar();
-        CalendarEvent result = CalDavEventMapper.MapVEvent(vEvent, calendar);
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(vEvent, calendar);
 
+        result.Should().NotBeNull();
         result.Id.Should().Be("evt_123");
         result.Title.Should().Be("Daily Stand-up");
         result.CalendarId.Should().Be("cal_1");
@@ -53,8 +54,9 @@ public class CalDavEventMapperTests
             End = new CalDateTime(2026, 4, 23),
         };
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
 
+        result.Should().NotBeNull();
         result.IsAllDay.Should().BeTrue();
     }
 
@@ -68,8 +70,9 @@ public class CalDavEventMapperTests
             End = new CalDateTime(2026, 4, 22, 10, 0, 0, "UTC"),
         };
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
 
+        result.Should().NotBeNull();
         result.Title.Should().Be("No Title");
     }
 
@@ -85,8 +88,9 @@ public class CalDavEventMapperTests
             End = new CalDateTime(2026, 4, 22, 10, 0, 0, "UTC"),
         };
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
 
+        result.Should().NotBeNull();
         result.Status.Should().Be(CalendarEventStatus.Cancelled);
     }
 
@@ -102,8 +106,9 @@ public class CalDavEventMapperTests
             End = new CalDateTime(2026, 4, 22, 13, 0, 0, "UTC"),
         };
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
 
+        result.Should().NotBeNull();
         result.BusyStatus.Should().Be(BusyStatus.Free);
     }
 
@@ -119,8 +124,9 @@ public class CalDavEventMapperTests
             End = new CalDateTime(2026, 4, 22, 15, 0, 0, "UTC"),
         };
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
 
+        result.Should().NotBeNull();
         result.IsPrivate.Should().BeTrue();
     }
 
@@ -135,8 +141,9 @@ public class CalDavEventMapperTests
             End = new CalDateTime(2026, 4, 22, 10, 0, 0, "UTC"),
         };
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar(), CalendarProviderType.ICloud);
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar(), CalendarProviderType.ICloud);
 
+        result.Should().NotBeNull();
         result.ProviderType.Should().Be(CalendarProviderType.ICloud);
     }
 
@@ -152,8 +159,9 @@ public class CalDavEventMapperTests
             End = new CalDateTime(2026, 4, 22, 17, 0, 0, "UTC"),
         };
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
 
+        result.Should().NotBeNull();
         result.VideoCall.Should().NotBeNull();
         result.VideoCall!.Provider.Should().Be(VideoCallProvider.Zoom);
     }
@@ -181,14 +189,13 @@ public class CalDavEventMapperTests
             Start = new CalDateTime(2026, 4, 22, 10, 0, 0, "UTC"),
             End = new CalDateTime(2026, 4, 22, 11, 0, 0, "UTC"),
         };
-        vEvent.Attendees.Add(new Ical.Net.DataTypes.Attendee("mailto:alice@example.com")
-            { ParticipationStatus = "ACCEPTED" });
-        vEvent.Attendees.Add(new Ical.Net.DataTypes.Attendee("mailto:bob@example.com")
-            { ParticipationStatus = "TENTATIVE" });
+        vEvent.Attendees.Add(new Ical.Net.DataTypes.Attendee("mailto:alice@example.com") { ParticipationStatus = "ACCEPTED" });
+        vEvent.Attendees.Add(new Ical.Net.DataTypes.Attendee("mailto:bob@example.com") { ParticipationStatus = "TENTATIVE" });
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(
             vEvent, CreateCalendar(), accountEmail: "bob@example.com");
 
+        result.Should().NotBeNull();
         result.ResponseStatus.Should().Be(AttendeeResponseStatus.Tentative);
     }
 
@@ -204,9 +211,10 @@ public class CalDavEventMapperTests
             Organizer = new Ical.Net.DataTypes.Organizer("mailto:me@example.com"),
         };
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(
             vEvent, CreateCalendar(), accountEmail: "me@example.com");
 
+        result.Should().NotBeNull();
         result.ResponseStatus.Should().Be(AttendeeResponseStatus.Accepted);
     }
 
@@ -221,9 +229,10 @@ public class CalDavEventMapperTests
             End = new CalDateTime(2026, 4, 22, 13, 0, 0, "UTC"),
         };
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(
             vEvent, CreateCalendar(), accountEmail: "me@example.com");
 
+        result.Should().NotBeNull();
         result.ResponseStatus.Should().Be(AttendeeResponseStatus.Accepted);
     }
 
@@ -238,8 +247,9 @@ public class CalDavEventMapperTests
             End = new CalDateTime(2026, 4, 22, 10, 0, 0, "UTC"),
         };
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
 
+        result.Should().NotBeNull();
         result.ResponseStatus.Should().Be(AttendeeResponseStatus.NotResponded);
     }
 
@@ -253,13 +263,12 @@ public class CalDavEventMapperTests
             Start = new CalDateTime(2026, 4, 22, 15, 0, 0, "UTC"),
             End = new CalDateTime(2026, 4, 22, 16, 0, 0, "UTC"),
         };
-        vEvent.Attendees.Add(new Ical.Net.DataTypes.Attendee("mailto:alice@example.com")
-            { ParticipationStatus = "ACCEPTED" });
-        vEvent.Attendees.Add(new Ical.Net.DataTypes.Attendee("mailto:bob@example.com")
-            { ParticipationStatus = "DECLINED" });
+        vEvent.Attendees.Add(new Ical.Net.DataTypes.Attendee("mailto:alice@example.com") { ParticipationStatus = "ACCEPTED" });
+        vEvent.Attendees.Add(new Ical.Net.DataTypes.Attendee("mailto:bob@example.com") { ParticipationStatus = "DECLINED" });
 
-        CalendarEvent result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
+        CalendarEvent? result = CalDavEventMapper.MapVEvent(vEvent, CreateCalendar());
 
+        result.Should().NotBeNull();
         result.Attendees.Should().HaveCount(2);
         result.Attendees[0].ResponseStatus.Should().Be(AttendeeResponseStatus.Accepted);
         result.Attendees[1].ResponseStatus.Should().Be(AttendeeResponseStatus.Declined);

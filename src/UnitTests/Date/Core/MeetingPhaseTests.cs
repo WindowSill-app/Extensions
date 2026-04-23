@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using UnitTests.Date.Core.Fakes;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.ViewModels;
@@ -17,8 +17,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_MoreThan5MinBefore_ReturnsNormal()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(22);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(82);
+        var timeUntilStart = TimeSpan.FromMinutes(22);
+        var timeUntilEnd = TimeSpan.FromMinutes(82);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -28,8 +28,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_Exactly5MinBefore_ReturnsUrgent()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(5);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(65);
+        var timeUntilStart = TimeSpan.FromMinutes(5);
+        var timeUntilEnd = TimeSpan.FromMinutes(65);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -39,8 +39,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_4Min59Sec_ReturnsUrgent()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromSeconds(4 * 60 + 59);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(65);
+        var timeUntilStart = TimeSpan.FromSeconds(4 * 60 + 59);
+        var timeUntilEnd = TimeSpan.FromMinutes(65);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -50,8 +50,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_30SecBefore_ReturnsFlashing()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromSeconds(30);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(60);
+        var timeUntilStart = TimeSpan.FromSeconds(30);
+        var timeUntilEnd = TimeSpan.FromMinutes(60);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -61,8 +61,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_15SecBefore_ReturnsFlashing()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromSeconds(15);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(60);
+        var timeUntilStart = TimeSpan.FromSeconds(15);
+        var timeUntilEnd = TimeSpan.FromMinutes(60);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -72,8 +72,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_JustStarted_ReturnsLive()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromSeconds(-10); // 10 sec after start
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(50);
+        var timeUntilStart = TimeSpan.FromSeconds(-10); // 10 sec after start
+        var timeUntilEnd = TimeSpan.FromMinutes(50);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -83,8 +83,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_59SecAfterStart_StillLive()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromSeconds(-59);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(59);
+        var timeUntilStart = TimeSpan.FromSeconds(-59);
+        var timeUntilEnd = TimeSpan.FromMinutes(59);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -94,8 +94,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_1MinAfterStart_ReturnsElapsed()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(-1);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(59);
+        var timeUntilStart = TimeSpan.FromMinutes(-1);
+        var timeUntilEnd = TimeSpan.FromMinutes(59);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -105,8 +105,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_30MinAfterStart_ReturnsElapsed()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(-30);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(30);
+        var timeUntilStart = TimeSpan.FromMinutes(-30);
+        var timeUntilEnd = TimeSpan.FromMinutes(30);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -116,8 +116,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_MeetingEnded_ReturnsEnded()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(-70);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(-10);
+        var timeUntilStart = TimeSpan.FromMinutes(-70);
+        var timeUntilEnd = TimeSpan.FromMinutes(-10);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -127,7 +127,7 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_ExactlyAtEnd_ReturnsEnded()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(-60);
+        var timeUntilStart = TimeSpan.FromMinutes(-60);
         TimeSpan timeUntilEnd = TimeSpan.Zero;
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
@@ -142,8 +142,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_5Min1SecBefore_ReturnsNormal()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromSeconds(5 * 60 + 1);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(65);
+        var timeUntilStart = TimeSpan.FromSeconds(5 * 60 + 1);
+        var timeUntilEnd = TimeSpan.FromMinutes(65);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -153,8 +153,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_31SecBefore_ReturnsUrgent()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromSeconds(31);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(60);
+        var timeUntilStart = TimeSpan.FromSeconds(31);
+        var timeUntilEnd = TimeSpan.FromMinutes(60);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -165,7 +165,7 @@ public class MeetingPhaseTests
     public void ComputePhase_ExactlyAtStart_ReturnsLive()
     {
         TimeSpan timeUntilStart = TimeSpan.Zero;
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(60);
+        var timeUntilEnd = TimeSpan.FromMinutes(60);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd);
 
@@ -190,7 +190,7 @@ public class MeetingPhaseTests
             ProviderType = CalendarProviderType.Outlook,
         };
 
-        MeetingKey key = MeetingKey.FromEvent(evt);
+        var key = MeetingKey.FromEvent(evt);
 
         key.EventId.Should().Be("event-123");
         key.AccountId.Should().Be("acc-42");
@@ -224,9 +224,9 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_PhysicalMeeting_MoreThan5MinBeforeDeparture_ReturnsNormal()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(40); // meeting in 40 min
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(100);
-        TimeSpan timeUntilDeparture = TimeSpan.FromMinutes(15); // departure in 15 min
+        var timeUntilStart = TimeSpan.FromMinutes(40); // meeting in 40 min
+        var timeUntilEnd = TimeSpan.FromMinutes(100);
+        var timeUntilDeparture = TimeSpan.FromMinutes(15); // departure in 15 min
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd, timeUntilDeparture);
 
@@ -236,9 +236,9 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_PhysicalMeeting_LessThan5MinBeforeDeparture_ReturnsUrgent()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(28);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(88);
-        TimeSpan timeUntilDeparture = TimeSpan.FromMinutes(3); // depart in 3 min
+        var timeUntilStart = TimeSpan.FromMinutes(28);
+        var timeUntilEnd = TimeSpan.FromMinutes(88);
+        var timeUntilDeparture = TimeSpan.FromMinutes(3); // depart in 3 min
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd, timeUntilDeparture);
 
@@ -248,9 +248,9 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_PhysicalMeeting_30SecBeforeDeparture_ReturnsFlashing()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(25);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(85);
-        TimeSpan timeUntilDeparture = TimeSpan.FromSeconds(20);
+        var timeUntilStart = TimeSpan.FromMinutes(25);
+        var timeUntilEnd = TimeSpan.FromMinutes(85);
+        var timeUntilDeparture = TimeSpan.FromSeconds(20);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd, timeUntilDeparture);
 
@@ -260,8 +260,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_PhysicalMeeting_DepartureTimeReached_ReturnsDeparture()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(25);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(85);
+        var timeUntilStart = TimeSpan.FromMinutes(25);
+        var timeUntilEnd = TimeSpan.FromMinutes(85);
         TimeSpan timeUntilDeparture = TimeSpan.Zero;
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd, timeUntilDeparture);
@@ -272,9 +272,9 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_PhysicalMeeting_PastDeparture_StillDeparture()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(10); // still 10 min to meeting
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(70);
-        TimeSpan timeUntilDeparture = TimeSpan.FromMinutes(-15); // departed 15 min ago
+        var timeUntilStart = TimeSpan.FromMinutes(10); // still 10 min to meeting
+        var timeUntilEnd = TimeSpan.FromMinutes(70);
+        var timeUntilDeparture = TimeSpan.FromMinutes(-15); // departed 15 min ago
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd, timeUntilDeparture);
 
@@ -284,9 +284,9 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_PhysicalMeeting_MeetingStarted_ReturnsLive()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromSeconds(-10);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(50);
-        TimeSpan timeUntilDeparture = TimeSpan.FromMinutes(-30);
+        var timeUntilStart = TimeSpan.FromSeconds(-10);
+        var timeUntilEnd = TimeSpan.FromMinutes(50);
+        var timeUntilDeparture = TimeSpan.FromMinutes(-30);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd, timeUntilDeparture);
 
@@ -296,8 +296,8 @@ public class MeetingPhaseTests
     [Fact]
     public void ComputePhase_VirtualMeeting_NoDeparture_IgnoresDepartureLogic()
     {
-        TimeSpan timeUntilStart = TimeSpan.FromMinutes(3);
-        TimeSpan timeUntilEnd = TimeSpan.FromMinutes(63);
+        var timeUntilStart = TimeSpan.FromMinutes(3);
+        var timeUntilEnd = TimeSpan.FromMinutes(63);
 
         MeetingPhase phase = MeetingSillItemViewModel.ComputePhase(timeUntilStart, timeUntilEnd, timeUntilDeparture: null);
 
@@ -309,7 +309,7 @@ public class MeetingPhaseTests
     {
         // Meeting in 45 min, travel = 25 min → departure at 20 min.
         // With 10 min buffer → departure at 30 min, which is > 5 min away → Normal.
-        var vm = CreateMeetingVm(
+        MeetingSillItemViewModel vm = CreateMeetingVm(
             start: DateTimeOffset.Now.AddMinutes(45),
             end: DateTimeOffset.Now.AddMinutes(105),
             location: "123 Main St");
@@ -327,7 +327,7 @@ public class MeetingPhaseTests
     {
         // Meeting in 38 min, travel = 30 min → departure at 8 min.
         // With 5 min buffer → departure at 3 min → Urgent.
-        var vm = CreateMeetingVm(
+        MeetingSillItemViewModel vm = CreateMeetingVm(
             start: DateTimeOffset.Now.AddMinutes(38),
             end: DateTimeOffset.Now.AddMinutes(98),
             location: "123 Main St");
@@ -347,7 +347,7 @@ public class MeetingPhaseTests
     [Fact]
     public void TravelTimeText_NoEstimate_ReturnsNull()
     {
-        var vm = CreateMeetingVm();
+        MeetingSillItemViewModel vm = CreateMeetingVm();
 
         vm.TravelTimeText.Should().BeNull();
         vm.HasTravelTime.Should().BeFalse();
@@ -356,7 +356,7 @@ public class MeetingPhaseTests
     [Fact]
     public void TravelTimeText_SuccessfulEstimate_ReturnsFormattedText()
     {
-        var vm = CreateMeetingVm(location: "123 Main St");
+        MeetingSillItemViewModel vm = CreateMeetingVm(location: "123 Main St");
         vm.TravelTimeEstimate = TravelTimeEstimateResult.FromProvider(
             TimeSpan.FromMinutes(25), 15000, "ORS");
 
@@ -367,7 +367,7 @@ public class MeetingPhaseTests
     [Fact]
     public void TravelTimeText_FallbackEstimate_ReturnsFormattedText()
     {
-        var vm = CreateMeetingVm(location: "123 Main St");
+        MeetingSillItemViewModel vm = CreateMeetingVm(location: "123 Main St");
         vm.TravelTimeEstimate = TravelTimeEstimateResult.FromFallback(
             TimeSpan.FromMinutes(30));
 
@@ -378,7 +378,7 @@ public class MeetingPhaseTests
     [Fact]
     public void TravelTimeText_FailedEstimate_ReturnsNull()
     {
-        var vm = CreateMeetingVm(location: "123 Main St");
+        MeetingSillItemViewModel vm = CreateMeetingVm(location: "123 Main St");
         vm.TravelTimeEstimate = TravelTimeEstimateResult.Failed(
             TravelTimeFailureReason.InvalidMeetingAddress);
 
@@ -389,7 +389,7 @@ public class MeetingPhaseTests
     [Fact]
     public void TravelTimeText_RoundsUpMinutes()
     {
-        var vm = CreateMeetingVm(location: "123 Main St");
+        MeetingSillItemViewModel vm = CreateMeetingVm(location: "123 Main St");
         vm.TravelTimeEstimate = TravelTimeEstimateResult.FromProvider(
             TimeSpan.FromMinutes(18.3), 10000, "ORS");
 
@@ -403,7 +403,7 @@ public class MeetingPhaseTests
     [Fact]
     public void UpdateCountdown_FlashRequestedFiresOnceOnTransitionToFlashing()
     {
-        var vm = CreateMeetingVm(
+        MeetingSillItemViewModel vm = CreateMeetingVm(
             start: DateTimeOffset.Now.AddSeconds(25),
             end: DateTimeOffset.Now.AddHours(1));
 
@@ -423,7 +423,7 @@ public class MeetingPhaseTests
     [Fact]
     public void UpdateCountdown_NotificationRequestedFiresOnceOnTransitionToLive()
     {
-        var vm = CreateMeetingVm(
+        MeetingSillItemViewModel vm = CreateMeetingVm(
             start: DateTimeOffset.Now.AddSeconds(-5),
             end: DateTimeOffset.Now.AddHours(1));
 
@@ -441,7 +441,7 @@ public class MeetingPhaseTests
     [Fact]
     public void UpdateCountdown_IsJoinVisible_TrueWhenUrgentWithVideoCall()
     {
-        var vm = CreateMeetingVm(
+        MeetingSillItemViewModel vm = CreateMeetingVm(
             start: DateTimeOffset.Now.AddMinutes(3),
             end: DateTimeOffset.Now.AddHours(1),
             hasVideoCall: true);
@@ -455,7 +455,7 @@ public class MeetingPhaseTests
     [Fact]
     public void UpdateCountdown_IsJoinVisible_FalseWhenNormalPhase()
     {
-        var vm = CreateMeetingVm(
+        MeetingSillItemViewModel vm = CreateMeetingVm(
             start: DateTimeOffset.Now.AddMinutes(10),
             end: DateTimeOffset.Now.AddHours(1),
             hasVideoCall: true);
@@ -469,7 +469,7 @@ public class MeetingPhaseTests
     [Fact]
     public void UpdateCountdown_IsJoinVisible_FalseWhenSettingDisabled()
     {
-        var vm = CreateMeetingVm(
+        MeetingSillItemViewModel vm = CreateMeetingVm(
             start: DateTimeOffset.Now.AddMinutes(3),
             end: DateTimeOffset.Now.AddHours(1),
             hasVideoCall: true);
@@ -484,14 +484,14 @@ public class MeetingPhaseTests
     public void UpdateCountdown_IsUrgent_TrueForUrgentFlashingLive()
     {
         // Urgent
-        var vmUrgent = CreateMeetingVm(
+        MeetingSillItemViewModel vmUrgent = CreateMeetingVm(
             start: DateTimeOffset.Now.AddMinutes(3),
             end: DateTimeOffset.Now.AddHours(1));
         vmUrgent.UpdateCountdown(DateTimeOffset.Now, showJoinButton: false);
         vmUrgent.IsUrgent.Should().BeTrue();
 
         // Live
-        var vmLive = CreateMeetingVm(
+        MeetingSillItemViewModel vmLive = CreateMeetingVm(
             start: DateTimeOffset.Now.AddSeconds(-10),
             end: DateTimeOffset.Now.AddHours(1));
         vmLive.UpdateCountdown(DateTimeOffset.Now, showJoinButton: false);
@@ -502,14 +502,14 @@ public class MeetingPhaseTests
     public void UpdateCountdown_IsUrgent_FalseForNormalAndElapsed()
     {
         // Normal
-        var vmNormal = CreateMeetingVm(
+        MeetingSillItemViewModel vmNormal = CreateMeetingVm(
             start: DateTimeOffset.Now.AddMinutes(20),
             end: DateTimeOffset.Now.AddHours(1));
         vmNormal.UpdateCountdown(DateTimeOffset.Now, showJoinButton: false);
         vmNormal.IsUrgent.Should().BeFalse();
 
         // Elapsed
-        var vmElapsed = CreateMeetingVm(
+        MeetingSillItemViewModel vmElapsed = CreateMeetingVm(
             start: DateTimeOffset.Now.AddMinutes(-5),
             end: DateTimeOffset.Now.AddHours(1));
         vmElapsed.UpdateCountdown(DateTimeOffset.Now, showJoinButton: false);

@@ -15,9 +15,9 @@ namespace WindowSill.Date.Core.Providers.CalDav;
 /// </summary>
 internal class CalDavCalendarAccountClient : ICalendarAccountClient
 {
-    private static readonly XNamespace DavNs = "DAV:";
-    private static readonly XNamespace CalDavNs = "urn:ietf:params:xml:ns:caldav";
-    private static readonly XNamespace AppleNs = "http://apple.com/ns/ical/";
+    private static readonly XNamespace davNs = "DAV:";
+    private static readonly XNamespace calDavNs = "urn:ietf:params:xml:ns:caldav";
+    private static readonly XNamespace appleNs = "http://apple.com/ns/ical/";
 
     private readonly IReadOnlyDictionary<string, string> _authData;
     private HttpClient? _httpClient;
@@ -52,7 +52,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
     /// <inheritdoc />
     public virtual async Task<IReadOnlyList<CalendarInfo>> GetCalendarsAsync(CancellationToken cancellationToken)
     {
-        HttpClient client = await GetOrCreateHttpClientAsync(cancellationToken);
+        HttpClient client = GetOrCreateHttpClient();
         string calendarHome = await DiscoverCalendarHomeAsync(client, cancellationToken);
 
         // PROPFIND the calendar home to list calendars.
@@ -86,7 +86,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
         DateTimeOffset to,
         CancellationToken cancellationToken)
     {
-        HttpClient client = await GetOrCreateHttpClientAsync(cancellationToken);
+        HttpClient client = GetOrCreateHttpClient();
         IReadOnlyList<CalendarInfo> calendars = await GetCalendarsAsync(cancellationToken);
         var allEvents = new List<CalendarEvent>();
 
@@ -224,8 +224,8 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
         string principalXml = await principalResponse.Content.ReadAsStringAsync(cancellationToken);
         var principalDoc = XDocument.Parse(principalXml);
 
-        string? principalHref = principalDoc.Descendants(DavNs + "current-user-principal")
-            .Descendants(DavNs + "href")
+        string? principalHref = principalDoc.Descendants(davNs + "current-user-principal")
+            .Descendants(davNs + "href")
             .FirstOrDefault()?.Value;
 
         if (string.IsNullOrEmpty(principalHref))
@@ -257,8 +257,8 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
         string homeXml = await homeResponse.Content.ReadAsStringAsync(cancellationToken);
         var homeDoc = XDocument.Parse(homeXml);
 
-        string? homeHref = homeDoc.Descendants(CalDavNs + "calendar-home-set")
-            .Descendants(DavNs + "href")
+        string? homeHref = homeDoc.Descendants(calDavNs + "calendar-home-set")
+            .Descendants(davNs + "href")
             .FirstOrDefault()?.Value;
 
         if (string.IsNullOrEmpty(homeHref))
@@ -269,11 +269,11 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
         return ResolveHref(serverUrl, homeHref);
     }
 
-    private Task<HttpClient> GetOrCreateHttpClientAsync(CancellationToken cancellationToken)
+    private HttpClient GetOrCreateHttpClient()
     {
         if (_httpClient is not null)
         {
-            return Task.FromResult(_httpClient);
+            return _httpClient;
         }
 
         string? username = _authData.GetValueOrDefault("username");
@@ -287,7 +287,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", encoded);
         }
 
-        return Task.FromResult(_httpClient);
+        return _httpClient;
     }
 
     private List<CalendarInfo> ParseCalendarsFromPropfind(string xml)
@@ -298,17 +298,17 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
         {
             var doc = XDocument.Parse(xml);
 
-            foreach (XElement responseEl in doc.Descendants(DavNs + "response"))
+            foreach (XElement responseEl in doc.Descendants(davNs + "response"))
             {
-                XElement? resourceType = responseEl.Descendants(DavNs + "resourcetype").FirstOrDefault();
-                if (resourceType?.Descendants(CalDavNs + "calendar").Any() != true)
+                XElement? resourceType = responseEl.Descendants(davNs + "resourcetype").FirstOrDefault();
+                if (resourceType?.Descendants(calDavNs + "calendar").Any() != true)
                 {
                     continue;
                 }
 
-                string? href = responseEl.Element(DavNs + "href")?.Value;
-                string? displayName = responseEl.Descendants(DavNs + "displayname").FirstOrDefault()?.Value;
-                string? color = responseEl.Descendants(AppleNs + "calendar-color").FirstOrDefault()?.Value;
+                string? href = responseEl.Element(davNs + "href")?.Value;
+                string? displayName = responseEl.Descendants(davNs + "displayname").FirstOrDefault()?.Value;
+                string? color = responseEl.Descendants(appleNs + "calendar-color").FirstOrDefault()?.Value;
 
                 if (href is null)
                 {
@@ -343,9 +343,9 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
         {
             var doc = XDocument.Parse(xml);
 
-            foreach (XElement responseEl in doc.Descendants(DavNs + "response"))
+            foreach (XElement responseEl in doc.Descendants(davNs + "response"))
             {
-                string? icalData = responseEl.Descendants(CalDavNs + "calendar-data").FirstOrDefault()?.Value;
+                string? icalData = responseEl.Descendants(calDavNs + "calendar-data").FirstOrDefault()?.Value;
                 if (string.IsNullOrEmpty(icalData))
                 {
                     continue;
@@ -354,7 +354,11 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
                 var ical = Calendar.Load(icalData);
                 foreach (ICalCalendarEvent vEvent in ical.Events)
                 {
-                    events.Add(CalDavEventMapper.MapVEvent(vEvent, calendar, accountEmail: Account.Email));
+                    CalendarEvent? calendarEvent = CalDavEventMapper.MapVEvent(vEvent, calendar, accountEmail: Account.Email);
+                    if (calendarEvent is not null)
+                    {
+                        events.Add(calendarEvent);
+                    }
                 }
             }
         }

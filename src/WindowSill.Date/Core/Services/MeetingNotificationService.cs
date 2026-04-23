@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.Composition;
+using System.ComponentModel.Composition;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Windows.AppNotifications;
@@ -68,7 +68,7 @@ internal sealed class MeetingNotificationService
     {
         try
         {
-            var builder = new AppNotificationBuilder()
+            AppNotificationBuilder builder = new AppNotificationBuilder()
                 .AddText(calendarEvent.Title)
                 .AddText(FormatMeetingTime(calendarEvent))
                 .SetAudioEvent(AppNotificationSoundEvent.Reminder);
@@ -160,7 +160,7 @@ internal sealed class MeetingNotificationService
                 {
                     // Capture the window reference so the close action can find it.
                     FullScreenNotificationWindow? windowRef = null;
-                    var content = createContent(true, () => windowRef?.Close());
+                    UserControl content = createContent(true, () => windowRef?.Close());
                     windowRef = new FullScreenNotificationWindow(content, onWindowClosed: closeAll);
                     windows.Add(windowRef);
                 }
@@ -170,7 +170,7 @@ internal sealed class MeetingNotificationService
                     foreach (RECT monitorRect in monitors)
                     {
                         FullScreenNotificationWindow? windowRef = null;
-                        var content = createContent(isFirst, () => windowRef?.Close());
+                        UserControl content = createContent(isFirst, () => windowRef?.Close());
                         windowRef = new FullScreenNotificationWindow(content, monitorRect, closeAll);
                         windows.Add(windowRef);
                         isFirst = false;

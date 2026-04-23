@@ -243,7 +243,7 @@ internal sealed class MeetingStateService : IDisposable
                 return;
             }
 
-            List<CalendarEvent> filtered = events
+            var filtered = events
                 .Where(e => e.Status != CalendarEventStatus.Cancelled
                     && e.ResponseStatus != AttendeeResponseStatus.Declined
                     && (showAllDay || !e.IsAllDay))
@@ -255,7 +255,7 @@ internal sealed class MeetingStateService : IDisposable
             // Request travel time for new meetings with locations.
             if (_settingsProvider.GetSetting(Settings.Settings.EnableTravelTime))
             {
-                List<MeetingSillItemViewModel> needsTravel = _meetings.Values
+                var needsTravel = _meetings.Values
                     .Where(vm => vm.HasLocation && vm.TravelTimeEstimate is null)
                     .ToList();
 
@@ -279,11 +279,11 @@ internal sealed class MeetingStateService : IDisposable
 
     private bool SyncMeetings(List<CalendarEvent> events, bool showJoinButton, int departureBuffer)
     {
-        HashSet<MeetingKey> newKeys = events.Select(MeetingKey.FromEvent).ToHashSet();
+        var newKeys = events.Select(MeetingKey.FromEvent).ToHashSet();
         bool changed = false;
 
         // Remove stale.
-        List<MeetingKey> staleKeys = _meetings.Keys.Where(k => !newKeys.Contains(k)).ToList();
+        var staleKeys = _meetings.Keys.Where(k => !newKeys.Contains(k)).ToList();
         foreach (MeetingKey key in staleKeys)
         {
             if (_meetings.Remove(key, out MeetingSillItemViewModel? vm))
@@ -297,7 +297,7 @@ internal sealed class MeetingStateService : IDisposable
         DateTimeOffset now = DateTimeOffset.Now;
         foreach (CalendarEvent evt in events)
         {
-            MeetingKey key = MeetingKey.FromEvent(evt);
+            var key = MeetingKey.FromEvent(evt);
             if (_meetings.ContainsKey(key) || _hiddenMeetings.Contains(key))
             {
                 continue;

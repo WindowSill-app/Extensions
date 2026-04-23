@@ -34,7 +34,7 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
     /// <inheritdoc />
     public async Task<IReadOnlyList<CalendarInfo>> GetCalendarsAsync(CancellationToken cancellationToken)
     {
-        GraphServiceClient client = await GetOrCreateGraphClientAsync(cancellationToken);
+        GraphServiceClient client = GetOrCreateGraphClient();
 
         await _requestGate.WaitAsync(cancellationToken);
         try
@@ -83,7 +83,7 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
         DateTimeOffset to,
         CancellationToken cancellationToken)
     {
-        GraphServiceClient client = await GetOrCreateGraphClientAsync(cancellationToken);
+        GraphServiceClient client = GetOrCreateGraphClient();
 
         await _requestGate.WaitAsync(cancellationToken);
         try
@@ -181,7 +181,7 @@ internal sealed class OutlookCalendarAccountClient : ICalendarAccountClient
         return ValueTask.CompletedTask;
     }
 
-    private async Task<GraphServiceClient> GetOrCreateGraphClientAsync(CancellationToken cancellationToken)
+    private GraphServiceClient GetOrCreateGraphClient()
     {
         if (_graphClient is not null)
         {

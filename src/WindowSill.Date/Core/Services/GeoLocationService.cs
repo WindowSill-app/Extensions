@@ -16,7 +16,7 @@ namespace WindowSill.Date.Core.Services;
 [Export(typeof(IGeoLocationService))]
 internal sealed class GeoLocationService : IGeoLocationService
 {
-    private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(5);
+    private static readonly TimeSpan cacheDuration = TimeSpan.FromMinutes(5);
 
     private readonly ILogger _logger;
 
@@ -64,7 +64,7 @@ internal sealed class GeoLocationService : IGeoLocationService
                 position.Coordinate.Point.Position.Longitude);
 
             _cachedLocation = coordinate;
-            _cacheExpiry = DateTimeOffset.Now + CacheDuration;
+            _cacheExpiry = DateTimeOffset.Now + cacheDuration;
 
             return coordinate;
         }

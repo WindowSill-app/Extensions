@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+using Windows.Win32;
 using WindowSill.API;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
@@ -9,8 +9,6 @@ namespace WindowSill.Date.Views;
 
 internal sealed partial class AccountsSettingsView : UserControl
 {
-    [DllImport("user32.dll")]
-    private static extern IntPtr GetActiveWindow();
     public AccountsSettingsView(
         ISettingsProvider settingsProvider,
         CalendarAccountManager calendarAccountManager,
@@ -18,7 +16,7 @@ internal sealed partial class AccountsSettingsView : UserControl
         MeetingStateService? meetingStateService = null)
     {
         ViewModel = new AccountsSettingsViewModel(settingsProvider, calendarAccountManager, contentDirectory, meetingStateService);
-        ViewModel.ConfirmRemoveAccountRequested += OnConfirmRemoveAccountRequested;
+        ViewModel.ConfirmRemoveAccountRequested += OnConfirmRemoveAccountRequestedAsync;
         InitializeComponent();
         PopulateAddAccountMenu();
     }
@@ -78,7 +76,7 @@ internal sealed partial class AccountsSettingsView : UserControl
             if (isOAuthFlow)
             {
                 // OAuth flow: start auth immediately, close dialog on completion.
-                IntPtr hwnd = GetActiveWindow();
+                IntPtr hwnd = PInvoke.GetActiveWindow();
                 Task<CalendarAccount> connectTask = experience.ConnectAsync(hwnd, cts.Token);
 
                 // Show dialog concurrently — Cancel will trigger the CTS.
@@ -130,7 +128,7 @@ internal sealed partial class AccountsSettingsView : UserControl
                 {
                     try
                     {
-                        CalendarAccount account = await experience.ConnectAsync(GetActiveWindow(), cts.Token);
+                        CalendarAccount account = await experience.ConnectAsync(PInvoke.GetActiveWindow(), cts.Token);
                         await ViewModel.RegisterAccountAsync(account, CancellationToken.None);
                     }
                     catch (Exception ex) when (ex is not OperationCanceledException)
@@ -142,7 +140,7 @@ internal sealed partial class AccountsSettingsView : UserControl
         }).ForgetSafely();
     }
 
-    private async Task<bool> OnConfirmRemoveAccountRequested(AccountViewModel account)
+    private async Task<bool> OnConfirmRemoveAccountRequestedAsync(AccountViewModel account)
     {
         var dialog = new ContentDialog
         {

@@ -19,7 +19,6 @@ internal sealed class TravelTimeEstimator : ITravelTimeEstimator
     private readonly IGeoLocationService _geoLocationService;
     private readonly IGeocodingService _geocodingService;
     private readonly IRoutingService _routingService;
-    private readonly ISettingsProvider _settingsProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TravelTimeEstimator"/> class.
@@ -28,14 +27,12 @@ internal sealed class TravelTimeEstimator : ITravelTimeEstimator
     public TravelTimeEstimator(
         IGeoLocationService geoLocationService,
         IGeocodingService geocodingService,
-        IRoutingService routingService,
-        ISettingsProvider settingsProvider)
+        IRoutingService routingService)
     {
         _logger = this.Log();
         _geoLocationService = geoLocationService;
         _geocodingService = geocodingService;
         _routingService = routingService;
-        _settingsProvider = settingsProvider;
     }
 
     /// <inheritdoc/>

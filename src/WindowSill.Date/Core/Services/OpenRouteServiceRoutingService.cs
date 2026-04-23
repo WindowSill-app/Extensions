@@ -102,8 +102,6 @@ internal sealed class OpenRouteServiceRoutingService : IRoutingService, IDisposa
         _httpClient.Dispose();
     }
 
-    // ── ORS response JSON model ──
-
     private sealed class OrsResponse
     {
         [JsonPropertyName("features")]

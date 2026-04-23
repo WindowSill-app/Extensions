@@ -17,12 +17,17 @@ internal static class CalDavEventMapper
     /// <param name="providerType">The provider type. Defaults to <see cref="CalendarProviderType.CalDav"/>.</param>
     /// <param name="accountEmail">The current user's email for resolving response status.</param>
     /// <returns>The mapped calendar event.</returns>
-    public static CalendarEvent MapVEvent(
+    public static CalendarEvent? MapVEvent(
         ICalCalendarEvent vEvent,
         CalendarInfo calendar,
         CalendarProviderType providerType = CalendarProviderType.CalDav,
         string? accountEmail = null)
     {
+        if (vEvent.Start is null)
+        {
+            return null;
+        }
+
         bool isAllDay = !vEvent.Start.HasTime;
 
         DateTimeOffset startTime = isAllDay
@@ -41,7 +46,7 @@ internal static class CalDavEventMapper
         VideoCallInfo? videoCall = VideoCallDetector.Detect(description, location);
 
         // Map each attendee with their individual response status.
-        var attendees = vEvent.Attendees?
+        List<CalendarEventAttendee> attendees = vEvent.Attendees?
             .Select(a => new CalendarEventAttendee(
                 a.CommonName,
                 ExtractEmail(a.Value),

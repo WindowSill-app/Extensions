@@ -62,8 +62,6 @@ internal sealed partial class AccountsSettingsViewModel : ObservableObject
     [ObservableProperty]
     public partial bool HasNoAccounts { get; set; } = true;
 
-    // ── Sync ──
-
     /// <summary>
     /// Gets the available poll interval options.
     /// </summary>

@@ -69,7 +69,6 @@
                     HorizontalAlignment="Stretch"
                     Background="Transparent"
                     BorderThickness="0"
-                    CalendarViewDayItemChanging="CalendarControl_DayItemChanging"
                     CornerRadius="0"
                     IsTodayHighlighted="True"
                     SelectedDatesChanged="CalendarControl_SelectedDatesChanged"

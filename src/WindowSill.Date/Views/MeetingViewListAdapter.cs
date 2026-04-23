@@ -100,12 +100,12 @@ internal sealed class MeetingViewListAdapter : IDisposable
 
         IReadOnlyList<MeetingSillItemViewModel> activeMeetings = _stateService.GetActiveMeetings();
 
-        HashSet<MeetingKey> activeKeys = activeMeetings
+        var activeKeys = activeMeetings
             .Select(vm => vm.Key)
             .ToHashSet();
 
         // Remove stale entries (meeting ended, hidden, or no longer active).
-        List<MeetingKey> toRemove = _entries.Keys
+        var toRemove = _entries.Keys
             .Where(k => !activeKeys.Contains(k))
             .ToList();
 
@@ -129,7 +129,7 @@ internal sealed class MeetingViewListAdapter : IDisposable
             }
 
             // Create per-instance UI elements bound to the SHARED VM.
-            MeetingBarContent barContent = MeetingBarContent.Create(vm);
+            var barContent = MeetingBarContent.Create(vm);
             var previewFlyout = new MeetingPreviewFlyout(vm);
 
             // Build the flyout lazily on each open so it always reflects current state
@@ -147,7 +147,7 @@ internal sealed class MeetingViewListAdapter : IDisposable
                     onHide: () => _stateService.HideMeeting(capturedKey));
             };
 
-            var sillItem = new SillListViewMenuFlyoutItem(
+            SillListViewMenuFlyoutItem sillItem = new SillListViewMenuFlyoutItem(
                 barContent,
                 null,
                 menuFlyout)

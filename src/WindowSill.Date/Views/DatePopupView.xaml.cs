@@ -54,12 +54,6 @@ internal sealed partial class DatePopupView : SillPopupContent
         }
     }
 
-    private void CalendarControl_DayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs args)
-    {
-        // Phase 0: basic setup. Density bars could be added here in a future pass
-        // by fetching events for the visible month range and adding colors per day.
-    }
-
     private void JoinMeeting_Click(object sender, RoutedEventArgs e)
     {
         if (sender is MenuFlyoutItem { DataContext: EventItemViewModel eventVm } && eventVm.VideoCallUrl is not null)
