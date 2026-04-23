@@ -58,30 +58,61 @@ internal class CalDavCalendarProvider : ICalendarProvider
         public override bool CanSubmit => _content.IsValid;
 
         /// <inheritdoc />
-        public override Task<CalendarAccount> ConnectAsync(IntPtr parentWindowHandle, CancellationToken cancellationToken)
+        public override async Task<CalendarAccount> ConnectAsync(IntPtr parentWindowHandle, CancellationToken cancellationToken)
         {
-            // TODO: Validate connection to the CalDAV server and retrieve account info.
             string serverUrl = _content.ServerUrl;
             string username = _content.Username;
             string password = _content.Password;
 
-            var authData = new Dictionary<string, string>
+            try
             {
-                ["server_url"] = serverUrl,
-                ["username"] = username,
-                ["password"] = password,
-            };
+                // Validate credentials by discovering the calendar home URL.
+                string calendarHome = await CalDavCalendarAccountClient.ValidateAndDiscoverAsync(
+                    serverUrl, username, password, cancellationToken);
 
-            var account = new CalendarAccount
+                var authData = new Dictionary<string, string>
+                {
+                    ["server_url"] = serverUrl,
+                    ["username"] = username,
+                    ["password"] = password,
+                    ["calendar_home"] = calendarHome,
+                };
+
+                return new CalendarAccount
+                {
+                    Id = $"caldav_{username}@{new Uri(serverUrl).Host}",
+                    DisplayName = $"CalDAV ({username})",
+                    Email = username,
+                    ProviderType = CalendarProviderType.CalDav,
+                    AuthData = authData,
+                };
+            }
+            catch (HttpRequestException)
             {
-                Id = $"caldav_{username}@{new Uri(serverUrl).Host}",
-                DisplayName = $"CalDAV ({username})",
-                Email = username,
-                ProviderType = CalendarProviderType.CalDav,
-                AuthData = authData,
-            };
+                _content.ShowError("/WindowSill.Date/Settings/CalDavAuthFailed".GetLocalizedString());
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                // Principal discovery failed — try connecting without it.
+                // Some simple CalDAV servers serve calendars directly at the base URL.
+                var authData = new Dictionary<string, string>
+                {
+                    ["server_url"] = serverUrl,
+                    ["username"] = username,
+                    ["password"] = password,
+                    ["calendar_home"] = serverUrl,
+                };
 
-            return Task.FromResult(account);
+                return new CalendarAccount
+                {
+                    Id = $"caldav_{username}@{new Uri(serverUrl).Host}",
+                    DisplayName = $"CalDAV ({username})",
+                    Email = username,
+                    ProviderType = CalendarProviderType.CalDav,
+                    AuthData = authData,
+                };
+            }
         }
     }
 }

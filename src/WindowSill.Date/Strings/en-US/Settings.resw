@@ -180,6 +180,9 @@
   <data name="ICloudDiscoveryFailed" xml:space="preserve">
     <value>Could not find calendars for this account. Ensure iCloud Calendar is enabled.</value>
   </data>
+  <data name="CalDavAuthFailed" xml:space="preserve">
+    <value>Authentication failed. Check your server URL, username, and password.</value>
+  </data>
   <data name="LoadingCalendars.MessageProperty" xml:space="preserve">
     <value>Loading calendars…</value>
   </data>
