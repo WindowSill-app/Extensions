@@ -1,3 +1,6 @@
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Calendar.v3;
 using WindowSill.API;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Views;
@@ -9,6 +12,8 @@ namespace WindowSill.Date.Core.Providers.Google;
 /// </summary>
 internal sealed class GoogleCalendarProvider : ICalendarProvider
 {
+    internal static readonly string[] Scopes = [CalendarService.Scope.CalendarReadonly];
+
     /// <inheritdoc />
     public CalendarProviderType ProviderType => CalendarProviderType.Google;
 
@@ -33,6 +38,22 @@ internal sealed class GoogleCalendarProvider : ICalendarProvider
     }
 
     /// <summary>
+    /// Builds the Google OAuth authorization code flow shared by connect and client.
+    /// </summary>
+    internal static GoogleAuthorizationCodeFlow CreateFlow()
+    {
+        return new GoogleAuthorizationCodeFlow(new GoogleAuthorizationCodeFlow.Initializer
+        {
+            ClientSecrets = new ClientSecrets
+            {
+                ClientId = OAuthSecrets.GoogleClientId,
+                ClientSecret = OAuthSecrets.GoogleClientSecret,
+            },
+            Scopes = Scopes,
+        });
+    }
+
+    /// <summary>
     /// Connect experience for Google Calendar using browser-based OAuth.
     /// </summary>
     private sealed class GoogleConnectExperience : ConnectExperience
@@ -44,10 +65,33 @@ internal sealed class GoogleCalendarProvider : ICalendarProvider
         public override FrameworkElement Content => _content;
 
         /// <inheritdoc />
-        public override Task<CalendarAccount> ConnectAsync(IntPtr parentWindowHandle, CancellationToken cancellationToken)
+        public override async Task<CalendarAccount> ConnectAsync(IntPtr parentWindowHandle, CancellationToken cancellationToken)
         {
-            // TODO: Implement Google OAuth 2.0 flow.
-            throw new NotImplementedException("Google OAuth flow not yet implemented.");
+            GoogleAuthorizationCodeFlow flow = CreateFlow();
+
+            UserCredential credential = await new AuthorizationCodeInstalledApp(
+                flow, new LocalServerCodeReceiver())
+                .AuthorizeAsync("user", cancellationToken);
+
+            // The credential's UserId is typically the email from the consent flow.
+            string email = credential.UserId ?? "unknown@gmail.com";
+
+            var authData = new Dictionary<string, string>
+            {
+                ["access_token"] = credential.Token.AccessToken,
+                ["refresh_token"] = credential.Token.RefreshToken ?? string.Empty,
+                ["token_expiry"] = credential.Token.ExpiresInSeconds?.ToString() ?? "3600",
+                ["issued_utc"] = credential.Token.IssuedUtc.ToString("O"),
+            };
+
+            return new CalendarAccount
+            {
+                Id = $"google_{email}",
+                DisplayName = $"Google ({email})",
+                Email = email,
+                ProviderType = CalendarProviderType.Google,
+                AuthData = authData,
+            };
         }
     }
 }

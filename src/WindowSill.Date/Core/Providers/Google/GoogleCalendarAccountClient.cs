@@ -1,3 +1,6 @@
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth.OAuth2.Flows;
+using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Calendar.v3;
 using Google.Apis.Calendar.v3.Data;
 using Google.Apis.Services;
@@ -8,19 +11,18 @@ namespace WindowSill.Date.Core.Providers.Google;
 
 /// <summary>
 /// Per-account client for Google Calendar operations.
+/// Uses <see cref="UserCredential"/> for automatic token refresh.
 /// </summary>
 internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
 {
     private readonly IReadOnlyDictionary<string, string> _authData;
     private readonly Func<IReadOnlyDictionary<string, string>, CancellationToken, Task> _onAuthDataChanged;
     private CalendarService? _calendarService;
+    private UserCredential? _credential;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GoogleCalendarAccountClient"/> class.
     /// </summary>
-    /// <param name="account">The account this client is scoped to.</param>
-    /// <param name="authData">The persisted auth data (access_token, refresh_token).</param>
-    /// <param name="onAuthDataChanged">Callback to persist updated auth data.</param>
     internal GoogleCalendarAccountClient(
         CalendarAccount account,
         IReadOnlyDictionary<string, string> authData,
@@ -95,22 +97,32 @@ internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
     /// <inheritdoc />
     public async Task<bool> RefreshAuthAsync(CancellationToken cancellationToken)
     {
-        string? refreshToken = _authData.GetValueOrDefault("refresh_token");
-        if (string.IsNullOrEmpty(refreshToken))
+        try
+        {
+            UserCredential credential = CreateCredential();
+            bool refreshed = await credential.RefreshTokenAsync(cancellationToken);
+
+            if (refreshed)
+            {
+                await PersistTokensAsync(credential.Token, cancellationToken);
+                _credential = credential;
+                _calendarService = null;
+            }
+
+            return refreshed;
+        }
+        catch
         {
             return false;
         }
-
-        // TODO: Use refresh token to get new access token from Google token endpoint.
-        // Call _onAuthDataChanged with updated tokens.
-        _calendarService = null;
-        return true;
     }
 
     /// <inheritdoc />
     public Task DisconnectAsync(CancellationToken cancellationToken)
     {
+        _calendarService?.Dispose();
         _calendarService = null;
+        _credential = null;
         return Task.CompletedTask;
     }
 
@@ -119,29 +131,64 @@ internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
     {
         _calendarService?.Dispose();
         _calendarService = null;
+        _credential = null;
         return ValueTask.CompletedTask;
     }
 
-    private async Task<CalendarService> GetOrCreateServiceAsync(CancellationToken cancellationToken)
+    private Task<CalendarService> GetOrCreateServiceAsync(CancellationToken cancellationToken)
     {
         if (_calendarService is not null)
         {
-            return _calendarService;
+            return Task.FromResult(_calendarService);
         }
 
-        string? accessToken = _authData.GetValueOrDefault("access_token");
-        if (string.IsNullOrEmpty(accessToken))
-        {
-            throw new InvalidOperationException("No access token available. Call RefreshAuthAsync first.");
-        }
+        _credential ??= CreateCredential();
 
-        // TODO: Use proper credential with auto-refresh.
         _calendarService = new CalendarService(new BaseClientService.Initializer
         {
+            HttpClientInitializer = _credential,
             ApplicationName = "WindowSill.Date",
         });
 
-        return _calendarService;
+        return Task.FromResult(_calendarService);
+    }
+
+    private UserCredential CreateCredential()
+    {
+        GoogleAuthorizationCodeFlow flow = GoogleCalendarProvider.CreateFlow();
+
+        var token = new TokenResponse
+        {
+            AccessToken = _authData.GetValueOrDefault("access_token"),
+            RefreshToken = _authData.GetValueOrDefault("refresh_token"),
+        };
+
+        if (_authData.TryGetValue("issued_utc", out string? issuedStr)
+            && DateTime.TryParse(issuedStr, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime issued))
+        {
+            token.IssuedUtc = issued;
+        }
+
+        if (_authData.TryGetValue("token_expiry", out string? expiryStr)
+            && long.TryParse(expiryStr, out long expirySeconds))
+        {
+            token.ExpiresInSeconds = expirySeconds;
+        }
+
+        return new UserCredential(flow, Account.Email, token);
+    }
+
+    private async Task PersistTokensAsync(TokenResponse token, CancellationToken cancellationToken)
+    {
+        var updatedAuthData = new Dictionary<string, string>
+        {
+            ["access_token"] = token.AccessToken ?? string.Empty,
+            ["refresh_token"] = token.RefreshToken ?? _authData.GetValueOrDefault("refresh_token") ?? string.Empty,
+            ["token_expiry"] = token.ExpiresInSeconds?.ToString() ?? "3600",
+            ["issued_utc"] = token.IssuedUtc.ToString("O"),
+        };
+
+        await _onAuthDataChanged(updatedAuthData, cancellationToken);
     }
 
     private CalendarEvent MapToCalendarEvent(Event googleEvent, CalendarInfo calendar)
@@ -183,8 +230,7 @@ internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
             IsAllDay = isAllDay,
             Status = MapEventStatus(googleEvent.Status),
             BusyStatus = googleEvent.Transparency == "transparent" ? BusyStatus.Free : BusyStatus.Busy,
-            ResponseStatus = MapAttendeeResponse(googleEvent.Attendees
-                ?.FirstOrDefault(a => a.Self == true)?.ResponseStatus),
+            ResponseStatus = ResolveResponseStatus(googleEvent),
             VideoCall = videoCall,
             WebLink = Uri.TryCreate(googleEvent.HtmlLink, UriKind.Absolute, out Uri? link) ? link : null,
             Organizer = googleEvent.Organizer is not null
@@ -205,6 +251,24 @@ internal sealed class GoogleCalendarAccountClient : ICalendarAccountClient
             IsPrivate = googleEvent.Visibility == "private" || googleEvent.Visibility == "confidential",
             ProviderType = CalendarProviderType.Google,
         };
+    }
+
+    private static AttendeeResponseStatus ResolveResponseStatus(Event googleEvent)
+    {
+        // Check if we're in the attendee list.
+        EventAttendee? self = googleEvent.Attendees?.FirstOrDefault(a => a.Self == true);
+        if (self is not null)
+        {
+            return MapAttendeeResponse(self.ResponseStatus);
+        }
+
+        // Organizer not in attendees, or it's a personal event with no attendees.
+        if (googleEvent.Organizer?.Self == true || googleEvent.Attendees is null or { Count: 0 })
+        {
+            return AttendeeResponseStatus.Accepted;
+        }
+
+        return AttendeeResponseStatus.NotResponded;
     }
 
     private static CalendarEventStatus MapEventStatus(string? status)

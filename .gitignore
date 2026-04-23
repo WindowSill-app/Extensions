@@ -11,6 +11,10 @@
 *.sln.docstates
 *.env
 
+# OAuth secrets (local development — see OAuthSecrets.template.json)
+OAuthSecrets.json
+OAuthSecretsValues.g.cs
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

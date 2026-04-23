@@ -13,7 +13,6 @@ namespace WindowSill.Date.Core.Providers.Outlook;
 /// </summary>
 internal sealed class OutlookCalendarProvider : ICalendarProvider
 {
-    internal const string ClientId = "53fe2483-5557-4eff-aa19-0c07f2bbb29e";
     internal const string Authority = "https://login.microsoftonline.com/common";
     internal const string MsalCacheKey = "msal_cache";
 
@@ -69,7 +68,7 @@ internal sealed class OutlookCalendarProvider : ICalendarProvider
     private static IPublicClientApplication BuildMsalClient()
     {
         return PublicClientApplicationBuilder
-            .Create(ClientId)
+            .Create(OAuthSecrets.OutlookClientId)
             .WithAuthority(Authority)
             .WithBroker(new BrokerOptions(BrokerOptions.OperatingSystems.Windows))
             .WithDefaultRedirectUri()

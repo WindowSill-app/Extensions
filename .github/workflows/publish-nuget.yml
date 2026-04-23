@@ -28,9 +28,17 @@ jobs:
 
     - name: Pack extensions
       run: msbuild Extensions.slnx /p:Configuration=Release /p:Platform="Any CPU" /p:PackageOutputPath=${{ github.workspace }}/artifacts /p:RestorePackages=false
+      env:
+        OUTLOOK_CLIENT_ID: ${{ secrets.OUTLOOK_CLIENT_ID }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
     - name: Build unit tests
       run: msbuild src/UnitTests/UnitTests.csproj /p:Configuration=Release /p:Platform="Any CPU" /p:RestorePackages=false
+      env:
+        OUTLOOK_CLIENT_ID: ${{ secrets.OUTLOOK_CLIENT_ID }}
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
     - name: Run unit tests
       run: dotnet vstest src/**/bin/**/Release/**/*Tests.dll
