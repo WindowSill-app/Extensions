@@ -62,29 +62,44 @@ internal sealed class ICloudCalendarProvider : CalDavCalendarProvider
         public override bool CanSubmit => _content.IsValid;
 
         /// <inheritdoc />
-        public override Task<CalendarAccount> ConnectAsync(IntPtr parentWindowHandle, CancellationToken cancellationToken)
+        public override async Task<CalendarAccount> ConnectAsync(IntPtr parentWindowHandle, CancellationToken cancellationToken)
         {
-            // TODO: Validate connection to iCloud CalDAV server.
             string appleId = _content.AppleId;
             string appPassword = _content.AppPassword;
 
-            var authData = new Dictionary<string, string>
+            try
             {
-                ["server_url"] = ICloudCalDavServer,
-                ["username"] = appleId,
-                ["password"] = appPassword,
-            };
+                // Validate credentials by discovering the calendar home URL.
+                string calendarHome = await ICloudCalendarAccountClient.ValidateAndDiscoverAsync(
+                    appleId, appPassword, cancellationToken);
 
-            var account = new CalendarAccount
+                var authData = new Dictionary<string, string>
+                {
+                    ["server_url"] = ICloudCalDavServer,
+                    ["username"] = appleId,
+                    ["password"] = appPassword,
+                    ["calendar_home"] = calendarHome,
+                };
+
+                return new CalendarAccount
+                {
+                    Id = $"icloud_{appleId}",
+                    DisplayName = $"iCloud ({appleId})",
+                    Email = appleId,
+                    ProviderType = CalendarProviderType.ICloud,
+                    AuthData = authData,
+                };
+            }
+            catch (HttpRequestException)
             {
-                Id = $"icloud_{appleId}",
-                DisplayName = $"iCloud ({appleId})",
-                Email = appleId,
-                ProviderType = CalendarProviderType.ICloud,
-                AuthData = authData,
-            };
-
-            return Task.FromResult(account);
+                _content.ShowError("/WindowSill.Date/Settings/ICloudAuthFailed".GetLocalizedString());
+                throw;
+            }
+            catch (InvalidOperationException)
+            {
+                _content.ShowError("/WindowSill.Date/Settings/ICloudDiscoveryFailed".GetLocalizedString());
+                throw;
+            }
         }
     }
 }

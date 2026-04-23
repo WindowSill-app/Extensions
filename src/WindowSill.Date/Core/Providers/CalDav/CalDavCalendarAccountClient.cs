@@ -42,7 +42,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
     protected virtual string CalDavBaseUrl => $"https://caldav.example.com"; // Overridden per account.
 
     /// <inheritdoc />
-    public async Task<IReadOnlyList<CalendarInfo>> GetCalendarsAsync(CancellationToken cancellationToken)
+    public virtual async Task<IReadOnlyList<CalendarInfo>> GetCalendarsAsync(CancellationToken cancellationToken)
     {
         HttpClient client = await GetOrCreateHttpClientAsync(cancellationToken);
 
@@ -75,7 +75,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
     }
 
     /// <inheritdoc />
-    public async Task<IReadOnlyList<CalendarEvent>> GetEventsAsync(
+    public virtual async Task<IReadOnlyList<CalendarEvent>> GetEventsAsync(
         DateTimeOffset from,
         DateTimeOffset to,
         CancellationToken cancellationToken)
@@ -232,7 +232,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
                 var ical = Calendar.Load(icalData);
                 foreach (ICalCalendarEvent vEvent in ical.Events)
                 {
-                    events.Add(MapVEventToCalendarEvent(vEvent, calendar));
+                    events.Add(CalDavEventMapper.MapVEvent(vEvent, calendar, accountEmail: Account.Email));
                 }
             }
         }
@@ -242,73 +242,5 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
         }
 
         return events;
-    }
-
-    private CalendarEvent MapVEventToCalendarEvent(ICalCalendarEvent vEvent, CalendarInfo calendar)
-    {
-        bool isAllDay = !vEvent.Start.HasTime;
-
-        DateTimeOffset startTime = isAllDay
-            ? new DateTimeOffset(vEvent.Start.Date.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero)
-            : new DateTimeOffset(vEvent.Start.Value, TimeSpan.Zero);
-
-        DateTimeOffset endTime = vEvent.End is not null
-            ? (isAllDay
-                ? new DateTimeOffset(vEvent.End.Date.ToDateTime(TimeOnly.MinValue), TimeSpan.Zero)
-                : new DateTimeOffset(vEvent.End.Value, TimeSpan.Zero))
-            : startTime;
-
-        string? description = vEvent.Description;
-        string? location = vEvent.Location;
-
-        VideoCallInfo? videoCall = VideoCallDetector.Detect(description, location);
-
-        return new CalendarEvent
-        {
-            Id = vEvent.Uid ?? Guid.NewGuid().ToString(),
-            CalendarId = calendar.Id,
-            AccountId = Account.Id,
-            Title = vEvent.Summary ?? "No Title",
-            Description = description,
-            Location = location,
-            StartTime = startTime,
-            EndTime = endTime,
-            IsAllDay = isAllDay,
-            Status = MapICalStatus(vEvent.Status),
-            BusyStatus = string.Equals(vEvent.Transparency, "TRANSPARENT", StringComparison.OrdinalIgnoreCase)
-                ? BusyStatus.Free
-                : BusyStatus.Busy,
-            ResponseStatus = AttendeeResponseStatus.NotResponded, // CalDAV doesn't always provide this directly.
-            VideoCall = videoCall,
-            Organizer = vEvent.Organizer is not null
-                ? new CalendarEventAttendee(
-                    vEvent.Organizer.CommonName,
-                    vEvent.Organizer.Value?.Authority ?? string.Empty,
-                    AttendeeResponseStatus.Accepted,
-                    IsOrganizer: true)
-                : null,
-            Attendees = vEvent.Attendees?
-                .Select(a => new CalendarEventAttendee(
-                    a.CommonName,
-                    a.Value?.Authority ?? string.Empty,
-                    AttendeeResponseStatus.NotResponded))
-                .ToList() ?? [],
-            RecurrenceRule = vEvent.RecurrenceRules?.FirstOrDefault()?.ToString(),
-            Color = calendar.Color,
-            IsPrivate = string.Equals(vEvent.Class, "PRIVATE", StringComparison.OrdinalIgnoreCase)
-                || string.Equals(vEvent.Class, "CONFIDENTIAL", StringComparison.OrdinalIgnoreCase),
-            ProviderType = CalendarProviderType.CalDav,
-        };
-    }
-
-    private static CalendarEventStatus MapICalStatus(string? status)
-    {
-        return status?.ToUpperInvariant() switch
-        {
-            "CONFIRMED" => CalendarEventStatus.Confirmed,
-            "TENTATIVE" => CalendarEventStatus.Tentative,
-            "CANCELLED" => CalendarEventStatus.Cancelled,
-            _ => CalendarEventStatus.Confirmed,
-        };
     }
 }
