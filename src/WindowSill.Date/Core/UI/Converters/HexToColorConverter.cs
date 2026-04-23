@@ -1,5 +1,3 @@
-using Microsoft.UI;
-
 namespace WindowSill.Date.Core.UI.Converters;
 
 /// <summary>

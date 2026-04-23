@@ -2,8 +2,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using Windows.System;
-
-using WindowSill.API;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Settings;
 

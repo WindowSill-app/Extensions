@@ -8,7 +8,6 @@ using WindowSill.API;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Core.Services;
-using WindowSill.Date.Settings;
 
 namespace WindowSill.Date.ViewModels;
 

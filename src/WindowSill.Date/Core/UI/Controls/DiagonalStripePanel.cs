@@ -1,4 +1,3 @@
-using Microsoft.UI.Xaml.Media;
 using Path = Microsoft.UI.Xaml.Shapes.Path;
 
 namespace WindowSill.Date.Core.UI.Controls;

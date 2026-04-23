@@ -1,7 +1,6 @@
 using Windows.System;
 
 using WindowSill.API;
-using WindowSill.Date.Core.UI;
 using WindowSill.Date.ViewModels;
 
 namespace WindowSill.Date.Views;
