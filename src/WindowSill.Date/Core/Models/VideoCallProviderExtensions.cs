@@ -13,12 +13,12 @@ internal static class VideoCallProviderExtensions
     /// </summary>
     public static string? GetDisplayName(this VideoCallProvider provider) => provider switch
     {
-        VideoCallProvider.MicrosoftTeams => "Microsoft Teams",
-        VideoCallProvider.Zoom => "Zoom",
-        VideoCallProvider.GoogleMeet => "Google Meet",
-        VideoCallProvider.Webex => "Webex",
-        VideoCallProvider.Slack => "Slack",
-        VideoCallProvider.FaceTime => "FaceTime",
+        VideoCallProvider.MicrosoftTeams => "/WindowSill.Date/Meetings/ProviderMicrosoftTeams".GetLocalizedString(),
+        VideoCallProvider.Zoom => "/WindowSill.Date/Meetings/ProviderZoom".GetLocalizedString(),
+        VideoCallProvider.GoogleMeet => "/WindowSill.Date/Meetings/ProviderGoogleMeet".GetLocalizedString(),
+        VideoCallProvider.Webex => "/WindowSill.Date/Meetings/ProviderWebex".GetLocalizedString(),
+        VideoCallProvider.Slack => "/WindowSill.Date/Meetings/ProviderSlack".GetLocalizedString(),
+        VideoCallProvider.FaceTime => "/WindowSill.Date/Meetings/ProviderFaceTime".GetLocalizedString(),
         _ => null,
     };
 

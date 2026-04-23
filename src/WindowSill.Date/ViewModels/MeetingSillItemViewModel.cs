@@ -132,8 +132,7 @@ internal sealed partial class MeetingSillItemViewModel : ObservableObject, IDisp
             }
 
             int minutes = (int)Math.Ceiling(duration.TotalMinutes);
-            string prefix = TravelTimeEstimate.UsedFallback ? "~" : "~";
-            return $"{prefix}{minutes} min travel";
+            return string.Format("/WindowSill.Date/Meetings/TravelTimeMinutes".GetLocalizedString(), minutes);
         }
     }
 

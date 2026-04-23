@@ -85,4 +85,7 @@
   <data name="TimeTravelLabel.TextProperty" xml:space="preserve">
     <value>Time travel</value>
   </data>
+  <data name="Now" xml:space="preserve">
+    <value>Now</value>
+  </data>
 </root>

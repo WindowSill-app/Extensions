@@ -75,7 +75,7 @@ internal static class MeetingFlyoutBuilder
         // ── Date + time range ──
         var dateTimeItem = new MenuFlyoutItem
         {
-            Text = $"{viewModel.DateText} at {viewModel.TimeRangeText}",
+            Text = string.Format("/WindowSill.Date/Meetings/DateAtTime".GetLocalizedString(), viewModel.DateText, viewModel.TimeRangeText),
             IsEnabled = false,
         };
         flyout.Items.Add(dateTimeItem);
@@ -195,7 +195,7 @@ internal static class MeetingFlyoutBuilder
         };
         copyDetailsItem.Click += (_, _) =>
         {
-            string details = $"{viewModel.Title}\n{viewModel.DateText} at {viewModel.TimeRangeText}";
+            string details = $"{viewModel.Title}\n{string.Format("/WindowSill.Date/Meetings/DateAtTime".GetLocalizedString(), viewModel.DateText, viewModel.TimeRangeText)}";
             if (viewModel.HasLocation)
             {
                 details += $"\n{viewModel.Location}";

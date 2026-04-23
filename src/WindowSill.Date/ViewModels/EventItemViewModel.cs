@@ -2,6 +2,7 @@ using System.Globalization;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
+using WindowSill.API;
 using WindowSill.Date.Core.Models;
 
 namespace WindowSill.Date.ViewModels;
@@ -37,7 +38,7 @@ internal sealed partial class EventItemViewModel : ObservableObject
         {
             if (_event.IsAllDay)
             {
-                return "All day";
+                return "/WindowSill.Date/Meetings/AllDay".GetLocalizedString();
             }
 
             string start = _event.StartTime.LocalDateTime.ToString("h:mm tt", CultureInfo.CurrentCulture);

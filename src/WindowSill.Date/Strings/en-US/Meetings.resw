@@ -366,4 +366,28 @@
   <data name="TravelModeCycling" xml:space="preserve">
     <value>Cycling</value>
   </data>
+  <data name="TravelTimeMinutes" xml:space="preserve">
+    <value>~{0} min travel</value>
+  </data>
+  <data name="DateAtTime" xml:space="preserve">
+    <value>{0} at {1}</value>
+  </data>
+  <data name="ProviderMicrosoftTeams" xml:space="preserve">
+    <value>Microsoft Teams</value>
+  </data>
+  <data name="ProviderZoom" xml:space="preserve">
+    <value>Zoom</value>
+  </data>
+  <data name="ProviderGoogleMeet" xml:space="preserve">
+    <value>Google Meet</value>
+  </data>
+  <data name="ProviderWebex" xml:space="preserve">
+    <value>Webex</value>
+  </data>
+  <data name="ProviderSlack" xml:space="preserve">
+    <value>Slack</value>
+  </data>
+  <data name="ProviderFaceTime" xml:space="preserve">
+    <value>FaceTime</value>
+  </data>
 </root>

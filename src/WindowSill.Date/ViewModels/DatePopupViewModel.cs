@@ -79,7 +79,7 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
     /// Gets the time travel label text (e.g., "Now", "+3h", "-2h 15m").
     /// </summary>
     [ObservableProperty]
-    public partial string TimeTravelLabel { get; private set; } = "Now";
+    public partial string TimeTravelLabel { get; private set; } = "/WindowSill.Date/Popup/Now".GetLocalizedString();
 
     /// <summary>
     /// Gets the projected local time text when time-traveling (e.g., "02:00").
@@ -318,7 +318,7 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
         // Offset label
         if (TimeTravelOffsetMinutes == 0)
         {
-            TimeTravelLabel = "Now";
+            TimeTravelLabel = "/WindowSill.Date/Popup/Now".GetLocalizedString();
         }
         else
         {
