@@ -29,24 +29,4 @@ internal sealed partial class WorldClockBarContent : UserControl
     {
         return new WorldClockBarContent(viewModel);
     }
-
-    /// <summary>
-    /// Applies the visual state for the given orientation and size.
-    /// </summary>
-    /// <param name="orientationAndSize">The current sill orientation and size.</param>
-    internal void ApplyOrientationState(SillOrientationAndSize orientationAndSize)
-    {
-        string stateName = orientationAndSize switch
-        {
-            SillOrientationAndSize.HorizontalLarge => "HorizontalLarge",
-            SillOrientationAndSize.HorizontalMedium => "HorizontalMedium",
-            SillOrientationAndSize.HorizontalSmall => "HorizontalSmall",
-            SillOrientationAndSize.VerticalLarge => "VerticalLarge",
-            SillOrientationAndSize.VerticalMedium => "VerticalMedium",
-            SillOrientationAndSize.VerticalSmall => "VerticalSmall",
-            _ => throw new NotSupportedException($"Unsupported {nameof(SillOrientationAndSize)}: {orientationAndSize}")
-        };
-
-        VisualStateManager.GoToState(this, stateName, useTransitions: true);
-    }
 }

@@ -1,12 +1,12 @@
 using System.Collections.ObjectModel;
-using System.Globalization;
 
 using Microsoft.UI.Dispatching;
 
 using WindowSill.API;
+using WindowSill.Date.Core;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Core.Services;
-using WindowSill.Date.Settings;
+using WindowSill.Date.Core.UI;
 using WindowSill.Date.ViewModels;
 
 namespace WindowSill.Date.Views;
@@ -171,14 +171,5 @@ internal sealed partial class WorldClockViewListAdapter : IDisposable
         _requestReorder?.Invoke();
     }
 
-    /// <summary>
-    /// Gets the user's preferred time format string.
-    /// </summary>
-    private string GetTimeFormatString()
-    {
-        Settings.TimeFormat userFormat = _settingsProvider.GetSetting(Settings.Settings.TimeFormat);
-        return userFormat == Settings.TimeFormat.None
-            ? CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern
-            : userFormat.ToFormatString(showSeconds: false);
-    }
+    private string GetTimeFormatString() => TimeFormatHelper.GetTimeFormatString(_settingsProvider);
 }

@@ -34,23 +34,4 @@ internal sealed class ICloudCalendarAccountClient : CalDavCalendarAccountClient
         return CalDavCalendarAccountClient.ValidateAndDiscoverAsync(
             ICloudCalDavServer, appleId, appPassword, cancellationToken);
     }
-
-    /// <summary>
-    /// Normalizes Apple's hex color format (e.g., "#1BADF8FF") to standard 6-char hex.
-    /// </summary>
-    internal static string? NormalizeColor(string? color)
-    {
-        if (color is null)
-        {
-            return null;
-        }
-
-        color = color.TrimStart('#');
-        if (color.Length >= 6)
-        {
-            return $"#{color[..6]}";
-        }
-
-        return null;
-    }
 }

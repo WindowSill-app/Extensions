@@ -355,22 +355,8 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
         TimeTravelProjectedDate = projected.ToString("ddd, d MMM", System.Globalization.CultureInfo.CurrentCulture);
     }
 
-    /// <summary>
-    /// Gets the effective time format string based on user settings.
-    /// If the user's time format is None, falls back to the culture's default short time pattern.
-    /// </summary>
     private string GetEffectiveTimeFormatString()
-    {
-        Settings.TimeFormat userFormat = _settingsProvider.GetSetting(Settings.Settings.TimeFormat);
-
-        if (userFormat == TimeFormat.None)
-        {
-            // Use the culture's default short time pattern (e.g., "h:mm tt" for en-US, "HH:mm" for fr-FR).
-            return System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.ShortTimePattern;
-        }
-
-        return userFormat.ToFormatString(showSeconds: false);
-    }
+        => Core.TimeFormatHelper.GetTimeFormatString(_settingsProvider);
 
     private void UpdateEventListHeader()
     {

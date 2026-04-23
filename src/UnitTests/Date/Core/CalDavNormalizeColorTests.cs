@@ -1,9 +1,9 @@
 using FluentAssertions;
-using WindowSill.Date.Core.Providers.ICloud;
+using WindowSill.Date.Core.Providers.CalDav;
 
 namespace UnitTests.Date.Core;
 
-public class ICloudNormalizeColorTests
+public class CalDavNormalizeColorTests
 {
     [Theory]
     [InlineData("#1BADF8FF", "#1BADF8")]
@@ -13,13 +13,13 @@ public class ICloudNormalizeColorTests
     [InlineData("FF5733", "#FF5733")]
     public void NormalizeColor_ValidInput_ReturnsStandard6CharHex(string input, string expected)
     {
-        ICloudCalendarAccountClient.NormalizeColor(input).Should().Be(expected);
+        CalDavCalendarAccountClient.NormalizeColor(input).Should().Be(expected);
     }
 
     [Fact]
     public void NormalizeColor_Null_ReturnsNull()
     {
-        ICloudCalendarAccountClient.NormalizeColor(null).Should().BeNull();
+        CalDavCalendarAccountClient.NormalizeColor(null).Should().BeNull();
     }
 
     [Theory]
@@ -28,6 +28,6 @@ public class ICloudNormalizeColorTests
     [InlineData("#")]
     public void NormalizeColor_TooShort_ReturnsNull(string input)
     {
-        ICloudCalendarAccountClient.NormalizeColor(input).Should().BeNull();
+        CalDavCalendarAccountClient.NormalizeColor(input).Should().BeNull();
     }
 }

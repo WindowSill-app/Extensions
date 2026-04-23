@@ -397,7 +397,7 @@ internal class CalDavCalendarAccountClient : ICalendarAccountClient
     /// <summary>
     /// Normalizes color formats (e.g., Apple's "#1BADF8FF" RGBA → "#1BADF8" RGB).
     /// </summary>
-    private static string? NormalizeColor(string? color)
+    internal static string? NormalizeColor(string? color)
     {
         if (color is null)
         {

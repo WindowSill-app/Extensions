@@ -1,4 +1,5 @@
 using WindowSill.API;
+using WindowSill.Date.Core.UI;
 using WindowSill.Date.ViewModels;
 
 namespace WindowSill.Date.Views;
@@ -39,29 +40,13 @@ internal sealed partial class DateBarContent : UserControl
 
         viewItem.IsSillOrientationOrSizeChanged += (_, _) =>
         {
-            content.ApplyOrientationState(viewItem.SillOrientationAndSize);
+            SillOrientationHelper.ApplyOrientationState(content, viewItem.SillOrientationAndSize);
         };
-        content.ApplyOrientationState(viewItem.SillOrientationAndSize);
+        SillOrientationHelper.ApplyOrientationState(content, viewItem.SillOrientationAndSize);
 
         // Start the timer on the UI thread now that we have a dispatcher.
         viewModel.StartTimer(content.DispatcherQueue);
 
         return viewItem;
-    }
-
-    private void ApplyOrientationState(SillOrientationAndSize orientationAndSize)
-    {
-        string stateName = orientationAndSize switch
-        {
-            SillOrientationAndSize.HorizontalLarge => "HorizontalLarge",
-            SillOrientationAndSize.HorizontalMedium => "HorizontalMedium",
-            SillOrientationAndSize.HorizontalSmall => "HorizontalSmall",
-            SillOrientationAndSize.VerticalLarge => "VerticalLarge",
-            SillOrientationAndSize.VerticalMedium => "VerticalMedium",
-            SillOrientationAndSize.VerticalSmall => "VerticalSmall",
-            _ => throw new NotSupportedException($"Unsupported {nameof(SillOrientationAndSize)}: {orientationAndSize}")
-        };
-
-        VisualStateManager.GoToState(this, stateName, useTransitions: true);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using WindowSill.API;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Core.Services;
+using WindowSill.Date.Core.UI;
 using WindowSill.Date.ViewModels;
 
 namespace WindowSill.Date.Views;
