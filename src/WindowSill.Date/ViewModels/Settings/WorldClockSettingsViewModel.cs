@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
+using NodaTime;
+
 using WindowSill.API;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Core.Services;
@@ -71,16 +73,6 @@ internal sealed partial class WorldClockSettingsViewModel : ObservableObject
         LoadEntries();
     }
 
-    /// <summary>
-    /// Persists the current order of <see cref="Entries"/> after a drag-and-drop reorder.
-    /// The ListView has already mutated the ObservableCollection; this saves the new order.
-    /// </summary>
-    public void PersistCurrentOrder()
-    {
-        var orderedIds = Entries.Select(e => e.TimeZoneId).ToList();
-        _worldClockService.ReorderEntries(orderedIds);
-    }
-
     // ── Bar placement ──
 
     /// <summary>
@@ -115,9 +107,16 @@ internal sealed partial class WorldClockSettingsViewModel : ObservableObject
         Entries.Clear();
 
         IReadOnlyList<WorldClockEntry> entries = _worldClockService.GetEntries();
-        for (int i = 0; i < entries.Count; i++)
+        Instant now = SystemClock.Instance.GetCurrentInstant();
+
+        // Sort by UTC offset so entries are ordered west-to-east.
+        var sorted = entries
+            .OrderBy(e => _worldClockService.GetTimeZone(e.TimeZoneId).GetUtcOffset(now).Milliseconds)
+            .ToList();
+
+        for (int i = 0; i < sorted.Count; i++)
         {
-            Entries.Add(new WorldClockSettingsItemViewModel(entries[i], _worldClockService, LoadEntries));
+            Entries.Add(new WorldClockSettingsItemViewModel(sorted[i], _worldClockService, LoadEntries));
         }
 
         HasNoEntries = Entries.Count == 0;

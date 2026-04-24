@@ -29,9 +29,12 @@
                 TextChanged="CitySearchBox_TextChanged" />
         </StackPanel>
 
-        <!--  Configured clocks list  -->
-        <StackPanel Spacing="8">
-            <TextBlock api:Uids.Uid="/WindowSill.Date/WorldClocks/ConfiguredClocksHeader" Style="{ThemeResource BodyStrongTextBlockStyle}" />
+        <!--  Configured clocks list (ordered by timezone)  -->
+        <StackPanel Spacing="2">
+            <TextBlock
+                Margin="0,0,0,8"
+                api:Uids.Uid="/WindowSill.Date/WorldClocks/ConfiguredClocksHeader"
+                Style="{ThemeResource BodyStrongTextBlockStyle}" />
 
             <!--  Empty state  -->
             <TextBlock
@@ -40,138 +43,77 @@
                 Style="{ThemeResource CaptionTextBlockStyle}"
                 Visibility="{x:Bind ViewModel.HasNoEntries, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-            <!--  Clock entries (draggable list)  -->
-            <ListView
-                x:Name="ClockListView"
-                AllowDrop="True"
-                CanDragItems="True"
-                CanReorderItems="True"
-                DragItemsCompleted="ClockListView_DragItemsCompleted"
-                ItemsSource="{x:Bind ViewModel.Entries}"
-                SelectionMode="None">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <!--  Disable virtualization to prevent crash during reorder  -->
-                        <StackPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemContainerStyle>
-                    <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
-                        <Setter Property="Margin" Value="0" />
-                        <Setter Property="Padding" Value="0,2,0,0" />
-                    </Style>
-                </ListView.ItemContainerStyle>
-                <ListView.ItemTemplate>
+            <!--  Clock entries  -->
+            <ItemsRepeater ItemsSource="{x:Bind ViewModel.Entries}">
+                <ItemsRepeater.Layout>
+                    <StackLayout Spacing="2" />
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="vm:WorldClockSettingsItemViewModel">
-                        <Border
-                            Height="64"
-                            VerticalAlignment="Top"
-                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="{ThemeResource ControlCornerRadius}">
-                            <Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
-                                <Grid.ColumnDefinitions>
-                                    <!--  Drag handle  -->
-                                    <ColumnDefinition Width="32" />
-                                    <!--  Name + timezone  -->
-                                    <ColumnDefinition Width="*" />
-                                    <!--  Edit + Delete buttons  -->
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+                        <ctk:SettingsCard Description="{x:Bind TimeZoneId}" Header="{x:Bind DisplayName, Mode=OneWay}">
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <!--  Edit  -->
+                                <Button
+                                    Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent">
+                                    <FontIcon
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                        FontSize="16"
+                                        Glyph="&#xE70F;" />
+                                    <Button.Flyout>
+                                        <Flyout>
+                                            <StackPanel Width="220" Spacing="8">
+                                                <TextBox
+                                                    api:Uids.Uid="/WindowSill.Date/WorldClocks/CustomNameBox"
+                                                    PlaceholderText="{x:Bind DefaultCityName}"
+                                                    Text="{x:Bind EditableName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                <TextBlock
+                                                    api:Uids.Uid="/WindowSill.Date/WorldClocks/CustomNameHint"
+                                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    TextWrapping="Wrap" />
 
-                                <!--  Drag handle  -->
-                                <TextBlock
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    FontFamily="Segoe UI Symbol"
-                                    FontSize="20"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Text="&#x283F;" />
-
-                                <!--  Display name and timezone ID  -->
-                                <StackPanel
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center"
-                                    Spacing="0">
-                                    <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" TextTrimming="CharacterEllipsis" />
-                                    <TextBlock
-                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind TimeZoneId}" />
-                                </StackPanel>
-
-                                <!--  Edit + Delete  -->
-                                <StackPanel
-                                    Grid.Column="2"
-                                    Margin="0,0,8,0"
-                                    Padding="4"
-                                    Orientation="Horizontal"
-                                    Spacing="4">
-                                    <!--  Rename  -->
-                                    <Button
-                                        Width="32"
-                                        Height="32"
-                                        Padding="0"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent">
-                                        <FontIcon
-                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                            FontSize="16"
-                                            Glyph="&#xE70F;" />
-                                        <Button.Flyout>
-                                            <Flyout>
-                                                <StackPanel Width="220" Spacing="8">
-                                                    <TextBox
-                                                        api:Uids.Uid="/WindowSill.Date/WorldClocks/CustomNameBox"
-                                                        PlaceholderText="{x:Bind DefaultCityName}"
-                                                        Text="{x:Bind EditableName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                                                    <TextBlock
-                                                        api:Uids.Uid="/WindowSill.Date/WorldClocks/CustomNameHint"
-                                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                                        TextWrapping="Wrap" />
-
-                                                    <!--  Show in bar  -->
-                                                    <Rectangle
-                                                        Height="1"
-                                                        Margin="0,4"
-                                                        Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
-                                                    <ToggleSwitch
-                                                        MinWidth="0"
-                                                        api:Uids.Uid="/WindowSill.Date/WorldClocks/ShowInBar"
-                                                        IsOn="{x:Bind ShowInBar, Mode=TwoWay}"
-                                                        OffContent=""
-                                                        OnContent="" />
-                                                    <TextBlock
-                                                        api:Uids.Uid="/WindowSill.Date/WorldClocks/ShowInBarHint"
-                                                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
-                                                        Style="{ThemeResource CaptionTextBlockStyle}"
-                                                        TextWrapping="Wrap" />
-                                                </StackPanel>
-                                            </Flyout>
-                                        </Button.Flyout>
-                                    </Button>
-                                    <!--  Delete  -->
-                                    <Button
-                                        Width="32"
-                                        Height="32"
-                                        Padding="0"
-                                        Background="Transparent"
-                                        BorderBrush="Transparent"
-                                        Command="{x:Bind RemoveCommand}">
-                                        <FontIcon
-                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                            FontSize="16"
-                                            Glyph="&#xE74D;" />
-                                    </Button>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
+                                                <!--  Show in bar  -->
+                                                <Rectangle
+                                                    Height="1"
+                                                    Margin="0,4"
+                                                    Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+                                                <ToggleSwitch
+                                                    MinWidth="0"
+                                                    api:Uids.Uid="/WindowSill.Date/WorldClocks/ShowInBar"
+                                                    IsOn="{x:Bind ShowInBar, Mode=TwoWay}"
+                                                    OffContent=""
+                                                    OnContent="" />
+                                                <TextBlock
+                                                    api:Uids.Uid="/WindowSill.Date/WorldClocks/ShowInBarHint"
+                                                    Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                    Style="{ThemeResource CaptionTextBlockStyle}"
+                                                    TextWrapping="Wrap" />
+                                            </StackPanel>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+                                <!--  Delete  -->
+                                <Button
+                                    Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Command="{x:Bind RemoveCommand}">
+                                    <FontIcon
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                        FontSize="16"
+                                        Glyph="&#xE74D;" />
+                                </Button>
+                            </StackPanel>
+                        </ctk:SettingsCard>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
         </StackPanel>
 
         <!--  Bar placement  -->

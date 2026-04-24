@@ -6,7 +6,6 @@ namespace WindowSill.Date.Views;
 
 /// <summary>
 /// Settings view for managing world clock timezone entries.
-/// Supports drag-and-drop reordering, rename via flyout, and delete.
 /// </summary>
 internal sealed partial class WorldClockSettingsView : UserControl
 {
@@ -41,10 +40,5 @@ internal sealed partial class WorldClockSettingsView : UserControl
             ViewModel.AddFromSearchResult(result);
             sender.Text = string.Empty;
         }
-    }
-
-    private void ClockListView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
-    {
-        ViewModel.PersistCurrentOrder();
     }
 }
