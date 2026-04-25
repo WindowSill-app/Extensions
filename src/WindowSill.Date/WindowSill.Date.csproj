@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.Date</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.9.21</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>Date</Title>
     <Description>

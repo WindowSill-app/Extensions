@@ -91,7 +91,7 @@ internal static class Settings
     /// Whether travel time estimation is enabled.
     /// </summary>
     internal static readonly SettingDefinition<bool> EnableTravelTime
-        = new(true, typeof(Settings).Assembly);
+        = new(false, typeof(Settings).Assembly);
 
     /// <summary>
     /// How many minutes before a meeting the sill item appears.
