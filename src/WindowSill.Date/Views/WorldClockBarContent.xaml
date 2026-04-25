@@ -16,7 +16,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBlock
                 x:Name="NameTextSingle"
@@ -27,14 +26,8 @@
                 TextTrimming="CharacterEllipsis"
                 TextWrapping="NoWrap" />
             <TextBlock
-                Grid.Column="1"
-                VerticalAlignment="Center"
-                FontSize="{ThemeResource SillFontSize}"
-                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                Text="·" />
-            <TextBlock
                 x:Name="TimeTextSingle"
-                Grid.Column="2"
+                Grid.Column="1"
                 VerticalAlignment="Center"
                 FontSize="{ThemeResource SillFontSize}"
                 Foreground="{ThemeResource TextFillColorSecondaryBrush}"

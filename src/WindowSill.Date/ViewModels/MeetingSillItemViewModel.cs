@@ -413,7 +413,7 @@ internal sealed partial class MeetingSillItemViewModel : ObservableObject, IDisp
     }
 
     /// <summary>
-    /// Formats elapsed time as "• N min" for in-progress meetings.
+    /// Formats elapsed time as "N min" for in-progress meetings.
     /// </summary>
     private static string FormatElapsed(TimeSpan elapsed)
     {

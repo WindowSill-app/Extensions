@@ -136,7 +136,7 @@
     <value>in {0} min</value>
   </data>
   <data name="ElapsedMinutes" xml:space="preserve">
-    <value>• {0} min</value>
+    <value>{0} min</value>
   </data>
   <data name="IsLive" xml:space="preserve">
     <value>is live!</value>
