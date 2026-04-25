@@ -6,7 +6,6 @@ using WindowSill.API;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Services;
 using WindowSill.Date.Core.UI;
-using WindowSill.Date.Settings;
 using WindowSill.Date.ViewModels;
 using WindowSill.Date.Views;
 
@@ -19,7 +18,7 @@ namespace WindowSill.Date;
 [Export(typeof(ISill))]
 [Name("Date")]
 [Priority(Priority.Lowest)]
-[SupportMultipleMonitors(showOnEveryMonitorsByDefault: true)]
+[SupportMultipleMonitors(showOnEveryMonitorsByDefault: false)]
 [HideIconInSillListView]
 internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFirstTimeSetup
 {

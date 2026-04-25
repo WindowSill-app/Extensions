@@ -5,15 +5,15 @@
     <Authors>Etienne Baudoux</Authors>
     <Title>Date</Title>
     <Description>
-      Your calendar, world clocks, and meetings — all at a glance. Inspired by Dato and Calendar Flyout.
+      Your calendar, world clocks, and meetings, all at a glance.
 
-      • See upcoming meetings with countdown timers directly in your sill bar
-      • One-click join for Teams, Zoom, Google Meet, Webex, and Slack meetings
+      • Upcoming meetings with countdown timers right in your sill bar
+      • One-click join for Teams, Zoom, Google Meet, Webex, and Slack
+      • Get notified when it's time to leave for in-person meetings
       • Full-screen or toast reminders so you never miss a meeting
-      • World clocks with live times for any timezone
-      • Time travel — visualize times across timezones with a simple slider
-      • Supports Microsoft Outlook, Google Calendar, and Apple iCloud
-      • Mini calendar with event indicators for quick date navigation
+      • World clocks pinned to your sill bar with live times for any timezone
+      • Slide through timezones to see what time it is anywhere
+      • Supports Microsoft Outlook, Google Calendar, and Apple iCloud (CalDAV)
 
       Stay on top of your schedule without switching windows.
     </Description>
