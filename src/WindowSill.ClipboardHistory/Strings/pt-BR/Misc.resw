@@ -153,4 +153,7 @@
   <data name="LinkError" xml:space="preserve">
     <value>Não foi possível carregar o link</value>
   </data>
+  <data name="ClipboardFileBaseName" xml:space="preserve">
+    <value>Área de transferência</value>
+  </data>
 </root>

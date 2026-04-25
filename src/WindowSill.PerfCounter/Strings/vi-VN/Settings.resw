@@ -145,12 +145,18 @@
     <value>Nhấp để mở Trình quản lý tác vụ của Windows để xem chi tiết thông tin hệ thống</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
-    <value>Hiển thị CPU</value>
+    <value>Show CPU Usage</value>
   </data>
   <data name="ShowGpu.HeaderProperty" xml:space="preserve">
-    <value>Hiển thị GPU</value>
+    <value>Show GPU Usage</value>
   </data>
   <data name="ShowRam.HeaderProperty" xml:space="preserve">
-    <value>Hiển thị RAM</value>
+    <value>Show RAM Usage</value>
+  </data>
+  <data name="ShowCpuTemperature.HeaderProperty" xml:space="preserve">
+    <value>Show CPU Temperature</value>
+  </data>
+  <data name="ShowGpuTemperature.HeaderProperty" xml:space="preserve">
+    <value>Show GPU Temperature</value>
   </data>
 </root>
