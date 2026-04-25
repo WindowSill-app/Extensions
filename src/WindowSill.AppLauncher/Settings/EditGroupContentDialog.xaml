@@ -128,7 +128,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="appinfo:AppInfo">
                     <Border
-                        Height="48"
+                        Height="64"
                         VerticalAlignment="Top"
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"

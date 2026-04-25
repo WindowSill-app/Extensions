@@ -1,38 +1,82 @@
 <Project>
   <PropertyGroup>
-    <DotNetVersion>10.0.0</DotNetVersion>
+    <CommunityToolkitWinUIVersion>8.2.251219</CommunityToolkitWinUIVersion>
+    <DotNetVersion>10.0.6</DotNetVersion>
+    <GoogleApisVersion>1.73.0</GoogleApisVersion>
+    <HarfBuzzSharpVersion>8.3.1.1</HarfBuzzSharpVersion>
+    <LiveChartsCoreVersion>2.0.0</LiveChartsCoreVersion>
+    <MagickNETVersion>14.12.0</MagickNETVersion>
+    <MicrosoftIdentityClientVersion>4.83.3</MicrosoftIdentityClientVersion>
+    <MicrosoftIdentityModelVersion>8.17.0</MicrosoftIdentityModelVersion>
+    <MicrosoftKiotaVersion>1.22.1</MicrosoftKiotaVersion>
+    <MicrosoftMLOnnxRuntimeVersion>1.24.2</MicrosoftMLOnnxRuntimeVersion>
+    <MicrosoftRecognizersVersion>1.8.13</MicrosoftRecognizersVersion>
+    <SkiaSharpVersion>3.119.0</SkiaSharpVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.251219" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.251219" />
+    <PackageVersion Include="Azure.Core" Version="1.53.0" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="$(CommunityToolkitWinUIVersion)" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="$(CommunityToolkitWinUIVersion)" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="DocumentFormat.OpenXml" Version="3.3.0" />
     <PackageVersion Include="FluentAssertions" Version="8.8.0" />
     <PackageVersion Include="FuzzySharp" Version="2.0.2" />
-    <PackageVersion Include="HarfBuzzSharp" Version="8.3.1.1" />
-    <PackageVersion Include="HarfBuzzSharp.NativeAssets.Win32" Version="8.3.1.1" />
-    <PackageVersion Include="LiveChartsCore" Version="2.0.0" />
-    <PackageVersion Include="LiveChartsCore.SkiaSharpView" Version="2.0.0" />
-    <PackageVersion Include="LiveChartsCore.SkiaSharpView.WinUI" Version="2.0.0" />
-    <PackageVersion Include="SkiaSharp" Version="3.119.0" />
-    <PackageVersion Include="SkiaSharp.HarfBuzz" Version="3.119.0" />
-    <PackageVersion Include="SkiaSharp.NativeAssets.Win32" Version="3.119.0" />
-    <PackageVersion Include="SkiaSharp.NativeAssets.WinUI" Version="3.119.0" />
-    <PackageVersion Include="SkiaSharp.Views.WinUI" Version="3.119.0" />
-    <PackageVersion Include="Magick.NET.Core" Version="14.10.2" />
-    <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="14.10.2" />
-    <PackageVersion Include="Microsoft.ML.OnnxRuntime" Version="1.24.2" />
-    <PackageVersion Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.24.2" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageVersion Include="Google.Apis" Version="$(GoogleApisVersion)" />
+    <PackageVersion Include="Google.Apis.Auth" Version="$(GoogleApisVersion)" />
+    <PackageVersion Include="Google.Apis.Calendar.v3" Version="1.73.0.4073" />
+    <PackageVersion Include="Google.Apis.Core" Version="$(GoogleApisVersion)" />
+    <PackageVersion Include="HarfBuzzSharp" Version="$(HarfBuzzSharpVersion)" />
+    <PackageVersion Include="HarfBuzzSharp.NativeAssets.Win32" Version="$(HarfBuzzSharpVersion)" />
+    <PackageVersion Include="Ical.Net" Version="5.2.1" />
+    <PackageVersion Include="LiveChartsCore" Version="$(LiveChartsCoreVersion)" />
+    <PackageVersion Include="LiveChartsCore.SkiaSharpView" Version="$(LiveChartsCoreVersion)" />
+    <PackageVersion Include="LiveChartsCore.SkiaSharpView.WinUI" Version="$(LiveChartsCoreVersion)" />
+    <PackageVersion Include="Magick.NET.Core" Version="$(MagickNETVersion)" />
+    <PackageVersion Include="Magick.NET-Q16-AnyCPU" Version="$(MagickNETVersion)" />
+    <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.6" />
+    <PackageVersion Include="Microsoft.Graph" Version="5.103.0" />
+    <PackageVersion Include="Microsoft.Graph.Core" Version="3.2.5" />
     <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.3.2" />
-    <PackageVersion Include="Microsoft.Recognizers.Definitions" Version="1.8.13" />
-    <PackageVersion Include="Microsoft.Recognizers.Text" Version="1.8.13" />
-    <PackageVersion Include="Microsoft.Recognizers.Text.Number" Version="1.8.13" />
-    <PackageVersion Include="Microsoft.Recognizers.Text.NumberWithUnit" Version="1.8.13" />
+    <PackageVersion Include="Microsoft.Identity.Client" Version="$(MicrosoftIdentityClientVersion)" />
+    <PackageVersion Include="Microsoft.Identity.Client.Broker" Version="$(MicrosoftIdentityClientVersion)" />
+    <PackageVersion Include="Microsoft.Identity.Client.Extensions.Msal" Version="$(MicrosoftIdentityClientVersion)" />
+    <PackageVersion Include="Microsoft.Identity.Client.NativeInterop" Version="0.20.4" />
+    <PackageVersion Include="Microsoft.IdentityModel.Abstractions" Version="$(MicrosoftIdentityModelVersion)" />
+    <PackageVersion Include="Microsoft.IdentityModel.JsonWebTokens" Version="$(MicrosoftIdentityModelVersion)" />
+    <PackageVersion Include="Microsoft.IdentityModel.Logging" Version="$(MicrosoftIdentityModelVersion)" />
+    <PackageVersion Include="Microsoft.IdentityModel.Protocols" Version="$(MicrosoftIdentityModelVersion)" />
+    <PackageVersion Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="$(MicrosoftIdentityModelVersion)" />
+    <PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="$(MicrosoftIdentityModelVersion)" />
+    <PackageVersion Include="Microsoft.IdentityModel.Validators" Version="$(MicrosoftIdentityModelVersion)" />
+    <PackageVersion Include="Microsoft.Kiota.Abstractions" Version="$(MicrosoftKiotaVersion)" />
+    <PackageVersion Include="Microsoft.Kiota.Authentication.Azure" Version="$(MicrosoftKiotaVersion)" />
+    <PackageVersion Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="$(MicrosoftKiotaVersion)" />
+    <PackageVersion Include="Microsoft.Kiota.Serialization.Form" Version="$(MicrosoftKiotaVersion)" />
+    <PackageVersion Include="Microsoft.Kiota.Serialization.Json" Version="$(MicrosoftKiotaVersion)" />
+    <PackageVersion Include="Microsoft.Kiota.Serialization.Multipart" Version="$(MicrosoftKiotaVersion)" />
+    <PackageVersion Include="Microsoft.Kiota.Serialization.Text" Version="$(MicrosoftKiotaVersion)" />
+    <PackageVersion Include="Microsoft.ML.OnnxRuntime" Version="$(MicrosoftMLOnnxRuntimeVersion)" />
+    <PackageVersion Include="Microsoft.ML.OnnxRuntime.Managed" Version="$(MicrosoftMLOnnxRuntimeVersion)" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageVersion Include="Microsoft.Recognizers.Definitions" Version="$(MicrosoftRecognizersVersion)" />
+    <PackageVersion Include="Microsoft.Recognizers.Text" Version="$(MicrosoftRecognizersVersion)" />
+    <PackageVersion Include="Microsoft.Recognizers.Text.Number" Version="$(MicrosoftRecognizersVersion)" />
+    <PackageVersion Include="Microsoft.Recognizers.Text.NumberWithUnit" Version="$(MicrosoftRecognizersVersion)" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.264" />
+    <PackageVersion Include="NodaTime" Version="3.2.2" />
     <PackageVersion Include="NPSMLib" Version="0.9.14" />
+    <PackageVersion Include="NuGet.CommandLine" Version="5.11.7" />
     <PackageVersion Include="PdfPig" Version="0.1.12" />
-    <PackageVersion Include="System.Numerics.Tensors" Version="10.0.3" />
+    <PackageVersion Include="SkiaSharp" Version="$(SkiaSharpVersion)" />
+    <PackageVersion Include="SkiaSharp.HarfBuzz" Version="$(SkiaSharpVersion)" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.Win32" Version="$(SkiaSharpVersion)" />
+    <PackageVersion Include="SkiaSharp.NativeAssets.WinUI" Version="$(SkiaSharpVersion)" />
+    <PackageVersion Include="SkiaSharp.Views.WinUI" Version="$(SkiaSharpVersion)" />
+    <PackageVersion Include="Std.UriTemplate" Version="2.0.8" />
+    <PackageVersion Include="System.ClientModel" Version="1.10.0" />
+    <PackageVersion Include="System.Memory.Data" Version="$(DotNetVersion)" />
+    <PackageVersion Include="System.Numerics.Tensors" Version="$(DotNetVersion)" />
+    <PackageVersion Include="System.Security.Cryptography.ProtectedData" Version="$(DotNetVersion)" />
     <PackageVersion Include="ThrottleDebounce" Version="2.0.1" />
     <PackageVersion Include="UnitsNet" Version="5.75.0" />
     <PackageVersion Include="WindowSill.API" Version="0.9.21" />

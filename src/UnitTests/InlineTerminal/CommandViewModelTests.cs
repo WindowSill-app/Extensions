@@ -1,4 +1,5 @@
 using FluentAssertions;
+using WindowSill.InlineTerminal.Core.Shell;
 using WindowSill.InlineTerminal.Models;
 using WindowSill.InlineTerminal.Services;
 using WindowSill.InlineTerminal.ViewModels;
@@ -15,7 +16,7 @@ public class CommandViewModelTests
     {
         service ??= TestHelpers.CreateCommandService();
         command ??= service.CreateCommand("echo hello", null, "/tmp", TestHelpers.CreateDummyShell(), null);
-        var shells = new[] { TestHelpers.CreateDummyShell() };
+        ShellInfo[] shells = new[] { TestHelpers.CreateDummyShell() };
         return new CommandViewModel(service, command, shells, new TestHelpers.FakeSettingsProvider());
     }
 
@@ -60,7 +61,7 @@ public class CommandViewModelTests
     [Fact]
     internal void SelectedShell_InitializedFromDefinition()
     {
-        var shell = TestHelpers.CreateDummyShell("MyShell");
+        ShellInfo shell = TestHelpers.CreateDummyShell("MyShell");
         CommandService service = TestHelpers.CreateCommandService();
         CommandDefinition cmd = service.CreateCommand("ls", null, "/tmp", shell, null);
         CommandViewModel vm = CreateViewModel(cmd, service);

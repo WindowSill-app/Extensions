@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.Date.Views.DateBarContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="RootPanel"
+        Margin="{ThemeResource SillCommandContentMargin}"
+        VerticalAlignment="Center">
+        <!--  Icon mode  -->
+        <Image
+            x:Name="CalendarIcon"
+            Width="20"
+            Height="20"
+            AutomationProperties.Name="Calendar"
+            Source="{x:Bind ViewModel.IconSource}"
+            Stretch="Uniform"
+            Visibility="{x:Bind ViewModel.IsIconMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+        <!--  DateTime mode  -->
+        <StackPanel
+            x:Name="DateTimePanel"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="6"
+            Visibility="{x:Bind ViewModel.IsDateTimeMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+
+            <TextBlock
+                x:Name="DateText"
+                VerticalAlignment="Center"
+                FontSize="{ThemeResource SillFontSize}"
+                Text="{x:Bind ViewModel.DateText, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap"
+                Typography.NumeralAlignment="Tabular"
+                Visibility="{x:Bind ViewModel.HasDateText, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            <TextBlock
+                x:Name="TimeText"
+                VerticalAlignment="Center"
+                FontSize="{ThemeResource SillFontSize}"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Text="{x:Bind ViewModel.TimeText, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap"
+                Typography.NumeralAlignment="Tabular"
+                Visibility="{x:Bind ViewModel.HasTimeText, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+        </StackPanel>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="OrientationStates">
+
+                <!--  Horizontal Large: two-line layout  -->
+                <VisualState x:Name="HorizontalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="DateTimePanel.Orientation" Value="Vertical" />
+                        <Setter Target="DateTimePanel.Spacing" Value="0" />
+                        <Setter Target="DateText.HorizontalAlignment" Value="Center" />
+                        <Setter Target="TimeText.HorizontalAlignment" Value="Center" />
+                        <Setter Target="CalendarIcon.Width" Value="20" />
+                        <Setter Target="CalendarIcon.Height" Value="20" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!--  Horizontal Medium: single-line layout  -->
+                <VisualState x:Name="HorizontalMedium">
+                    <VisualState.Setters>
+                        <Setter Target="CalendarIcon.Width" Value="16" />
+                        <Setter Target="CalendarIcon.Height" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!--  Horizontal Small: single-line, smaller  -->
+                <VisualState x:Name="HorizontalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="CalendarIcon.Width" Value="12" />
+                        <Setter Target="CalendarIcon.Height" Value="12" />
+                        <Setter Target="RootPanel.Margin" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!--  Vertical Large: two-line layout  -->
+                <VisualState x:Name="VerticalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="DateTimePanel.Orientation" Value="Vertical" />
+                        <Setter Target="DateTimePanel.Spacing" Value="0" />
+                        <Setter Target="DateText.HorizontalAlignment" Value="Center" />
+                        <Setter Target="TimeText.HorizontalAlignment" Value="Center" />
+                        <Setter Target="CalendarIcon.Width" Value="20" />
+                        <Setter Target="CalendarIcon.Height" Value="20" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!--  Vertical Medium: two-line layout  -->
+                <VisualState x:Name="VerticalMedium">
+                    <VisualState.Setters>
+                        <Setter Target="DateTimePanel.Orientation" Value="Vertical" />
+                        <Setter Target="DateTimePanel.Spacing" Value="0" />
+                        <Setter Target="DateText.HorizontalAlignment" Value="Center" />
+                        <Setter Target="TimeText.HorizontalAlignment" Value="Center" />
+                        <Setter Target="CalendarIcon.Width" Value="16" />
+                        <Setter Target="CalendarIcon.Height" Value="16" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!--  Vertical Small: two-line layout, smaller  -->
+                <VisualState x:Name="VerticalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="DateTimePanel.Orientation" Value="Vertical" />
+                        <Setter Target="DateTimePanel.Spacing" Value="0" />
+                        <Setter Target="DateText.HorizontalAlignment" Value="Center" />
+                        <Setter Target="TimeText.HorizontalAlignment" Value="Center" />
+                        <Setter Target="CalendarIcon.Width" Value="12" />
+                        <Setter Target="CalendarIcon.Height" Value="12" />
+                        <Setter Target="RootPanel.Margin" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+
+</UserControl>

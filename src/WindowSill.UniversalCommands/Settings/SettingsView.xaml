@@ -61,7 +61,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="core:UniversalCommand">
                     <Border
-                        Height="48"
+                        Height="64"
                         VerticalAlignment="Top"
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -117,18 +117,22 @@
                                 Orientation="Horizontal"
                                 Spacing="4">
                                 <Button
-                                    Width="24"
-                                    Height="24"
+                                    Width="32"
+                                    Height="32"
                                     Padding="0"
                                     api:Uids.Uid="/WindowSill.UniversalCommands/SettingsView/EditButton"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
                                     Click="EditButton_Click">
                                     <FontIcon FontSize="12" Glyph="&#xE70F;" />
                                 </Button>
                                 <Button
-                                    Width="24"
-                                    Height="24"
+                                    Width="32"
+                                    Height="32"
                                     Padding="0"
                                     api:Uids.Uid="/WindowSill.UniversalCommands/SettingsView/DeleteButton"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
                                     Click="DeleteButton_Click">
                                     <FontIcon FontSize="12" Glyph="&#xE74D;" />
                                 </Button>

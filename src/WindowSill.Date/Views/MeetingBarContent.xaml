@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.Date.Views.MeetingBarContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:converters1="using:WindowSill.Date.Core.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WindowSill.Date.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters1:UrgentFontWeightConverter x:Key="UrgentFontWeightConverter" />
+    </UserControl.Resources>
+
+    <Grid
+        x:Name="RootPanel"
+        Margin="{ThemeResource SillCommandContentMargin}"
+        VerticalAlignment="Center">
+        <!--
+            Default layout (HorizontalMedium): single line.
+            Title (Star) + Countdown (Auto) + Join (Auto).
+            Large mode switches to vertical stack via VisualState.
+        -->
+
+        <!--  Single-line layout (Medium/Small)  -->
+        <Grid x:Name="SingleLinePanel" ColumnSpacing="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                x:Name="TitleTextSingle"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                FontSize="{ThemeResource SillFontSize}"
+                Text="{x:Bind ViewModel.Title}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap" />
+
+            <TextBlock
+                x:Name="CountdownTextSingle"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                FontSize="{ThemeResource SillFontSize}"
+                FontWeight="{x:Bind ViewModel.IsUrgent, Mode=OneWay, Converter={StaticResource UrgentFontWeightConverter}}"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Text="{x:Bind ViewModel.CountdownText, Mode=OneWay}"
+                Typography.NumeralAlignment="Tabular" />
+
+            <Button
+                x:Name="JoinButtonSingle"
+                Grid.Column="2"
+                Width="28"
+                Height="28"
+                Padding="0"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                Click="JoinButton_Click"
+                Visibility="{x:Bind ViewModel.IsJoinVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <FontIcon
+                    FontFamily="{ThemeResource SegoeFluentIcons}"
+                    FontSize="{ThemeResource SillFontIconSize}"
+                    Glyph="&#xE714;" />
+            </Button>
+        </Grid>
+
+        <!--  Two-line layout (Large) — hidden by default, shown via VisualState  -->
+        <StackPanel
+            x:Name="TwoLinePanel"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="0"
+            Visibility="Collapsed">
+
+            <TextBlock
+                x:Name="TitleTextLarge"
+                HorizontalAlignment="Center"
+                FontSize="{ThemeResource SillFontSize}"
+                Text="{x:Bind ViewModel.Title}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap" />
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="6">
+
+                <TextBlock
+                    x:Name="CountdownTextLarge"
+                    VerticalAlignment="Center"
+                    FontSize="{ThemeResource SillFontSize}"
+                    FontWeight="{x:Bind ViewModel.IsUrgent, Mode=OneWay, Converter={StaticResource UrgentFontWeightConverter}}"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Text="{x:Bind ViewModel.CountdownText, Mode=OneWay}"
+                    Typography.NumeralAlignment="Tabular" />
+
+                <Button
+                    x:Name="JoinButtonLarge"
+                    Width="24"
+                    Height="24"
+                    Padding="0"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="JoinButton_Click"
+                    Visibility="{x:Bind ViewModel.IsJoinVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <FontIcon
+                        FontFamily="{ThemeResource SegoeFluentIcons}"
+                        FontSize="12"
+                        Glyph="&#xE714;" />
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="OrientationStates">
+
+                <!--  Large: two-line layout (title above, countdown below)  -->
+                <VisualState x:Name="HorizontalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="SingleLinePanel.Visibility" Value="Collapsed" />
+                        <Setter Target="TwoLinePanel.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!--  Medium: single-line (default)  -->
+                <VisualState x:Name="HorizontalMedium" />
+
+                <!--  Small: single-line, compact  -->
+                <VisualState x:Name="HorizontalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="RootPanel.Margin" Value="0" />
+                        <Setter Target="SingleLinePanel.ColumnSpacing" Value="4" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!--  Vertical Large: two-line  -->
+                <VisualState x:Name="VerticalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="SingleLinePanel.Visibility" Value="Collapsed" />
+                        <Setter Target="TwoLinePanel.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!--  Vertical Medium: single-line  -->
+                <VisualState x:Name="VerticalMedium" />
+
+                <!--  Vertical Small: single-line, compact  -->
+                <VisualState x:Name="VerticalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="RootPanel.Margin" Value="0" />
+                        <Setter Target="SingleLinePanel.ColumnSpacing" Value="4" />
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+
+</UserControl>

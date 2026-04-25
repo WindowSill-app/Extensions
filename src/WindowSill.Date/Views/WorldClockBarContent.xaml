@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.Date.Views.WorldClockBarContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid
+        x:Name="RootPanel"
+        Margin="{ThemeResource SillCommandContentMargin}"
+        VerticalAlignment="Center">
+        <!--  Single-line layout (Medium/Small): "Paris · 11:42 PM"  -->
+        <Grid x:Name="SingleLinePanel" ColumnSpacing="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                x:Name="NameTextSingle"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                FontSize="{ThemeResource SillFontSize}"
+                Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap" />
+            <TextBlock
+                x:Name="TimeTextSingle"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                FontSize="{ThemeResource SillFontSize}"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Text="{x:Bind ViewModel.CurrentTime, Mode=OneWay}"
+                Typography.NumeralAlignment="Tabular" />
+        </Grid>
+
+        <!--  Two-line layout (Large): city name on top, time on bottom  -->
+        <StackPanel
+            x:Name="TwoLinePanel"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="0"
+            Visibility="Collapsed">
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="{ThemeResource SillFontSize}"
+                Text="{x:Bind ViewModel.DisplayName, Mode=OneWay}"
+                TextTrimming="CharacterEllipsis" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="{ThemeResource SillFontSize}"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                Text="{x:Bind ViewModel.CurrentTime, Mode=OneWay}"
+                Typography.NumeralAlignment="Tabular" />
+        </StackPanel>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="OrientationStates">
+                <VisualState x:Name="HorizontalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="SingleLinePanel.Visibility" Value="Collapsed" />
+                        <Setter Target="TwoLinePanel.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="HorizontalMedium" />
+                <VisualState x:Name="HorizontalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="RootPanel.Margin" Value="0" />
+                        <Setter Target="SingleLinePanel.ColumnSpacing" Value="4" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VerticalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="SingleLinePanel.Visibility" Value="Collapsed" />
+                        <Setter Target="TwoLinePanel.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="VerticalMedium" />
+                <VisualState x:Name="VerticalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="RootPanel.Margin" Value="0" />
+                        <Setter Target="SingleLinePanel.ColumnSpacing" Value="4" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+
+</UserControl>

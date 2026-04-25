@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.Date.Views.AccountsSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:conv="using:WindowSill.Date.Core.UI.Converters"
+    xmlns:converters1="using:CommunityToolkit.WinUI.Converters"
+    xmlns:ctk="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:WindowSill.Date.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:vm="using:WindowSill.Date.ViewModels"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters1:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters1:BoolToVisibilityConverter
+            x:Key="InverseBoolToVisibilityConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
+        <conv:HexColorBrushConverter x:Key="HexColorBrushConverter" />
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Padding="0,0,0,16" Spacing="16">
+
+            <!--  Accounts section  -->
+            <StackPanel Spacing="8">
+                <TextBlock api:Uids.Uid="/WindowSill.Date/Settings/AccountsSectionHeader" Style="{StaticResource BodyStrongTextBlockStyle}" />
+
+                <!--  Add account button  -->
+                <DropDownButton>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="14" Glyph="&#xE710;" />
+                        <TextBlock api:Uids.Uid="/WindowSill.Date/Settings/AddAccount" />
+                    </StackPanel>
+                    <DropDownButton.Flyout>
+                        <MenuFlyout x:Name="AddAccountMenuFlyout" Placement="Bottom" />
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+
+                <!--  Empty state  -->
+                <TextBlock
+                    api:Uids.Uid="/WindowSill.Date/Settings/NoAccountsMessage"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Visibility="{x:Bind ViewModel.HasNoAccounts, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+
+                <!--  Account list as SettingsExpanders  -->
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Accounts}">
+                    <ItemsRepeater.Layout>
+                        <StackLayout Spacing="2" />
+                    </ItemsRepeater.Layout>
+                    <ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="vm:AccountViewModel">
+                            <ctk:SettingsExpander
+                                Description="{x:Bind Email}"
+                                Header="{x:Bind DisplayName}"
+                                ItemsSource="{x:Bind Calendars}">
+                                <ctk:SettingsExpander.HeaderIcon>
+                                    <ImageIcon Source="{x:Bind ProviderIconSource}" />
+                                </ctk:SettingsExpander.HeaderIcon>
+                                <ctk:SettingsExpander.ItemsHeader>
+                                    <StackPanel Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                                        <!--  Column headers  -->
+                                        <Grid Padding="56,8,32,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="60" />
+                                                <ColumnDefinition Width="60" />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                api:Uids.Uid="/WindowSill.Date/Settings/CalendarNameHeader"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Center"
+                                                api:Uids.Uid="/WindowSill.Date/Settings/ColorHeader"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                HorizontalAlignment="Center"
+                                                api:Uids.Uid="/WindowSill.Date/Settings/VisibilityHeader"
+                                                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                Style="{ThemeResource CaptionTextBlockStyle}" />
+                                        </Grid>
+                                        <InfoBar
+                                            HorizontalAlignment="Stretch"
+                                            api:Uids.Uid="/WindowSill.Date/Settings/LoadingCalendars"
+                                            Background="Transparent"
+                                            CornerRadius="0"
+                                            IsClosable="False"
+                                            IsIconVisible="False"
+                                            IsOpen="{x:Bind IsLoadingCalendars, Mode=OneWay}"
+                                            Severity="Informational" />
+                                    </StackPanel>
+                                </ctk:SettingsExpander.ItemsHeader>
+                                <Button
+                                    Width="32"
+                                    Height="32"
+                                    Padding="0"
+                                    VerticalAlignment="Center"
+                                    api:Uids.Uid="/WindowSill.Date/Settings/RemoveAccount"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Command="{x:Bind RemoveCommand}"
+                                    Content="{ui:FontIcon FontFamily={StaticResource SegoeFluentIcons},
+                                                          Glyph=&#xE74D;,
+                                                          FontSize=16}" />
+                                <ctk:SettingsExpander.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:CalendarViewModel">
+                                        <ctk:SettingsCard Header="{x:Bind Name}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="60" />
+                                                    <ColumnDefinition Width="60" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <!--  Color circle  -->
+                                                <Button
+                                                    Grid.Column="0"
+                                                    Width="32"
+                                                    Height="32"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    api:Uids.Uid="/WindowSill.Date/Settings/CalendarColor"
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    Click="CalendarColorButton_Click"
+                                                    DataContext="{x:Bind}">
+                                                    <Ellipse
+                                                        Width="16"
+                                                        Height="16"
+                                                        Fill="{x:Bind Color, Mode=OneWay, Converter={StaticResource HexColorBrushConverter}}" />
+                                                </Button>
+
+                                                <!--  Visibility toggle (eye icon)  -->
+                                                <Button
+                                                    Grid.Column="1"
+                                                    Width="32"
+                                                    Height="32"
+                                                    Padding="0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    Click="ToggleCalendarVisibility_Click"
+                                                    DataContext="{x:Bind}">
+                                                    <Grid>
+                                                        <FontIcon
+                                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                            FontSize="14"
+                                                            Glyph="&#xE7B3;"
+                                                            Visibility="{x:Bind IsVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                        <FontIcon
+                                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                                            FontSize="14"
+                                                            Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                                                            Glyph="&#xED1A;"
+                                                            Visibility="{x:Bind IsVisible, Mode=OneWay, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+                                                    </Grid>
+                                                </Button>
+                                            </Grid>
+                                        </ctk:SettingsCard>
+                                    </DataTemplate>
+                                </ctk:SettingsExpander.ItemTemplate>
+                            </ctk:SettingsExpander>
+                        </DataTemplate>
+                    </ItemsRepeater.ItemTemplate>
+                </ItemsRepeater>
+            </StackPanel>
+
+            <!--  ── Sync ──  -->
+            <StackPanel Spacing="2">
+                <TextBlock
+                    Margin="0,8,0,8"
+                    api:Uids.Uid="/WindowSill.Date/Settings/SyncHeader"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <!--  Poll interval  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Settings/PollInterval">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE895;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox
+                        Width="160"
+                        ItemsSource="{x:Bind ViewModel.PollIntervalOptions}"
+                        SelectedItem="{x:Bind ViewModel.SelectedPollInterval, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Sync now  -->
+                <ctk:SettingsCard
+                    api:Uids.Uid="/WindowSill.Date/Settings/SyncNow"
+                    Click="SyncNowCard_Click"
+                    IsClickEnabled="True">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE72C;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ctk:SettingsCard.ActionIcon>
+                        <FontIcon Glyph="&#xE72C;" />
+                    </ctk:SettingsCard.ActionIcon>
+                </ctk:SettingsCard>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

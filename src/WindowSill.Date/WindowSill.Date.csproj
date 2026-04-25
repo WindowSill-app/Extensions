@@ -1,0 +1,70 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <PackageId>WindowSill.Date</PackageId>
+    <Version>0.9.21</Version>
+    <Authors>Etienne Baudoux</Authors>
+    <Title>Date</Title>
+    <Description>
+      Your calendar, world clocks, and meetings, all at a glance.
+
+      • Upcoming meetings with countdown timers right in your sill bar
+      • One-click join for Teams, Zoom, Google Meet, Webex, and Slack
+      • Get notified when it's time to leave for in-person meetings
+      • Full-screen or toast reminders so you never miss a meeting
+      • World clocks pinned to your sill bar with live times for any timezone
+      • Slide through timezones to see what time it is anywhere
+      • Supports Microsoft Outlook, Google Calendar, and Apple iCloud (CalDAV)
+
+      Stay on top of your schedule without switching windows.
+    </Description>
+    <PackageIcon>Assets/package.png</PackageIcon>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Assets/package.png" Pack="true" PackagePath="\Assets\" />
+    <None Include="LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Azure.Core" />
+    <PackageReference Include="Google.Apis" />
+    <PackageReference Include="Google.Apis.Auth" />
+    <PackageReference Include="Google.Apis.Calendar.v3" />
+    <PackageReference Include="Google.Apis.Core" />
+    <PackageReference Include="Ical.Net" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />
+    <PackageReference Include="Microsoft.Graph" />
+    <PackageReference Include="Microsoft.Graph.Core" />
+    <PackageReference Include="Microsoft.Identity.Client" />
+    <PackageReference Include="Microsoft.Identity.Client.Broker" />
+    <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" />
+    <PackageReference Include="Microsoft.Identity.Client.NativeInterop" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" />
+    <PackageReference Include="Microsoft.IdentityModel.Logging" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" />
+    <PackageReference Include="Microsoft.IdentityModel.Validators" />
+    <PackageReference Include="Microsoft.IdentityModel.Abstractions" />
+    <PackageReference Include="Microsoft.Kiota.Abstractions" />
+    <PackageReference Include="Microsoft.Kiota.Authentication.Azure" />
+    <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Form" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Json" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Multipart" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Text" />
+    <PackageReference Include="NodaTime" />
+    <PackageReference Include="Std.UriTemplate" />
+    <PackageReference Include="System.ClientModel" />
+    <PackageReference Include="System.Memory.Data" />
+    <PackageReference Include="System.Security.Cryptography.ProtectedData" />
+    <PackageReference Include="WindowSill.API" />
+    <PackageReference Include="Microsoft.Windows.CsWin32">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <Import Project="OAuthSecrets.targets" />
+</Project>

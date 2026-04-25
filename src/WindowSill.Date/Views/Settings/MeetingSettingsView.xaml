@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.Date.Views.MeetingSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:ctk="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Padding="0,0,0,16" Spacing="16">
+
+            <!--  ── Upcoming meeting sills ──  -->
+            <StackPanel Spacing="2">
+                <TextBlock
+                    Margin="0,0,0,8"
+                    api:Uids.Uid="/WindowSill.Date/Meetings/UpcomingSillsHeader"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <!--  Bar placement  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/MeetingPlacement">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE81E;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox ItemsSource="{x:Bind ViewModel.PlacementOptions}" SelectedItem="{x:Bind ViewModel.SelectedPlacement, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Reminder window  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ReminderWindow">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE823;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox ItemsSource="{x:Bind ViewModel.ReminderWindowOptions}" SelectedItem="{x:Bind ViewModel.ReminderWindowMinutes, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Max meeting sills  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/MaxSills">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE762;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <NumberBox
+                        Width="100"
+                        Maximum="10"
+                        Minimum="1"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{x:Bind ViewModel.MaxMeetingSills, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Show all-day events  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ShowAllDay">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE787;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowAllDayMeetings, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Show join button  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ShowJoinButton">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE714;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowJoinButton, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+            </StackPanel>
+
+            <!--  ── Notifications ──  -->
+            <StackPanel Spacing="2">
+                <TextBlock
+                    Margin="0,0,0,8"
+                    api:Uids.Uid="/WindowSill.Date/Meetings/NotificationsHeader"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <!--  Confirmed meeting notification  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/ConfirmedNotification">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE7E7;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox ItemsSource="{x:Bind ViewModel.NotificationModeOptions}" SelectedItem="{x:Bind ViewModel.SelectedConfirmedNotificationMode, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Tentative meeting notification  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/TentativeNotification">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE7E7;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox ItemsSource="{x:Bind ViewModel.NotificationModeOptions}" SelectedItem="{x:Bind ViewModel.SelectedTentativeNotificationMode, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Sill flashing  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/EnableFlashing">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEA80;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.EnableSillFlashing, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+            </StackPanel>
+
+            <!--  ── Travel time ──  -->
+            <StackPanel Spacing="2">
+                <TextBlock
+                    Margin="0,0,0,8"
+                    api:Uids.Uid="/WindowSill.Date/Meetings/TravelHeader"
+                    Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+                <!--  Enable travel time  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/EnableTravelTime">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE804;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.EnableTravelTime, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Travel mode  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/TravelMode" Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE804;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox ItemsSource="{x:Bind ViewModel.TravelModeOptions}" SelectedItem="{x:Bind ViewModel.SelectedTravelMode, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Departure buffer  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/DepartureBuffer" Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE823;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <NumberBox
+                        Width="100"
+                        Maximum="30"
+                        Minimum="0"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{x:Bind ViewModel.DepartureBufferMinutes, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Maps provider  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/PreferredMapsProvider" Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE707;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ComboBox ItemsSource="{x:Bind ViewModel.MapsProviderOptions}" SelectedItem="{x:Bind ViewModel.SelectedMapsProvider, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.Date.Views.DepartureNotificationContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <MediaPlayerElement
+            x:Name="BackgroundMediaPlayer"
+            Width="0"
+            Height="0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            AreTransportControlsEnabled="False"
+            IsFullWindow="False"
+            Loaded="BackgroundMediaPlayer_Loaded"
+            Stretch="None" />
+
+        <Border
+            MaxWidth="1200"
+            Margin="72"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="{ThemeResource OverlayCornerRadius}">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Departure content  -->
+                <StackPanel
+                    Grid.Row="0"
+                    Padding="36,40,36,40"
+                    Background="{ThemeResource LayerOnAcrylicFillColorDefaultBrush}"
+                    Spacing="12">
+                    <StackPanel.ChildrenTransitions>
+                        <EntranceThemeTransition IsStaggeringEnabled="True" />
+                    </StackPanel.ChildrenTransitions>
+
+                    <!--  "TIME TO LEAVE" header  -->
+                    <TextBlock
+                        HorizontalAlignment="Stretch"
+                        api:Uids.Uid="/WindowSill.Date/Meetings/DepartureNotificationHeader"
+                        CharacterSpacing="200"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        HorizontalTextAlignment="Center"
+                        Style="{ThemeResource BodyTextBlockStyle}" />
+
+                    <!--  Meeting title (large)  -->
+                    <TextBlock
+                        HorizontalAlignment="Stretch"
+                        FontSize="40"
+                        FontWeight="SemiBold"
+                        MaxLines="3"
+                        Text="{x:Bind ViewModel.MeetingTitle, Mode=OneTime}"
+                        TextAlignment="Center"
+                        TextTrimming="WordEllipsis"
+                        TextWrapping="WrapWholeWords" />
+
+                    <!--  Location  -->
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <FontIcon
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe UI Emoji"
+                            FontSize="16"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Glyph="&#x1F4CD;" />
+                        <TextBlock
+                            FontSize="16"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Text="{x:Bind ViewModel.Location, Mode=OneTime}"
+                            TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <!--  Travel time  -->
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8"
+                        Visibility="{x:Bind ViewModel.HasTravelTime, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <FontIcon
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe UI Emoji"
+                            FontSize="16"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Glyph="{x:Bind ViewModel.TravelModeIconGlyph}" />
+                        <TextBlock
+                            FontSize="16"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Text="{x:Bind ViewModel.TravelTimeText, Mode=OneTime}" />
+                    </StackPanel>
+
+                    <!--  "Meeting at [time]"  -->
+                    <TextBlock
+                        HorizontalAlignment="Stretch"
+                        FontSize="16"
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        HorizontalTextAlignment="Center">
+                        <Run Text="{x:Bind ViewModel.MeetingTimeText, Mode=OneTime}" />
+                    </TextBlock>
+                </StackPanel>
+
+                <!--  Actions footer  -->
+                <Border
+                    Grid.Row="1"
+                    Padding="36,24,36,24"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Bottom"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="0,1,0,0">
+
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="8">
+
+                        <!--  Open in Maps (primary)  -->
+                        <Button
+                            Command="{x:Bind ViewModel.OpenInMapsAndDismissCommand}"
+                            Style="{ThemeResource AccentButtonStyle}"
+                            Visibility="{x:Bind ViewModel.HasMapsUrl, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE707;" />
+                                <TextBlock api:Uids.Uid="/WindowSill.Date/Meetings/DepartureOpenMaps" />
+                            </StackPanel>
+                        </Button>
+
+                        <!--  Dismiss  -->
+                        <Button Command="{x:Bind ViewModel.DismissCommand}">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <FontIcon FontSize="16" Glyph="&#xE894;" />
+                                <TextBlock api:Uids.Uid="/WindowSill.Date/Meetings/NotificationDismiss" />
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
