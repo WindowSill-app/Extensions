@@ -69,12 +69,6 @@ internal static class Settings
         = new(Date.Settings.MeetingPlacement.BeforeAll, typeof(Settings).Assembly);
 
     /// <summary>
-    /// The user's OpenRouteService API key for routing. Empty = feature disabled.
-    /// </summary>
-    internal static readonly SettingDefinition<string> OpenRouteServiceApiKey
-        = new(string.Empty, typeof(Settings).Assembly);
-
-    /// <summary>
     /// Extra buffer in minutes added to the travel time to give the user time to get ready.
     /// departure time = meeting start − travel time − buffer.
     /// </summary>

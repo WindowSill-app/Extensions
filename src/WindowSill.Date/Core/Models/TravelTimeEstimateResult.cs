@@ -25,7 +25,7 @@ internal sealed class TravelTimeEstimateResult
     public bool UsedFallback { get; private init; }
 
     /// <summary>
-    /// Gets the name of the routing provider that produced this estimate (e.g., "OpenRouteService").
+    /// Gets the name of the routing provider that produced this estimate (e.g., "WindowSill").
     /// </summary>
     public string? Provider { get; private init; }
 

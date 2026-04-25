@@ -6,9 +6,10 @@ namespace WindowSill.Date.Settings;
 internal static class TravelModeExtensions
 {
     /// <summary>
-    /// Returns the OpenRouteService profile string for this travel mode.
+    /// Returns the routing profile string accepted by the WindowSill routing API
+    /// for this travel mode.
     /// </summary>
-    public static string ToOrsProfile(this TravelMode mode) => mode switch
+    public static string ToRoutingProfile(this TravelMode mode) => mode switch
     {
         TravelMode.Driving => "driving-car",
         TravelMode.Walking => "foot-walking",

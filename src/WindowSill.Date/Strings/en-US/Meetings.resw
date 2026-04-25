@@ -279,21 +279,6 @@
   <data name="EnableTravelTime.DescriptionProperty" xml:space="preserve">
     <value>Estimate travel time and notify you when it's time to leave for in-person meetings</value>
   </data>
-  <data name="OrsApiKey.HeaderProperty" xml:space="preserve">
-    <value>OpenRouteService API key</value>
-  </data>
-  <data name="OrsApiKey.DescriptionProperty" xml:space="preserve">
-    <value>Required for travel time estimates. Get a free key at openrouteservice.org</value>
-  </data>
-  <data name="OrsApiKeyHelp.TextProperty" xml:space="preserve">
-    <value>Sign up for free at openrouteservice.org/sign-up to get an API key. This enables automatic travel time estimates for meetings with a physical address.</value>
-  </data>
-  <data name="FallbackCommute.HeaderProperty" xml:space="preserve">
-    <value>Default commute time (minutes)</value>
-  </data>
-  <data name="FallbackCommute.DescriptionProperty" xml:space="preserve">
-    <value>Used when travel time cannot be estimated (no API key or unresolvable address)</value>
-  </data>
   <data name="LeaveNow" xml:space="preserve">
     <value>Leave now!</value>
   </data>

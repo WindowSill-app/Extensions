@@ -116,28 +116,6 @@
                     <ToggleSwitch IsOn="{x:Bind ViewModel.EnableTravelTime, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
-                <!--  OpenRouteService API key  -->
-                <ctk:SettingsExpander api:Uids.Uid="/WindowSill.Date/Meetings/OrsApiKey" Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <ctk:SettingsExpander.HeaderIcon>
-                        <FontIcon Glyph="&#xE72E;" />
-                    </ctk:SettingsExpander.HeaderIcon>
-                    <PasswordBox
-                        Width="250"
-                        Password="{x:Bind ViewModel.OpenRouteServiceApiKey, Mode=TwoWay}"
-                        PlaceholderText="Paste API key..." />
-                    <ctk:SettingsExpander.Items>
-                        <ctk:SettingsCard>
-                            <ctk:SettingsCard.Header>
-                                <TextBlock
-                                    api:Uids.Uid="/WindowSill.Date/Meetings/OrsApiKeyHelp"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    Style="{ThemeResource CaptionTextBlockStyle}"
-                                    TextWrapping="Wrap" />
-                            </ctk:SettingsCard.Header>
-                        </ctk:SettingsCard>
-                    </ctk:SettingsExpander.Items>
-                </ctk:SettingsExpander>
-
                 <!--  Travel mode  -->
                 <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Meetings/TravelMode" Visibility="{x:Bind ViewModel.EnableTravelTime, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                     <ctk:SettingsCard.HeaderIcon>

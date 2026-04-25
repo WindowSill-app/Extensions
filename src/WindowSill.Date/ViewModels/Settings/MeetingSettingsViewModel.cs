@@ -171,15 +171,6 @@ internal sealed partial class MeetingSettingsViewModel : ObservableObject
     }
 
     /// <summary>
-    /// Gets or sets the OpenRouteService API key.
-    /// </summary>
-    public string OpenRouteServiceApiKey
-    {
-        get => _settingsProvider.GetSetting(Settings.Settings.OpenRouteServiceApiKey);
-        set => _settingsProvider.SetSetting(Settings.Settings.OpenRouteServiceApiKey, value);
-    }
-
-    /// <summary>
     /// Gets the available travel mode options with localized display names.
     /// </summary>
     public IReadOnlyList<FormatOptionItem<TravelMode>> TravelModeOptions { get; } =

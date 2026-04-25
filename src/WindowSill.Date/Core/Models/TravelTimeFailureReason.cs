@@ -21,11 +21,6 @@ internal enum TravelTimeFailureReason
     InvalidMeetingAddress,
 
     /// <summary>
-    /// No routing API key is configured.
-    /// </summary>
-    NoApiKey,
-
-    /// <summary>
     /// The routing provider returned an error or was unreachable.
     /// </summary>
     RoutingProviderError,

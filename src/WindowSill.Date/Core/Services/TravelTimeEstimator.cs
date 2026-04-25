@@ -76,12 +76,6 @@ internal sealed class TravelTimeEstimator : ITravelTimeEstimator
         }
 
         // Routing failed — check reason.
-        if (routeResult?.FailureReason == TravelTimeFailureReason.NoApiKey)
-        {
-            // No API key configured — return fallback.
-            return TravelTimeEstimateResult.Failed(TravelTimeFailureReason.NoApiKey);
-        }
-
         if (routeResult?.FailureReason == TravelTimeFailureReason.RateLimited)
         {
             _logger.LogWarning("Routing provider rate-limited. Using fallback commute time.");
