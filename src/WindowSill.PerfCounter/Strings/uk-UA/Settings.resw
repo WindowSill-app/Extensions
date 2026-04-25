@@ -145,12 +145,18 @@
     <value>Клацніть, щоб відкрити диспетчер задач Windows для детальної інформації про систему</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
-    <value>Показувати CPU</value>
+    <value>Show CPU Usage</value>
   </data>
   <data name="ShowGpu.HeaderProperty" xml:space="preserve">
-    <value>Показувати GPU</value>
+    <value>Show GPU Usage</value>
   </data>
   <data name="ShowRam.HeaderProperty" xml:space="preserve">
-    <value>Показувати RAM</value>
+    <value>Show RAM Usage</value>
+  </data>
+  <data name="ShowCpuTemperature.HeaderProperty" xml:space="preserve">
+    <value>Show CPU Temperature</value>
+  </data>
+  <data name="ShowGpuTemperature.HeaderProperty" xml:space="preserve">
+    <value>Show GPU Temperature</value>
   </data>
 </root>
