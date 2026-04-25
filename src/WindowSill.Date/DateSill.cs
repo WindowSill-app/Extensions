@@ -6,6 +6,7 @@ using WindowSill.API;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Services;
 using WindowSill.Date.Core.UI;
+using WindowSill.Date.FirstTimeSetup;
 using WindowSill.Date.ViewModels;
 using WindowSill.Date.Views;
 
@@ -27,6 +28,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     private readonly CalendarAccountManager _calendarAccountManager;
     private readonly WorldClockService _worldClockService;
     private readonly MeetingStateService _meetingStateService;
+    private readonly IGeoLocationService _geoLocationService;
 
     private DateBarViewModel? _dateBarViewModel;
     private DatePopupViewModel? _popupViewModel;
@@ -40,13 +42,15 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
         ISettingsProvider settingsProvider,
         CalendarAccountManager calendarAccountManager,
         WorldClockService worldClockService,
-        MeetingStateService meetingStateService)
+        MeetingStateService meetingStateService,
+        IGeoLocationService geoLocationService)
     {
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _calendarAccountManager = calendarAccountManager;
         _worldClockService = worldClockService;
         _meetingStateService = meetingStateService;
+        _geoLocationService = geoLocationService;
     }
 
     /// <inheritdoc/>
@@ -85,7 +89,14 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     /// <inheritdoc/>
     public IFirstTimeSetupContributor[] GetFirstTimeSetupContributors()
     {
-        throw new NotImplementedException();
+        var setupState = new DateFirstTimeSetupState();
+
+        return
+        [
+            new WelcomeSetupContributor(),
+            new AccountsSetupContributor(_calendarAccountManager, _pluginInfo.GetPluginContentDirectory(), setupState),
+            new TravelTimeSetupContributor(_settingsProvider, _geoLocationService, setupState, _meetingStateService),
+        ];
     }
 
     /// <inheritdoc/>

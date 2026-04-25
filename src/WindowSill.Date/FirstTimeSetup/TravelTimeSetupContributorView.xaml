@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.Date.FirstTimeSetup.TravelTimeSetupContributorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="16">
+        <!--  Main content shown when accounts exist  -->
+        <StackPanel x:Name="TravelTimePanel" Spacing="12">
+            <TextBlock api:Uids.Uid="/WindowSill.Date/FirstTimeSetup/TravelTimeDescription" TextWrapping="WrapWholeWords" />
+
+            <ToggleSwitch
+                x:Name="TravelTimeToggle"
+                api:Uids.Uid="/WindowSill.Date/FirstTimeSetup/TravelTimeToggle"
+                Toggled="TravelTimeToggle_Toggled" />
+
+            <InfoBar
+                x:Name="LocationDeniedInfoBar"
+                api:Uids.Uid="/WindowSill.Date/FirstTimeSetup/LocationDenied"
+                IsClosable="False"
+                IsOpen="False"
+                Severity="Warning" />
+        </StackPanel>
+
+        <!--  Shown when no accounts were added  -->
+        <StackPanel
+            x:Name="NoAccountsPanel"
+            Spacing="8"
+            Visibility="Collapsed">
+            <TextBlock api:Uids.Uid="/WindowSill.Date/FirstTimeSetup/TravelTimeNoAccounts" TextWrapping="WrapWholeWords" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>
