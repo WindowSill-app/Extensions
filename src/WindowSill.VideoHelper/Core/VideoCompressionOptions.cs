@@ -36,4 +36,10 @@ internal sealed class VideoCompressionOptions
     /// Gets or sets the maximum frame rate in fps (e.g., 24, 30, 60). Null to keep original frame rate.
     /// </summary>
     internal int? MaxFrameRate { get; set; }
+
+    /// <summary>
+    /// Gets or sets the target video bitrate in kbps for constant bitrate (CBR) mode.
+    /// When set, CBR is used instead of CRF. Null to use CRF mode (the default).
+    /// </summary>
+    internal int? VideoBitrateKbps { get; set; }
 }

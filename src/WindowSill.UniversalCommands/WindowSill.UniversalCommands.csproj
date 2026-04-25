@@ -20,6 +20,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="Assets/ctrl.png" Pack="true" PackagePath="\Assets\" />
+    <None Include="Screenshots/hero.webm" Pack="true" PackagePath="\content\Screenshots" />
     <None Include="LICENSE.md" Pack="true" PackagePath="\" />
     <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
   </ItemGroup>

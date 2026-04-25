@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Core;
 using WindowSill.ClipboardHistory.Factories;
 using WindowSill.ClipboardHistory.FirstTimeSetup;
 using WindowSill.ClipboardHistory.Services;
@@ -82,12 +83,14 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
         _settingsProvider.SettingChanged += SettingsProvider_SettingChanged;
         _clipboardDataService.DataUpdated += ClipboardDataService_DataUpdated;
         _clipboardDataService.Subscribe();
+        await ExplorerDetector.StartTrackingAsync();
 
         await RefreshClipboardDataAsync();
     }
 
     public ValueTask OnDeactivatedAsync()
     {
+        ExplorerDetector.StopTracking();
         _settingsProvider.SettingChanged -= SettingsProvider_SettingChanged;
         _clipboardDataService.DataUpdated -= ClipboardDataService_DataUpdated;
         _clipboardDataService.Unsubscribe();

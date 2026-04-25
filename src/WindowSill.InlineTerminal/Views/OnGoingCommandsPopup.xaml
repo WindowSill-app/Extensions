@@ -55,7 +55,7 @@
 
         <ui:ShortcutListView
             Grid.Row="1"
-            MaxHeight="400"
+            Height="215"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             AllowFocusOnInteraction="False"
@@ -82,7 +82,8 @@
                     <Grid
                         Height="48"
                         HorizontalAlignment="Stretch"
-                        ColumnSpacing="12">
+                        ColumnSpacing="12"
+                        RightTapped="Item_RightTapped">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />

@@ -32,28 +32,61 @@
                     ItemsSource="{x:Bind ViewModel.VideoCodecs}"
                     SelectedIndex="{x:Bind ViewModel.SelectedCodecIndex, Mode=TwoWay}" />
 
-                <!--  Quality (CRF)  -->
-                <StackPanel Spacing="4">
-                    <TextBlock api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/QualityLabel" Style="{StaticResource BodyTextBlockStyle}" />
-                    <Grid ColumnSpacing="12">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <Slider
-                            Grid.Column="0"
-                            Maximum="51"
-                            Minimum="0"
-                            SnapsTo="Ticks"
-                            TickFrequency="1"
-                            Value="{x:Bind ViewModel.Crf, Mode=TwoWay}" />
-                        <TextBlock
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Style="{StaticResource BodyTextBlockStyle}"
-                            Text="{x:Bind ViewModel.Crf, Mode=OneWay}" />
-                    </Grid>
-                </StackPanel>
+                <!--  Rate Control Mode + Value  -->
+                <Grid ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox
+                        Grid.Column="0"
+                        api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/RateControlMode"
+                        HorizontalAlignment="Stretch"
+                        SelectedIndex="{x:Bind ViewModel.SelectedRateControlIndex, Mode=TwoWay}">
+                        <ComboBoxItem api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/RateControlCrf" />
+                        <ComboBoxItem api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/RateControlBitrate" />
+                    </ComboBox>
+
+                    <!--  Quality (CRF)  -->
+                    <StackPanel
+                        Grid.Column="1"
+                        Spacing="4"
+                        Visibility="{x:Bind ViewModel.IsCrfMode, Mode=OneWay}">
+                        <TextBlock api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/QualityLabel" Style="{StaticResource BodyTextBlockStyle}" />
+                        <Grid ColumnSpacing="12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Slider
+                                Grid.Column="0"
+                                Maximum="51"
+                                Minimum="0"
+                                SnapsTo="Ticks"
+                                TickFrequency="1"
+                                Value="{x:Bind ViewModel.Crf, Mode=TwoWay}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{x:Bind ViewModel.Crf, Mode=OneWay}" />
+                        </Grid>
+                    </StackPanel>
+
+                    <!--  Video Bitrate (CBR)  -->
+                    <NumberBox
+                        Grid.Column="1"
+                        api:Uids.Uid="/WindowSill.VideoHelper/CompressVideo/VideoBitrate"
+                        HorizontalAlignment="Stretch"
+                        LargeChange="5000"
+                        Maximum="100000"
+                        Minimum="100"
+                        SmallChange="500"
+                        SpinButtonPlacementMode="Compact"
+                        Value="{x:Bind ViewModel.VideoBitrateKbps, Mode=TwoWay}"
+                        Visibility="{x:Bind ViewModel.IsBitrateMode, Mode=OneWay}" />
+                </Grid>
 
                 <controls:UniformGrid ColumnSpacing="8" RowSpacing="8">
                     <!--  Encoding Speed  -->

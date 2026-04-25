@@ -63,7 +63,7 @@ internal sealed class TerminalSill
     }
 
     /// <inheritdoc />
-    public string DisplayName => "Terminal";
+    public string DisplayName => "/WindowSill.InlineTerminal/TerminalSill/DisplayName".GetLocalizedString();
 
     /// <inheritdoc />
     public string[] TextSelectionActivatorTypeNames => [CommandSelectionActivator.ActivatorName];
@@ -258,10 +258,13 @@ internal sealed class TerminalSill
         ViewList.Clear();
 
         // 1. On-going commands (if any runs exist).
-        SillListViewPopupItem? onGoingCommandsSill = await _createOnGoingCommandsPopup.GetValueAsync();
-        if (onGoingCommandsSill is not null && _commandService.GetAllActiveRuns().Count > 0)
+        if (_commandService.GetAllActiveRuns().Count > 0)
         {
-            ViewList.Add(onGoingCommandsSill);
+            SillListViewPopupItem? onGoingCommandsSill = await _createOnGoingCommandsPopup.GetValueAsync();
+            if (onGoingCommandsSill is not null)
+            {
+                ViewList.Add(onGoingCommandsSill);
+            }
         }
 
         // 2. Pinned sills (executed commands).

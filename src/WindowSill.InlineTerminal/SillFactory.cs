@@ -112,7 +112,7 @@ internal sealed class SillFactory
 
             var sillView
                 = new SillListViewPopupItem(
-                    Path.GetFileName(scriptFilePath),
+                    new CommandSillContent(viewModel),
                     scriptFilePath,
                     popup)
                 {
@@ -166,8 +166,8 @@ internal sealed class SillFactory
 
                 var sillView
                     = new SillListViewPopupItem(
-                        command.Title,
-                        block.Command,
+                        new CommandSillContent(viewModel),
+                        new CommandSillPreview(viewModel),
                         popup)
                     {
                         ContextFlyout = menuFlyout

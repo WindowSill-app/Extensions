@@ -166,80 +166,136 @@ internal sealed class GpuEncoderDetector
     /// <summary>
     /// Builds the quality argument string appropriate for the chosen encoder.
     /// GPU encoders use different quality parameters than software encoders.
+    /// Supports both CRF (constant quality) and CBR (constant bitrate) modes.
     /// </summary>
     /// <param name="encoder">The encoder name (e.g. "h264_nvenc", "libx264").</param>
     /// <param name="crf">The CRF value from user settings.</param>
     /// <param name="preset">The preset name from user settings.</param>
+    /// <param name="videoBitrateKbps">Optional constant bitrate in kbps. When set, CBR is used instead of CRF.</param>
     /// <returns>FFmpeg arguments for quality and preset.</returns>
-    internal static string BuildQualityArgs(string encoder, int crf, string preset)
+    internal static string BuildQualityArgs(string encoder, int crf, string preset, int? videoBitrateKbps = null)
+    {
+        if (videoBitrateKbps.HasValue)
+        {
+            return BuildBitrateArgs(encoder, videoBitrateKbps.Value, preset);
+        }
+
+        return BuildCrfArgs(encoder, crf, preset);
+    }
+
+    private static string BuildBitrateArgs(string encoder, int bitrateKbps, string preset)
+    {
+        string bitrate = $"{bitrateKbps}k";
+
+        // NVENC
+        if (encoder.EndsWith("_nvenc", StringComparison.OrdinalIgnoreCase))
+        {
+            string nvencPreset = MapNvencPreset(preset);
+            return $"-rc cbr -b:v {bitrate} -preset {nvencPreset}";
+        }
+
+        // AMF
+        if (encoder.EndsWith("_amf", StringComparison.OrdinalIgnoreCase))
+        {
+            string amfQuality = MapAmfQuality(preset);
+            return $"-rc cbr -b:v {bitrate} -quality {amfQuality}";
+        }
+
+        // QSV
+        if (encoder.EndsWith("_qsv", StringComparison.OrdinalIgnoreCase))
+        {
+            string qsvPreset = MapQsvPreset(preset);
+            return $"-b:v {bitrate} -preset {qsvPreset}";
+        }
+
+        // SVT-AV1
+        if (string.Equals(encoder, "libsvtav1", StringComparison.OrdinalIgnoreCase))
+        {
+            string svtPreset = MapSvtAv1Preset(preset);
+            return $"-b:v {bitrate} -preset {svtPreset}";
+        }
+
+        // Software fallback (libx264, libx265, etc.)
+        return $"-b:v {bitrate} -preset {preset}";
+    }
+
+    private static string BuildCrfArgs(string encoder, int crf, string preset)
     {
         // NVENC: uses -cq (constant quality) and -preset p1-p7
         if (encoder.EndsWith("_nvenc", StringComparison.OrdinalIgnoreCase))
         {
-            string nvencPreset = preset.ToLowerInvariant() switch
-            {
-                "ultrafast" => "p1",
-                "fast" => "p2",
-                "medium" => "p4",
-                "slow" => "p5",
-                "veryslow" => "p7",
-                _ => "p4",
-            };
+            string nvencPreset = MapNvencPreset(preset);
             return $"-rc constqp -qp {crf} -preset {nvencPreset}";
         }
 
         // AMF: uses -quality and -rc cqp with -qp_i/-qp_p
         if (encoder.EndsWith("_amf", StringComparison.OrdinalIgnoreCase))
         {
-            string amfQuality = preset.ToLowerInvariant() switch
-            {
-                "ultrafast" => "speed",
-                "fast" => "speed",
-                "medium" => "balanced",
-                "slow" => "quality",
-                "veryslow" => "quality",
-                _ => "balanced",
-            };
+            string amfQuality = MapAmfQuality(preset);
             return $"-rc cqp -qp_i {crf} -qp_p {crf} -quality {amfQuality}";
         }
 
         // QSV: uses -global_quality and -preset
         if (encoder.EndsWith("_qsv", StringComparison.OrdinalIgnoreCase))
         {
-            string qsvPreset = preset.ToLowerInvariant() switch
-            {
-                "ultrafast" => "veryfast",
-                "fast" => "fast",
-                "medium" => "medium",
-                "slow" => "slow",
-                "veryslow" => "veryslow",
-                _ => "medium",
-            };
+            string qsvPreset = MapQsvPreset(preset);
             return $"-global_quality {crf} -preset {qsvPreset}";
         }
 
         // SVT-AV1: numeric preset
         if (string.Equals(encoder, "libsvtav1", StringComparison.OrdinalIgnoreCase))
         {
-            string svtPreset = preset.ToLowerInvariant() switch
-            {
-                "ultrafast" => "12",
-                "superfast" => "10",
-                "veryfast" => "8",
-                "faster" => "7",
-                "fast" => "6",
-                "medium" => "5",
-                "slow" => "4",
-                "slower" => "3",
-                "veryslow" => "2",
-                _ => "5",
-            };
+            string svtPreset = MapSvtAv1Preset(preset);
             return $"-crf {crf} -preset {svtPreset}";
         }
 
         // Software fallback (libx264, libx265, etc.)
         return $"-crf {crf} -preset {preset}";
     }
+
+    private static string MapNvencPreset(string preset) => preset.ToLowerInvariant() switch
+    {
+        "ultrafast" => "p1",
+        "fast" => "p2",
+        "medium" => "p4",
+        "slow" => "p5",
+        "veryslow" => "p7",
+        _ => "p4",
+    };
+
+    private static string MapAmfQuality(string preset) => preset.ToLowerInvariant() switch
+    {
+        "ultrafast" => "speed",
+        "fast" => "speed",
+        "medium" => "balanced",
+        "slow" => "quality",
+        "veryslow" => "quality",
+        _ => "balanced",
+    };
+
+    private static string MapQsvPreset(string preset) => preset.ToLowerInvariant() switch
+    {
+        "ultrafast" => "veryfast",
+        "fast" => "fast",
+        "medium" => "medium",
+        "slow" => "slow",
+        "veryslow" => "veryslow",
+        _ => "medium",
+    };
+
+    private static string MapSvtAv1Preset(string preset) => preset.ToLowerInvariant() switch
+    {
+        "ultrafast" => "12",
+        "superfast" => "10",
+        "veryfast" => "8",
+        "faster" => "7",
+        "fast" => "6",
+        "medium" => "5",
+        "slow" => "4",
+        "slower" => "3",
+        "veryslow" => "2",
+        _ => "5",
+    };
 
     /// <summary>
     /// Returns whether the given encoder is a GPU encoder.

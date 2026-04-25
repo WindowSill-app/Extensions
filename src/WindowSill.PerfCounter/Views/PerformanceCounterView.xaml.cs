@@ -15,8 +15,8 @@ namespace WindowSill.PerfCounter.Views;
 public sealed partial class PerformanceCounterView : UserControl
 {
     private readonly SillView _sillView;
+    private readonly PerfCounterPopupViewModel _popupViewModel;
 
-    private PerfCounterPopupViewModel _popupViewModel;
     private SillPopup? _popup;
 
     /// <summary>
@@ -66,52 +66,18 @@ public sealed partial class PerformanceCounterView : UserControl
 
     private void UpdateOrientationLayout()
     {
-        MainButton.Padding = new Thickness(4);
-        bool showProgressBars = false;
-
-        switch (_sillView.SillOrientationAndSize)
+        string stateName = _sillView.SillOrientationAndSize switch
         {
-            case SillOrientationAndSize.HorizontalLarge:
-                AnimationPlayer.Width = 42;
-                showProgressBars = true;
-                break;
+            SillOrientationAndSize.HorizontalLarge => "HorizontalLarge",
+            SillOrientationAndSize.HorizontalMedium => "HorizontalMedium",
+            SillOrientationAndSize.HorizontalSmall => "HorizontalSmall",
+            SillOrientationAndSize.VerticalLarge => "VerticalLarge",
+            SillOrientationAndSize.VerticalMedium => "VerticalMedium",
+            SillOrientationAndSize.VerticalSmall => "VerticalSmall",
+            _ => throw new NotSupportedException($"Unsupported {nameof(SillOrientationAndSize)}: {_sillView.SillOrientationAndSize}")
+        };
 
-            case SillOrientationAndSize.HorizontalMedium:
-                AnimationPlayer.Width = 28;
-                break;
-
-            case SillOrientationAndSize.HorizontalSmall:
-                AnimationPlayer.Width = 18;
-                MainButton.Padding = new Thickness(0);
-                break;
-
-            case SillOrientationAndSize.VerticalLarge:
-                AnimationPlayer.Width = 42;
-                showProgressBars = true;
-                break;
-
-            case SillOrientationAndSize.VerticalMedium:
-                AnimationPlayer.Width = 28;
-                break;
-
-            case SillOrientationAndSize.VerticalSmall:
-                AnimationPlayer.Width = 18;
-                break;
-
-            default:
-                throw new NotSupportedException($"Unsupported SillOrientationAndSize: {_sillView.SillOrientationAndSize}");
-        }
-
-        // In Large mode, show progress bars instead of labels
-        Visibility labelVisibility = Visibility.Collapsed;
-        CpuLabel.Visibility = labelVisibility;
-        MemoryLabel.Visibility = labelVisibility;
-        GpuLabel.Visibility = labelVisibility;
-
-        Visibility progressVisibility = showProgressBars ? Visibility.Visible : Visibility.Collapsed;
-        CpuProgressBar.Visibility = progressVisibility;
-        MemoryProgressBar.Visibility = progressVisibility;
-        GpuProgressBar.Visibility = progressVisibility;
+        VisualStateManager.GoToState(this, stateName, useTransitions: true);
     }
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)

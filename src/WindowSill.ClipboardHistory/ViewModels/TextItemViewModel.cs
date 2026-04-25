@@ -17,6 +17,9 @@ internal sealed partial class TextItemViewModel : ClipboardHistoryItemViewModelB
     [ObservableProperty]
     public partial string DisplayText { get; set; } = string.Empty;
 
+    /// <inheritdoc />
+    protected override DetectedClipboardDataType DetectedDataType => DetectedClipboardDataType.Text;
+
     /// <summary>
     /// Gets or sets the full text shown in the preview flyout.
     /// </summary>

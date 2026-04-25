@@ -101,6 +101,34 @@ internal sealed partial class CompressVideoPopupViewModel : ObservableObject
     #region Custom Settings Properties
 
     /// <summary>
+    /// Gets or sets the selected rate control mode index. 0 = CRF, 1 = Constant Bitrate.
+    /// </summary>
+    [ObservableProperty]
+    public partial int SelectedRateControlIndex { get; set; }
+
+    /// <summary>
+    /// Gets whether CRF mode is currently selected.
+    /// </summary>
+    public bool IsCrfMode => SelectedRateControlIndex == 0;
+
+    /// <summary>
+    /// Gets whether constant bitrate mode is currently selected.
+    /// </summary>
+    public bool IsBitrateMode => SelectedRateControlIndex == 1;
+
+    /// <summary>
+    /// Gets or sets the target video bitrate in kbps for constant bitrate mode.
+    /// </summary>
+    [ObservableProperty]
+    public partial int VideoBitrateKbps { get; set; } = 5000;
+
+    partial void OnSelectedRateControlIndexChanged(int value)
+    {
+        OnPropertyChanged(nameof(IsCrfMode));
+        OnPropertyChanged(nameof(IsBitrateMode));
+    }
+
+    /// <summary>
     /// Gets the available video codecs for the custom settings page.
     /// </summary>
     public IReadOnlyList<string> VideoCodecs { get; } = ["H.264", "H.265 (HEVC)", "AV1"];
@@ -336,6 +364,7 @@ internal sealed partial class CompressVideoPopupViewModel : ObservableObject
             AudioBitrateKbps = audioBitrateKbps,
             ResolutionHeight = resolutionHeight,
             MaxFrameRate = maxFrameRate,
+            VideoBitrateKbps = SelectedRateControlIndex == 1 ? VideoBitrateKbps : null,
         };
     }
 }

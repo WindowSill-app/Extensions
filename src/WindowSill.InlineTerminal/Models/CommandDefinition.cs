@@ -70,7 +70,7 @@ internal sealed class CommandDefinition
     /// <summary>
     /// Gets a display title derived from the script or file path.
     /// </summary>
-    internal string Title => GenerateTitle();
+    internal string Title => GenerateTitle(Script, ScriptFilePath);
 
     /// <summary>
     /// Gets whether this command has been executed at least once.
@@ -82,15 +82,21 @@ internal sealed class CommandDefinition
     /// </summary>
     internal CommandRun? LatestRun => Runs.Count > 0 ? Runs[^1] : null;
 
-    private string GenerateTitle()
+    /// <summary>
+    /// Generates a display title from a script or script file path.
+    /// </summary>
+    /// <param name="script">The script text, if any.</param>
+    /// <param name="scriptFilePath">The script file path, if any.</param>
+    /// <returns>A short display title.</returns>
+    internal static string GenerateTitle(string? script, string? scriptFilePath)
     {
-        if (!string.IsNullOrEmpty(ScriptFilePath))
+        if (!string.IsNullOrEmpty(scriptFilePath))
         {
-            return Path.GetFileName(ScriptFilePath);
+            return Path.GetFileName(scriptFilePath);
         }
 
-        return Script?
-            .Substring(0, Math.Min(100, Script.Length))
+        return script?
+            .Substring(0, Math.Min(100, script.Length))
             .Replace("\r\n", "⏎")
             .Replace("\n\r", "⏎")
             .Replace('\r', '⏎')

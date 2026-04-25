@@ -91,6 +91,24 @@ internal sealed partial class SettingsViewModel : ObservableObject
     }
 
     /// <summary>
+    /// Gets or sets whether to show CPU temperature in percentage mode.
+    /// </summary>
+    public bool ShowCpuTemperature
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.ShowCpuTemperature);
+        set => _settingsProvider.SetSetting(Settings.Settings.ShowCpuTemperature, value);
+    }
+
+    /// <summary>
+    /// Gets or sets whether to show GPU temperature in percentage mode.
+    /// </summary>
+    public bool ShowGpuTemperature
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.ShowGpuTemperature);
+        set => _settingsProvider.SetSetting(Settings.Settings.ShowGpuTemperature, value);
+    }
+
+    /// <summary>
     /// Gets whether the animated running man mode is active.
     /// </summary>
     public bool IsAnimatedGifMode => DisplayMode == PerformanceDisplayMode.RunningMan;

@@ -12,4 +12,6 @@
   <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>Wrap text in the command output view instead of scrolling horizontally</value></data>
   <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>Disable security warning</value></data>
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>Skip the security warning when running commands selected from a web browser</value></data>
+  <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
+  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
 </root>

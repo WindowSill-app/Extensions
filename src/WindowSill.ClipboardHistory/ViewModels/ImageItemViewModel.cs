@@ -30,6 +30,9 @@ internal sealed partial class ImageItemViewModel : ClipboardHistoryItemViewModel
     [ObservableProperty]
     public partial string Size { get; set; } = string.Empty;
 
+    /// <inheritdoc />
+    protected override DetectedClipboardDataType DetectedDataType => DetectedClipboardDataType.Image;
+
     [ObservableProperty]
     public partial double MaxHeight { get; set; }
 

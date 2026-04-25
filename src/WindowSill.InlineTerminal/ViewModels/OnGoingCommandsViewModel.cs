@@ -55,6 +55,7 @@ internal sealed partial class OnGoingCommandsViewModel : ObservableObject
     /// </summary>
     internal IReadOnlyList<ActiveRunItem> ActiveRuns
         => _commandService.GetAllActiveRuns()
+            .OrderByDescending(entry => entry.Run.StartedAt)
             .Select(entry => new ActiveRunItem(entry.Command, entry.Run))
             .ToArray();
 

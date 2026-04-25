@@ -1,3 +1,6 @@
+# 0.9.23
+- Clipboard text and image items can now be pasted directly into the File Explorer.
+
 # 0.9.22
 - Fixed crash when copying some URL.
 

@@ -28,5 +28,19 @@
             </controls:SettingsCard.HeaderIcon>
             <ToggleSwitch IsOn="{x:Bind ViewModel.DisableClickFixWarning, Mode=TwoWay}" />
         </controls:SettingsCard>
+
+        <TextBlock
+            Margin="0,16,0,8"
+            api:Uids.Uid="/WindowSill.InlineTerminal/SettingsUserControl/About"
+            Style="{ThemeResource BodyStrongTextBlockStyle}" />
+
+        <controls:SettingsCard api:Uids.Uid="/WindowSill.InlineTerminal/SettingsUserControl/SpecialThanks">
+            <controls:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE716;" />
+            </controls:SettingsCard.HeaderIcon>
+            <controls:SettingsCard.Description>
+                <TextBlock Text="Arlo Godfrey" />
+            </controls:SettingsCard.Description>
+        </controls:SettingsCard>
     </StackPanel>
 </UserControl>

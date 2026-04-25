@@ -15,176 +15,234 @@
         <SolidColorBrush x:Key="GpuProgressBrush" Color="#34D399" />
     </UserControl.Resources>
 
-    <Button
-        x:Name="MainButton"
-        Padding="4"
-        Click="MainButton_Click"
-        Style="{StaticResource SillButtonStyle}">
-        <Grid>
-            <!--  Percentage mode: CPU / Memory / GPU  -->
-            <StackPanel
-                x:Name="PercentagePanel"
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="8"
-                Visibility="{x:Bind ViewModel.IsPercentageMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+    <Grid x:Name="RootPanel">
+        <Button
+            x:Name="MainButton"
+            Padding="4,0"
+            Click="MainButton_Click"
+            Style="{StaticResource SillButtonStyle}">
+            <Grid>
+                <!--  Percentage mode: CPU / Memory / GPU  -->
+                <StackPanel
+                    x:Name="PercentagePanel"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="8"
+                    Visibility="{x:Bind ViewModel.IsPercentageMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
 
-                <!--  CPU  -->
-                <Grid
-                    x:Name="CpuPanel"
-                    ColumnSpacing="4"
-                    Visibility="{x:Bind ViewModel.ShowCpu, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <FontIcon
-                        x:Name="CpuIcon"
-                        Grid.RowSpan="2"
-                        VerticalAlignment="Center"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="{ThemeResource SillFontIconSize}"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Glyph="&#xE9D9;" />
-                    <ProgressBar
-                        x:Name="CpuProgressBar"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Width="40"
-                        VerticalAlignment="Bottom"
-                        Foreground="{StaticResource CpuProgressBrush}"
-                        Maximum="100"
-                        Visibility="Collapsed"
-                        Value="{x:Bind ViewModel.CpuUsage, Mode=OneWay}" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        MinWidth="24"
-                        VerticalAlignment="Top"
-                        FontSize="{ThemeResource SillFontSize}"
-                        Text="{x:Bind ViewModel.CpuText, Mode=OneWay}" />
-                    <TextBlock
-                        x:Name="CpuLabel"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        FontSize="9"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="CPU"
-                        Visibility="Collapsed" />
-                </Grid>
+                    <!--  CPU  -->
+                    <Grid
+                        x:Name="CpuPanel"
+                        ColumnSpacing="4"
+                        Visibility="{x:Bind ViewModel.IsCpuPanelVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <FontIcon
+                            x:Name="CpuIcon"
+                            Grid.RowSpan="2"
+                            VerticalAlignment="Center"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            FontSize="{ThemeResource SillFontIconSize}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Glyph="&#xE9D9;" />
+                        <ProgressBar
+                            x:Name="CpuProgressBar"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Width="40"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Foreground="{StaticResource CpuProgressBrush}"
+                            Maximum="100"
+                            Visibility="Collapsed"
+                            Value="{x:Bind ViewModel.CpuProgressBarValue, Mode=OneWay}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            MinWidth="24"
+                            VerticalAlignment="Top"
+                            FontSize="{ThemeResource SillFontSize}"
+                            Text="{x:Bind ViewModel.CpuText, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.ShowCpu, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            VerticalAlignment="Top"
+                            FontSize="{ThemeResource SillFontSize}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Text="{x:Bind ViewModel.CpuTemperatureText, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.IsCpuTemperatureVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
 
-                <!--  Memory  -->
-                <Grid
-                    x:Name="MemoryPanel"
-                    ColumnSpacing="4"
-                    Visibility="{x:Bind ViewModel.ShowRam, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <FontIcon
-                        x:Name="MemoryIcon"
-                        Grid.RowSpan="2"
-                        VerticalAlignment="Center"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="{ThemeResource SillFontIconSize}"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Glyph="&#xE964;" />
-                    <ProgressBar
-                        x:Name="MemoryProgressBar"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Width="40"
-                        VerticalAlignment="Bottom"
-                        Foreground="{StaticResource MemoryProgressBrush}"
-                        Maximum="100"
-                        Visibility="Collapsed"
-                        Value="{x:Bind ViewModel.MemoryUsage, Mode=OneWay}" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        MinWidth="24"
-                        VerticalAlignment="Top"
-                        FontSize="{ThemeResource SillFontSize}"
-                        Text="{x:Bind ViewModel.MemoryText, Mode=OneWay}" />
-                    <TextBlock
-                        x:Name="MemoryLabel"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        FontSize="9"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="Memory"
-                        Visibility="Collapsed" />
-                </Grid>
+                    <!--  Memory  -->
+                    <Grid
+                        x:Name="MemoryPanel"
+                        ColumnSpacing="4"
+                        Visibility="{x:Bind ViewModel.ShowRam, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <FontIcon
+                            x:Name="MemoryIcon"
+                            Grid.RowSpan="2"
+                            VerticalAlignment="Center"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            FontSize="{ThemeResource SillFontIconSize}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Glyph="&#xE964;" />
+                        <ProgressBar
+                            x:Name="MemoryProgressBar"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Width="40"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Foreground="{StaticResource MemoryProgressBrush}"
+                            Maximum="100"
+                            Visibility="Collapsed"
+                            Value="{x:Bind ViewModel.MemoryUsage, Mode=OneWay}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            MinWidth="24"
+                            VerticalAlignment="Top"
+                            FontSize="{ThemeResource SillFontSize}"
+                            Text="{x:Bind ViewModel.MemoryText, Mode=OneWay}" />
+                        <TextBlock
+                            x:Name="MemoryLabel"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            FontSize="9"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{ThemeResource CaptionTextBlockStyle}"
+                            Text="Memory"
+                            Visibility="Collapsed" />
+                    </Grid>
 
-                <!--  GPU  -->
-                <Grid
-                    x:Name="GpuPanel"
-                    ColumnSpacing="4"
-                    Visibility="{x:Bind ViewModel.IsGpuPanelVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <FontIcon
-                        x:Name="GpuIcon"
-                        Grid.RowSpan="2"
-                        VerticalAlignment="Center"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="{ThemeResource SillFontIconSize}"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Glyph="&#xE950;" />
-                    <ProgressBar
-                        x:Name="GpuProgressBar"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Width="40"
-                        VerticalAlignment="Bottom"
-                        Foreground="{StaticResource GpuProgressBrush}"
-                        Maximum="100"
-                        Visibility="Collapsed"
-                        Value="{x:Bind ViewModel.GpuUsageValue, Mode=OneWay}" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        MinWidth="24"
-                        VerticalAlignment="Top"
-                        FontSize="{ThemeResource SillFontSize}"
-                        Text="{x:Bind ViewModel.GpuText, Mode=OneWay}" />
-                    <TextBlock
-                        x:Name="GpuLabel"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        FontSize="9"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{ThemeResource CaptionTextBlockStyle}"
-                        Text="GPU"
-                        Visibility="Collapsed" />
-                </Grid>
-            </StackPanel>
+                    <!--  GPU  -->
+                    <Grid
+                        x:Name="GpuPanel"
+                        ColumnSpacing="4"
+                        Visibility="{x:Bind ViewModel.IsGpuPanelVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <FontIcon
+                            x:Name="GpuIcon"
+                            Grid.RowSpan="2"
+                            VerticalAlignment="Center"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            FontSize="{ThemeResource SillFontIconSize}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Glyph="&#xE950;" />
+                        <ProgressBar
+                            x:Name="GpuProgressBar"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            Width="40"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Foreground="{StaticResource GpuProgressBrush}"
+                            Maximum="100"
+                            Visibility="Collapsed"
+                            Value="{x:Bind ViewModel.GpuProgressBarValue, Mode=OneWay}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            MinWidth="24"
+                            VerticalAlignment="Top"
+                            FontSize="{ThemeResource SillFontSize}"
+                            Text="{x:Bind ViewModel.GpuText, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.ShowGpu, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            VerticalAlignment="Top"
+                            FontSize="{ThemeResource SillFontSize}"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Text="{x:Bind ViewModel.GpuTemperatureText, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.IsGpuTemperatureVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
+                </StackPanel>
 
-            <!--  Running Man animation mode  -->
-            <AnimatedVisualPlayer
-                x:Name="AnimationPlayer"
-                Width="24"
-                AutoPlay="True"
-                PlaybackRate="{x:Bind ViewModel.AnimationSpeed, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.IsAnimatedGifMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-        </Grid>
-    </Button>
+                <!--  Running Man animation mode  -->
+                <AnimatedVisualPlayer
+                    x:Name="AnimationPlayer"
+                    Width="24"
+                    AutoPlay="True"
+                    PlaybackRate="{x:Bind ViewModel.AnimationSpeed, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.IsAnimatedGifMode, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            </Grid>
+        </Button>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="OrientationStates">
+
+                <VisualState x:Name="HorizontalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="42" />
+                        <Setter Target="CpuProgressBar.Visibility" Value="Visible" />
+                        <Setter Target="MemoryProgressBar.Visibility" Value="Visible" />
+                        <Setter Target="GpuProgressBar.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="HorizontalMedium">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="28" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="HorizontalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="18" />
+                        <Setter Target="MainButton.Padding" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="VerticalLarge">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="42" />
+                        <Setter Target="CpuProgressBar.Visibility" Value="Visible" />
+                        <Setter Target="MemoryProgressBar.Visibility" Value="Visible" />
+                        <Setter Target="GpuProgressBar.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="VerticalMedium">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="28" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="VerticalSmall">
+                    <VisualState.Setters>
+                        <Setter Target="AnimationPlayer.Width" Value="18" />
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
 
 </UserControl>
