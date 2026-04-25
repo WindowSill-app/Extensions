@@ -1,3 +1,7 @@
+# 0.9.23
+- Updated dependencies.
+- Added an option to display CPU and GPU temperatures in the sill.
+
 # 0.9.22
 - Fixed icons being cut off when a monitor is scaled up.
 

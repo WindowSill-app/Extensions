@@ -33,4 +33,16 @@ internal static class Settings
     /// </summary>
     internal static readonly SettingDefinition<bool> ShowRam
         = new(true, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether to show CPU temperature in percentage mode
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowCpuTemperature
+        = new(false, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Whether to show GPU temperature in percentage mode
+    /// </summary>
+    internal static readonly SettingDefinition<bool> ShowGpuTemperature
+        = new(false, typeof(Settings).Assembly);
 }

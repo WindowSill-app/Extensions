@@ -32,7 +32,7 @@
                         SelectedItem="{x:Bind ViewModel.AnimationMetric, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
-                <!--  Show CPU (visible only in Percentage mode)  -->
+                <!--  Show CPU Usage (visible only in Percentage mode)  -->
                 <ctk:SettingsCard
                     x:Name="ShowCpuCard"
                     api:Uids.Uid="/WindowSill.PerfCounter/Settings/ShowCpu"
@@ -40,7 +40,15 @@
                     <ToggleSwitch IsOn="{x:Bind ViewModel.ShowCpu, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
-                <!--  Show GPU (visible only in Percentage mode)  -->
+                <!--  Show CPU Temperature (visible only in Percentage mode)  -->
+                <ctk:SettingsCard
+                    x:Name="ShowCpuTemperatureCard"
+                    api:Uids.Uid="/WindowSill.PerfCounter/Settings/ShowCpuTemperature"
+                    Visibility="Collapsed">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowCpuTemperature, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Show GPU Usage (visible only in Percentage mode)  -->
                 <ctk:SettingsCard
                     x:Name="ShowGpuCard"
                     api:Uids.Uid="/WindowSill.PerfCounter/Settings/ShowGpu"
@@ -48,7 +56,15 @@
                     <ToggleSwitch IsOn="{x:Bind ViewModel.ShowGpu, Mode=TwoWay}" />
                 </ctk:SettingsCard>
 
-                <!--  Show RAM (visible only in Percentage mode)  -->
+                <!--  Show GPU Temperature (visible only in Percentage mode)  -->
+                <ctk:SettingsCard
+                    x:Name="ShowGpuTemperatureCard"
+                    api:Uids.Uid="/WindowSill.PerfCounter/Settings/ShowGpuTemperature"
+                    Visibility="Collapsed">
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.ShowGpuTemperature, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
+                <!--  Show RAM Usage (visible only in Percentage mode)  -->
                 <ctk:SettingsCard
                     x:Name="ShowRamCard"
                     api:Uids.Uid="/WindowSill.PerfCounter/Settings/ShowRam"

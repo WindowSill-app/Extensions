@@ -18,6 +18,7 @@ public partial class PerformanceCounterViewModel : ObservableObject, IDisposable
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CpuText))]
+    [NotifyPropertyChangedFor(nameof(CpuProgressBarValue))]
     public partial double CpuUsage { get; set; }
 
     [ObservableProperty]
@@ -26,7 +27,7 @@ public partial class PerformanceCounterViewModel : ObservableObject, IDisposable
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(GpuText))]
-    [NotifyPropertyChangedFor(nameof(GpuUsageValue))]
+    [NotifyPropertyChangedFor(nameof(GpuProgressBarValue))]
     [NotifyPropertyChangedFor(nameof(IsGpuPanelVisible))]
     public partial double? GpuUsage { get; set; }
 
@@ -41,14 +42,43 @@ public partial class PerformanceCounterViewModel : ObservableObject, IDisposable
     public partial bool IsPercentageMode { get; set; }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsCpuPanelVisible))]
+    [NotifyPropertyChangedFor(nameof(CpuProgressBarValue))]
     public partial bool ShowCpu { get; set; }
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsGpuPanelVisible))]
+    [NotifyPropertyChangedFor(nameof(GpuProgressBarValue))]
     public partial bool ShowGpu { get; set; }
 
     [ObservableProperty]
     public partial bool ShowRam { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsCpuTemperatureVisible))]
+    [NotifyPropertyChangedFor(nameof(IsCpuPanelVisible))]
+    [NotifyPropertyChangedFor(nameof(CpuProgressBarValue))]
+    public partial bool ShowCpuTemperature { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsGpuTemperatureVisible))]
+    [NotifyPropertyChangedFor(nameof(IsGpuPanelVisible))]
+    [NotifyPropertyChangedFor(nameof(GpuProgressBarValue))]
+    public partial bool ShowGpuTemperature { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(CpuTemperatureText))]
+    [NotifyPropertyChangedFor(nameof(IsCpuTemperatureVisible))]
+    [NotifyPropertyChangedFor(nameof(IsCpuPanelVisible))]
+    [NotifyPropertyChangedFor(nameof(CpuProgressBarValue))]
+    public partial double? CpuTemperature { get; set; }
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(GpuTemperatureText))]
+    [NotifyPropertyChangedFor(nameof(IsGpuTemperatureVisible))]
+    [NotifyPropertyChangedFor(nameof(IsGpuPanelVisible))]
+    [NotifyPropertyChangedFor(nameof(GpuProgressBarValue))]
+    public partial double? GpuTemperature { get; set; }
 
     [ObservableProperty]
     public partial double AnimationSpeed { get; set; }
@@ -69,19 +99,50 @@ public partial class PerformanceCounterViewModel : ObservableObject, IDisposable
     public string GpuText => $"{GpuUsage:F0}%";
 
     /// <summary>
-    /// Gets the GPU usage as a non-nullable value for binding to ProgressBar.
-    /// </summary>
-    public double GpuUsageValue => GpuUsage ?? 0;
-
-    /// <summary>
     /// Gets whether the animated running man mode is active.
     /// </summary>
     public bool IsAnimatedGifMode => !IsPercentageMode;
 
     /// <summary>
-    /// Gets whether the GPU panel should be visible.
+    /// Gets whether the CPU panel should be visible (usage or temperature enabled).
     /// </summary>
-    public bool IsGpuPanelVisible => ShowGpu && GpuUsage.HasValue;
+    public bool IsCpuPanelVisible => ShowCpu || IsCpuTemperatureVisible;
+
+    /// <summary>
+    /// Gets whether the GPU panel should be visible (usage or temperature enabled, with data available).
+    /// </summary>
+    public bool IsGpuPanelVisible =>
+        (ShowGpu && GpuUsage.HasValue) || IsGpuTemperatureVisible;
+
+    /// <summary>
+    /// Formatted CPU temperature text.
+    /// </summary>
+    public string CpuTemperatureText => CpuTemperature.HasValue ? $"{CpuTemperature:F0}°C" : "";
+
+    /// <summary>
+    /// Formatted GPU temperature text.
+    /// </summary>
+    public string GpuTemperatureText => GpuTemperature.HasValue ? $"{GpuTemperature:F0}°C" : "";
+
+    /// <summary>
+    /// Gets whether the CPU temperature text should be visible.
+    /// </summary>
+    public bool IsCpuTemperatureVisible => ShowCpuTemperature && CpuTemperature.HasValue;
+
+    /// <summary>
+    /// Gets whether the GPU temperature text should be visible.
+    /// </summary>
+    public bool IsGpuTemperatureVisible => ShowGpuTemperature && GpuTemperature.HasValue;
+
+    /// <summary>
+    /// Gets the CPU progress bar value. Shows usage when enabled, otherwise temperature.
+    /// </summary>
+    public double CpuProgressBarValue => ShowCpu ? CpuUsage : (CpuTemperature ?? 0);
+
+    /// <summary>
+    /// Gets the GPU progress bar value. Shows usage when enabled, otherwise temperature.
+    /// </summary>
+    public double GpuProgressBarValue => ShowGpu ? (GpuUsage ?? 0) : (GpuTemperature ?? 0);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PerformanceCounterViewModel"/> class.
@@ -122,6 +183,8 @@ public partial class PerformanceCounterViewModel : ObservableObject, IDisposable
             CpuUsage = e.Data.CpuUsage;
             MemoryUsage = e.Data.MemoryUsage;
             GpuUsage = e.Data.GpuUsage;
+            CpuTemperature = e.Data.CpuTemperature;
+            GpuTemperature = e.Data.GpuTemperature;
 
             UpdateAnimationSpeed();
         });
@@ -138,7 +201,9 @@ public partial class PerformanceCounterViewModel : ObservableObject, IDisposable
         else if (args.SettingName is { } name &&
             (name == Settings.Settings.ShowCpu.Name ||
              name == Settings.Settings.ShowGpu.Name ||
-             name == Settings.Settings.ShowRam.Name))
+             name == Settings.Settings.ShowRam.Name ||
+             name == Settings.Settings.ShowCpuTemperature.Name ||
+             name == Settings.Settings.ShowGpuTemperature.Name))
         {
             UpdateMetricVisibility();
         }
@@ -155,6 +220,8 @@ public partial class PerformanceCounterViewModel : ObservableObject, IDisposable
         ShowCpu = _settingsProvider.GetSetting(Settings.Settings.ShowCpu);
         ShowGpu = _settingsProvider.GetSetting(Settings.Settings.ShowGpu);
         ShowRam = _settingsProvider.GetSetting(Settings.Settings.ShowRam);
+        ShowCpuTemperature = _settingsProvider.GetSetting(Settings.Settings.ShowCpuTemperature);
+        ShowGpuTemperature = _settingsProvider.GetSetting(Settings.Settings.ShowGpuTemperature);
     }
 
     private void UpdateAnimationSpeed()

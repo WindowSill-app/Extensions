@@ -53,6 +53,8 @@ internal sealed partial class SettingsView : UserControl
         ShowCpuCard.Visibility = vis;
         ShowGpuCard.Visibility = vis;
         ShowRamCard.Visibility = vis;
+        ShowCpuTemperatureCard.Visibility = vis;
+        ShowGpuTemperatureCard.Visibility = vis;
     }
 
     private void OpenTaskManagerCard_Click(object sender, RoutedEventArgs e)
