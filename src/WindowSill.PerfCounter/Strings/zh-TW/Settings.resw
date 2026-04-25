@@ -145,12 +145,18 @@
     <value>點選開啟 Windows 任務管理員以取得詳細系統資訊</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
-    <value>Show CPU</value>
+    <value>Show CPU Usage</value>
   </data>
   <data name="ShowGpu.HeaderProperty" xml:space="preserve">
-    <value>Show GPU</value>
+    <value>Show GPU Usage</value>
   </data>
   <data name="ShowRam.HeaderProperty" xml:space="preserve">
-    <value>Show RAM</value>
+    <value>Show RAM Usage</value>
+  </data>
+  <data name="ShowCpuTemperature.HeaderProperty" xml:space="preserve">
+    <value>Show CPU Temperature</value>
+  </data>
+  <data name="ShowGpuTemperature.HeaderProperty" xml:space="preserve">
+    <value>Show GPU Temperature</value>
   </data>
 </root>
