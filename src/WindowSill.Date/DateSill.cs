@@ -5,6 +5,7 @@ using NodaTime;
 using WindowSill.API;
 using WindowSill.Date.Core;
 using WindowSill.Date.Core.Services;
+using WindowSill.Date.Core.UI;
 using WindowSill.Date.Settings;
 using WindowSill.Date.ViewModels;
 using WindowSill.Date.Views;
@@ -111,7 +112,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
                     _worldClockService,
                     _settingsProvider,
                     ViewList)
-                { RequestReorder = ReorderViewList };
+                { ResolveInsertIndex = ResolveMeetingInsertIndex };
                 _viewListAdapter.Start();
 
                 // Create per-instance adapter for pinned world clocks.
@@ -119,7 +120,7 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
                     _worldClockService,
                     _settingsProvider,
                     ViewList)
-                { RequestReorder = ReorderViewList };
+                { ResolveInsertIndex = ResolveWorldClockInsertIndex };
                 _worldClockViewListAdapter.Start(popupView.DispatcherQueue);
 
                 // Refresh meetings when popup closes.
@@ -169,8 +170,12 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
     }
 
     /// <summary>
-    /// Reorders the ViewList based on the world clock and meeting placement settings.
-    /// Called by adapters after items are added or removed.
+    /// Reorders the existing ViewList items based on the world clock and meeting placement
+    /// settings. Used only when those settings change at runtime — items are already
+    /// <c>Loaded</c> at that point, so <see cref="ObservableCollection{T}.Move"/> is safe.
+    /// New items use <see cref="ResolveMeetingInsertIndex"/> or
+    /// <see cref="ResolveWorldClockInsertIndex"/> to be inserted at the correct index
+    /// directly, avoiding a separate reorder pass.
     /// </summary>
     private void ReorderViewList()
     {
@@ -179,61 +184,71 @@ internal sealed class DateSill : ISillActivatedByDefault, ISillListView, ISillFi
             return;
         }
 
-        WorldClockPlacement clockPlacement = _settingsProvider.GetSetting(Settings.Settings.WorldClockPlacement);
-        MeetingPlacement meetingPlacement = _settingsProvider.GetSetting(Settings.Settings.MeetingPlacement);
+        IReadOnlyList<SillListViewItem> ordered = SillBarLayout.ComputeOrder(
+            _dateBarItem,
+            _viewListAdapter.GetSillItems(),
+            BuildClockEntries(_worldClockViewListAdapter),
+            _settingsProvider.GetSetting(Settings.Settings.MeetingPlacement),
+            _settingsProvider.GetSetting(Settings.Settings.WorldClockPlacement));
 
-        var meetingItems = _viewListAdapter.GetSillItems().ToHashSet();
-
-        // Partition world clocks into before/after groups.
-        var clocksBefore = new List<SillListViewItem>();
-        var clocksAfter = new List<SillListViewItem>();
-
-        foreach (ViewListEntry entry in _worldClockViewListAdapter.GetEntries())
-        {
-            bool placeBefore = clockPlacement switch
-            {
-                WorldClockPlacement.BeforeDateSill => true,
-                WorldClockPlacement.AfterDateSill => false,
-                WorldClockPlacement.ByTimezone => IsEarlierTimezone(entry.Vm),
-                _ => false,
-            };
-
-            if (placeBefore)
-            {
-                clocksBefore.Add(entry.SillItem);
-            }
-            else
-            {
-                clocksAfter.Add(entry.SillItem);
-            }
-        }
-
-        // Build the desired order.
-        var ordered = new List<SillListViewItem>();
-
-        if (meetingPlacement == MeetingPlacement.BeforeAll)
-        {
-            ordered.AddRange(meetingItems);
-        }
-
-        ordered.AddRange(clocksBefore);
-        ordered.Add(_dateBarItem);
-        ordered.AddRange(clocksAfter);
-
-        if (meetingPlacement == MeetingPlacement.AfterAll)
-        {
-            ordered.AddRange(meetingItems);
-        }
-
-        // Apply the order by moving items to their correct positions.
         for (int i = 0; i < ordered.Count; i++)
         {
             int currentIndex = ViewList.IndexOf(ordered[i]);
-            if (currentIndex != i)
+            if (currentIndex >= 0 && currentIndex != i)
             {
                 ViewList.Move(currentIndex, i);
             }
         }
+    }
+
+    /// <summary>
+    /// Resolves the index at which a brand-new meeting sill item should be inserted into
+    /// <see cref="ViewList"/>. Called by <see cref="MeetingViewListAdapter"/> before
+    /// <c>Insert</c>, so the item lands directly in its final position and is never moved.
+    /// </summary>
+    private int ResolveMeetingInsertIndex(SillListViewItem newMeetingItem)
+    {
+        if (_dateBarItem is null || _viewListAdapter is null || _worldClockViewListAdapter is null)
+        {
+            return ViewList.Count;
+        }
+
+        return SillBarLayout.IndexForNewMeeting(
+            _dateBarItem,
+            _viewListAdapter.GetSillItems(),
+            BuildClockEntries(_worldClockViewListAdapter),
+            newMeetingItem,
+            _settingsProvider.GetSetting(Settings.Settings.MeetingPlacement),
+            _settingsProvider.GetSetting(Settings.Settings.WorldClockPlacement));
+    }
+
+    /// <summary>
+    /// Resolves the index at which a brand-new world-clock sill item should be inserted
+    /// into <see cref="ViewList"/>.
+    /// </summary>
+    private int ResolveWorldClockInsertIndex(SillListViewItem newClockItem, WorldClockSillItemViewModel newClockVm)
+    {
+        if (_dateBarItem is null || _viewListAdapter is null || _worldClockViewListAdapter is null)
+        {
+            return ViewList.Count;
+        }
+
+        return SillBarLayout.IndexForNewClock(
+            _dateBarItem,
+            _viewListAdapter.GetSillItems(),
+            BuildClockEntries(_worldClockViewListAdapter),
+            newClockItem,
+            IsEarlierTimezone(newClockVm),
+            _settingsProvider.GetSetting(Settings.Settings.MeetingPlacement),
+            _settingsProvider.GetSetting(Settings.Settings.WorldClockPlacement));
+    }
+
+    private static IReadOnlyCollection<(SillListViewItem Item, bool IsEarlierTimezone)> BuildClockEntries(
+        WorldClockViewListAdapter adapter)
+    {
+        return adapter.GetEntries()
+            .Select(e => ((SillListViewItem)e.SillItem, IsEarlierTimezone(e.Vm)))
+            .ToList();
     }
 
     /// <summary>

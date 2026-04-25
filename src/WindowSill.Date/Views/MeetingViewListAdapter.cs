@@ -14,12 +14,10 @@ namespace WindowSill.Date.Views;
 /// <see cref="MeetingStateService"/> for state changes.
 /// Does NOT own timers, VMs, hidden state, or notification logic.
 /// </summary>
-internal sealed class MeetingViewListAdapter : IDisposable
+internal sealed class MeetingViewListAdapter : SillViewListAdapterBase
 {
     private readonly MeetingStateService _stateService;
     private readonly WorldClockService _worldClockService;
-    private readonly ISettingsProvider _settingsProvider;
-    private readonly ObservableCollection<SillListViewItem> _viewList;
 
     /// <summary>
     /// Maps MeetingKey → per-instance UI elements.
@@ -27,8 +25,7 @@ internal sealed class MeetingViewListAdapter : IDisposable
     /// </summary>
     private readonly Dictionary<MeetingKey, ViewListEntry> _entries = [];
 
-    private Action? _requestReorder;
-    private bool _disposed;
+    private Func<SillListViewItem, int>? _resolveInsertIndex;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="MeetingViewListAdapter"/> class.
@@ -38,19 +35,20 @@ internal sealed class MeetingViewListAdapter : IDisposable
         WorldClockService worldClockService,
         ISettingsProvider settingsProvider,
         ObservableCollection<SillListViewItem> viewList)
+        : base(settingsProvider, viewList)
     {
         _stateService = stateService;
         _worldClockService = worldClockService;
-        _settingsProvider = settingsProvider;
-        _viewList = viewList;
 
         _stateService.MeetingsChanged += OnMeetingsChanged;
     }
 
     /// <summary>
-    /// Sets the callback invoked after items are added or removed to reorder the ViewList.
+    /// Sets the callback that decides where a new meeting sill should be inserted into the
+    /// <see cref="ViewList"/>. The callback receives the new item and returns the target index.
+    /// Returning a value outside of <c>[0, ViewList.Count]</c> falls back to appending.
     /// </summary>
-    internal Action? RequestReorder { set => _requestReorder = value; }
+    internal Func<SillListViewItem, int>? ResolveInsertIndex { set => _resolveInsertIndex = value; }
 
     /// <summary>
     /// Gets the sill items owned by this adapter for ordering purposes.
@@ -67,20 +65,18 @@ internal sealed class MeetingViewListAdapter : IDisposable
     }
 
     /// <inheritdoc/>
-    public void Dispose()
-    {
-        if (_disposed)
-        {
-            return;
-        }
+    protected override IEnumerable<Control> GetBarContents()
+        => _entries.Values.Select(e => (Control)e.BarContent);
 
-        _disposed = true;
+    /// <inheritdoc/>
+    protected override void OnDisposing()
+    {
         _stateService.MeetingsChanged -= OnMeetingsChanged;
 
         foreach (ViewListEntry entry in _entries.Values)
         {
             UnsubscribeEntry(entry);
-            _viewList.Remove(entry.SillItem);
+            ViewList.Remove(entry.SillItem);
         }
 
         _entries.Clear();
@@ -93,7 +89,7 @@ internal sealed class MeetingViewListAdapter : IDisposable
     /// </summary>
     private void OnMeetingsChanged()
     {
-        if (_disposed)
+        if (Disposed)
         {
             return;
         }
@@ -114,12 +110,12 @@ internal sealed class MeetingViewListAdapter : IDisposable
             if (_entries.Remove(key, out ViewListEntry? entry))
             {
                 UnsubscribeEntry(entry);
-                _viewList.Remove(entry.SillItem);
+                ViewList.Remove(entry.SillItem);
             }
         }
 
         // Add new entries (meetings in state that we don't have UI elements for yet).
-        bool enableFlashing = _settingsProvider.GetSetting(Settings.Settings.EnableSillFlashing);
+        bool enableFlashing = SettingsProvider.GetSetting(Settings.Settings.EnableSillFlashing);
 
         foreach (MeetingSillItemViewModel vm in activeMeetings)
         {
@@ -143,7 +139,7 @@ internal sealed class MeetingViewListAdapter : IDisposable
                     menuFlyout,
                     vm,
                     _worldClockService,
-                    _settingsProvider,
+                    SettingsProvider,
                     onHide: () => _stateService.HideMeeting(capturedKey));
             };
 
@@ -153,12 +149,7 @@ internal sealed class MeetingViewListAdapter : IDisposable
                 menuFlyout)
                 .PreviewFlyoutContent(previewFlyout);
 
-            // Wire orientation changes (per-instance).
-            sillItem.IsSillOrientationOrSizeChanged += (_, _) =>
-            {
-                barContent.ApplyOrientationState(sillItem.SillOrientationAndSize);
-            };
-            barContent.ApplyOrientationState(sillItem.SillOrientationAndSize);
+            barContent.ApplyOrientationState(ComputeCurrentOrientation());
 
             // Wire flashing: shared VM event → per-instance sill item.
             // Track the handler so we can unsubscribe on dispose.
@@ -169,21 +160,17 @@ internal sealed class MeetingViewListAdapter : IDisposable
                 vm.FlashRequested += flashHandler;
             }
 
-            // Track PropertyChanged for preview flyout live updates.
-            // MeetingPreviewFlyout subscribes internally — we track VM ref for cleanup.
+            // Resolve the correct insertion index BEFORE registering the entry, so the
+            // resolver sees only the items that already live in ViewList.
+            int insertIndex = ClampInsertIndex(_resolveInsertIndex?.Invoke(sillItem) ?? ViewList.Count);
 
-            // NOTE: No NotificationRequested subscription.
-            // Notifications are dispatched centrally by MeetingStateService.
+            _entries[vm.Key] = new ViewListEntry(vm, sillItem, barContent, flashHandler);
 
-            _entries[vm.Key] = new ViewListEntry(vm, sillItem, flashHandler);
-
-            if (!_viewList.Contains(sillItem))
+            if (!ViewList.Contains(sillItem))
             {
-                _viewList.Add(sillItem);
+                ViewList.Insert(insertIndex, sillItem);
             }
         }
-
-        _requestReorder?.Invoke();
     }
 
     /// <summary>
@@ -198,10 +185,11 @@ internal sealed class MeetingViewListAdapter : IDisposable
     }
 
     /// <summary>
-    /// Tracks the per-instance sill item and event handlers for cleanup.
+    /// Tracks the per-instance sill item, bar content, and event handlers for cleanup.
     /// </summary>
     private sealed record ViewListEntry(
         MeetingSillItemViewModel Vm,
         SillListViewMenuFlyoutItem SillItem,
+        MeetingBarContent BarContent,
         Action? FlashHandler);
 }

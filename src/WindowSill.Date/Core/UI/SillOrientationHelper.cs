@@ -29,4 +29,24 @@ internal static class SillOrientationHelper
 
         return VisualStateManager.GoToState(control, stateName, useTransitions: true);
     }
+
+    /// <summary>
+    /// Computes the current <see cref="SillOrientationAndSize"/> from settings.
+    /// Mirrors the logic in <c>SillViewBase.UpdateSillInfo()</c> so that callers
+    /// that cannot rely on the <c>SillViewBase</c> Loaded/Unloaded subscription
+    /// window can compute the value independently.
+    /// </summary>
+    public static SillOrientationAndSize ComputeOrientationAndSize(ISettingsProvider settingsProvider)
+    {
+        SillLocation location = settingsProvider.GetSetting(PredefinedSettings.SillLocation);
+        bool isHorizontal = location is SillLocation.Top or SillLocation.Bottom;
+
+        return settingsProvider.GetSetting(PredefinedSettings.SillSize) switch
+        {
+            SillSize.Small => isHorizontal ? SillOrientationAndSize.HorizontalSmall : SillOrientationAndSize.VerticalSmall,
+            SillSize.Medium => isHorizontal ? SillOrientationAndSize.HorizontalMedium : SillOrientationAndSize.VerticalMedium,
+            SillSize.Large => isHorizontal ? SillOrientationAndSize.HorizontalLarge : SillOrientationAndSize.VerticalLarge,
+            _ => SillOrientationAndSize.HorizontalMedium,
+        };
+    }
 }

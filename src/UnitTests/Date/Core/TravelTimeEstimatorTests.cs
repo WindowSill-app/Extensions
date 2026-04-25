@@ -131,8 +131,7 @@ public class TravelTimeEstimatorTests
         return new TravelTimeEstimator(
             new FakeGeoLocationService(userLocation),
             new FakeGeocodingService(meetingLocation),
-            new FakeRoutingService(routeResult),
-            _settings);
+            new FakeRoutingService(routeResult));
     }
 
     private sealed class FakeGeoLocationService(GeoCoordinate? result) : IGeoLocationService
