@@ -108,6 +108,11 @@ internal sealed partial class MeetingSillItemViewModel : ObservableObject, IDisp
     public bool HasLocation => !string.IsNullOrWhiteSpace(Event.Location);
 
     /// <summary>
+    /// Gets a value indicating whether this event is tentative (not fully accepted).
+    /// </summary>
+    public bool IsTentative => Event.ResponseStatus is AttendeeResponseStatus.Tentative or AttendeeResponseStatus.NotResponded;
+
+    /// <summary>
     /// Gets or sets the cached travel time estimate for this meeting.
     /// Set asynchronously after creation.
     /// </summary>

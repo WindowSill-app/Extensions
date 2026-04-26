@@ -3,6 +3,7 @@
     x:Class="WindowSill.Date.Views.MeetingBarContent"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:WindowSill.Date.Core.UI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:converters1="using:WindowSill.Date.Core.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -12,21 +13,55 @@
 
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:BoolToVisibilityConverter
+            x:Key="InverseBoolToVisibilityConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
+        <converters1:HexColorBrushConverter x:Key="HexColorBrushConverter" />
         <converters1:UrgentFontWeightConverter x:Key="UrgentFontWeightConverter" />
     </UserControl.Resources>
 
     <Grid
         x:Name="RootPanel"
         Margin="{ThemeResource SillCommandContentMargin}"
-        VerticalAlignment="Center">
+        VerticalAlignment="Center"
+        ColumnSpacing="6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
         <!--
             Default layout (HorizontalMedium): single line.
             Title (Star) + Countdown (Auto) + Join (Auto).
             Large mode switches to vertical stack via VisualState.
         -->
 
+        <!--  Calendar color vertical bar  -->
+        <!--  Solid bar (accepted)  -->
+        <Border
+            Grid.Column="0"
+            Width="6"
+            VerticalAlignment="Stretch"
+            Background="{x:Bind ViewModel.CalendarColor, Mode=OneWay, Converter={StaticResource HexColorBrushConverter}}"
+            CornerRadius="2"
+            Visibility="{x:Bind ViewModel.IsTentative, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+        <!--  Zebra-striped bar (tentative / not responded)  -->
+        <Border
+            Grid.Column="0"
+            Width="6"
+            VerticalAlignment="Stretch"
+            BorderBrush="{x:Bind ViewModel.CalendarColor, Mode=OneWay, Converter={StaticResource HexColorBrushConverter}}"
+            BorderThickness="2"
+            CornerRadius="2"
+            Visibility="{x:Bind ViewModel.IsTentative, Converter={StaticResource BoolToVisibilityConverter}}">
+            <controls:DiagonalStripePanel StrokeBrush="{x:Bind ViewModel.CalendarColor, Converter={StaticResource HexColorBrushConverter}}" />
+        </Border>
+
         <!--  Single-line layout (Medium/Small)  -->
-        <Grid x:Name="SingleLinePanel" ColumnSpacing="6">
+        <Grid
+            x:Name="SingleLinePanel"
+            Grid.Column="1"
+            ColumnSpacing="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -55,8 +90,8 @@
             <Button
                 x:Name="JoinButtonSingle"
                 Grid.Column="2"
-                Width="28"
-                Height="28"
+                Width="32"
+                Height="16"
                 Padding="0"
                 VerticalAlignment="Center"
                 Background="Transparent"
@@ -73,6 +108,7 @@
         <!--  Two-line layout (Large) — hidden by default, shown via VisualState  -->
         <StackPanel
             x:Name="TwoLinePanel"
+            Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Spacing="0"
@@ -102,8 +138,8 @@
 
                 <Button
                     x:Name="JoinButtonLarge"
-                    Width="24"
-                    Height="24"
+                    Width="32"
+                    Height="16"
                     Padding="0"
                     VerticalAlignment="Center"
                     Background="Transparent"
