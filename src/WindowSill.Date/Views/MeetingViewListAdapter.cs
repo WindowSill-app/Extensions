@@ -143,10 +143,11 @@ internal sealed class MeetingViewListAdapter : SillViewListAdapterBase
                     onHide: () => _stateService.HideMeeting(capturedKey));
             };
 
-            SillListViewMenuFlyoutItem sillItem = new SillListViewMenuFlyoutItem(
-                barContent,
-                null,
-                menuFlyout)
+            SillListViewMenuFlyoutItem sillItem
+                = new SillListViewMenuFlyoutItem(
+                    barContent,
+                    null,
+                    menuFlyout)
                 .PreviewFlyoutContent(previewFlyout);
 
             barContent.ApplyOrientationState(ComputeCurrentOrientation());
