@@ -100,14 +100,14 @@
 
                 <TextBlock
                     x:Name="TitleTextLarge"
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Left"
                     FontSize="{ThemeResource SillFontSize}"
                     Text="{x:Bind ViewModel.Title}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap" />
 
                 <StackPanel
-                    HorizontalAlignment="Center"
+                    HorizontalAlignment="Left"
                     Orientation="Horizontal"
                     Spacing="6">
 
