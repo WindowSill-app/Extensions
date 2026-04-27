@@ -21,5 +21,5 @@ internal static class Settings
     /// 0 means auto-dismiss is disabled. Valid values: 0, 5, 10, 15, 30.
     /// </summary>
     internal static readonly SettingDefinition<int> AutoDismissMinutes
-        = new(10, typeof(Settings).Assembly);
+        = new(5, typeof(Settings).Assembly);
 }

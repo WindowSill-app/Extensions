@@ -45,6 +45,8 @@ internal sealed partial class SettingsViewModel : ObservableObject
     public IReadOnlyList<AutoDismissOption> AutoDismissOptions { get; } =
     [
         new(0, "/WindowSill.InlineTerminal/SettingsUserControl/AutoDismissOff".GetLocalizedString()),
+        new(1, string.Format("/WindowSill.InlineTerminal/SettingsUserControl/AutoDismissMinutesFormat".GetLocalizedString(), 1)),
+        new(2, string.Format("/WindowSill.InlineTerminal/SettingsUserControl/AutoDismissMinutesFormat".GetLocalizedString(), 2)),
         new(5, string.Format("/WindowSill.InlineTerminal/SettingsUserControl/AutoDismissMinutesFormat".GetLocalizedString(), 5)),
         new(10, string.Format("/WindowSill.InlineTerminal/SettingsUserControl/AutoDismissMinutesFormat".GetLocalizedString(), 10)),
         new(15, string.Format("/WindowSill.InlineTerminal/SettingsUserControl/AutoDismissMinutesFormat".GetLocalizedString(), 15)),
