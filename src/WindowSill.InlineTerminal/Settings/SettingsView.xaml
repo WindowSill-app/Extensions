@@ -29,6 +29,13 @@
             <ToggleSwitch IsOn="{x:Bind ViewModel.DisableClickFixWarning, Mode=TwoWay}" />
         </controls:SettingsCard>
 
+        <controls:SettingsCard api:Uids.Uid="/WindowSill.InlineTerminal/SettingsUserControl/AutoDismiss">
+            <controls:SettingsCard.HeaderIcon>
+                <FontIcon Glyph="&#xE823;" />
+            </controls:SettingsCard.HeaderIcon>
+            <ComboBox ItemsSource="{x:Bind ViewModel.AutoDismissOptions}" SelectedItem="{x:Bind ViewModel.SelectedAutoDismissOption, Mode=TwoWay}" />
+        </controls:SettingsCard>
+
         <TextBlock
             Margin="0,16,0,8"
             api:Uids.Uid="/WindowSill.InlineTerminal/SettingsUserControl/About"

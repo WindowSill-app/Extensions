@@ -18,6 +18,8 @@
         <converters:BoolToTextWrappingConverter x:Key="BoolToTextWrappingConverter" />
         <converters:BoolToScrollBarVisibilityConverter x:Key="BoolToScrollBarVisibilityConverter" />
         <converters:BoolToScrollModeConverter x:Key="BoolToScrollModeConverter" />
+        <converters:BoolToPinGlyphConverter x:Key="PinGlyphConverter" />
+        <converters:BoolToPinTooltipConverter x:Key="PinTooltipConverter" />
     </Page.Resources>
 
     <Grid RowSpacing="12">
@@ -85,6 +87,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <!--  Copy  -->
@@ -162,6 +165,15 @@
                                 OnlyApplyToSillPopup="True" />
                         </Grid>
                     </ui:ShortcutSplitButton>
+
+                    <!--  Pin / Unpin  -->
+                    <api:ShortcutButton
+                        Grid.Column="3"
+                        Command="{x:Bind ViewModel.TogglePinCommand}"
+                        Style="{StaticResource LargeShortcutButtonStyle}"
+                        ToolTipService.ToolTip="{x:Bind ViewModel.IsPinned, Mode=OneWay, Converter={StaticResource PinTooltipConverter}}">
+                        <FontIcon Glyph="{x:Bind ViewModel.IsPinned, Mode=OneWay, Converter={StaticResource PinGlyphConverter}}" />
+                    </api:ShortcutButton>
                 </Grid>
 
                 <!--  When running  -->

@@ -50,6 +50,15 @@ public sealed partial class OnGoingCommandsPopup : SillPopupContent
         }
     }
 
+    private void PinButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (((FrameworkElement)sender).DataContext is ActiveRunItem item)
+        {
+            item.Run.IsPinned = !item.Run.IsPinned;
+            item.NotifyUpdated();
+        }
+    }
+
     private void DismissAllButton_Click(object sender, RoutedEventArgs e)
     {
         _commandService.DismissAllCommands();

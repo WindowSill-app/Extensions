@@ -159,4 +159,12 @@
     <value>No other runs</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
+  <data name="PinButton" xml:space="preserve">
+    <value>Pin (prevent auto-dismiss)</value>
+    <comment>Tooltip for pinning a command run to prevent auto-dismiss</comment>
+  </data>
+  <data name="UnpinButton" xml:space="preserve">
+    <value>Unpin</value>
+    <comment>Tooltip for unpinning a command run to allow auto-dismiss</comment>
+  </data>
 </root>

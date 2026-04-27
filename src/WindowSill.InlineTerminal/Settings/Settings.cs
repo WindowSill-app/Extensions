@@ -15,4 +15,11 @@ internal static class Settings
     /// </summary>
     internal static readonly SettingDefinition<bool> DisableClickFixWarning
         = new(false, typeof(Settings).Assembly);
+
+    /// <summary>
+    /// Number of minutes after completion before a run is automatically dismissed.
+    /// 0 means auto-dismiss is disabled. Valid values: 0, 5, 10, 15, 30.
+    /// </summary>
+    internal static readonly SettingDefinition<int> AutoDismissMinutes
+        = new(10, typeof(Settings).Assembly);
 }

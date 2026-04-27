@@ -18,6 +18,8 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters1:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
         <converters1:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+        <converters1:BoolToPinGlyphConverter x:Key="PinGlyphConverter" />
+        <converters1:BoolToPinTooltipConverter x:Key="PinTooltipConverter" />
     </api:SillPopupContent.Resources>
 
     <Grid>
@@ -139,7 +141,14 @@
                         <StackPanel
                             Grid.Column="2"
                             HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center">
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <Button
+                                MaxWidth="24"
+                                Click="PinButton_Click"
+                                Content="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource PinGlyphConverter}}"
+                                Style="{StaticResource IconButton}"
+                                ToolTipService.ToolTip="{x:Bind IsPinned, Mode=OneWay, Converter={StaticResource PinTooltipConverter}}" />
                             <Button
                                 MaxWidth="24"
                                 api:Uids.Uid="/WindowSill.InlineTerminal/OnGoingCommandsPopup/DismissButton"

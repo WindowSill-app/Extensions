@@ -67,6 +67,12 @@ internal sealed partial class CommandRun : ObservableObject, IDisposable
     internal IObservable<string> OutputLines => _outputSubject;
 
     /// <summary>
+    /// Gets or sets whether this run is pinned (exempt from auto-dismiss).
+    /// </summary>
+    [ObservableProperty]
+    internal partial bool IsPinned { get; set; }
+
+    /// <summary>
     /// Gets or sets the action to perform when the command completes.
     /// </summary>
     internal ActionOnCommandCompleted ActionOnCompleted { get; set; }

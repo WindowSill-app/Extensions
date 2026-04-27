@@ -138,6 +138,11 @@ internal sealed partial class CommandViewModel : ObservableObject, IDisposable
     internal bool WordWrapOutput => _settingsProvider.GetSetting(Settings.Settings.WordWrapOutput);
 
     /// <summary>
+    /// Gets whether the latest run is pinned (exempt from auto-dismiss).
+    /// </summary>
+    internal bool IsPinned => _command.LatestRun?.IsPinned ?? false;
+
+    /// <summary>
     /// Gets the label for the run button — "Run" or "Re-run".
     /// </summary>
     internal string RunButtonLabel => HasBeenExecuted
@@ -178,6 +183,17 @@ internal sealed partial class CommandViewModel : ObservableObject, IDisposable
         if (_command.LatestRun is { } run)
         {
             _commandService.CancelRun(run.Id);
+        }
+
+        NotifyUpdateUI();
+    }
+
+    [RelayCommand]
+    internal void TogglePin()
+    {
+        if (_command.LatestRun is { } run)
+        {
+            run.IsPinned = !run.IsPinned;
         }
 
         NotifyUpdateUI();
@@ -308,6 +324,7 @@ internal sealed partial class CommandViewModel : ObservableObject, IDisposable
         OnPropertyChanged(nameof(RunButtonLabel));
         OnPropertyChanged(nameof(HasOtherRuns));
         OnPropertyChanged(nameof(OtherRunsCount));
+        OnPropertyChanged(nameof(IsPinned));
         CancelCommand.NotifyCanExecuteChanged();
         RunMenuCommand.NotifyCanExecuteChanged();
         RunAndAppendMenuCommand.NotifyCanExecuteChanged();

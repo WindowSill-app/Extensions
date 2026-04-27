@@ -41,7 +41,19 @@ public sealed class ActiveRunItem : ObservableObject
     public CommandState State => Run.State;
 
     /// <summary>
+    /// Gets whether this run is pinned (exempt from auto-dismiss).
+    /// </summary>
+    public bool IsPinned => Run.IsPinned;
+
+    /// <summary>
     /// Gets the run's start time formatted for display.
     /// </summary>
     public string StartedAt => Run.StartedAt.ToLocalTime().ToString("T");
+
+    internal void NotifyUpdated()
+    {
+        OnPropertyChanged(nameof(State));
+        OnPropertyChanged(nameof(IsPinned));
+        OnPropertyChanged(nameof(OutputTrimmed));
+    }
 }

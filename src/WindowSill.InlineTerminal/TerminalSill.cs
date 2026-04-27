@@ -47,19 +47,24 @@ internal sealed class TerminalSill
     private WindowTextSelection? _currentWindowTextSelection;
     private string[]? _currentDroppedFiles;
 
+    private readonly AutoDismissService _autoDismissService;
+
     [ImportingConstructor]
-    public TerminalSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, SillFactory sillFactory, CommandService commandService)
+    public TerminalSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, SillFactory sillFactory, CommandService commandService, AutoDismissService autoDismissService)
     {
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _sillFactory = sillFactory;
         _commandService = commandService;
+        _autoDismissService = autoDismissService;
         _commandService.RunsChanged += CommandService_RunsChanged;
         _commandService.CommandRemoved += CommandService_CommandRemoved;
 
         PluginAssetHelper.BaseDirectory = pluginInfo.GetPluginContentDirectory();
 
         _createOnGoingCommandsPopup = new AsyncLazy<SillListViewPopupItem?>(async () => await _sillFactory.CreateOnGoingCommandsPopupAsync());
+
+        _autoDismissService.Start();
     }
 
     /// <inheritdoc />
