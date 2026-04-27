@@ -14,4 +14,8 @@
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>Omitir la advertencia de seguridad al ejecutar comandos seleccionados desde un navegador web</value></data>
   <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
   <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
+  <data name="AutoDismiss.HeaderProperty" xml:space="preserve"><value>Auto-dismiss completed runs</value></data>
+  <data name="AutoDismiss.DescriptionProperty" xml:space="preserve"><value>Automatically dismiss completed command runs after the specified time. Pinned runs are not affected.</value></data>
+  <data name="AutoDismissOff" xml:space="preserve"><value>Off</value></data>
+  <data name="AutoDismissMinutesFormat" xml:space="preserve"><value>{0} minutes</value></data>
 </root>
