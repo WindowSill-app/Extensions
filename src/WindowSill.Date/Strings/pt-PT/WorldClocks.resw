@@ -59,54 +59,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SettingsTabName" xml:space="preserve">
-    <value>World Clocks</value>
+    <value>Relógios mundiais</value>
   </data>
   <data name="AddTimezoneHeader.TextProperty" xml:space="preserve">
-    <value>Add timezone</value>
+    <value>Adicionar fuso horário</value>
   </data>
   <data name="CitySearch.PlaceholderTextProperty" xml:space="preserve">
-    <value>Search cities...</value>
+    <value>Pesquisar cidades...</value>
   </data>
   <data name="ConfiguredClocksHeader.TextProperty" xml:space="preserve">
-    <value>Configured clocks</value>
+    <value>Relógios configurados</value>
   </data>
   <data name="NoClocksMessage.TextProperty" xml:space="preserve">
-    <value>No world clocks configured yet. Search for a city above to add one.</value>
+    <value>Ainda não existem relógios mundiais configurados. Pesquise uma cidade acima para adicionar um.</value>
   </data>
   <data name="CustomNameBox.HeaderProperty" xml:space="preserve">
-    <value>Custom display name</value>
+    <value>Nome de apresentação personalizado</value>
   </data>
   <data name="SaveName.ContentProperty" xml:space="preserve">
-    <value>Save</value>
+    <value>Guardar</value>
   </data>
   <data name="CustomNameBox.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter custom name...</value>
+    <value>Introduza um nome personalizado...</value>
   </data>
   <data name="CustomNameHint.TextProperty" xml:space="preserve">
-    <value>Leave empty to use the default city name.</value>
+    <value>Deixe vazio para usar o nome predefinido da cidade.</value>
   </data>
   <data name="ShowInBar.HeaderProperty" xml:space="preserve">
-    <value>Show in bar</value>
+    <value>Mostrar na barra</value>
   </data>
   <data name="ShowInBarHint.TextProperty" xml:space="preserve">
-    <value>Pin this clock to the WindowSill bar for quick access.</value>
+    <value>Fixe este relógio na barra do WindowSill para acesso rápido.</value>
   </data>
   <data name="BarPlacementHeader.TextProperty" xml:space="preserve">
-    <value>Bar placement</value>
+    <value>Posição na barra</value>
   </data>
   <data name="ClockPlacement.HeaderProperty" xml:space="preserve">
-    <value>Pinned clock position</value>
+    <value>Posição do relógio fixado</value>
   </data>
   <data name="ClockPlacement.DescriptionProperty" xml:space="preserve">
-    <value>Where pinned clocks appear relative to the date sill in the bar</value>
+    <value>Onde os relógios fixados aparecem em relação ao sill de data na barra</value>
   </data>
   <data name="PlacementBefore" xml:space="preserve">
-    <value>Before date sill</value>
+    <value>Antes do sill de data</value>
   </data>
   <data name="PlacementAfter" xml:space="preserve">
-    <value>After date sill</value>
+    <value>Depois do sill de data</value>
   </data>
   <data name="PlacementByTimezone" xml:space="preserve">
-    <value>By timezone (earlier before, later after)</value>
+    <value>Por fuso horário (mais cedo antes, mais tarde depois)</value>
   </data>
 </root>

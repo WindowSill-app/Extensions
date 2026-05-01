@@ -118,214 +118,214 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NotificationHeader.TextProperty" xml:space="preserve">
-    <value>MEETING IS STARTING</value>
+    <value>मीटिंग शुरू हो रही है</value>
   </data>
   <data name="NotificationJoin.TextProperty" xml:space="preserve">
-    <value>Join meeting</value>
+    <value>मीटिंग में शामिल हों</value>
   </data>
   <data name="NotificationDismiss.TextProperty" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>खारिज करें</value>
   </data>
   <data name="ToastJoinButton" xml:space="preserve">
-    <value>Join meeting</value>
+    <value>मीटिंग में शामिल हों</value>
   </data>
   <data name="ToastJoinOnProvider" xml:space="preserve">
-    <value>Join on {0}</value>
+    <value>{0} पर शामिल हों</value>
   </data>
   <data name="InNMinutes" xml:space="preserve">
-    <value>in {0} min</value>
+    <value>{0} मिनट में</value>
   </data>
   <data name="ElapsedMinutes" xml:space="preserve">
-    <value>{0} min</value>
+    <value>{0} मिनट</value>
   </data>
   <data name="IsLive" xml:space="preserve">
-    <value>is live!</value>
+    <value>लाइव है!</value>
   </data>
   <data name="AllDay" xml:space="preserve">
-    <value>All day</value>
+    <value>पूरा दिन</value>
   </data>
   <data name="JoinWith" xml:space="preserve">
-    <value>Join with {0}</value>
+    <value>{0} से शामिल हों</value>
   </data>
   <data name="TimeZones" xml:space="preserve">
-    <value>Time Zones</value>
+    <value>समय क्षेत्र</value>
   </data>
   <data name="More" xml:space="preserve">
-    <value>More</value>
+    <value>और</value>
   </data>
   <data name="CopyMeetingLink" xml:space="preserve">
-    <value>Copy meeting link</value>
+    <value>मीटिंग लिंक कॉपी करें</value>
   </data>
   <data name="CopyEventDetails" xml:space="preserve">
-    <value>Copy event details</value>
+    <value>इवेंट विवरण कॉपी करें</value>
   </data>
   <data name="HideReminder" xml:space="preserve">
-    <value>Hide event from sill</value>
+    <value>इवेंट को sill से छुपाएं</value>
   </data>
   <data name="ShowInCalendar" xml:space="preserve">
-    <value>Show in Calendar</value>
+    <value>कैलेंडर में दिखाएं</value>
   </data>
   <data name="SettingsTabName" xml:space="preserve">
-    <value>Meetings</value>
+    <value>मीटिंग्स</value>
   </data>
   <data name="UpcomingSillsHeader.TextProperty" xml:space="preserve">
-    <value>Upcoming meeting sills</value>
+    <value>आगामी मीटिंग sills</value>
   </data>
   <data name="MeetingPlacement.HeaderProperty" xml:space="preserve">
-    <value>Position in bar</value>
+    <value>बार में स्थिति</value>
   </data>
   <data name="MeetingPlacement.DescriptionProperty" xml:space="preserve">
-    <value>Where meeting sills appear relative to the date &amp; time sill and world clocks</value>
+    <value>मीटिंग sills दिनांक और समय sill तथा विश्व घड़ियों के सापेक्ष कहां दिखाई दें</value>
   </data>
   <data name="PlacementBefore" xml:space="preserve">
-    <value>Before everything</value>
+    <value>सबसे पहले</value>
   </data>
   <data name="PlacementAfter" xml:space="preserve">
-    <value>After everything</value>
+    <value>सबके बाद</value>
   </data>
   <data name="ReminderWindow.HeaderProperty" xml:space="preserve">
-    <value>Reminder window</value>
+    <value>रिमाइंडर विंडो</value>
   </data>
   <data name="ReminderWindow.DescriptionProperty" xml:space="preserve">
-    <value>Minutes before a meeting when the sill item appears</value>
+    <value>मीटिंग से पहले मिनट जब sill आइटम दिखाई दे</value>
   </data>
   <data name="MaxSills.HeaderProperty" xml:space="preserve">
-    <value>Maximum meeting items</value>
+    <value>अधिकतम मीटिंग आइटम</value>
   </data>
   <data name="MaxSills.DescriptionProperty" xml:space="preserve">
-    <value>Maximum number of upcoming meetings shown in the sill</value>
+    <value>Sill में दिखाई जाने वाली आगामी मीटिंग्स की अधिकतम संख्या</value>
   </data>
   <data name="ShowAllDay.HeaderProperty" xml:space="preserve">
-    <value>Show all-day events</value>
+    <value>पूरे दिन के इवेंट दिखाएं</value>
   </data>
   <data name="ShowAllDay.DescriptionProperty" xml:space="preserve">
-    <value>Include all-day events as meeting sill items</value>
+    <value>पूरे दिन के इवेंट को मीटिंग sill आइटम के रूप में शामिल करें</value>
   </data>
   <data name="ShowJoinButton.HeaderProperty" xml:space="preserve">
-    <value>Show Join button</value>
+    <value>शामिल हों बटन दिखाएं</value>
   </data>
   <data name="ShowJoinButton.DescriptionProperty" xml:space="preserve">
-    <value>Show a Join button for meetings with a video call link</value>
+    <value>वीडियो कॉल लिंक वाली मीटिंग्स के लिए शामिल हों बटन दिखाएं</value>
   </data>
   <data name="NotificationsHeader.TextProperty" xml:space="preserve">
-    <value>Notifications</value>
+    <value>सूचनाएं</value>
   </data>
   <data name="FullScreenNotification.HeaderProperty" xml:space="preserve">
-    <value>Full-screen notification</value>
+    <value>पूर्ण स्क्रीन सूचना</value>
   </data>
   <data name="FullScreenNotification.DescriptionProperty" xml:space="preserve">
-    <value>Show a full-screen notification on all monitors when a meeting starts</value>
+    <value>मीटिंग शुरू होने पर सभी मॉनिटरों पर पूर्ण स्क्रीन सूचना दिखाएं</value>
   </data>
   <data name="ToastNotification.HeaderProperty" xml:space="preserve">
-    <value>Toast notification</value>
+    <value>टोस्ट सूचना</value>
   </data>
   <data name="ToastNotification.DescriptionProperty" xml:space="preserve">
-    <value>Show a Windows toast notification when a meeting starts</value>
+    <value>मीटिंग शुरू होने पर Windows टोस्ट सूचना दिखाएं</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
-    <value>Notification style</value>
+    <value>सूचना शैली</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>How to alert you when a meeting is about to start</value>
+    <value>मीटिंग शुरू होने वाली हो तो आपको कैसे सूचित करें</value>
   </data>
   <data name="ConfirmedNotification.HeaderProperty" xml:space="preserve">
-    <value>Notification for confirmed meetings</value>
+    <value>पुष्टि की गई मीटिंग्स के लिए सूचना</value>
   </data>
   <data name="ConfirmedNotification.DescriptionProperty" xml:space="preserve">
-    <value>Meetings you accepted or organized</value>
+    <value>आपके द्वारा स्वीकृत या आयोजित मीटिंग्स</value>
   </data>
   <data name="TentativeNotification.HeaderProperty" xml:space="preserve">
-    <value>Notification for tentative meetings</value>
+    <value>अनिश्चित मीटिंग्स के लिए सूचना</value>
   </data>
   <data name="TentativeNotification.DescriptionProperty" xml:space="preserve">
-    <value>Meetings you haven't responded to or marked as tentative</value>
+    <value>जिन मीटिंग्स का आपने जवाब नहीं दिया या अनिश्चित के रूप में चिह्नित किया</value>
   </data>
   <data name="NotificationModeNone" xml:space="preserve">
-    <value>None</value>
+    <value>कोई नहीं</value>
   </data>
   <data name="NotificationModeFullScreen" xml:space="preserve">
-    <value>Full-screen</value>
+    <value>पूर्ण स्क्रीन</value>
   </data>
   <data name="NotificationModeToast" xml:space="preserve">
-    <value>Toast</value>
+    <value>टोस्ट</value>
   </data>
   <data name="EnableFlashing.HeaderProperty" xml:space="preserve">
-    <value>Flash when meeting starts</value>
+    <value>मीटिंग शुरू होने पर फ्लैश करें</value>
   </data>
   <data name="EnableFlashing.DescriptionProperty" xml:space="preserve">
-    <value>Flash the sill item when a meeting is about to start</value>
+    <value>मीटिंग शुरू होने वाली हो तो sill आइटम फ्लैश करें</value>
   </data>
   <data name="SyncHeader.TextProperty" xml:space="preserve">
-    <value>Sync</value>
+    <value>सिंक</value>
   </data>
   <data name="PollInterval.HeaderProperty" xml:space="preserve">
-    <value>Sync interval</value>
+    <value>सिंक अंतराल</value>
   </data>
   <data name="PollInterval.DescriptionProperty" xml:space="preserve">
-    <value>How often to check for new or updated meetings (in seconds)</value>
+    <value>नई या अपडेट की गई मीटिंग्स की कितनी बार जांच करें (सेकंड में)</value>
   </data>
   <data name="SyncNow.HeaderProperty" xml:space="preserve">
-    <value>Sync now</value>
+    <value>अभी सिंक करें</value>
   </data>
   <data name="SyncNow.DescriptionProperty" xml:space="preserve">
-    <value>Immediately refresh upcoming meetings from all accounts</value>
+    <value>सभी खातों से आगामी मीटिंग्स तुरंत रीफ्रेश करें</value>
   </data>
   <data name="TravelHeader.TextProperty" xml:space="preserve">
-    <value>Travel time</value>
+    <value>यात्रा समय</value>
   </data>
   <data name="EnableTravelTime.HeaderProperty" xml:space="preserve">
-    <value>Travel time reminders</value>
+    <value>यात्रा समय रिमाइंडर</value>
   </data>
   <data name="EnableTravelTime.DescriptionProperty" xml:space="preserve">
-    <value>Estimate travel time and notify you when it's time to leave for in-person meetings</value>
+    <value>व्यक्तिगत मीटिंग्स के लिए यात्रा समय का अनुमान लगाएं और निकलने का समय होने पर सूचित करें</value>
   </data>
   <data name="LeaveNow" xml:space="preserve">
-    <value>Leave now!</value>
+    <value>अभी निकलें!</value>
   </data>
   <data name="LeaveInNMinutes" xml:space="preserve">
-    <value>leave in {0} min</value>
+    <value>{0} मिनट में निकलें</value>
   </data>
   <data name="LeaveInCountdown" xml:space="preserve">
-    <value>leave in {0}</value>
+    <value>{0} में निकलें</value>
   </data>
   <data name="DepartureBuffer.HeaderProperty" xml:space="preserve">
-    <value>Get ready buffer (minutes)</value>
+    <value>तैयारी का समय (मिनट)</value>
   </data>
   <data name="DepartureBuffer.DescriptionProperty" xml:space="preserve">
-    <value>Extra time added before travel to give you time to wrap up and get ready</value>
+    <value>यात्रा से पहले तैयारी के लिए अतिरिक्त समय</value>
   </data>
   <data name="DepartureNotificationHeader.TextProperty" xml:space="preserve">
-    <value>TIME TO LEAVE</value>
+    <value>निकलने का समय</value>
   </data>
   <data name="DepartureOpenMaps.TextProperty" xml:space="preserve">
-    <value>Open in Maps</value>
+    <value>मैप्स में खोलें</value>
   </data>
   <data name="PreferredMapsProvider.HeaderProperty" xml:space="preserve">
-    <value>Maps provider</value>
+    <value>मैप्स प्रदाता</value>
   </data>
   <data name="PreferredMapsProvider.DescriptionProperty" xml:space="preserve">
-    <value>Which maps service to open for directions to meeting locations</value>
+    <value>मीटिंग स्थानों के दिशा-निर्देश के लिए कौन सी मैप्स सेवा खोलें</value>
   </data>
   <data name="PollInterval1Min" xml:space="preserve">
-    <value>1 minute</value>
+    <value>1 मिनट</value>
   </data>
   <data name="PollInterval3Min" xml:space="preserve">
-    <value>3 minutes</value>
+    <value>3 मिनट</value>
   </data>
   <data name="PollInterval5Min" xml:space="preserve">
-    <value>5 minutes</value>
+    <value>5 मिनट</value>
   </data>
   <data name="PollInterval15Min" xml:space="preserve">
-    <value>15 minutes</value>
+    <value>15 मिनट</value>
   </data>
   <data name="PollInterval30Min" xml:space="preserve">
-    <value>30 minutes</value>
+    <value>30 मिनट</value>
   </data>
   <data name="PollInterval1Hour" xml:space="preserve">
-    <value>1 hour</value>
+    <value>1 घंटा</value>
   </data>
   <data name="PollInterval2Hours" xml:space="preserve">
-    <value>2 hours</value>
+    <value>2 घंटे</value>
   </data>
   <data name="MapsProviderGoogle" xml:space="preserve">
     <value>Google Maps</value>
@@ -337,25 +337,25 @@
     <value>Apple Maps</value>
   </data>
   <data name="TravelMode.HeaderProperty" xml:space="preserve">
-    <value>Travel mode</value>
+    <value>यात्रा मोड</value>
   </data>
   <data name="TravelMode.DescriptionProperty" xml:space="preserve">
-    <value>How you typically travel to in-person meetings</value>
+    <value>आप आमतौर पर व्यक्तिगत मीटिंग्स में कैसे जाते हैं</value>
   </data>
   <data name="TravelModeDriving" xml:space="preserve">
-    <value>Driving</value>
+    <value>ड्राइविंग</value>
   </data>
   <data name="TravelModeWalking" xml:space="preserve">
-    <value>Walking</value>
+    <value>पैदल</value>
   </data>
   <data name="TravelModeCycling" xml:space="preserve">
-    <value>Cycling</value>
+    <value>साइकिलिंग</value>
   </data>
   <data name="TravelTimeMinutes" xml:space="preserve">
-    <value>~{0} min travel</value>
+    <value>~{0} मिनट यात्रा</value>
   </data>
   <data name="DateAtTime" xml:space="preserve">
-    <value>{0} at {1}</value>
+    <value>{0} को {1} बजे</value>
   </data>
   <data name="ProviderMicrosoftTeams" xml:space="preserve">
     <value>Microsoft Teams</value>

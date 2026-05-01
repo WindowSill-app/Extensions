@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,48 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DateTimeTabName" xml:space="preserve">
-    <value>Date &amp; Time</value>
+    <value>Datum &amp; Uhrzeit</value>
   </data>
   <data name="SillDisplayHeader.TextProperty" xml:space="preserve">
-    <value>Sill display</value>
+    <value>Sill-Anzeige</value>
   </data>
   <data name="PopupHeader.TextProperty" xml:space="preserve">
     <value>Popup</value>
   </data>
   <data name="GeneralSectionHeader.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Allgemein</value>
   </data>
   <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>Date sill display mode</value>
+    <value>Anzeigemodus des Datum-Sills</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose what the Date sill shows in the bar</value>
+    <value>Wählen Sie, was der Datum-Sill in der Leiste anzeigt</value>
   </data>
   <data name="DateFormat.HeaderProperty" xml:space="preserve">
-    <value>Date format</value>
+    <value>Datumsformat</value>
   </data>
   <data name="TimeFormat.HeaderProperty" xml:space="preserve">
-    <value>Time format</value>
+    <value>Zeitformat</value>
   </data>
   <data name="ShowSeconds.HeaderProperty" xml:space="preserve">
-    <value>Show seconds</value>
+    <value>Sekunden anzeigen</value>
   </data>
   <data name="DisplayModeIcon" xml:space="preserve">
-    <value>Calendar icon</value>
+    <value>Kalendersymbol</value>
   </data>
   <data name="DisplayModeDateTime" xml:space="preserve">
-    <value>Date and time</value>
+    <value>Datum und Uhrzeit</value>
   </data>
   <data name="FormatNone" xml:space="preserve">
-    <value>(None)</value>
+    <value>(Keine)</value>
   </data>
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
-    <value>The calendar icon is displayed as-is. Switch to "Date and time" for more display options.</value>
+    <value>Das Kalendersymbol wird unverändert angezeigt. Wechseln Sie zu „Datum und Uhrzeit" für weitere Anzeigeoptionen.</value>
   </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
-    <value>Show past events</value>
+    <value>Vergangene Ereignisse anzeigen</value>
   </data>
   <data name="ShowPastEvents.DescriptionProperty" xml:space="preserve">
-    <value>When off, only upcoming events are shown in the popup for today</value>
+    <value>Wenn deaktiviert, werden im Popup nur bevorstehende Ereignisse für heute angezeigt</value>
   </data>
 </root>

@@ -118,214 +118,214 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NotificationHeader.TextProperty" xml:space="preserve">
-    <value>MEETING IS STARTING</value>
+    <value>SPOTKANIE SIĘ ROZPOCZYNA</value>
   </data>
   <data name="NotificationJoin.TextProperty" xml:space="preserve">
-    <value>Join meeting</value>
+    <value>Dołącz do spotkania</value>
   </data>
   <data name="NotificationDismiss.TextProperty" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Odrzuć</value>
   </data>
   <data name="ToastJoinButton" xml:space="preserve">
-    <value>Join meeting</value>
+    <value>Dołącz do spotkania</value>
   </data>
   <data name="ToastJoinOnProvider" xml:space="preserve">
-    <value>Join on {0}</value>
+    <value>Dołącz przez {0}</value>
   </data>
   <data name="InNMinutes" xml:space="preserve">
-    <value>in {0} min</value>
+    <value>za {0} min</value>
   </data>
   <data name="ElapsedMinutes" xml:space="preserve">
     <value>{0} min</value>
   </data>
   <data name="IsLive" xml:space="preserve">
-    <value>is live!</value>
+    <value>trwa!</value>
   </data>
   <data name="AllDay" xml:space="preserve">
-    <value>All day</value>
+    <value>Cały dzień</value>
   </data>
   <data name="JoinWith" xml:space="preserve">
-    <value>Join with {0}</value>
+    <value>Dołącz przez {0}</value>
   </data>
   <data name="TimeZones" xml:space="preserve">
-    <value>Time Zones</value>
+    <value>Strefy czasowe</value>
   </data>
   <data name="More" xml:space="preserve">
-    <value>More</value>
+    <value>Więcej</value>
   </data>
   <data name="CopyMeetingLink" xml:space="preserve">
-    <value>Copy meeting link</value>
+    <value>Kopiuj link do spotkania</value>
   </data>
   <data name="CopyEventDetails" xml:space="preserve">
-    <value>Copy event details</value>
+    <value>Kopiuj szczegóły wydarzenia</value>
   </data>
   <data name="HideReminder" xml:space="preserve">
-    <value>Hide event from sill</value>
+    <value>Ukryj wydarzenie z sill</value>
   </data>
   <data name="ShowInCalendar" xml:space="preserve">
-    <value>Show in Calendar</value>
+    <value>Pokaż w Kalendarzu</value>
   </data>
   <data name="SettingsTabName" xml:space="preserve">
-    <value>Meetings</value>
+    <value>Spotkania</value>
   </data>
   <data name="UpcomingSillsHeader.TextProperty" xml:space="preserve">
-    <value>Upcoming meeting sills</value>
+    <value>Nadchodzące sills spotkań</value>
   </data>
   <data name="MeetingPlacement.HeaderProperty" xml:space="preserve">
-    <value>Position in bar</value>
+    <value>Pozycja na pasku</value>
   </data>
   <data name="MeetingPlacement.DescriptionProperty" xml:space="preserve">
-    <value>Where meeting sills appear relative to the date &amp; time sill and world clocks</value>
+    <value>Gdzie sills spotkań pojawiają się względem sill daty i czasu oraz zegarów światowych</value>
   </data>
   <data name="PlacementBefore" xml:space="preserve">
-    <value>Before everything</value>
+    <value>Przed wszystkim</value>
   </data>
   <data name="PlacementAfter" xml:space="preserve">
-    <value>After everything</value>
+    <value>Po wszystkim</value>
   </data>
   <data name="ReminderWindow.HeaderProperty" xml:space="preserve">
-    <value>Reminder window</value>
+    <value>Okno przypomnienia</value>
   </data>
   <data name="ReminderWindow.DescriptionProperty" xml:space="preserve">
-    <value>Minutes before a meeting when the sill item appears</value>
+    <value>Minuty przed spotkaniem, kiedy element sill się pojawia</value>
   </data>
   <data name="MaxSills.HeaderProperty" xml:space="preserve">
-    <value>Maximum meeting items</value>
+    <value>Maksymalna liczba elementów spotkań</value>
   </data>
   <data name="MaxSills.DescriptionProperty" xml:space="preserve">
-    <value>Maximum number of upcoming meetings shown in the sill</value>
+    <value>Maksymalna liczba nadchodzących spotkań wyświetlanych w sill</value>
   </data>
   <data name="ShowAllDay.HeaderProperty" xml:space="preserve">
-    <value>Show all-day events</value>
+    <value>Pokaż wydarzenia całodniowe</value>
   </data>
   <data name="ShowAllDay.DescriptionProperty" xml:space="preserve">
-    <value>Include all-day events as meeting sill items</value>
+    <value>Uwzględnij wydarzenia całodniowe jako elementy sill spotkań</value>
   </data>
   <data name="ShowJoinButton.HeaderProperty" xml:space="preserve">
-    <value>Show Join button</value>
+    <value>Pokaż przycisk Dołącz</value>
   </data>
   <data name="ShowJoinButton.DescriptionProperty" xml:space="preserve">
-    <value>Show a Join button for meetings with a video call link</value>
+    <value>Pokaż przycisk Dołącz dla spotkań z linkiem do rozmowy wideo</value>
   </data>
   <data name="NotificationsHeader.TextProperty" xml:space="preserve">
-    <value>Notifications</value>
+    <value>Powiadomienia</value>
   </data>
   <data name="FullScreenNotification.HeaderProperty" xml:space="preserve">
-    <value>Full-screen notification</value>
+    <value>Powiadomienie pełnoekranowe</value>
   </data>
   <data name="FullScreenNotification.DescriptionProperty" xml:space="preserve">
-    <value>Show a full-screen notification on all monitors when a meeting starts</value>
+    <value>Pokaż powiadomienie pełnoekranowe na wszystkich monitorach, gdy spotkanie się rozpoczyna</value>
   </data>
   <data name="ToastNotification.HeaderProperty" xml:space="preserve">
-    <value>Toast notification</value>
+    <value>Powiadomienie toast</value>
   </data>
   <data name="ToastNotification.DescriptionProperty" xml:space="preserve">
-    <value>Show a Windows toast notification when a meeting starts</value>
+    <value>Pokaż powiadomienie toast systemu Windows, gdy spotkanie się rozpoczyna</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
-    <value>Notification style</value>
+    <value>Styl powiadomienia</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>How to alert you when a meeting is about to start</value>
+    <value>Jak powiadomić, gdy spotkanie ma się rozpocząć</value>
   </data>
   <data name="ConfirmedNotification.HeaderProperty" xml:space="preserve">
-    <value>Notification for confirmed meetings</value>
+    <value>Powiadomienie dla potwierdzonych spotkań</value>
   </data>
   <data name="ConfirmedNotification.DescriptionProperty" xml:space="preserve">
-    <value>Meetings you accepted or organized</value>
+    <value>Spotkania, które zaakceptowano lub zorganizowano</value>
   </data>
   <data name="TentativeNotification.HeaderProperty" xml:space="preserve">
-    <value>Notification for tentative meetings</value>
+    <value>Powiadomienie dla wstępnych spotkań</value>
   </data>
   <data name="TentativeNotification.DescriptionProperty" xml:space="preserve">
-    <value>Meetings you haven't responded to or marked as tentative</value>
+    <value>Spotkania, na które nie odpowiedziano lub oznaczono jako wstępne</value>
   </data>
   <data name="NotificationModeNone" xml:space="preserve">
-    <value>None</value>
+    <value>Brak</value>
   </data>
   <data name="NotificationModeFullScreen" xml:space="preserve">
-    <value>Full-screen</value>
+    <value>Pełny ekran</value>
   </data>
   <data name="NotificationModeToast" xml:space="preserve">
     <value>Toast</value>
   </data>
   <data name="EnableFlashing.HeaderProperty" xml:space="preserve">
-    <value>Flash when meeting starts</value>
+    <value>Migaj, gdy spotkanie się rozpoczyna</value>
   </data>
   <data name="EnableFlashing.DescriptionProperty" xml:space="preserve">
-    <value>Flash the sill item when a meeting is about to start</value>
+    <value>Migaj elementem sill, gdy spotkanie ma się rozpocząć</value>
   </data>
   <data name="SyncHeader.TextProperty" xml:space="preserve">
-    <value>Sync</value>
+    <value>Synchronizacja</value>
   </data>
   <data name="PollInterval.HeaderProperty" xml:space="preserve">
-    <value>Sync interval</value>
+    <value>Interwał synchronizacji</value>
   </data>
   <data name="PollInterval.DescriptionProperty" xml:space="preserve">
-    <value>How often to check for new or updated meetings (in seconds)</value>
+    <value>Jak często sprawdzać nowe lub zaktualizowane spotkania (w sekundach)</value>
   </data>
   <data name="SyncNow.HeaderProperty" xml:space="preserve">
-    <value>Sync now</value>
+    <value>Synchronizuj teraz</value>
   </data>
   <data name="SyncNow.DescriptionProperty" xml:space="preserve">
-    <value>Immediately refresh upcoming meetings from all accounts</value>
+    <value>Natychmiast odśwież nadchodzące spotkania ze wszystkich kont</value>
   </data>
   <data name="TravelHeader.TextProperty" xml:space="preserve">
-    <value>Travel time</value>
+    <value>Czas podróży</value>
   </data>
   <data name="EnableTravelTime.HeaderProperty" xml:space="preserve">
-    <value>Travel time reminders</value>
+    <value>Przypomnienia o czasie podróży</value>
   </data>
   <data name="EnableTravelTime.DescriptionProperty" xml:space="preserve">
-    <value>Estimate travel time and notify you when it's time to leave for in-person meetings</value>
+    <value>Szacuj czas podróży i powiadamiaj, kiedy czas wyjść na spotkania osobiste</value>
   </data>
   <data name="LeaveNow" xml:space="preserve">
-    <value>Leave now!</value>
+    <value>Wyjdź teraz!</value>
   </data>
   <data name="LeaveInNMinutes" xml:space="preserve">
-    <value>leave in {0} min</value>
+    <value>wyjdź za {0} min</value>
   </data>
   <data name="LeaveInCountdown" xml:space="preserve">
-    <value>leave in {0}</value>
+    <value>wyjdź za {0}</value>
   </data>
   <data name="DepartureBuffer.HeaderProperty" xml:space="preserve">
-    <value>Get ready buffer (minutes)</value>
+    <value>Czas na przygotowanie (minuty)</value>
   </data>
   <data name="DepartureBuffer.DescriptionProperty" xml:space="preserve">
-    <value>Extra time added before travel to give you time to wrap up and get ready</value>
+    <value>Dodatkowy czas przed podróżą na przygotowanie się</value>
   </data>
   <data name="DepartureNotificationHeader.TextProperty" xml:space="preserve">
-    <value>TIME TO LEAVE</value>
+    <value>CZAS WYJŚĆ</value>
   </data>
   <data name="DepartureOpenMaps.TextProperty" xml:space="preserve">
-    <value>Open in Maps</value>
+    <value>Otwórz w Mapach</value>
   </data>
   <data name="PreferredMapsProvider.HeaderProperty" xml:space="preserve">
-    <value>Maps provider</value>
+    <value>Dostawca map</value>
   </data>
   <data name="PreferredMapsProvider.DescriptionProperty" xml:space="preserve">
-    <value>Which maps service to open for directions to meeting locations</value>
+    <value>Którą usługę map otworzyć, aby uzyskać wskazówki do miejsca spotkania</value>
   </data>
   <data name="PollInterval1Min" xml:space="preserve">
-    <value>1 minute</value>
+    <value>1 minuta</value>
   </data>
   <data name="PollInterval3Min" xml:space="preserve">
-    <value>3 minutes</value>
+    <value>3 minuty</value>
   </data>
   <data name="PollInterval5Min" xml:space="preserve">
-    <value>5 minutes</value>
+    <value>5 minut</value>
   </data>
   <data name="PollInterval15Min" xml:space="preserve">
-    <value>15 minutes</value>
+    <value>15 minut</value>
   </data>
   <data name="PollInterval30Min" xml:space="preserve">
-    <value>30 minutes</value>
+    <value>30 minut</value>
   </data>
   <data name="PollInterval1Hour" xml:space="preserve">
-    <value>1 hour</value>
+    <value>1 godzina</value>
   </data>
   <data name="PollInterval2Hours" xml:space="preserve">
-    <value>2 hours</value>
+    <value>2 godziny</value>
   </data>
   <data name="MapsProviderGoogle" xml:space="preserve">
     <value>Google Maps</value>
@@ -337,25 +337,25 @@
     <value>Apple Maps</value>
   </data>
   <data name="TravelMode.HeaderProperty" xml:space="preserve">
-    <value>Travel mode</value>
+    <value>Tryb podróży</value>
   </data>
   <data name="TravelMode.DescriptionProperty" xml:space="preserve">
-    <value>How you typically travel to in-person meetings</value>
+    <value>Jak zazwyczaj podróżujesz na spotkania osobiste</value>
   </data>
   <data name="TravelModeDriving" xml:space="preserve">
-    <value>Driving</value>
+    <value>Samochodem</value>
   </data>
   <data name="TravelModeWalking" xml:space="preserve">
-    <value>Walking</value>
+    <value>Pieszo</value>
   </data>
   <data name="TravelModeCycling" xml:space="preserve">
-    <value>Cycling</value>
+    <value>Rowerem</value>
   </data>
   <data name="TravelTimeMinutes" xml:space="preserve">
-    <value>~{0} min travel</value>
+    <value>~{0} min podróży</value>
   </data>
   <data name="DateAtTime" xml:space="preserve">
-    <value>{0} at {1}</value>
+    <value>{0} o {1}</value>
   </data>
   <data name="ProviderMicrosoftTeams" xml:space="preserve">
     <value>Microsoft Teams</value>

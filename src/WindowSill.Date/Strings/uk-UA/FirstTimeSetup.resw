@@ -118,39 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="WelcomeDescription.TextProperty" xml:space="preserve">
-    <value>The Date feature keeps you on top of your schedule right from the sill bar. Connect your calendar accounts to see upcoming events, get meeting reminders, and never miss an appointment.</value>
+    <value>Функція Дата тримає вас у курсі вашого розкладу прямо з панелі sill. Підключіть облікові записи календаря, щоб бачити майбутні події, отримувати нагадування про зустрічі та не пропустити жодну подію.</value>
   </data>
   <data name="FeatureCalendar.TextProperty" xml:space="preserve">
-    <value>View your calendar and upcoming events at a glance</value>
+    <value>Переглядайте календар і найближчі події з першого погляду</value>
   </data>
   <data name="FeatureMeetings.TextProperty" xml:space="preserve">
-    <value>Get meeting reminders and join video calls with one click</value>
+    <value>Отримуйте нагадування про зустрічі та приєднуйтесь до відеодзвінків одним кліком</value>
   </data>
   <data name="FeatureWorldClocks.TextProperty" xml:space="preserve">
-    <value>Pin world clocks to track time across time zones</value>
+    <value>Закріпіть світові годинники для відстеження часу в різних часових поясах</value>
   </data>
   <data name="AccountsDescription.TextProperty" xml:space="preserve">
-    <value>Connect your calendar accounts to start seeing events. You can add more accounts later in Settings.</value>
+    <value>Підключіть облікові записи календаря, щоб почати бачити події. Ви можете додати більше облікових записів пізніше в Налаштуваннях.</value>
   </data>
   <data name="AddAccount.TextProperty" xml:space="preserve">
-    <value>Add account</value>
+    <value>Додати обліковий запис</value>
   </data>
   <data name="NoAccountsMessage.TextProperty" xml:space="preserve">
-    <value>No accounts connected yet. You can skip this step and add accounts later.</value>
+    <value>Ще немає підключених облікових записів. Ви можете пропустити цей крок і додати облікові записи пізніше.</value>
   </data>
   <data name="RemoveAccount.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Remove account</value>
+    <value>Видалити обліковий запис</value>
   </data>
   <data name="TravelTimeDescription.TextProperty" xml:space="preserve">
-    <value>When enabled, WindowSill can estimate how long it takes to travel to your appointments and notify you when it's time to leave. This requires access to your location.</value>
+    <value>Коли увімкнено, WindowSill може оцінити час подорожі до ваших зустрічей і повідомити вас, коли настане час виходити. Це потребує доступу до вашого місцезнаходження.</value>
   </data>
   <data name="TravelTimeToggle.HeaderProperty" xml:space="preserve">
-    <value>Enable travel time notifications</value>
+    <value>Увімкнути сповіщення про час подорожі</value>
   </data>
   <data name="LocationDenied.MessageProperty" xml:space="preserve">
-    <value>Location access was denied. You can enable location access in Windows Settings and turn on this feature later in the Date extension settings.</value>
+    <value>Доступ до місцезнаходження було відхилено. Ви можете увімкнути доступ до місцезнаходження в Налаштуваннях Windows і увімкнути цю функцію пізніше в налаштуваннях розширення Дата.</value>
   </data>
   <data name="TravelTimeNoAccounts.TextProperty" xml:space="preserve">
-    <value>No calendar accounts were added, so travel time notifications are not available. You can enable this feature later in the Date extension settings after connecting an account.</value>
+    <value>Облікові записи календаря не додано, тому сповіщення про час подорожі недоступні. Ви можете увімкнути цю функцію пізніше в налаштуваннях розширення Дата після підключення облікового запису.</value>
   </data>
 </root>

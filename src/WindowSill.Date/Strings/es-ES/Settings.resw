@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,99 +118,99 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountsSectionHeader.TextProperty" xml:space="preserve">
-    <value>Accounts</value>
+    <value>Cuentas</value>
   </data>
   <data name="AccountsTabName" xml:space="preserve">
-    <value>Accounts</value>
+    <value>Cuentas</value>
   </data>
   <data name="AddAccount.TextProperty" xml:space="preserve">
-    <value>Add account</value>
+    <value>Añadir cuenta</value>
   </data>
   <data name="RemoveAccount.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Remove account</value>
+    <value>Eliminar cuenta</value>
   </data>
   <data name="NoAccountsMessage.TextProperty" xml:space="preserve">
-    <value>No accounts connected yet. Add an account to see your calendar events.</value>
+    <value>Aún no hay cuentas conectadas. Añade una cuenta para ver tus eventos de calendario.</value>
   </data>
   <data name="RemoveAccountDialogTitle" xml:space="preserve">
-    <value>Remove account</value>
+    <value>Eliminar cuenta</value>
   </data>
   <data name="RemoveAccountDialogContent" xml:space="preserve">
-    <value>Are you sure you want to remove {0}? This will disconnect the account and stop syncing its calendar events.</value>
+    <value>¿Seguro que quieres eliminar {0}? Se desconectará la cuenta y se dejarán de sincronizar sus eventos de calendario.</value>
   </data>
   <data name="RemoveAccountDialogConfirm" xml:space="preserve">
-    <value>Remove</value>
+    <value>Eliminar</value>
   </data>
   <data name="RemoveAccountDialogCancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="ConnectDialogTitle" xml:space="preserve">
-    <value>Add account</value>
+    <value>Añadir cuenta</value>
   </data>
   <data name="OutlookConnectMessage" xml:space="preserve">
-    <value>Sign in to your Microsoft account using the Windows sign-in dialog...</value>
+    <value>Inicia sesión en tu cuenta de Microsoft con el diálogo de inicio de sesión de Windows...</value>
   </data>
   <data name="GoogleConnectMessage" xml:space="preserve">
-    <value>Sign in to your Google account using your web browser...</value>
+    <value>Inicia sesión en tu cuenta de Google con tu navegador web...</value>
   </data>
   <data name="SignIn" xml:space="preserve">
-    <value>Sign in</value>
+    <value>Iniciar sesión</value>
   </data>
   <data name="CalDavServerUrl.HeaderProperty" xml:space="preserve">
-    <value>Server URL</value>
+    <value>URL del servidor</value>
   </data>
   <data name="CalDavUsername.HeaderProperty" xml:space="preserve">
-    <value>Username</value>
+    <value>Nombre de usuario</value>
   </data>
   <data name="CalDavPassword.HeaderProperty" xml:space="preserve">
-    <value>Password</value>
+    <value>Contraseña</value>
   </data>
   <data name="ICloudAppleId.HeaderProperty" xml:space="preserve">
     <value>Apple ID</value>
   </data>
   <data name="ICloudAppPassword.HeaderProperty" xml:space="preserve">
-    <value>App-specific password</value>
+    <value>Contraseña específica de la app</value>
   </data>
   <data name="ICloudAppPasswordHelp.ContentProperty" xml:space="preserve">
-    <value>How to generate an app-specific password</value>
+    <value>Cómo generar una contraseña específica de la app</value>
   </data>
   <data name="ICloudAuthFailed" xml:space="preserve">
-    <value>Authentication failed. Check your Apple ID and app-specific password.</value>
+    <value>Error de autenticación. Comprueba tu Apple ID y la contraseña específica de la app.</value>
   </data>
   <data name="ICloudDiscoveryFailed" xml:space="preserve">
-    <value>Could not find calendars for this account. Ensure iCloud Calendar is enabled.</value>
+    <value>No se encontraron calendarios para esta cuenta. Asegúrate de que el Calendario de iCloud esté habilitado.</value>
   </data>
   <data name="CalDavAuthFailed" xml:space="preserve">
-    <value>Authentication failed. Check your server URL, username, and password.</value>
+    <value>Error de autenticación. Comprueba la URL del servidor, el nombre de usuario y la contraseña.</value>
   </data>
   <data name="LoadingCalendars.MessageProperty" xml:space="preserve">
-    <value>Loading calendars…</value>
+    <value>Cargando calendarios…</value>
   </data>
   <data name="CalendarColor.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Change calendar color</value>
+    <value>Cambiar color del calendario</value>
   </data>
   <data name="CalendarNameHeader.TextProperty" xml:space="preserve">
-    <value>Calendar name</value>
+    <value>Nombre del calendario</value>
   </data>
   <data name="VisibilityHeader.TextProperty" xml:space="preserve">
-    <value>Visibility</value>
+    <value>Visibilidad</value>
   </data>
   <data name="ColorHeader.TextProperty" xml:space="preserve">
     <value>Color</value>
   </data>
   <data name="SyncHeader.TextProperty" xml:space="preserve">
-    <value>Sync</value>
+    <value>Sincronización</value>
   </data>
   <data name="PollInterval.HeaderProperty" xml:space="preserve">
-    <value>Sync interval</value>
+    <value>Intervalo de sincronización</value>
   </data>
   <data name="PollInterval.DescriptionProperty" xml:space="preserve">
-    <value>How often to check for new or updated events</value>
+    <value>Con qué frecuencia buscar eventos nuevos o actualizados</value>
   </data>
   <data name="SyncNow.HeaderProperty" xml:space="preserve">
-    <value>Sync now</value>
+    <value>Sincronizar ahora</value>
   </data>
   <data name="SyncNow.DescriptionProperty" xml:space="preserve">
-    <value>Refresh events from all connected accounts</value>
+    <value>Actualizar eventos de todas las cuentas conectadas</value>
   </data>
 </root>

@@ -118,214 +118,214 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NotificationHeader.TextProperty" xml:space="preserve">
-    <value>MEETING IS STARTING</value>
+    <value>ЗУСТРІЧ ПОЧИНАЄТЬСЯ</value>
   </data>
   <data name="NotificationJoin.TextProperty" xml:space="preserve">
-    <value>Join meeting</value>
+    <value>Приєднатися до зустрічі</value>
   </data>
   <data name="NotificationDismiss.TextProperty" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Закрити</value>
   </data>
   <data name="ToastJoinButton" xml:space="preserve">
-    <value>Join meeting</value>
+    <value>Приєднатися до зустрічі</value>
   </data>
   <data name="ToastJoinOnProvider" xml:space="preserve">
-    <value>Join on {0}</value>
+    <value>Приєднатися через {0}</value>
   </data>
   <data name="InNMinutes" xml:space="preserve">
-    <value>in {0} min</value>
+    <value>через {0} хв</value>
   </data>
   <data name="ElapsedMinutes" xml:space="preserve">
-    <value>{0} min</value>
+    <value>{0} хв</value>
   </data>
   <data name="IsLive" xml:space="preserve">
-    <value>is live!</value>
+    <value>наживо!</value>
   </data>
   <data name="AllDay" xml:space="preserve">
-    <value>All day</value>
+    <value>Весь день</value>
   </data>
   <data name="JoinWith" xml:space="preserve">
-    <value>Join with {0}</value>
+    <value>Приєднатися через {0}</value>
   </data>
   <data name="TimeZones" xml:space="preserve">
-    <value>Time Zones</value>
+    <value>Часові пояси</value>
   </data>
   <data name="More" xml:space="preserve">
-    <value>More</value>
+    <value>Більше</value>
   </data>
   <data name="CopyMeetingLink" xml:space="preserve">
-    <value>Copy meeting link</value>
+    <value>Копіювати посилання на зустріч</value>
   </data>
   <data name="CopyEventDetails" xml:space="preserve">
-    <value>Copy event details</value>
+    <value>Копіювати деталі події</value>
   </data>
   <data name="HideReminder" xml:space="preserve">
-    <value>Hide event from sill</value>
+    <value>Приховати подію з sill</value>
   </data>
   <data name="ShowInCalendar" xml:space="preserve">
-    <value>Show in Calendar</value>
+    <value>Показати в Календарі</value>
   </data>
   <data name="SettingsTabName" xml:space="preserve">
-    <value>Meetings</value>
+    <value>Зустрічі</value>
   </data>
   <data name="UpcomingSillsHeader.TextProperty" xml:space="preserve">
-    <value>Upcoming meeting sills</value>
+    <value>Sills майбутніх зустрічей</value>
   </data>
   <data name="MeetingPlacement.HeaderProperty" xml:space="preserve">
-    <value>Position in bar</value>
+    <value>Позиція на панелі</value>
   </data>
   <data name="MeetingPlacement.DescriptionProperty" xml:space="preserve">
-    <value>Where meeting sills appear relative to the date &amp; time sill and world clocks</value>
+    <value>Де sills зустрічей з'являються відносно sill дати й часу та світових годинників</value>
   </data>
   <data name="PlacementBefore" xml:space="preserve">
-    <value>Before everything</value>
+    <value>Перед усім</value>
   </data>
   <data name="PlacementAfter" xml:space="preserve">
-    <value>After everything</value>
+    <value>Після всього</value>
   </data>
   <data name="ReminderWindow.HeaderProperty" xml:space="preserve">
-    <value>Reminder window</value>
+    <value>Вікно нагадування</value>
   </data>
   <data name="ReminderWindow.DescriptionProperty" xml:space="preserve">
-    <value>Minutes before a meeting when the sill item appears</value>
+    <value>Хвилин до зустрічі, коли з'являється елемент sill</value>
   </data>
   <data name="MaxSills.HeaderProperty" xml:space="preserve">
-    <value>Maximum meeting items</value>
+    <value>Максимум елементів зустрічей</value>
   </data>
   <data name="MaxSills.DescriptionProperty" xml:space="preserve">
-    <value>Maximum number of upcoming meetings shown in the sill</value>
+    <value>Максимальна кількість майбутніх зустрічей у sill</value>
   </data>
   <data name="ShowAllDay.HeaderProperty" xml:space="preserve">
-    <value>Show all-day events</value>
+    <value>Показувати цілоденні події</value>
   </data>
   <data name="ShowAllDay.DescriptionProperty" xml:space="preserve">
-    <value>Include all-day events as meeting sill items</value>
+    <value>Включати цілоденні події як елементи sill зустрічей</value>
   </data>
   <data name="ShowJoinButton.HeaderProperty" xml:space="preserve">
-    <value>Show Join button</value>
+    <value>Показувати кнопку Приєднатися</value>
   </data>
   <data name="ShowJoinButton.DescriptionProperty" xml:space="preserve">
-    <value>Show a Join button for meetings with a video call link</value>
+    <value>Показувати кнопку Приєднатися для зустрічей із посиланням на відеодзвінок</value>
   </data>
   <data name="NotificationsHeader.TextProperty" xml:space="preserve">
-    <value>Notifications</value>
+    <value>Сповіщення</value>
   </data>
   <data name="FullScreenNotification.HeaderProperty" xml:space="preserve">
-    <value>Full-screen notification</value>
+    <value>Повноекранне сповіщення</value>
   </data>
   <data name="FullScreenNotification.DescriptionProperty" xml:space="preserve">
-    <value>Show a full-screen notification on all monitors when a meeting starts</value>
+    <value>Показувати повноекранне сповіщення на всіх моніторах, коли починається зустріч</value>
   </data>
   <data name="ToastNotification.HeaderProperty" xml:space="preserve">
-    <value>Toast notification</value>
+    <value>Toast-сповіщення</value>
   </data>
   <data name="ToastNotification.DescriptionProperty" xml:space="preserve">
-    <value>Show a Windows toast notification when a meeting starts</value>
+    <value>Показувати toast-сповіщення Windows, коли починається зустріч</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
-    <value>Notification style</value>
+    <value>Стиль сповіщення</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>How to alert you when a meeting is about to start</value>
+    <value>Як сповіщати вас, коли зустріч ось-ось почнеться</value>
   </data>
   <data name="ConfirmedNotification.HeaderProperty" xml:space="preserve">
-    <value>Notification for confirmed meetings</value>
+    <value>Сповіщення для підтверджених зустрічей</value>
   </data>
   <data name="ConfirmedNotification.DescriptionProperty" xml:space="preserve">
-    <value>Meetings you accepted or organized</value>
+    <value>Зустрічі, які ви прийняли або організували</value>
   </data>
   <data name="TentativeNotification.HeaderProperty" xml:space="preserve">
-    <value>Notification for tentative meetings</value>
+    <value>Сповіщення для попередніх зустрічей</value>
   </data>
   <data name="TentativeNotification.DescriptionProperty" xml:space="preserve">
-    <value>Meetings you haven't responded to or marked as tentative</value>
+    <value>Зустрічі, на які ви не відповіли або позначили як попередні</value>
   </data>
   <data name="NotificationModeNone" xml:space="preserve">
-    <value>None</value>
+    <value>Немає</value>
   </data>
   <data name="NotificationModeFullScreen" xml:space="preserve">
-    <value>Full-screen</value>
+    <value>Повний екран</value>
   </data>
   <data name="NotificationModeToast" xml:space="preserve">
     <value>Toast</value>
   </data>
   <data name="EnableFlashing.HeaderProperty" xml:space="preserve">
-    <value>Flash when meeting starts</value>
+    <value>Блимати, коли починається зустріч</value>
   </data>
   <data name="EnableFlashing.DescriptionProperty" xml:space="preserve">
-    <value>Flash the sill item when a meeting is about to start</value>
+    <value>Блимати елементом sill, коли зустріч ось-ось почнеться</value>
   </data>
   <data name="SyncHeader.TextProperty" xml:space="preserve">
-    <value>Sync</value>
+    <value>Синхронізація</value>
   </data>
   <data name="PollInterval.HeaderProperty" xml:space="preserve">
-    <value>Sync interval</value>
+    <value>Інтервал синхронізації</value>
   </data>
   <data name="PollInterval.DescriptionProperty" xml:space="preserve">
-    <value>How often to check for new or updated meetings (in seconds)</value>
+    <value>Як часто перевіряти нові або оновлені зустрічі (у секундах)</value>
   </data>
   <data name="SyncNow.HeaderProperty" xml:space="preserve">
-    <value>Sync now</value>
+    <value>Синхронізувати зараз</value>
   </data>
   <data name="SyncNow.DescriptionProperty" xml:space="preserve">
-    <value>Immediately refresh upcoming meetings from all accounts</value>
+    <value>Негайно оновити майбутні зустрічі з усіх облікових записів</value>
   </data>
   <data name="TravelHeader.TextProperty" xml:space="preserve">
-    <value>Travel time</value>
+    <value>Час подорожі</value>
   </data>
   <data name="EnableTravelTime.HeaderProperty" xml:space="preserve">
-    <value>Travel time reminders</value>
+    <value>Нагадування про час подорожі</value>
   </data>
   <data name="EnableTravelTime.DescriptionProperty" xml:space="preserve">
-    <value>Estimate travel time and notify you when it's time to leave for in-person meetings</value>
+    <value>Оцінити час подорожі та повідомити, коли час виходити на особисті зустрічі</value>
   </data>
   <data name="LeaveNow" xml:space="preserve">
-    <value>Leave now!</value>
+    <value>Виходьте зараз!</value>
   </data>
   <data name="LeaveInNMinutes" xml:space="preserve">
-    <value>leave in {0} min</value>
+    <value>вийти через {0} хв</value>
   </data>
   <data name="LeaveInCountdown" xml:space="preserve">
-    <value>leave in {0}</value>
+    <value>вийти через {0}</value>
   </data>
   <data name="DepartureBuffer.HeaderProperty" xml:space="preserve">
-    <value>Get ready buffer (minutes)</value>
+    <value>Час на підготовку (хвилини)</value>
   </data>
   <data name="DepartureBuffer.DescriptionProperty" xml:space="preserve">
-    <value>Extra time added before travel to give you time to wrap up and get ready</value>
+    <value>Додатковий час перед подорожжю для підготовки</value>
   </data>
   <data name="DepartureNotificationHeader.TextProperty" xml:space="preserve">
-    <value>TIME TO LEAVE</value>
+    <value>ЧАС ВИХОДИТИ</value>
   </data>
   <data name="DepartureOpenMaps.TextProperty" xml:space="preserve">
-    <value>Open in Maps</value>
+    <value>Відкрити в Картах</value>
   </data>
   <data name="PreferredMapsProvider.HeaderProperty" xml:space="preserve">
-    <value>Maps provider</value>
+    <value>Постачальник карт</value>
   </data>
   <data name="PreferredMapsProvider.DescriptionProperty" xml:space="preserve">
-    <value>Which maps service to open for directions to meeting locations</value>
+    <value>Який сервіс карт відкривати для маршрутів до місць зустрічей</value>
   </data>
   <data name="PollInterval1Min" xml:space="preserve">
-    <value>1 minute</value>
+    <value>1 хвилина</value>
   </data>
   <data name="PollInterval3Min" xml:space="preserve">
-    <value>3 minutes</value>
+    <value>3 хвилини</value>
   </data>
   <data name="PollInterval5Min" xml:space="preserve">
-    <value>5 minutes</value>
+    <value>5 хвилин</value>
   </data>
   <data name="PollInterval15Min" xml:space="preserve">
-    <value>15 minutes</value>
+    <value>15 хвилин</value>
   </data>
   <data name="PollInterval30Min" xml:space="preserve">
-    <value>30 minutes</value>
+    <value>30 хвилин</value>
   </data>
   <data name="PollInterval1Hour" xml:space="preserve">
-    <value>1 hour</value>
+    <value>1 година</value>
   </data>
   <data name="PollInterval2Hours" xml:space="preserve">
-    <value>2 hours</value>
+    <value>2 години</value>
   </data>
   <data name="MapsProviderGoogle" xml:space="preserve">
     <value>Google Maps</value>
@@ -337,25 +337,25 @@
     <value>Apple Maps</value>
   </data>
   <data name="TravelMode.HeaderProperty" xml:space="preserve">
-    <value>Travel mode</value>
+    <value>Спосіб подорожі</value>
   </data>
   <data name="TravelMode.DescriptionProperty" xml:space="preserve">
-    <value>How you typically travel to in-person meetings</value>
+    <value>Як ви зазвичай дістаєтеся до особистих зустрічей</value>
   </data>
   <data name="TravelModeDriving" xml:space="preserve">
-    <value>Driving</value>
+    <value>Автомобілем</value>
   </data>
   <data name="TravelModeWalking" xml:space="preserve">
-    <value>Walking</value>
+    <value>Пішки</value>
   </data>
   <data name="TravelModeCycling" xml:space="preserve">
-    <value>Cycling</value>
+    <value>Велосипедом</value>
   </data>
   <data name="TravelTimeMinutes" xml:space="preserve">
-    <value>~{0} min travel</value>
+    <value>~{0} хв подорожі</value>
   </data>
   <data name="DateAtTime" xml:space="preserve">
-    <value>{0} at {1}</value>
+    <value>{0} о {1}</value>
   </data>
   <data name="ProviderMicrosoftTeams" xml:space="preserve">
     <value>Microsoft Teams</value>

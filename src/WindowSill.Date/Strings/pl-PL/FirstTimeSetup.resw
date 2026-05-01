@@ -118,39 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="WelcomeDescription.TextProperty" xml:space="preserve">
-    <value>The Date feature keeps you on top of your schedule right from the sill bar. Connect your calendar accounts to see upcoming events, get meeting reminders, and never miss an appointment.</value>
+    <value>Funkcja Data pozwala śledzić harmonogram bezpośrednio z paska sill. Połącz konta kalendarza, aby widzieć nadchodzące wydarzenia, otrzymywać przypomnienia o spotkaniach i nigdy nie przegapić terminu.</value>
   </data>
   <data name="FeatureCalendar.TextProperty" xml:space="preserve">
-    <value>View your calendar and upcoming events at a glance</value>
+    <value>Przeglądaj kalendarz i nadchodzące wydarzenia na pierwszy rzut oka</value>
   </data>
   <data name="FeatureMeetings.TextProperty" xml:space="preserve">
-    <value>Get meeting reminders and join video calls with one click</value>
+    <value>Otrzymuj przypomnienia o spotkaniach i dołączaj do rozmów wideo jednym kliknięciem</value>
   </data>
   <data name="FeatureWorldClocks.TextProperty" xml:space="preserve">
-    <value>Pin world clocks to track time across time zones</value>
+    <value>Przypnij zegary światowe, aby śledzić czas w różnych strefach czasowych</value>
   </data>
   <data name="AccountsDescription.TextProperty" xml:space="preserve">
-    <value>Connect your calendar accounts to start seeing events. You can add more accounts later in Settings.</value>
+    <value>Połącz konta kalendarza, aby zacząć widzieć wydarzenia. Możesz dodać więcej kont później w Ustawieniach.</value>
   </data>
   <data name="AddAccount.TextProperty" xml:space="preserve">
-    <value>Add account</value>
+    <value>Dodaj konto</value>
   </data>
   <data name="NoAccountsMessage.TextProperty" xml:space="preserve">
-    <value>No accounts connected yet. You can skip this step and add accounts later.</value>
+    <value>Nie połączono jeszcze żadnych kont. Możesz pominąć ten krok i dodać konta później.</value>
   </data>
   <data name="RemoveAccount.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Remove account</value>
+    <value>Usuń konto</value>
   </data>
   <data name="TravelTimeDescription.TextProperty" xml:space="preserve">
-    <value>When enabled, WindowSill can estimate how long it takes to travel to your appointments and notify you when it's time to leave. This requires access to your location.</value>
+    <value>Po włączeniu WindowSill może szacować czas podróży do spotkań i powiadamiać, kiedy czas wyjść. Wymaga to dostępu do lokalizacji.</value>
   </data>
   <data name="TravelTimeToggle.HeaderProperty" xml:space="preserve">
-    <value>Enable travel time notifications</value>
+    <value>Włącz powiadomienia o czasie podróży</value>
   </data>
   <data name="LocationDenied.MessageProperty" xml:space="preserve">
-    <value>Location access was denied. You can enable location access in Windows Settings and turn on this feature later in the Date extension settings.</value>
+    <value>Odmówiono dostępu do lokalizacji. Możesz włączyć dostęp do lokalizacji w Ustawieniach systemu Windows i włączyć tę funkcję później w ustawieniach rozszerzenia Data.</value>
   </data>
   <data name="TravelTimeNoAccounts.TextProperty" xml:space="preserve">
-    <value>No calendar accounts were added, so travel time notifications are not available. You can enable this feature later in the Date extension settings after connecting an account.</value>
+    <value>Nie dodano kont kalendarza, więc powiadomienia o czasie podróży nie są dostępne. Możesz włączyć tę funkcję później w ustawieniach rozszerzenia Data po połączeniu konta.</value>
   </data>
 </root>

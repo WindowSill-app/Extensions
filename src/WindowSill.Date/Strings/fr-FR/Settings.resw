@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,99 +118,99 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountsSectionHeader.TextProperty" xml:space="preserve">
-    <value>Accounts</value>
+    <value>Comptes</value>
   </data>
   <data name="AccountsTabName" xml:space="preserve">
-    <value>Accounts</value>
+    <value>Comptes</value>
   </data>
   <data name="AddAccount.TextProperty" xml:space="preserve">
-    <value>Add account</value>
+    <value>Ajouter un compte</value>
   </data>
   <data name="RemoveAccount.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Remove account</value>
+    <value>Supprimer le compte</value>
   </data>
   <data name="NoAccountsMessage.TextProperty" xml:space="preserve">
-    <value>No accounts connected yet. Add an account to see your calendar events.</value>
+    <value>Aucun compte connecté. Ajoutez un compte pour voir vos événements de calendrier.</value>
   </data>
   <data name="RemoveAccountDialogTitle" xml:space="preserve">
-    <value>Remove account</value>
+    <value>Supprimer le compte</value>
   </data>
   <data name="RemoveAccountDialogContent" xml:space="preserve">
-    <value>Are you sure you want to remove {0}? This will disconnect the account and stop syncing its calendar events.</value>
+    <value>Voulez-vous vraiment supprimer {0} ? Le compte sera déconnecté et la synchronisation de ses événements de calendrier sera arrêtée.</value>
   </data>
   <data name="RemoveAccountDialogConfirm" xml:space="preserve">
-    <value>Remove</value>
+    <value>Supprimer</value>
   </data>
   <data name="RemoveAccountDialogCancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuler</value>
   </data>
   <data name="ConnectDialogTitle" xml:space="preserve">
-    <value>Add account</value>
+    <value>Ajouter un compte</value>
   </data>
   <data name="OutlookConnectMessage" xml:space="preserve">
-    <value>Sign in to your Microsoft account using the Windows sign-in dialog...</value>
+    <value>Connectez-vous à votre compte Microsoft via la boîte de dialogue de connexion Windows...</value>
   </data>
   <data name="GoogleConnectMessage" xml:space="preserve">
-    <value>Sign in to your Google account using your web browser...</value>
+    <value>Connectez-vous à votre compte Google via votre navigateur web...</value>
   </data>
   <data name="SignIn" xml:space="preserve">
-    <value>Sign in</value>
+    <value>Se connecter</value>
   </data>
   <data name="CalDavServerUrl.HeaderProperty" xml:space="preserve">
-    <value>Server URL</value>
+    <value>URL du serveur</value>
   </data>
   <data name="CalDavUsername.HeaderProperty" xml:space="preserve">
-    <value>Username</value>
+    <value>Nom d'utilisateur</value>
   </data>
   <data name="CalDavPassword.HeaderProperty" xml:space="preserve">
-    <value>Password</value>
+    <value>Mot de passe</value>
   </data>
   <data name="ICloudAppleId.HeaderProperty" xml:space="preserve">
     <value>Apple ID</value>
   </data>
   <data name="ICloudAppPassword.HeaderProperty" xml:space="preserve">
-    <value>App-specific password</value>
+    <value>Mot de passe spécifique à l'app</value>
   </data>
   <data name="ICloudAppPasswordHelp.ContentProperty" xml:space="preserve">
-    <value>How to generate an app-specific password</value>
+    <value>Comment générer un mot de passe spécifique à l'app</value>
   </data>
   <data name="ICloudAuthFailed" xml:space="preserve">
-    <value>Authentication failed. Check your Apple ID and app-specific password.</value>
+    <value>Échec de l'authentification. Vérifiez votre Apple ID et votre mot de passe spécifique à l'app.</value>
   </data>
   <data name="ICloudDiscoveryFailed" xml:space="preserve">
-    <value>Could not find calendars for this account. Ensure iCloud Calendar is enabled.</value>
+    <value>Impossible de trouver les calendriers pour ce compte. Assurez-vous que le calendrier iCloud est activé.</value>
   </data>
   <data name="CalDavAuthFailed" xml:space="preserve">
-    <value>Authentication failed. Check your server URL, username, and password.</value>
+    <value>Échec de l'authentification. Vérifiez l'URL du serveur, le nom d'utilisateur et le mot de passe.</value>
   </data>
   <data name="LoadingCalendars.MessageProperty" xml:space="preserve">
-    <value>Loading calendars…</value>
+    <value>Chargement des calendriers…</value>
   </data>
   <data name="CalendarColor.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Change calendar color</value>
+    <value>Modifier la couleur du calendrier</value>
   </data>
   <data name="CalendarNameHeader.TextProperty" xml:space="preserve">
-    <value>Calendar name</value>
+    <value>Nom du calendrier</value>
   </data>
   <data name="VisibilityHeader.TextProperty" xml:space="preserve">
-    <value>Visibility</value>
+    <value>Visibilité</value>
   </data>
   <data name="ColorHeader.TextProperty" xml:space="preserve">
-    <value>Color</value>
+    <value>Couleur</value>
   </data>
   <data name="SyncHeader.TextProperty" xml:space="preserve">
-    <value>Sync</value>
+    <value>Synchronisation</value>
   </data>
   <data name="PollInterval.HeaderProperty" xml:space="preserve">
-    <value>Sync interval</value>
+    <value>Intervalle de synchronisation</value>
   </data>
   <data name="PollInterval.DescriptionProperty" xml:space="preserve">
-    <value>How often to check for new or updated events</value>
+    <value>Fréquence de vérification des événements nouveaux ou mis à jour</value>
   </data>
   <data name="SyncNow.HeaderProperty" xml:space="preserve">
-    <value>Sync now</value>
+    <value>Synchroniser maintenant</value>
   </data>
   <data name="SyncNow.DescriptionProperty" xml:space="preserve">
-    <value>Refresh events from all connected accounts</value>
+    <value>Actualiser les événements de tous les comptes connectés</value>
   </data>
 </root>

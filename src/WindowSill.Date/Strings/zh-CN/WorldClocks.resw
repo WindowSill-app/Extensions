@@ -59,54 +59,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SettingsTabName" xml:space="preserve">
-    <value>World Clocks</value>
+    <value>世界时钟</value>
   </data>
   <data name="AddTimezoneHeader.TextProperty" xml:space="preserve">
-    <value>Add timezone</value>
+    <value>添加时区</value>
   </data>
   <data name="CitySearch.PlaceholderTextProperty" xml:space="preserve">
-    <value>Search cities...</value>
+    <value>搜索城市...</value>
   </data>
   <data name="ConfiguredClocksHeader.TextProperty" xml:space="preserve">
-    <value>Configured clocks</value>
+    <value>已配置的时钟</value>
   </data>
   <data name="NoClocksMessage.TextProperty" xml:space="preserve">
-    <value>No world clocks configured yet. Search for a city above to add one.</value>
+    <value>尚未配置世界时钟。在上方搜索城市以添加。</value>
   </data>
   <data name="CustomNameBox.HeaderProperty" xml:space="preserve">
-    <value>Custom display name</value>
+    <value>自定义显示名称</value>
   </data>
   <data name="SaveName.ContentProperty" xml:space="preserve">
-    <value>Save</value>
+    <value>保存</value>
   </data>
   <data name="CustomNameBox.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter custom name...</value>
+    <value>输入自定义名称...</value>
   </data>
   <data name="CustomNameHint.TextProperty" xml:space="preserve">
-    <value>Leave empty to use the default city name.</value>
+    <value>留空以使用默认城市名称。</value>
   </data>
   <data name="ShowInBar.HeaderProperty" xml:space="preserve">
-    <value>Show in bar</value>
+    <value>在栏中显示</value>
   </data>
   <data name="ShowInBarHint.TextProperty" xml:space="preserve">
-    <value>Pin this clock to the WindowSill bar for quick access.</value>
+    <value>将此时钟固定到 WindowSill 栏以便快速访问。</value>
   </data>
   <data name="BarPlacementHeader.TextProperty" xml:space="preserve">
-    <value>Bar placement</value>
+    <value>栏位置</value>
   </data>
   <data name="ClockPlacement.HeaderProperty" xml:space="preserve">
-    <value>Pinned clock position</value>
+    <value>固定时钟位置</value>
   </data>
   <data name="ClockPlacement.DescriptionProperty" xml:space="preserve">
-    <value>Where pinned clocks appear relative to the date sill in the bar</value>
+    <value>固定时钟相对于栏中日期 sill 的显示位置</value>
   </data>
   <data name="PlacementBefore" xml:space="preserve">
-    <value>Before date sill</value>
+    <value>在日期 sill 之前</value>
   </data>
   <data name="PlacementAfter" xml:space="preserve">
-    <value>After date sill</value>
+    <value>在日期 sill 之后</value>
   </data>
   <data name="PlacementByTimezone" xml:space="preserve">
-    <value>By timezone (earlier before, later after)</value>
+    <value>按时区（较早的在前，较晚的在后）</value>
   </data>
 </root>

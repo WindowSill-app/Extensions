@@ -118,48 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DateTimeTabName" xml:space="preserve">
-    <value>Date &amp; Time</value>
+    <value>Data i czas</value>
   </data>
   <data name="SillDisplayHeader.TextProperty" xml:space="preserve">
-    <value>Sill display</value>
+    <value>Wyświetlanie sill</value>
   </data>
   <data name="PopupHeader.TextProperty" xml:space="preserve">
-    <value>Popup</value>
+    <value>Okno podręczne</value>
   </data>
   <data name="GeneralSectionHeader.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Ogólne</value>
   </data>
   <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>Date sill display mode</value>
+    <value>Tryb wyświetlania sill daty</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose what the Date sill shows in the bar</value>
+    <value>Wybierz, co sill daty wyświetla na pasku</value>
   </data>
   <data name="DateFormat.HeaderProperty" xml:space="preserve">
-    <value>Date format</value>
+    <value>Format daty</value>
   </data>
   <data name="TimeFormat.HeaderProperty" xml:space="preserve">
-    <value>Time format</value>
+    <value>Format czasu</value>
   </data>
   <data name="ShowSeconds.HeaderProperty" xml:space="preserve">
-    <value>Show seconds</value>
+    <value>Pokaż sekundy</value>
   </data>
   <data name="DisplayModeIcon" xml:space="preserve">
-    <value>Calendar icon</value>
+    <value>Ikona kalendarza</value>
   </data>
   <data name="DisplayModeDateTime" xml:space="preserve">
-    <value>Date and time</value>
+    <value>Data i czas</value>
   </data>
   <data name="FormatNone" xml:space="preserve">
-    <value>(None)</value>
+    <value>(Brak)</value>
   </data>
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
-    <value>The calendar icon is displayed as-is. Switch to "Date and time" for more display options.</value>
+    <value>Ikona kalendarza jest wyświetlana bez zmian. Przełącz na </value>
   </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
-    <value>Show past events</value>
+    <value>Pokaż przeszłe wydarzenia</value>
   </data>
   <data name="ShowPastEvents.DescriptionProperty" xml:space="preserve">
-    <value>When off, only upcoming events are shown in the popup for today</value>
+    <value>Po wyłączeniu w oknie podręcznym wyświetlane są tylko nadchodzące wydarzenia na dziś</value>
   </data>
 </root>

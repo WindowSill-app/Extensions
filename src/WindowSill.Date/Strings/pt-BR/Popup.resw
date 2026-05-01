@@ -59,33 +59,33 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Hoje</value>
   </data>
   <data name="Tomorrow" xml:space="preserve">
-    <value>Tomorrow</value>
+    <value>Amanhã</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
-    <value>Yesterday</value>
+    <value>Ontem</value>
   </data>
   <data name="NoEvents.TextProperty" xml:space="preserve">
-    <value>No events for this day</value>
+    <value>Nenhum evento para este dia</value>
   </data>
   <data name="WorldClocksHeader.TextProperty" xml:space="preserve">
-    <value>World Clocks</value>
+    <value>Relógios mundiais</value>
   </data>
   <data name="JoinMeeting.TextProperty" xml:space="preserve">
-    <value>Join meeting</value>
+    <value>Entrar na reunião</value>
   </data>
   <data name="OpenInCalendar.TextProperty" xml:space="preserve">
-    <value>Open in calendar</value>
+    <value>Abrir no calendário</value>
   </data>
   <data name="CalendarHeader.TextProperty" xml:space="preserve">
-    <value>Calendar</value>
+    <value>Calendário</value>
   </data>
   <data name="TimeTravelLabel.TextProperty" xml:space="preserve">
-    <value>Time travel</value>
+    <value>Viagem no tempo</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Agora</value>
   </data>
 </root>

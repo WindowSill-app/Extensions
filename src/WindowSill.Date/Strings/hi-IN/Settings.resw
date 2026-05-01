@@ -118,99 +118,99 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountsSectionHeader.TextProperty" xml:space="preserve">
-    <value>Accounts</value>
+    <value>खाते</value>
   </data>
   <data name="AccountsTabName" xml:space="preserve">
-    <value>Accounts</value>
+    <value>खाते</value>
   </data>
   <data name="AddAccount.TextProperty" xml:space="preserve">
-    <value>Add account</value>
+    <value>खाता जोड़ें</value>
   </data>
   <data name="RemoveAccount.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Remove account</value>
+    <value>खाता हटाएं</value>
   </data>
   <data name="NoAccountsMessage.TextProperty" xml:space="preserve">
-    <value>No accounts connected yet. Add an account to see your calendar events.</value>
+    <value>अभी तक कोई खाता कनेक्ट नहीं है। अपने कैलेंडर इवेंट देखने के लिए एक खाता जोड़ें।</value>
   </data>
   <data name="RemoveAccountDialogTitle" xml:space="preserve">
-    <value>Remove account</value>
+    <value>खाता हटाएं</value>
   </data>
   <data name="RemoveAccountDialogContent" xml:space="preserve">
-    <value>Are you sure you want to remove {0}? This will disconnect the account and stop syncing its calendar events.</value>
+    <value>क्या आप वाकई {0} को हटाना चाहते हैं? इससे खाता डिस्कनेक्ट हो जाएगा और इसके कैलेंडर इवेंट सिंक होना बंद हो जाएगा।</value>
   </data>
   <data name="RemoveAccountDialogConfirm" xml:space="preserve">
-    <value>Remove</value>
+    <value>हटाएं</value>
   </data>
   <data name="RemoveAccountDialogCancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>रद्द करें</value>
   </data>
   <data name="ConnectDialogTitle" xml:space="preserve">
-    <value>Add account</value>
+    <value>खाता जोड़ें</value>
   </data>
   <data name="OutlookConnectMessage" xml:space="preserve">
-    <value>Sign in to your Microsoft account using the Windows sign-in dialog...</value>
+    <value>Windows साइन-इन डायलॉग का उपयोग करके अपने Microsoft खाते में साइन इन करें...</value>
   </data>
   <data name="GoogleConnectMessage" xml:space="preserve">
-    <value>Sign in to your Google account using your web browser...</value>
+    <value>अपने वेब ब्राउज़र का उपयोग करके अपने Google खाते में साइन इन करें...</value>
   </data>
   <data name="SignIn" xml:space="preserve">
-    <value>Sign in</value>
+    <value>साइन इन</value>
   </data>
   <data name="CalDavServerUrl.HeaderProperty" xml:space="preserve">
-    <value>Server URL</value>
+    <value>सर्वर URL</value>
   </data>
   <data name="CalDavUsername.HeaderProperty" xml:space="preserve">
-    <value>Username</value>
+    <value>उपयोगकर्ता नाम</value>
   </data>
   <data name="CalDavPassword.HeaderProperty" xml:space="preserve">
-    <value>Password</value>
+    <value>पासवर्ड</value>
   </data>
   <data name="ICloudAppleId.HeaderProperty" xml:space="preserve">
     <value>Apple ID</value>
   </data>
   <data name="ICloudAppPassword.HeaderProperty" xml:space="preserve">
-    <value>App-specific password</value>
+    <value>ऐप-विशिष्ट पासवर्ड</value>
   </data>
   <data name="ICloudAppPasswordHelp.ContentProperty" xml:space="preserve">
-    <value>How to generate an app-specific password</value>
+    <value>ऐप-विशिष्ट पासवर्ड कैसे जनरेट करें</value>
   </data>
   <data name="ICloudAuthFailed" xml:space="preserve">
-    <value>Authentication failed. Check your Apple ID and app-specific password.</value>
+    <value>प्रमाणीकरण विफल। अपना Apple ID और ऐप-विशिष्ट पासवर्ड जांचें।</value>
   </data>
   <data name="ICloudDiscoveryFailed" xml:space="preserve">
-    <value>Could not find calendars for this account. Ensure iCloud Calendar is enabled.</value>
+    <value>इस खाते के लिए कैलेंडर नहीं मिले। सुनिश्चित करें कि iCloud कैलेंडर सक्षम है।</value>
   </data>
   <data name="CalDavAuthFailed" xml:space="preserve">
-    <value>Authentication failed. Check your server URL, username, and password.</value>
+    <value>प्रमाणीकरण विफल। अपना सर्वर URL, उपयोगकर्ता नाम और पासवर्ड जांचें।</value>
   </data>
   <data name="LoadingCalendars.MessageProperty" xml:space="preserve">
-    <value>Loading calendars…</value>
+    <value>कैलेंडर लोड हो रहे हैं…</value>
   </data>
   <data name="CalendarColor.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Change calendar color</value>
+    <value>कैलेंडर रंग बदलें</value>
   </data>
   <data name="CalendarNameHeader.TextProperty" xml:space="preserve">
-    <value>Calendar name</value>
+    <value>कैलेंडर नाम</value>
   </data>
   <data name="VisibilityHeader.TextProperty" xml:space="preserve">
-    <value>Visibility</value>
+    <value>दृश्यता</value>
   </data>
   <data name="ColorHeader.TextProperty" xml:space="preserve">
-    <value>Color</value>
+    <value>रंग</value>
   </data>
   <data name="SyncHeader.TextProperty" xml:space="preserve">
-    <value>Sync</value>
+    <value>सिंक</value>
   </data>
   <data name="PollInterval.HeaderProperty" xml:space="preserve">
-    <value>Sync interval</value>
+    <value>सिंक अंतराल</value>
   </data>
   <data name="PollInterval.DescriptionProperty" xml:space="preserve">
-    <value>How often to check for new or updated events</value>
+    <value>नए या अपडेट किए गए इवेंट की कितनी बार जांच करें</value>
   </data>
   <data name="SyncNow.HeaderProperty" xml:space="preserve">
-    <value>Sync now</value>
+    <value>अभी सिंक करें</value>
   </data>
   <data name="SyncNow.DescriptionProperty" xml:space="preserve">
-    <value>Refresh events from all connected accounts</value>
+    <value>सभी कनेक्टेड खातों से इवेंट रीफ्रेश करें</value>
   </data>
 </root>

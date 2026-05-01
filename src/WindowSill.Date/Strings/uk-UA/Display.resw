@@ -118,48 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DateTimeTabName" xml:space="preserve">
-    <value>Date &amp; Time</value>
+    <value>Дата і час</value>
   </data>
   <data name="SillDisplayHeader.TextProperty" xml:space="preserve">
-    <value>Sill display</value>
+    <value>Відображення sill</value>
   </data>
   <data name="PopupHeader.TextProperty" xml:space="preserve">
-    <value>Popup</value>
+    <value>Спливне вікно</value>
   </data>
   <data name="GeneralSectionHeader.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Загальне</value>
   </data>
   <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>Date sill display mode</value>
+    <value>Режим відображення sill дати</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose what the Date sill shows in the bar</value>
+    <value>Оберіть, що sill дати показує на панелі</value>
   </data>
   <data name="DateFormat.HeaderProperty" xml:space="preserve">
-    <value>Date format</value>
+    <value>Формат дати</value>
   </data>
   <data name="TimeFormat.HeaderProperty" xml:space="preserve">
-    <value>Time format</value>
+    <value>Формат часу</value>
   </data>
   <data name="ShowSeconds.HeaderProperty" xml:space="preserve">
-    <value>Show seconds</value>
+    <value>Показувати секунди</value>
   </data>
   <data name="DisplayModeIcon" xml:space="preserve">
-    <value>Calendar icon</value>
+    <value>Значок календаря</value>
   </data>
   <data name="DisplayModeDateTime" xml:space="preserve">
-    <value>Date and time</value>
+    <value>Дата і час</value>
   </data>
   <data name="FormatNone" xml:space="preserve">
-    <value>(None)</value>
+    <value>(Немає)</value>
   </data>
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
-    <value>The calendar icon is displayed as-is. Switch to "Date and time" for more display options.</value>
+    <value>Значок календаря відображається як є. Перейдіть на «Дата і час» для додаткових параметрів відображення.</value>
   </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
-    <value>Show past events</value>
+    <value>Показувати минулі події</value>
   </data>
   <data name="ShowPastEvents.DescriptionProperty" xml:space="preserve">
-    <value>When off, only upcoming events are shown in the popup for today</value>
+    <value>Коли вимкнено, у спливному вікні показуються лише майбутні події на сьогодні</value>
   </data>
 </root>

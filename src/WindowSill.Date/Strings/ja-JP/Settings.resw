@@ -118,99 +118,99 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AccountsSectionHeader.TextProperty" xml:space="preserve">
-    <value>Accounts</value>
+    <value>アカウント</value>
   </data>
   <data name="AccountsTabName" xml:space="preserve">
-    <value>Accounts</value>
+    <value>アカウント</value>
   </data>
   <data name="AddAccount.TextProperty" xml:space="preserve">
-    <value>Add account</value>
+    <value>アカウントを追加</value>
   </data>
   <data name="RemoveAccount.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Remove account</value>
+    <value>アカウントを削除</value>
   </data>
   <data name="NoAccountsMessage.TextProperty" xml:space="preserve">
-    <value>No accounts connected yet. Add an account to see your calendar events.</value>
+    <value>まだアカウントが接続されていません。カレンダーイベントを表示するにはアカウントを追加してください。</value>
   </data>
   <data name="RemoveAccountDialogTitle" xml:space="preserve">
-    <value>Remove account</value>
+    <value>アカウントを削除</value>
   </data>
   <data name="RemoveAccountDialogContent" xml:space="preserve">
-    <value>Are you sure you want to remove {0}? This will disconnect the account and stop syncing its calendar events.</value>
+    <value>{0}を削除しますか？アカウントが切断され、カレンダーイベントの同期が停止されます。</value>
   </data>
   <data name="RemoveAccountDialogConfirm" xml:space="preserve">
-    <value>Remove</value>
+    <value>削除</value>
   </data>
   <data name="RemoveAccountDialogCancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>キャンセル</value>
   </data>
   <data name="ConnectDialogTitle" xml:space="preserve">
-    <value>Add account</value>
+    <value>アカウントを追加</value>
   </data>
   <data name="OutlookConnectMessage" xml:space="preserve">
-    <value>Sign in to your Microsoft account using the Windows sign-in dialog...</value>
+    <value>Windowsのサインインダイアログを使用してMicrosoftアカウントにサインインしてください...</value>
   </data>
   <data name="GoogleConnectMessage" xml:space="preserve">
-    <value>Sign in to your Google account using your web browser...</value>
+    <value>ウェブブラウザーを使用してGoogleアカウントにサインインしてください...</value>
   </data>
   <data name="SignIn" xml:space="preserve">
-    <value>Sign in</value>
+    <value>サインイン</value>
   </data>
   <data name="CalDavServerUrl.HeaderProperty" xml:space="preserve">
-    <value>Server URL</value>
+    <value>サーバーURL</value>
   </data>
   <data name="CalDavUsername.HeaderProperty" xml:space="preserve">
-    <value>Username</value>
+    <value>ユーザー名</value>
   </data>
   <data name="CalDavPassword.HeaderProperty" xml:space="preserve">
-    <value>Password</value>
+    <value>パスワード</value>
   </data>
   <data name="ICloudAppleId.HeaderProperty" xml:space="preserve">
     <value>Apple ID</value>
   </data>
   <data name="ICloudAppPassword.HeaderProperty" xml:space="preserve">
-    <value>App-specific password</value>
+    <value>アプリ固有のパスワード</value>
   </data>
   <data name="ICloudAppPasswordHelp.ContentProperty" xml:space="preserve">
-    <value>How to generate an app-specific password</value>
+    <value>アプリ固有のパスワードの生成方法</value>
   </data>
   <data name="ICloudAuthFailed" xml:space="preserve">
-    <value>Authentication failed. Check your Apple ID and app-specific password.</value>
+    <value>認証に失敗しました。Apple IDとアプリ固有のパスワードを確認してください。</value>
   </data>
   <data name="ICloudDiscoveryFailed" xml:space="preserve">
-    <value>Could not find calendars for this account. Ensure iCloud Calendar is enabled.</value>
+    <value>このアカウントのカレンダーが見つかりませんでした。iCloudカレンダーが有効になっていることを確認してください。</value>
   </data>
   <data name="CalDavAuthFailed" xml:space="preserve">
-    <value>Authentication failed. Check your server URL, username, and password.</value>
+    <value>認証に失敗しました。サーバーURL、ユーザー名、パスワードを確認してください。</value>
   </data>
   <data name="LoadingCalendars.MessageProperty" xml:space="preserve">
-    <value>Loading calendars…</value>
+    <value>カレンダーを読み込み中…</value>
   </data>
   <data name="CalendarColor.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Change calendar color</value>
+    <value>カレンダーの色を変更</value>
   </data>
   <data name="CalendarNameHeader.TextProperty" xml:space="preserve">
-    <value>Calendar name</value>
+    <value>カレンダー名</value>
   </data>
   <data name="VisibilityHeader.TextProperty" xml:space="preserve">
-    <value>Visibility</value>
+    <value>表示</value>
   </data>
   <data name="ColorHeader.TextProperty" xml:space="preserve">
-    <value>Color</value>
+    <value>色</value>
   </data>
   <data name="SyncHeader.TextProperty" xml:space="preserve">
-    <value>Sync</value>
+    <value>同期</value>
   </data>
   <data name="PollInterval.HeaderProperty" xml:space="preserve">
-    <value>Sync interval</value>
+    <value>同期間隔</value>
   </data>
   <data name="PollInterval.DescriptionProperty" xml:space="preserve">
-    <value>How often to check for new or updated events</value>
+    <value>新しいイベントや更新されたイベントを確認する頻度</value>
   </data>
   <data name="SyncNow.HeaderProperty" xml:space="preserve">
-    <value>Sync now</value>
+    <value>今すぐ同期</value>
   </data>
   <data name="SyncNow.DescriptionProperty" xml:space="preserve">
-    <value>Refresh events from all connected accounts</value>
+    <value>すべての接続済みアカウントからイベントを更新</value>
   </data>
 </root>

@@ -118,39 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="WelcomeDescription.TextProperty" xml:space="preserve">
-    <value>The Date feature keeps you on top of your schedule right from the sill bar. Connect your calendar accounts to see upcoming events, get meeting reminders, and never miss an appointment.</value>
+    <value>Tính năng Ngày giúp bạn nắm bắt lịch trình ngay từ thanh sill. Kết nối tài khoản lịch để xem sự kiện sắp tới, nhận nhắc nhở cuộc họp và không bao giờ bỏ lỡ cuộc hẹn.</value>
   </data>
   <data name="FeatureCalendar.TextProperty" xml:space="preserve">
-    <value>View your calendar and upcoming events at a glance</value>
+    <value>Xem lịch và các sự kiện sắp tới trong nháy mắt</value>
   </data>
   <data name="FeatureMeetings.TextProperty" xml:space="preserve">
-    <value>Get meeting reminders and join video calls with one click</value>
+    <value>Nhận nhắc nhở cuộc họp và tham gia cuộc gọi video chỉ với một cú nhấp</value>
   </data>
   <data name="FeatureWorldClocks.TextProperty" xml:space="preserve">
-    <value>Pin world clocks to track time across time zones</value>
+    <value>Ghim đồng hồ thế giới để theo dõi thời gian qua các múi giờ</value>
   </data>
   <data name="AccountsDescription.TextProperty" xml:space="preserve">
-    <value>Connect your calendar accounts to start seeing events. You can add more accounts later in Settings.</value>
+    <value>Kết nối tài khoản lịch để bắt đầu xem sự kiện. Bạn có thể thêm tài khoản sau trong Cài đặt.</value>
   </data>
   <data name="AddAccount.TextProperty" xml:space="preserve">
-    <value>Add account</value>
+    <value>Thêm tài khoản</value>
   </data>
   <data name="NoAccountsMessage.TextProperty" xml:space="preserve">
-    <value>No accounts connected yet. You can skip this step and add accounts later.</value>
+    <value>Chưa có tài khoản nào được kết nối. Bạn có thể bỏ qua bước này và thêm tài khoản sau.</value>
   </data>
   <data name="RemoveAccount.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Remove account</value>
+    <value>Xóa tài khoản</value>
   </data>
   <data name="TravelTimeDescription.TextProperty" xml:space="preserve">
-    <value>When enabled, WindowSill can estimate how long it takes to travel to your appointments and notify you when it's time to leave. This requires access to your location.</value>
+    <value>Khi bật, WindowSill có thể ước tính thời gian di chuyển đến cuộc hẹn và thông báo khi đến lúc khởi hành. Tính năng này yêu cầu quyền truy cập vị trí của bạn.</value>
   </data>
   <data name="TravelTimeToggle.HeaderProperty" xml:space="preserve">
-    <value>Enable travel time notifications</value>
+    <value>Bật thông báo thời gian di chuyển</value>
   </data>
   <data name="LocationDenied.MessageProperty" xml:space="preserve">
-    <value>Location access was denied. You can enable location access in Windows Settings and turn on this feature later in the Date extension settings.</value>
+    <value>Quyền truy cập vị trí đã bị từ chối. Bạn có thể bật quyền truy cập vị trí trong Cài đặt Windows và bật tính năng này sau trong cài đặt tiện ích mở rộng Ngày.</value>
   </data>
   <data name="TravelTimeNoAccounts.TextProperty" xml:space="preserve">
-    <value>No calendar accounts were added, so travel time notifications are not available. You can enable this feature later in the Date extension settings after connecting an account.</value>
+    <value>Chưa thêm tài khoản lịch nào nên thông báo thời gian di chuyển không khả dụng. Bạn có thể bật tính năng này sau trong cài đặt tiện ích mở rộng Ngày sau khi kết nối tài khoản.</value>
   </data>
 </root>

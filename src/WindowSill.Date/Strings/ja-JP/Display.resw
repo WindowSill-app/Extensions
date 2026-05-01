@@ -118,48 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DateTimeTabName" xml:space="preserve">
-    <value>Date &amp; Time</value>
+    <value>日付と時刻</value>
   </data>
   <data name="SillDisplayHeader.TextProperty" xml:space="preserve">
-    <value>Sill display</value>
+    <value>Sillの表示</value>
   </data>
   <data name="PopupHeader.TextProperty" xml:space="preserve">
-    <value>Popup</value>
+    <value>ポップアップ</value>
   </data>
   <data name="GeneralSectionHeader.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>全般</value>
   </data>
   <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>Date sill display mode</value>
+    <value>日付Sillの表示モード</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose what the Date sill shows in the bar</value>
+    <value>日付Sillがバーに表示する内容を選択</value>
   </data>
   <data name="DateFormat.HeaderProperty" xml:space="preserve">
-    <value>Date format</value>
+    <value>日付の形式</value>
   </data>
   <data name="TimeFormat.HeaderProperty" xml:space="preserve">
-    <value>Time format</value>
+    <value>時刻の形式</value>
   </data>
   <data name="ShowSeconds.HeaderProperty" xml:space="preserve">
-    <value>Show seconds</value>
+    <value>秒を表示</value>
   </data>
   <data name="DisplayModeIcon" xml:space="preserve">
-    <value>Calendar icon</value>
+    <value>カレンダーアイコン</value>
   </data>
   <data name="DisplayModeDateTime" xml:space="preserve">
-    <value>Date and time</value>
+    <value>日付と時刻</value>
   </data>
   <data name="FormatNone" xml:space="preserve">
-    <value>(None)</value>
+    <value>(なし)</value>
   </data>
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
-    <value>The calendar icon is displayed as-is. Switch to "Date and time" for more display options.</value>
+    <value>カレンダーアイコンがそのまま表示されます。表示オプションを変更するには「日付と時刻」に切り替えてください。</value>
   </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
-    <value>Show past events</value>
+    <value>過去のイベントを表示</value>
   </data>
   <data name="ShowPastEvents.DescriptionProperty" xml:space="preserve">
-    <value>When off, only upcoming events are shown in the popup for today</value>
+    <value>オフの場合、ポップアップには今日の今後のイベントのみ表示されます</value>
   </data>
 </root>

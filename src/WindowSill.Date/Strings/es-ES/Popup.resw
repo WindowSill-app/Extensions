@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
@@ -59,33 +59,33 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Hoy</value>
   </data>
   <data name="Tomorrow" xml:space="preserve">
-    <value>Tomorrow</value>
+    <value>Mañana</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
-    <value>Yesterday</value>
+    <value>Ayer</value>
   </data>
   <data name="NoEvents.TextProperty" xml:space="preserve">
-    <value>No events for this day</value>
+    <value>No hay eventos para este día</value>
   </data>
   <data name="WorldClocksHeader.TextProperty" xml:space="preserve">
-    <value>World Clocks</value>
+    <value>Relojes mundiales</value>
   </data>
   <data name="JoinMeeting.TextProperty" xml:space="preserve">
-    <value>Join meeting</value>
+    <value>Unirse a la reunión</value>
   </data>
   <data name="OpenInCalendar.TextProperty" xml:space="preserve">
-    <value>Open in calendar</value>
+    <value>Abrir en calendario</value>
   </data>
   <data name="CalendarHeader.TextProperty" xml:space="preserve">
-    <value>Calendar</value>
+    <value>Calendario</value>
   </data>
   <data name="TimeTravelLabel.TextProperty" xml:space="preserve">
-    <value>Time travel</value>
+    <value>Viaje en el tiempo</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Ahora</value>
   </data>
 </root>

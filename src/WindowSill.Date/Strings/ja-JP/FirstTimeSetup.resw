@@ -118,39 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="WelcomeDescription.TextProperty" xml:space="preserve">
-    <value>The Date feature keeps you on top of your schedule right from the sill bar. Connect your calendar accounts to see upcoming events, get meeting reminders, and never miss an appointment.</value>
+    <value>日付機能は、Sillバーから直接スケジュールを確認できます。カレンダーアカウントを接続して、予定のイベントを確認し、会議のリマインダーを受け取り、予定を見逃さないようにしましょう。</value>
   </data>
   <data name="FeatureCalendar.TextProperty" xml:space="preserve">
-    <value>View your calendar and upcoming events at a glance</value>
+    <value>カレンダーと今後のイベントを一目で確認</value>
   </data>
   <data name="FeatureMeetings.TextProperty" xml:space="preserve">
-    <value>Get meeting reminders and join video calls with one click</value>
+    <value>会議のリマインダーを受け取り、ワンクリックでビデオ通話に参加</value>
   </data>
   <data name="FeatureWorldClocks.TextProperty" xml:space="preserve">
-    <value>Pin world clocks to track time across time zones</value>
+    <value>ワールドクロックをピン留めして様々なタイムゾーンの時刻を追跡</value>
   </data>
   <data name="AccountsDescription.TextProperty" xml:space="preserve">
-    <value>Connect your calendar accounts to start seeing events. You can add more accounts later in Settings.</value>
+    <value>イベントの表示を開始するにはカレンダーアカウントを接続してください。後で設定でアカウントを追加できます。</value>
   </data>
   <data name="AddAccount.TextProperty" xml:space="preserve">
-    <value>Add account</value>
+    <value>アカウントを追加</value>
   </data>
   <data name="NoAccountsMessage.TextProperty" xml:space="preserve">
-    <value>No accounts connected yet. You can skip this step and add accounts later.</value>
+    <value>まだアカウントが接続されていません。この手順をスキップして後でアカウントを追加できます。</value>
   </data>
   <data name="RemoveAccount.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Remove account</value>
+    <value>アカウントを削除</value>
   </data>
   <data name="TravelTimeDescription.TextProperty" xml:space="preserve">
-    <value>When enabled, WindowSill can estimate how long it takes to travel to your appointments and notify you when it's time to leave. This requires access to your location.</value>
+    <value>有効にすると、WindowSillが予定までの移動時間を推定し、出発時刻になったら通知します。位置情報へのアクセスが必要です。</value>
   </data>
   <data name="TravelTimeToggle.HeaderProperty" xml:space="preserve">
-    <value>Enable travel time notifications</value>
+    <value>移動時間通知を有効にする</value>
   </data>
   <data name="LocationDenied.MessageProperty" xml:space="preserve">
-    <value>Location access was denied. You can enable location access in Windows Settings and turn on this feature later in the Date extension settings.</value>
+    <value>位置情報へのアクセスが拒否されました。Windowsの設定で位置情報へのアクセスを有効にし、後で日付拡張機能の設定でこの機能をオンにできます。</value>
   </data>
   <data name="TravelTimeNoAccounts.TextProperty" xml:space="preserve">
-    <value>No calendar accounts were added, so travel time notifications are not available. You can enable this feature later in the Date extension settings after connecting an account.</value>
+    <value>カレンダーアカウントが追加されていないため、移動時間通知は利用できません。アカウントを接続した後、日付拡張機能の設定でこの機能を有効にできます。</value>
   </data>
 </root>

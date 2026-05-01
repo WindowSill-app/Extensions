@@ -118,48 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DateTimeTabName" xml:space="preserve">
-    <value>Date &amp; Time</value>
+    <value>日期和时间</value>
   </data>
   <data name="SillDisplayHeader.TextProperty" xml:space="preserve">
-    <value>Sill display</value>
+    <value>Sill 显示</value>
   </data>
   <data name="PopupHeader.TextProperty" xml:space="preserve">
-    <value>Popup</value>
+    <value>弹出窗口</value>
   </data>
   <data name="GeneralSectionHeader.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>常规</value>
   </data>
   <data name="DisplayMode.HeaderProperty" xml:space="preserve">
-    <value>Date sill display mode</value>
+    <value>日期 sill 显示模式</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose what the Date sill shows in the bar</value>
+    <value>选择日期 sill 在栏中显示的内容</value>
   </data>
   <data name="DateFormat.HeaderProperty" xml:space="preserve">
-    <value>Date format</value>
+    <value>日期格式</value>
   </data>
   <data name="TimeFormat.HeaderProperty" xml:space="preserve">
-    <value>Time format</value>
+    <value>时间格式</value>
   </data>
   <data name="ShowSeconds.HeaderProperty" xml:space="preserve">
-    <value>Show seconds</value>
+    <value>显示秒</value>
   </data>
   <data name="DisplayModeIcon" xml:space="preserve">
-    <value>Calendar icon</value>
+    <value>日历图标</value>
   </data>
   <data name="DisplayModeDateTime" xml:space="preserve">
-    <value>Date and time</value>
+    <value>日期和时间</value>
   </data>
   <data name="FormatNone" xml:space="preserve">
-    <value>(None)</value>
+    <value>(无)</value>
   </data>
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
-    <value>The calendar icon is displayed as-is. Switch to "Date and time" for more display options.</value>
+    <value>日历图标按原样显示。切换到"日期和时间"以获取更多显示选项。</value>
   </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
-    <value>Show past events</value>
+    <value>显示过去的事件</value>
   </data>
   <data name="ShowPastEvents.DescriptionProperty" xml:space="preserve">
-    <value>When off, only upcoming events are shown in the popup for today</value>
+    <value>关闭时，弹出窗口中仅显示今天即将到来的事件</value>
   </data>
 </root>
