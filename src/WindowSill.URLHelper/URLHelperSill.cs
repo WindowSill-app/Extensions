@@ -1,7 +1,8 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
 using Microsoft.UI.Xaml.Media.Imaging;
 using WindowSill.API;
+using WindowSill.URLHelper.Core;
 using Path = System.IO.Path;
 
 namespace WindowSill.URLHelper;
@@ -34,6 +35,12 @@ public sealed class URLHelperSill : ISillActivatedByTextSelection, ISillListView
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
             ViewList.Clear();
+
+            SillListViewItem? openInBrowserItem = OpenInBrowserSillItem.Create(currentSelection);
+            if (openInBrowserItem is not null)
+            {
+                ViewList.Add(openInBrowserItem);
+            }
 
             ViewList.Add(
                 new SillListViewPopupItem(

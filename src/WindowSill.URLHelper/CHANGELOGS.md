@@ -1,3 +1,7 @@
+# 0.9.22
+- Added the possibility to open a selected URL in the web browser of your choice.
+- Updated dependencies.
+
 # 0.9.20
 - Added ARM64 support.
 

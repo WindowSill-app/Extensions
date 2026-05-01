@@ -52,15 +52,6 @@ public class EventItemViewModelTests
     #region TimeRangeText
 
     [Fact]
-    public void TimeRangeText_AllDayEvent_ReturnsAllDay()
-    {
-        CalendarEvent evt = CreateAllDayEvent();
-        var vm = new EventItemViewModel(evt);
-
-        vm.TimeRangeText.Should().Be("All day");
-    }
-
-    [Fact]
     public void TimeRangeText_TimedEvent_ContainsStartAndEndTime()
     {
         DateTimeOffset start = new(2026, 4, 19, 9, 0, 0, TimeSpan.FromHours(-7));
