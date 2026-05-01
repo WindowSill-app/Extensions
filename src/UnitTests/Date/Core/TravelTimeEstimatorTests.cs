@@ -13,7 +13,6 @@ public class TravelTimeEstimatorTests
     {
         LoggingSetup.EnsureInitialized();
         _settings = new FakeSettingsProvider();
-        _settings.SetSetting(WindowSill.Date.Settings.Settings.OpenRouteServiceApiKey, "test-key");
     }
 
     private static CalendarEvent CreateEvent(string? location = "123 Main St, Seattle WA")

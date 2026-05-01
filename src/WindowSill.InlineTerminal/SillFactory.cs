@@ -183,7 +183,58 @@ internal sealed class SillFactory
         return results;
     }
 
-    private static ShellInfo DetectShell(string selectedText, IReadOnlyList<ShellInfo> shells)
+    /// <summary>
+    /// Creates sill view items from pre-computed shell and command data.
+    /// Must be called on the UI thread since it creates XAML objects.
+    /// </summary>
+    internal List<SillListViewPopupItem> CreateSillsFromPrecomputedData(
+        WindowTextSelection windowTextSelection,
+        IReadOnlyList<ShellInfo> availableShells,
+        List<ParsedCommandBlock> blocks,
+        ShellInfo defaultShell)
+    {
+        ThreadHelper.ThrowIfNotOnUIThread();
+
+        var results = new List<SillListViewPopupItem>();
+
+        try
+        {
+            foreach (ParsedCommandBlock block in blocks)
+            {
+                CommandDefinition command = _commandService.CreateCommand(
+                    block.Command,
+                    scriptFilePath: null,
+                    block.WorkingDirectory,
+                    defaultShell,
+                    windowTextSelection);
+
+                var viewModel = new CommandViewModel(_commandService, command, availableShells, _settingsProvider);
+                var popup = new CommandPopup(viewModel);
+
+                var menuFlyout = new MenuFlyout();
+                menuFlyout.Opening += (_, _) =>
+                    MenuFlyoutBuilder.PopulateMenu(menuFlyout, command, viewModel, hasSelectedText: true, _commandService);
+
+                var sillView
+                    = new SillListViewPopupItem(
+                        new CommandSillContent(viewModel),
+                        new CommandSillPreview(viewModel),
+                        popup)
+                    {
+                        ContextFlyout = menuFlyout
+                    };
+
+                results.Add(sillView);
+            }
+        }
+        catch
+        {
+        }
+
+        return results;
+    }
+
+    internal static ShellInfo DetectShell(string selectedText, IReadOnlyList<ShellInfo> shells)
     {
         if (shells.Count == 0)
         {

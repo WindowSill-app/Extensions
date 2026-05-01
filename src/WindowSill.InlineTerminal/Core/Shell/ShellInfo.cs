@@ -1,3 +1,5 @@
+using WindowSill.API;
+
 namespace WindowSill.InlineTerminal.Core.Shell;
 
 /// <summary>
@@ -18,7 +20,7 @@ internal sealed class ShellInfo
     /// <param name="buildArguments">Strategy to build the full argument string for a command.</param>
     /// <param name="buildElevatedArguments">Strategy to build the argument string for elevated execution, redirecting output to a file. Parameters: (command, outputFilePath).</param>
     /// <param name="wslDistroName">The WSL distribution name, or <see langword="null"/> for native Windows shells.</param>
-    /// <param name="icon">The icon extracted from the shell executable, or <see langword="null"/> if unavailable.</param>
+    /// <param name="iconTask">An async task that resolves to the shell's icon, or <see langword="null"/> to use a completed empty task.</param>
     internal ShellInfo(
         string displayName,
         string executablePath,
@@ -26,12 +28,13 @@ internal sealed class ShellInfo
         Func<string, string> buildArguments,
         Func<string, string, string> buildElevatedArguments,
         string? wslDistroName = null,
-        ImageSource? icon = null)
+        Task<ImageSource?>? iconTask = null)
     {
         DisplayName = displayName;
         ExecutablePath = executablePath;
         WslDistroName = wslDistroName;
-        Icon = icon;
+        Icon = new TaskCompletionNotifier<ImageSource?>(
+            () => iconTask ?? Task.FromResult<ImageSource?>(null));
         _escapeCommand = escapeCommand;
         _buildArguments = buildArguments;
         _buildElevatedArguments = buildElevatedArguments;
@@ -53,9 +56,10 @@ internal sealed class ShellInfo
     public string? WslDistroName { get; }
 
     /// <summary>
-    /// Gets the icon extracted from the shell executable, or <see langword="null"/> if unavailable.
+    /// Gets the icon extracted from the shell executable.
+    /// The icon loads asynchronously; bind to <c>Icon.Result</c> in XAML with <c>Mode=OneWay</c>.
     /// </summary>
-    public ImageSource? Icon { get; }
+    public TaskCompletionNotifier<ImageSource?> Icon { get; }
 
     /// <summary>
     /// Gets a value indicating whether this shell runs inside WSL.

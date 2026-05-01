@@ -156,7 +156,7 @@ internal static class MenuFlyoutBuilder
             {
                 IsEnabled = false,
                 Text = viewModel.SelectedShell.DisplayName,
-                Icon = viewModel.SelectedShell.Icon is { } shellIcon
+                Icon = viewModel.SelectedShell.Icon.Result is { } shellIcon
                     ? new ImageIcon { Source = shellIcon, Width = 16, Height = 16 }
                     : new FontIcon { FontFamily = new FontFamily("Segoe Fluent Icons"), Glyph = "\uECAA" },
             };

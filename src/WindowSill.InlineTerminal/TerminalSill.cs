@@ -6,6 +6,8 @@ using Windows.Storage;
 using WindowSill.API;
 using WindowSill.API.Core.Threading;
 using WindowSill.InlineTerminal.Activators;
+using WindowSill.InlineTerminal.Core.Parsers;
+using WindowSill.InlineTerminal.Core.Shell;
 using WindowSill.InlineTerminal.Core.UI;
 using WindowSill.InlineTerminal.Models;
 using WindowSill.InlineTerminal.Services;
@@ -32,6 +34,7 @@ internal sealed class TerminalSill
     private readonly IPluginInfo _pluginInfo;
     private readonly ISettingsProvider _settingsProvider;
     private readonly SillFactory _sillFactory;
+    private readonly ShellDetectionService _shellDetectionService;
     private readonly CommandService _commandService;
     private readonly AsyncLazy<SillListViewPopupItem?> _createOnGoingCommandsPopup;
 
@@ -47,14 +50,21 @@ internal sealed class TerminalSill
     private WindowTextSelection? _currentWindowTextSelection;
     private string[]? _currentDroppedFiles;
 
+    // Activation version counter for latest-wins semantics.
+    // Incremented each time a new text selection activation starts,
+    // so stale background work can be discarded before touching UI state.
+    private int _textSelectionActivationVersion;
+    private CancellationTokenSource? _textSelectionActivationCts;
+
     private readonly AutoDismissService _autoDismissService;
 
     [ImportingConstructor]
-    public TerminalSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, SillFactory sillFactory, CommandService commandService, AutoDismissService autoDismissService)
+    public TerminalSill(IPluginInfo pluginInfo, ISettingsProvider settingsProvider, SillFactory sillFactory, ShellDetectionService shellDetectionService, CommandService commandService, AutoDismissService autoDismissService)
     {
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _sillFactory = sillFactory;
+        _shellDetectionService = shellDetectionService;
         _commandService = commandService;
         _autoDismissService = autoDismissService;
         _commandService.RunsChanged += CommandService_RunsChanged;
@@ -100,12 +110,71 @@ internal sealed class TerminalSill
     /// <inheritdoc />
     public async ValueTask OnActivatedAsync(string textSelectionActivatorTypeName, WindowTextSelection currentSelection)
     {
+        // Cancel any prior text selection activation so only the latest wins.
+        CancellationTokenSource newCts = new();
+        CancellationTokenSource? oldCts = Interlocked.Exchange(ref _textSelectionActivationCts, newCts);
+        oldCts?.Cancel();
+        oldCts?.Dispose();
+
+        int version = Interlocked.Increment(ref _textSelectionActivationVersion);
+        CancellationToken ct = newCts.Token;
+
+        // Phase 1 (background thread): shell detection + command parsing.
+        // These involve PATH scanning, process spawning (wsl --list), and icon loading
+        // that must not run on the UI thread.
+        IReadOnlyList<ShellInfo> availableShells;
+        List<ParsedCommandBlock> commandBlocks;
+        ShellInfo? defaultShell;
+        try
+        {
+            availableShells = await _shellDetectionService.GetAvailableShellsAsync();
+            ct.ThrowIfCancellationRequested();
+            commandBlocks = availableShells.Count > 0
+                ? TerminalCommandParser.GetCommandBlocks(currentSelection.SelectedText)
+                : [];
+            defaultShell = commandBlocks.Count > 0
+                ? SillFactory.DetectShell(currentSelection.SelectedText, availableShells)
+                : null;
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+
+        // Phase 2 (UI thread): create XAML objects and update ViewList.
         await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
+            // Discard this result if a newer activation has started.
+            if (Volatile.Read(ref _textSelectionActivationVersion) != version)
+            {
+                return;
+            }
+
             _isDynamicallyActivated = true;
             _currentWindowTextSelection = currentSelection;
             _currentDroppedFiles = null;
-            await RebuildViewListAsync();
+
+            ClearDynamicSills();
+
+            if (commandBlocks.Count > 0 && defaultShell is not null)
+            {
+                List<SillListViewPopupItem> commandSills
+                    = _sillFactory.CreateSillsFromPrecomputedData(currentSelection, availableShells, commandBlocks, defaultShell);
+
+                foreach (SillListViewPopupItem sill in commandSills)
+                {
+                    if (sill.PopupContent is CommandPopup commandPopup
+                        && IsDuplicateOfPinnedCommand(commandPopup.ViewModel.Command))
+                    {
+                        DisposeUnpinnedSill(sill);
+                        continue;
+                    }
+
+                    _dynamicSills.Add(sill);
+                }
+            }
+
+            await RebuildViewListFromCurrentStateAsync();
         });
     }
 

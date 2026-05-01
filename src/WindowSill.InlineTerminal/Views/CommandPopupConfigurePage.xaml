@@ -78,7 +78,7 @@
                                 <Image
                                     Width="16"
                                     Height="16"
-                                    Source="{x:Bind Icon}" />
+                                    Source="{x:Bind Icon.Result, Mode=OneWay}" />
                                 <TextBlock Text="{x:Bind DisplayName}" />
                             </StackPanel>
                         </DataTemplate>

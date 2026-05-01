@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Win32;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using WindowSill.API;
@@ -13,72 +14,101 @@ namespace WindowSill.InlineTerminal.Core.Shell;
 [Export]
 internal sealed class ShellDetectionService
 {
-    private IReadOnlyList<ShellInfo>? _cachedShells;
+    private readonly TaskCompletionSource<IReadOnlyList<ShellInfo>> _shellsTcs = new();
+    private int _detectionStarted;
 
     /// <summary>
     /// Returns the list of available shells, detecting them on first call and caching the result.
+    /// Shell icons load asynchronously in the background via <see cref="TaskCompletionNotifier{TResult}"/>
+    /// and render in the UI when ready.
     /// </summary>
     internal async ValueTask<IReadOnlyList<ShellInfo>> GetAvailableShellsAsync()
     {
-        return _cachedShells ??= await DetectShellsAsync();
+        if (Interlocked.CompareExchange(ref _detectionStarted, 1, 0) == 0)
+        {
+            try
+            {
+                List<ShellInfo> shells = DetectShells();
+                _shellsTcs.TrySetResult(shells);
+            }
+            catch (Exception ex)
+            {
+                _shellsTcs.TrySetException(ex);
+            }
+        }
+
+        return await _shellsTcs.Task.ConfigureAwait(false);
     }
 
-    private static async Task<List<ShellInfo>> DetectShellsAsync()
+    /// <summary>
+    /// Detects available shells. Icon loading is fired as background tasks per shell
+    /// and exposed via <see cref="TaskCompletionNotifier{TResult}"/> for data-binding.
+    /// </summary>
+    private static List<ShellInfo> DetectShells()
     {
         List<ShellInfo> shells = [];
 
         // PowerShell 7 (pwsh)
         if (FindExecutableOnPath("pwsh") is { } pwshPath)
         {
-            shells.Add(await CreatePowerShellInfoAsync("PowerShell 7", pwshPath));
+            shells.Add(CreateShellInfo("PowerShell 7", pwshPath,
+                escapeCommand: command => command.Replace("\"", "\\\""),
+                buildArguments: command => $"-Command {command}",
+                buildElevatedArguments: (command, outputFile) =>
+                    $"-Command \"& {{ {command} }} *> '{outputFile}'\""));
         }
 
         // Windows PowerShell
         if (FindExecutableOnPath("powershell") is { } powershellPath)
         {
-            shells.Add(await CreatePowerShellInfoAsync("Windows PowerShell", powershellPath));
+            shells.Add(CreateShellInfo("Windows PowerShell", powershellPath,
+                escapeCommand: command => command.Replace("\"", "\\\""),
+                buildArguments: command => $"-Command {command}",
+                buildElevatedArguments: (command, outputFile) =>
+                    $"-Command \"& {{ {command} }} *> '{outputFile}'\""));
         }
 
         // Command Prompt
         if (FindExecutableOnPath("cmd") is { } cmdPath)
         {
-            shells.Add(new ShellInfo(
-                "Command Prompt",
-                cmdPath,
+            shells.Add(CreateShellInfo("Command Prompt", cmdPath,
                 escapeCommand: command => command.Replace("\"", "\\\""),
                 buildArguments: command => $"/c {command}",
                 buildElevatedArguments: (command, outputFile) =>
-                    $"/c \"{command} > \"{outputFile}\" 2>&1\"",
-                icon: await GetExecutableIconAsync(cmdPath)));
+                    $"/c \"{command} > \"{outputFile}\" 2>&1\""));
         }
 
-        // WSL distributions
-        if (FindExecutableOnPath("wsl") is { } wslPath)
+        // WSL distributions — only attempt if WSL is actually installed (not just the System32 stub).
+        if (FindExecutableOnPath("wsl") is { } wslPath && IsWslInstalled())
         {
-            ImageSource? wslIcon = await GetExecutableIconAsync(wslPath);
+            Task<ImageSource?> wslIconTask = GetExecutableIconAsync(wslPath);
 
             foreach (string distro in DetectWslDistributions(wslPath))
             {
-                shells.Add(CreateWslShellInfo(distro, wslPath, wslIcon));
+                shells.Add(CreateWslShellInfo(distro, wslPath, wslIconTask));
             }
         }
 
         return shells;
     }
 
-    private static async Task<ShellInfo> CreatePowerShellInfoAsync(string displayName, string executablePath)
+    private static ShellInfo CreateShellInfo(
+        string displayName,
+        string executablePath,
+        Func<string, string> escapeCommand,
+        Func<string, string> buildArguments,
+        Func<string, string, string> buildElevatedArguments)
     {
         return new ShellInfo(
             displayName,
             executablePath,
-            escapeCommand: command => command.Replace("\"", "\\\""),
-            buildArguments: command => $"-Command {command}",
-            buildElevatedArguments: (command, outputFile) =>
-                $"-Command \"& {{ {command} }} *> '{outputFile}'\"",
-            icon: await GetExecutableIconAsync(executablePath));
+            escapeCommand,
+            buildArguments,
+            buildElevatedArguments,
+            iconTask: GetExecutableIconAsync(executablePath));
     }
 
-    private static ShellInfo CreateWslShellInfo(string distroName, string wslPath, ImageSource? icon)
+    private static ShellInfo CreateWslShellInfo(string distroName, string wslPath, Task<ImageSource?> wslIconTask)
     {
         return new ShellInfo(
             $"WSL · {distroName}",
@@ -91,7 +121,7 @@ internal sealed class ShellDetectionService
                 return $"-d {distroName} -- bash -c {EscapeForBash($"sudo {command} > '{wslOutputFile}' 2>&1")}";
             },
             wslDistroName: distroName,
-            icon: icon);
+            iconTask: wslIconTask);
     }
 
     /// <summary>
@@ -179,8 +209,9 @@ internal sealed class ShellDetectionService
 
             process.Start();
 
-            string output = process.StandardOutput.ReadToEnd();
-
+            // Use WaitForExit with a timeout first to avoid hanging indefinitely
+            // on machines where WSL is slow to respond (kernel boot, not initialized, etc.).
+            // ReadToEnd() blocks until the process closes stdout, which has no timeout.
             if (!process.WaitForExit(5000))
             {
                 try
@@ -195,6 +226,8 @@ internal sealed class ShellDetectionService
             {
                 return distros;
             }
+
+            string output = process.StandardOutput.ReadToEnd();
 
             foreach (string line in output.Split('\n', StringSplitOptions.RemoveEmptyEntries))
             {
@@ -213,6 +246,23 @@ internal sealed class ShellDetectionService
         }
 
         return distros;
+    }
+
+    /// <summary>
+    /// Checks whether WSL is actually installed by looking for the <c>lxss</c> registry key.
+    /// This avoids spawning the System32 <c>wsl.exe</c> stub on machines where WSL is not enabled.
+    /// </summary>
+    private static bool IsWslInstalled()
+    {
+        try
+        {
+            using RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss");
+            return key is not null;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     private static string? FindExecutableOnPath(string exeName)
