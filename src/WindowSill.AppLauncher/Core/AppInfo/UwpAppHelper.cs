@@ -78,18 +78,25 @@ internal class UwpAppHelper
 
                 foreach (Package package in packages)
                 {
-                    foreach (AppListEntry appListEntry in package.GetAppListEntries())
+                    try
                     {
-                        var uwpAppInfo = new UwpAppInfo
+                        foreach (AppListEntry appListEntry in package.GetAppListEntries())
                         {
-                            AppUserModelId = appListEntry.AppInfo.AppUserModelId,
-                            PackageFullName = package.Id.FullName,
-                            DefaultDisplayName = appListEntry.DisplayInfo.DisplayName,
-                            DisplayName = appListEntry.DisplayInfo.DisplayName,
-                            Package = package
-                        };
-                        uwpAppInfo.OnDeserialized();
-                        uwpApps.Add(uwpAppInfo);
+                            var uwpAppInfo = new UwpAppInfo
+                            {
+                                AppUserModelId = appListEntry.AppInfo.AppUserModelId,
+                                PackageFullName = package.Id.FullName,
+                                DefaultDisplayName = appListEntry.DisplayInfo.DisplayName,
+                                DisplayName = appListEntry.DisplayInfo.DisplayName,
+                                Package = package
+                            };
+                            uwpAppInfo.OnDeserialized();
+                            uwpApps.Add(uwpAppInfo);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        typeof(UwpAppHelper).Log().LogWarning(ex, "Skipping package due to error: {PackageName}", package.Id.FullName);
                     }
                 }
             }
