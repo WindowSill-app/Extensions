@@ -79,29 +79,32 @@ public sealed class ImageHelperSill : ISillActivatedByDragAndDrop, ISillListView
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
             ViewList.Clear();
-            if (compatibleFiles.Count == 1)
+            if (compatibleFiles.Count > 0)
             {
-                ResizeImagePopup resizePopup = CreateResizePopup(compatibleFiles[0]);
+                if (compatibleFiles.Count == 1)
+                {
+                    ResizeImagePopup resizePopup = CreateResizePopup(compatibleFiles[0]);
+                    ViewList.Add(
+                        new SillListViewPopupItem(
+                            "/WindowSill.ImageHelper/ResizeImage/Title".GetLocalizedString(),
+                            null,
+                            resizePopup));
+                }
+
+                ConvertImagePopup convertPopup = CreateConvertPopup(compatibleFiles);
                 ViewList.Add(
                     new SillListViewPopupItem(
-                        "/WindowSill.ImageHelper/ResizeImage/Title".GetLocalizedString(),
+                        "/WindowSill.ImageHelper/ConvertImage/Title".GetLocalizedString(),
                         null,
-                        resizePopup));
+                        convertPopup));
+
+                CompressImagePopup compressPopup = CreateCompressPopup(compatibleFiles);
+                ViewList.Add(
+                    new SillListViewPopupItem(
+                        "/WindowSill.ImageHelper/CompressImage/Title".GetLocalizedString(),
+                        null,
+                        compressPopup));
             }
-
-            ConvertImagePopup convertPopup = CreateConvertPopup(compatibleFiles);
-            ViewList.Add(
-                new SillListViewPopupItem(
-                    "/WindowSill.ImageHelper/ConvertImage/Title".GetLocalizedString(),
-                    null,
-                    convertPopup));
-
-            CompressImagePopup compressPopup = CreateCompressPopup(compatibleFiles);
-            ViewList.Add(
-                new SillListViewPopupItem(
-                    "/WindowSill.ImageHelper/CompressImage/Title".GetLocalizedString(),
-                    null,
-                    compressPopup));
         });
     }
 
