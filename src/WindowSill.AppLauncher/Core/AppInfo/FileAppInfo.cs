@@ -57,7 +57,14 @@ internal sealed class FileAppInfo : AppInfo, IJsonOnDeserialized, IEquatable<Fil
             WorkingDirectory = System.IO.Path.GetDirectoryName(FilePath)
         };
 
-        Process.Start(processStartInfo);
+        try
+        {
+            Process.Start(processStartInfo);
+        }
+        catch (System.ComponentModel.Win32Exception)
+        {
+            // File may be locked by another process or other OS-level error occurred
+        }
 
         return ValueTask.CompletedTask;
     }

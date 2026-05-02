@@ -47,7 +47,7 @@ internal static class ClipboardFileWriter
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to write clipboard content as file in {Folder}.", folderPath);
+            logger.LogWarning(ex, "Failed to write clipboard content as file in {Folder}.", folderPath);
             return false;
         }
     }

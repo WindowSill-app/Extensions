@@ -56,7 +56,14 @@ internal sealed class FolderAppInfo : AppInfo, IJsonOnDeserialized, IEquatable<F
             UseShellExecute = true
         };
 
-        Process.Start(startInfo);
+        try
+        {
+            Process.Start(startInfo);
+        }
+        catch (System.ComponentModel.Win32Exception)
+        {
+            // Folder may be inaccessible or other OS-level error occurred
+        }
 
         return ValueTask.CompletedTask;
     }
