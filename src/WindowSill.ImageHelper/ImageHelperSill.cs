@@ -50,21 +50,30 @@ public sealed class ImageHelperSill : ISillActivatedByDragAndDrop, ISillListView
     public async ValueTask OnActivatedAsync(string dragAndDropActivatorTypeName, DataPackageView data)
     {
         var compatibleFiles = new List<IStorageFile>();
-        if (data.Contains(StandardDataFormats.StorageItems))
+        try
         {
-            IReadOnlyList<IStorageItem> storageItems = await data.GetStorageItemsAsync();
-            for (int i = 0; i < storageItems.Count; i++)
+            if (data.Contains(StandardDataFormats.StorageItems))
             {
-                IStorageItem storageItem = storageItems[i];
-                if (storageItem is IStorageFile storageFile)
+                IReadOnlyList<IStorageItem> storageItems = await data.GetStorageItemsAsync();
+                for (int i = 0; i < storageItems.Count; i++)
                 {
-                    string fileType = storageFile.FileType.ToLowerInvariant();
-                    if (Constants.SupportedExtensions.Contains(fileType))
+                    IStorageItem storageItem = storageItems[i];
+                    if (storageItem is IStorageFile storageFile)
                     {
-                        compatibleFiles.Add(storageFile);
+                        string fileType = storageFile.FileType.ToLowerInvariant();
+                        if (Constants.SupportedExtensions.Contains(fileType))
+                        {
+                            compatibleFiles.Add(storageFile);
+                        }
                     }
                 }
             }
+        }
+        catch (System.Runtime.InteropServices.COMException)
+        {
+            // The clipboard data may become unavailable or use an invalid format
+            // between the activation check and this call. Nothing to do here.
+            return;
         }
 
         await ThreadHelper.RunOnUIThreadAsync(() =>
