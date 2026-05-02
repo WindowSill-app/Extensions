@@ -60,6 +60,11 @@ internal sealed partial class CompressImageViewModel : ObservableObject
         CompressionTasks.Clear();
         for (int i = 0; i < _files.Count; i++)
         {
+            if (string.IsNullOrEmpty(_files[i].Path))
+            {
+                continue;
+            }
+
             CompressionTasks.Add(new CompressionTaskItem(_files[i], _compressor));
         }
 
