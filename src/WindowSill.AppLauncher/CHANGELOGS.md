@@ -1,6 +1,8 @@
 # 0.9.23
 - Fixed issue where UWP apps couldn't be listed.
 - Fixed crash when launching some files or folders.
+- Updated dependencies.
+- Added screenshots.
 
 # 0.9.22
 - Fixed crash with some UWP apps.

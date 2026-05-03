@@ -1,3 +1,7 @@
+# 0.9.22
+- Updated dependencies.
+- Added screenshots.
+
 # 0.9.21
 - Updated icons to be more consistent with the new Windows 11 design.
 

@@ -1,5 +1,7 @@
 # 0.9.22
 - Fixed an issue where the sills may be displayed while zero valid files are dropped.
+- Updated dependencies.
+- Added screenshots.
 
 # 0.9.20
 - Added ARM64 support.

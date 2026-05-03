@@ -1,6 +1,7 @@
 # 0.9.24
 - Fixed missing translation in the onboarding page.
 - Updated dependencies.
+- Added screenshots.
 
 # 0.9.23
 - Clipboard text and image items can now be pasted directly into the File Explorer.

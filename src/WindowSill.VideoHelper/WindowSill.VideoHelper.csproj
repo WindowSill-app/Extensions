@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.VideoHelper</PackageId>
-    <Version>0.9.21</Version>
+    <Version>0.9.22</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>Video Helper</Title>
     <Description>

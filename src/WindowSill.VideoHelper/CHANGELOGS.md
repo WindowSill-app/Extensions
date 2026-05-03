@@ -1,3 +1,7 @@
+# 0.9.22
+- Updated dependencies.
+- Added screenshots.
+
 # 0.9.21
 - Added bitrate support in video compression.
 
