@@ -1,3 +1,6 @@
+# 0.9.25
+- Added missing screenshots to the extension package.
+
 # 0.9.24
 - Fixed missing translation in the onboarding page.
 - Updated dependencies.

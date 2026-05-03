@@ -1,3 +1,6 @@
+# 0.9.23
+- Added missing screenshots to the extension package.
+
 # 0.9.22
 - Fixed an issue where the sills may be displayed while zero valid files are dropped.
 - Updated dependencies.

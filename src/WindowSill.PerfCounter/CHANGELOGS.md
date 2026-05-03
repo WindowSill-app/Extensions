@@ -1,3 +1,6 @@
+# 0.9.24
+- Added missing screenshots to the extension package.
+
 # 0.9.23
 - Added an option to display CPU and GPU temperatures in the sill.
 - Updated dependencies.

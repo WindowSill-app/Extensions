@@ -1,3 +1,6 @@
+# 0.9.25
+- Added missing screenshots to the extension package.
+
 # 0.9.23
 - Fixed issue where UWP apps couldn't be listed.
 - Fixed crash when launching some files or folders.
