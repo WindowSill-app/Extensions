@@ -21,7 +21,7 @@ internal static class OpenInBrowserSillItem
     /// Creates the "Open in Browser" sill item for the given selection, or <c>null</c> if
     /// the URL comes from a browser and no alternative browsers are available.
     /// </summary>
-    internal static SillListViewItem? Create(WindowTextSelection currentSelection)
+    internal static SillListViewItem? Create(ISettingsProvider settingsProvider, WindowTextSelection currentSelection)
     {
         string url = currentSelection.SelectedText;
         IReadOnlyList<BrowserInfo> allBrowsers = BrowserDetector.GetInstalledBrowsers();
@@ -31,7 +31,7 @@ internal static class OpenInBrowserSillItem
         if (isFromBrowser)
         {
             // Filter out the source browser.
-            List<BrowserInfo> otherBrowsers = allBrowsers
+            var otherBrowsers = allBrowsers
                 .Where(b => !BrowserMatcher.IsMatchingBrowser(b.ExecutablePath, sourceAppId))
                 .ToList();
 
@@ -60,14 +60,14 @@ internal static class OpenInBrowserSillItem
 
             if (allBrowsers.Count > 1)
             {
-                sillItem.ContextFlyout = BuildBrowserMenuFlyout(url, allBrowsers);
+                sillItem.ContextFlyout = BuildBrowserMenuFlyout(settingsProvider, url, allBrowsers);
             }
 
             return sillItem;
         }
     }
 
-    private static MenuFlyout BuildBrowserMenuFlyout(string url, IReadOnlyList<BrowserInfo> browsers)
+    private static MenuFlyout BuildBrowserMenuFlyout(ISettingsProvider settingsProvider, string url, IReadOnlyList<BrowserInfo> browsers)
     {
         var menuFlyout = new MenuFlyout();
 
@@ -77,12 +77,22 @@ internal static class OpenInBrowserSillItem
             Icon = new FontIcon { Glyph = "\uE774" },
         };
         defaultItem.Click += (_, _) => OpenInDefaultBrowserAsync(url).ForgetSafely();
-        menuFlyout.Items.Add(defaultItem);
-        menuFlyout.Items.Add(new MenuFlyoutSeparator());
+
+        if (settingsProvider.GetSetting(PredefinedSettings.SillLocation) == SillLocation.Top)
+        {
+            menuFlyout.Items.Add(defaultItem);
+            menuFlyout.Items.Add(new MenuFlyoutSeparator());
+        }
 
         foreach (BrowserInfo browser in browsers)
         {
             menuFlyout.Items.Add(CreateBrowserMenuEntry(url, browser));
+        }
+
+        if (settingsProvider.GetSetting(PredefinedSettings.SillLocation) != SillLocation.Top)
+        {
+            menuFlyout.Items.Add(new MenuFlyoutSeparator());
+            menuFlyout.Items.Add(defaultItem);
         }
 
         return menuFlyout;

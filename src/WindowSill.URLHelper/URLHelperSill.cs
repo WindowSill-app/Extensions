@@ -14,6 +14,9 @@ public sealed class URLHelperSill : ISillActivatedByTextSelection, ISillListView
     [Import]
     private IPluginInfo _pluginInfo = null!;
 
+    [Import]
+    private ISettingsProvider _settingsProvider = null!;
+
     public string DisplayName => "/WindowSill.URLHelper/Misc/DisplayName".GetLocalizedString();
 
     public IconElement CreateIcon()
@@ -36,7 +39,7 @@ public sealed class URLHelperSill : ISillActivatedByTextSelection, ISillListView
         {
             ViewList.Clear();
 
-            SillListViewItem? openInBrowserItem = OpenInBrowserSillItem.Create(currentSelection);
+            SillListViewItem? openInBrowserItem = OpenInBrowserSillItem.Create(_settingsProvider, currentSelection);
             if (openInBrowserItem is not null)
             {
                 ViewList.Add(openInBrowserItem);

@@ -1,3 +1,6 @@
+# 0.9.24
+- Default Browser menu is now placed closer to the WindowSill bar, based on whether the bar is placed at the top or bottom of the screen.
+
 # 0.9.23
 - Added missing screenshots to the extension package.
 
