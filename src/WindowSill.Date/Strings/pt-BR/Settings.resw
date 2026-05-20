@@ -145,7 +145,7 @@
     <value>Cancelar</value>
   </data>
   <data name="ConnectDialogTitle" xml:space="preserve">
-    <value>Add account</value>
+    <value>Adicionar conta</value>
   </data>
   <data name="OutlookConnectMessage" xml:space="preserve">
     <value>Entre na sua conta Microsoft usando o diálogo de entrada do Windows...</value>
@@ -166,7 +166,7 @@
     <value>Senha</value>
   </data>
   <data name="ICloudAppleId.HeaderProperty" xml:space="preserve">
-    <value>Apple ID</value>
+    <value>ID Apple</value>
   </data>
   <data name="ICloudAppPassword.HeaderProperty" xml:space="preserve">
     <value>Senha específica do app</value>
