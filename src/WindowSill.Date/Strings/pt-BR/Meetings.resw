@@ -247,7 +247,7 @@
     <value>Tela cheia</value>
   </data>
   <data name="NotificationModeToast" xml:space="preserve">
-    <value>Toast</value>
+    <value>Aviso rápido</value>
   </data>
   <data name="EnableFlashing.HeaderProperty" xml:space="preserve">
     <value>Piscar quando a reunião começar</value>
