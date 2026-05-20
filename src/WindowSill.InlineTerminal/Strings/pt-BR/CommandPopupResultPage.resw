@@ -164,7 +164,7 @@
     <comment>Tooltip for pinning a command run to prevent auto-dismiss</comment>
   </data>
   <data name="UnpinButton" xml:space="preserve">
-    <value>Unpin</value>
+    <value>Desafixar</value>
     <comment>Tooltip for unpinning a command run to allow auto-dismiss</comment>
   </data>
 </root>
