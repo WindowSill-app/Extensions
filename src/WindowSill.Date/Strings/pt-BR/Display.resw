@@ -133,7 +133,7 @@
     <value>Modo de exibição do sill de data</value>
   </data>
   <data name="DisplayMode.DescriptionProperty" xml:space="preserve">
-    <value>Escolha o que o sill de data exibe na barra</value>
+    <value>Escolha o que deve ser exibido na barra</value>
   </data>
   <data name="DateFormat.HeaderProperty" xml:space="preserve">
     <value>Formato de data</value>
@@ -160,6 +160,6 @@
     <value>Mostrar eventos passados</value>
   </data>
   <data name="ShowPastEvents.DescriptionProperty" xml:space="preserve">
-    <value>Quando desativado, apenas eventos futuros são exibidos no pop-up para hoje</value>
+    <value>Quando desativado, apenas eventos futuros são exibidos no pop-up do dia</value>
   </data>
 </root>
