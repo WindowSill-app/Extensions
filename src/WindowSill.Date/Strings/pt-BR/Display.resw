@@ -139,7 +139,7 @@
     <value>Formato de data</value>
   </data>
   <data name="TimeFormat.HeaderProperty" xml:space="preserve">
-    <value>Formato de hora</value>
+    <value>Formato da hora</value>
   </data>
   <data name="ShowSeconds.HeaderProperty" xml:space="preserve">
     <value>Mostrar segundos</value>
