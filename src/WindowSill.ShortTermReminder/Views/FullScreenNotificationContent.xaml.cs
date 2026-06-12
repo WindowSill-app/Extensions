@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Logging;
 using Windows.Media.Core;
+using WindowSill.API;
 using WindowSill.ShortTermReminder.ViewModels;
 
 namespace WindowSill.ShortTermReminder.Views;
