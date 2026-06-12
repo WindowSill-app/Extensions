@@ -1,5 +1,4 @@
 using Windows.Media.Core;
-
 using WindowSill.ShortTermReminder.ViewModels;
 
 namespace WindowSill.ShortTermReminder.Views;
@@ -17,12 +16,9 @@ internal sealed partial class FullScreenNotificationContent : UserControl
         ViewModel = viewModel;
         _playAudio = playAudio;
 
-        var uri = new Uri($@"{Environment.GetFolderPath(Environment.SpecialFolder.Windows)}\media\Windows Notify Calendar.wav");
-        var audioNotificationMediaSource = MediaSource.CreateFromUri(uri);
-
         InitializeComponent();
 
-        BackgroundMediaPlayer.Source = audioNotificationMediaSource;
+        TrySetAudioSource();
     }
 
     /// <summary>
@@ -30,11 +26,35 @@ internal sealed partial class FullScreenNotificationContent : UserControl
     /// </summary>
     internal FullScreenNotificationViewModel ViewModel { get; }
 
+    private void TrySetAudioSource()
+    {
+        try
+        {
+            var uri = new Uri($@"{Environment.GetFolderPath(Environment.SpecialFolder.Windows)}\media\Windows Notify Calendar.wav");
+            BackgroundMediaPlayer.Source = MediaSource.CreateFromUri(uri);
+        }
+        catch (Exception ex)
+        {
+            // Some Windows editions (e.g. "N"/"KN" without the Media Feature Pack) don't have the
+            // media components registered, so MediaSource.CreateFromUri throws REGDB_E_CLASSNOTREG.
+            // Audio is optional for the reminder, so degrade gracefully and still show the notification
+            // without sound instead of letting the exception crash the app.
+            this.Log().LogWarning(ex, "Unable to load reminder notification audio. The reminder will be shown without sound.");
+        }
+    }
+
     private void BackgroundMediaPlayer_Loaded(object sender, RoutedEventArgs e)
     {
-        if (_playAudio)
+        if (_playAudio && BackgroundMediaPlayer.Source is not null)
         {
-            BackgroundMediaPlayer.MediaPlayer.Play();
+            try
+            {
+                BackgroundMediaPlayer.MediaPlayer.Play();
+            }
+            catch (Exception ex)
+            {
+                this.Log().LogWarning(ex, "Unable to play reminder notification audio.");
+            }
         }
     }
 }
