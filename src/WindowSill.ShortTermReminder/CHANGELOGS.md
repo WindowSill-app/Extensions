@@ -1,3 +1,6 @@
+# 0.9.24
+- Fixed a crash occurring on Windows N editions when trying to show a reminder popup without the Media Feature Pack installed.
+
 # 0.9.23
 - Added missing screenshots to the extension package.
 
