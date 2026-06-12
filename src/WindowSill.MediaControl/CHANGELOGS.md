@@ -1,3 +1,6 @@
+# 0.9.24
+- Fixed a crash occuring when retrieving the media thumbnail.
+
 # 0.9.23
 - Added missing screenshots to the extension package.
 

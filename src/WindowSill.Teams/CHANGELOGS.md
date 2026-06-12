@@ -1,3 +1,6 @@
+# 0.9.24
+- Fixed a potential crash occuring when Teams server is not responding.
+
 # 0.9.20
 - Added ARM64 support.
 

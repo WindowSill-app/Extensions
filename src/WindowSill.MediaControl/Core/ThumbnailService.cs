@@ -65,13 +65,16 @@ internal sealed class ThumbnailService : IThumbnailService
                     ExifOrientationMode.IgnoreExifOrientation,
                     ColorManagementMode.ColorManageToSRgb);
 
-                var sourceLarge = new SoftwareBitmapSource();
-                await sourceLarge.SetBitmapAsync(thumbnailLarge);
+                return await ThreadHelper.RunOnUIThreadAsync<(ImageSource?, ImageSource?)>(async () =>
+                {
+                    var sourceLarge = new SoftwareBitmapSource();
+                    await sourceLarge.SetBitmapAsync(thumbnailLarge);
 
-                var sourceSmall = new SoftwareBitmapSource();
-                await sourceSmall.SetBitmapAsync(thumbnailSmall);
+                    var sourceSmall = new SoftwareBitmapSource();
+                    await sourceSmall.SetBitmapAsync(thumbnailSmall);
 
-                return (sourceSmall, sourceLarge);
+                    return (sourceSmall, sourceLarge);
+                });
             }
         }
         catch (Exception ex)

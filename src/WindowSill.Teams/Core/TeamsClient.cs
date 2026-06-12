@@ -96,13 +96,30 @@ internal sealed class TeamsClient : IDisposable
     private async Task<int> CallServiceAsync(string action, CancellationToken cancellationToken, object? parameters = default)
     {
         _nextRequestId++;
+
+        // If the socket isn't currently open (Teams was closed, or the connection dropped and
+        // ConnectPerpetuallyAsync is re-establishing it), there's nothing to send.
+        if (_webSocket.State != WebSocketState.Open)
+        {
+            return _nextRequestId;
+        }
+
         var message = new ServiceRequest(action, _nextRequestId, parameters);
         using var stream = new MemoryStream();
         await JsonSerializer.SerializeAsync(stream, message, SerializerOptions, cancellationToken);
         stream.Seek(0, SeekOrigin.Begin);
         if (stream.TryGetBuffer(out ArraySegment<byte> buffer))
         {
-            await _webSocket.SendAsync(buffer, WebSocketMessageType.Text, true, cancellationToken);
+            try
+            {
+                await _webSocket.SendAsync(buffer, WebSocketMessageType.Text, true, cancellationToken);
+            }
+            catch (Exception ex) when (ex is WebSocketException or IOException or InvalidOperationException)
+            {
+                // The remote host (Microsoft Teams) forcibly closed the connection, or it dropped
+                // between the state check above and the send. ConnectPerpetuallyAsync will reconnect,
+                // so treat this transient failure as a no-op instead of surfacing it as an error.
+            }
         }
 
         return _nextRequestId;
