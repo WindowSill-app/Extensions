@@ -12,7 +12,11 @@ namespace WindowSill.Date.Core.Providers.Google;
 /// </summary>
 internal sealed class GoogleCalendarProvider : ICalendarProvider
 {
-    internal static readonly string[] Scopes = [CalendarService.Scope.CalendarReadonly];
+    internal static readonly string[] Scopes
+        = [
+            CalendarService.Scope.CalendarCalendarlistReadonly,
+            CalendarService.Scope.CalendarEventsReadonly
+        ];
 
     /// <inheritdoc />
     public CalendarProviderType ProviderType => CalendarProviderType.Google;
