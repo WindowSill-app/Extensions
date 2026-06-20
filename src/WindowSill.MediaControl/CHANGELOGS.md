@@ -1,3 +1,6 @@
+# 0.9.25
+- Improved CPU usage.
+
 # 0.9.24
 - Fixed a crash occuring when retrieving the media thumbnail.
 

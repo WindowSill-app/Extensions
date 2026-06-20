@@ -26,6 +26,14 @@ internal sealed class MediaInfoChangedEventArgs : EventArgs
     /// Gets the thumbnail stream. The consumer is responsible for disposing this stream.
     /// </summary>
     public required Stream? ThumbnailStream { get; init; }
+
+    /// <summary>
+    /// Gets a value indicating whether the thumbnail changed since the last update. When
+    /// <see langword="false"/>, the consumer should keep its existing thumbnail and avoid the
+    /// expensive decode pipeline. This guards against re-decoding artwork on every playback
+    /// position tick, when only the track switch actually changes the thumbnail.
+    /// </summary>
+    public required bool ThumbnailChanged { get; init; }
 }
 
 /// <summary>

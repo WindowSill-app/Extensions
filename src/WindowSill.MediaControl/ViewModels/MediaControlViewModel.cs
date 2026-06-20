@@ -159,10 +159,13 @@ internal sealed partial class MediaControlViewModel : ObservableObject
             SongAndArtistName = $"{e.ArtistName} - {e.SongTitle}";
         }
 
-        SillLocation sillLocation = _settingsProvider.GetSetting(PredefinedSettings.SillLocation);
-        (Thumbnail, ThumbnailLarge) = await _thumbnailService.CreateThumbnailsAsync(
-            e.ThumbnailStream,
-            sillLocation);
+        if (e.ThumbnailChanged)
+        {
+            SillLocation sillLocation = _settingsProvider.GetSetting(PredefinedSettings.SillLocation);
+            (Thumbnail, ThumbnailLarge) = await _thumbnailService.CreateThumbnailsAsync(
+                e.ThumbnailStream,
+                sillLocation);
+        }
 
         UpdatePlaybackInfo(e.PlaybackInfo);
     }
