@@ -1,3 +1,6 @@
+# 0.9.25
+- Increased the maximum allowed reminder time to 3h (180 min).
+
 # 0.9.24
 - Fixed a crash occurring on Windows N editions when trying to show a reminder popup without the Media Feature Pack installed.
 

@@ -51,7 +51,7 @@
                         x:Name="MinutesNumberBox"
                         KeyDown="ReminderTextBox_KeyDown"
                         LargeChange="10"
-                        Maximum="90"
+                        Maximum="180"
                         Minimum="1"
                         SmallChange="5"
                         SpinButtonPlacementMode="Compact"
