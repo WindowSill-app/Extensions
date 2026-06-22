@@ -50,9 +50,23 @@ internal sealed class MediaSessionService : IMediaSessionService
     {
         await ThreadHelper.RunOnUIThreadAsync(async () =>
         {
-            _sessionManager = new NowPlayingSessionManager();
-            _sessionManager.SessionListChanged += OnSessionListChanged;
-            await UpdateSessionAsync(_sessionManager.CurrentSession);
+            try
+            {
+                _sessionManager = new NowPlayingSessionManager();
+                _sessionManager.SessionListChanged += OnSessionListChanged;
+                await UpdateSessionAsync(_sessionManager.CurrentSession);
+            }
+            catch (Exception ex)
+            {
+                // The Now Playing Session Manager relies on a COM component that is not available on
+                // every Windows installation (e.g. Windows N/LTSC/Server editions or systems missing
+                // the Media Feature Pack), where the constructor throws (CoCreateInstance failure).
+                // Degrade gracefully by reporting no media instead of letting the exception bubble up
+                // as an unobserved task exception, which would crash the host application.
+                _sessionManager = null;
+                _logger.LogError(ex, "Failed to initialize the media session manager. Media controls will be unavailable.");
+                RaiseMediaInfoOnUIThread();
+            }
         });
     }
 

@@ -1,6 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
+using Microsoft.Extensions.Logging;
+
 using NPSMLib;
 
 using WindowSill.API;
@@ -36,7 +38,8 @@ internal sealed partial class MediaControlViewModel : ObservableObject
         settingsProvider.SettingChanged += OnSettingChanged;
         mediaSessionService.MediaInfoChanged += OnMediaInfoChanged;
 
-        mediaSessionService.InitializeAsync().Forget();
+        mediaSessionService.InitializeAsync().ForgetSafely(
+            ex => this.Log().LogError(ex, "Failed to initialize the media session service."));
     }
 
     /// <summary>

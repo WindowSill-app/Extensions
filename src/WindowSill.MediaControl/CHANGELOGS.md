@@ -1,3 +1,6 @@
+# 0.9.26
+- Safely handles a crash that may occur on startup when the media session manager fails to initialize.
+
 # 0.9.25
 - Improved CPU usage.
 
