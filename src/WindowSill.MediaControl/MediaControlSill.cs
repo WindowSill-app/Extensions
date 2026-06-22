@@ -17,6 +17,7 @@ namespace WindowSill.MediaControl;
 public sealed class MediaControlSill : ISill, ISillSingleView
 {
     private readonly ISettingsProvider _settingsProvider;
+    private readonly Lock _viewLock = new();
     private Views.MediaControlView? _mediaControlView;
 
     [ImportingConstructor]
@@ -44,15 +45,18 @@ public sealed class MediaControlSill : ISill, ISillSingleView
     {
         get
         {
-            if (_mediaControlView is null)
+            lock (_viewLock)
             {
-                IMediaSessionService mediaSessionService = new MediaSessionService();
-                IThumbnailService thumbnailService = new ThumbnailService();
-                var viewModel = new MediaControlViewModel(mediaSessionService, thumbnailService, _settingsProvider);
-                _mediaControlView = new Views.MediaControlView(viewModel);
-            }
+                if (_mediaControlView is null)
+                {
+                    IMediaSessionService mediaSessionService = new MediaSessionService();
+                    IThumbnailService thumbnailService = new ThumbnailService();
+                    var viewModel = new MediaControlViewModel(mediaSessionService, thumbnailService, _settingsProvider);
+                    _mediaControlView = new Views.MediaControlView(viewModel);
+                }
 
-            return _mediaControlView.SillView;
+                return _mediaControlView.SillView;
+            }
         }
     }
 

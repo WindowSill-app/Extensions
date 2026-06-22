@@ -1,3 +1,6 @@
+# 0.9.27
+- Fixed an issue where the media control would not show up on some devices.
+
 # 0.9.26
 - Safely handles a crash that may occur on startup when the media session manager fails to initialize.
 

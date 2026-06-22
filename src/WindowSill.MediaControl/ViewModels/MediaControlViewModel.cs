@@ -3,8 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 
 using Microsoft.Extensions.Logging;
 
-using NPSMLib;
-
 using WindowSill.API;
 using WindowSill.MediaControl.Core;
 
@@ -170,27 +168,16 @@ internal sealed partial class MediaControlViewModel : ObservableObject
                 sillLocation);
         }
 
-        UpdatePlaybackInfo(e.PlaybackInfo);
+        UpdatePlaybackInfo(e);
     }
 
-    private void UpdatePlaybackInfo(MediaPlaybackInfo? playback)
+    private void UpdatePlaybackInfo(MediaInfoChangedEventArgs e)
     {
-        if (playback is not null)
-        {
-            IsNextAvailable = playback.Value.PlaybackCaps.HasFlag(MediaPlaybackCapabilities.Next);
-            IsPreviousAvailable = playback.Value.PlaybackCaps.HasFlag(MediaPlaybackCapabilities.Previous);
-            IsPlayPauseAvailable = playback.Value.PlaybackCaps.HasFlag(MediaPlaybackCapabilities.PlayPauseToggle);
-            IsPlaying = playback.Value.PlaybackState == MediaPlaybackState.Playing;
-            ShouldAppearInSill = !string.IsNullOrEmpty(SongName);
-        }
-        else
-        {
-            ShouldAppearInSill = false;
-            IsNextAvailable = false;
-            IsPreviousAvailable = false;
-            IsPlayPauseAvailable = false;
-            IsPlaying = false;
-        }
+        IsNextAvailable = e.IsNextEnabled;
+        IsPreviousAvailable = e.IsPreviousEnabled;
+        IsPlayPauseAvailable = e.IsPlayPauseToggleEnabled;
+        IsPlaying = e.IsPlaying;
+        ShouldAppearInSill = !string.IsNullOrEmpty(SongName);
     }
 
     private void OnSettingChanged(ISettingsProvider sender, SettingChangedEventArgs args)

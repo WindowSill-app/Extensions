@@ -1,5 +1,3 @@
-using NPSMLib;
-
 namespace WindowSill.MediaControl.Core;
 
 /// <summary>
@@ -18,9 +16,24 @@ internal sealed class MediaInfoChangedEventArgs : EventArgs
     public required string? ArtistName { get; init; }
 
     /// <summary>
-    /// Gets the playback info, or <see langword="null"/> when no session is active.
+    /// Gets a value indicating whether the media is currently playing.
     /// </summary>
-    public required MediaPlaybackInfo? PlaybackInfo { get; init; }
+    public required bool IsPlaying { get; init; }
+
+    /// <summary>
+    /// Gets a value indicating whether the next command is available.
+    /// </summary>
+    public required bool IsNextEnabled { get; init; }
+
+    /// <summary>
+    /// Gets a value indicating whether the previous command is available.
+    /// </summary>
+    public required bool IsPreviousEnabled { get; init; }
+
+    /// <summary>
+    /// Gets a value indicating whether the play/pause toggle command is available.
+    /// </summary>
+    public required bool IsPlayPauseToggleEnabled { get; init; }
 
     /// <summary>
     /// Gets the thumbnail stream. The consumer is responsible for disposing this stream.

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Logging;
 
-using NPSMLib;
+using Windows.Media.Control;
+using Windows.Storage.Streams;
 
 using WindowSill.API;
 
@@ -9,12 +10,11 @@ namespace WindowSill.MediaControl.Core;
 /// <inheritdoc />
 internal sealed class MediaSessionService : IMediaSessionService
 {
-    private readonly Lock _lock = new();
     private readonly ILogger _logger;
 
-    private NowPlayingSessionManager? _sessionManager;
-    private NowPlayingSession? _currentSession;
-    private MediaPlaybackDataSource? _mediaPlaybackDataSource;
+    private GlobalSystemMediaTransportControlsSessionManager? _sessionManager;
+    private GlobalSystemMediaTransportControlsSession? _currentSession;
+    private bool _initialized;
 
     // Last reported track identity, used to detect track switches so the thumbnail (an expensive
     // decode) is only fetched when it actually changes rather than on every playback tick.
@@ -34,57 +34,48 @@ internal sealed class MediaSessionService : IMediaSessionService
     public event EventHandler<MediaInfoChangedEventArgs>? MediaInfoChanged;
 
     /// <inheritdoc />
-    public nint? CurrentSessionWindowHandle
-    {
-        get
-        {
-            lock (_lock)
-            {
-                return _currentSession?.Hwnd;
-            }
-        }
-    }
+    public nint? CurrentSessionWindowHandle => null;
 
     /// <inheritdoc />
     public async Task InitializeAsync()
     {
-        await ThreadHelper.RunOnUIThreadAsync(async () =>
+        if (_initialized)
         {
-            try
-            {
-                _sessionManager = new NowPlayingSessionManager();
-                _sessionManager.SessionListChanged += OnSessionListChanged;
-                await UpdateSessionAsync(_sessionManager.CurrentSession);
-            }
-            catch (Exception ex)
-            {
-                // The Now Playing Session Manager relies on a COM component that is not available on
-                // every Windows installation (e.g. Windows N/LTSC/Server editions or systems missing
-                // the Media Feature Pack), where the constructor throws (CoCreateInstance failure).
-                // Degrade gracefully by reporting no media instead of letting the exception bubble up
-                // as an unobserved task exception, which would crash the host application.
-                _sessionManager = null;
-                _logger.LogError(ex, "Failed to initialize the media session manager. Media controls will be unavailable.");
-                RaiseMediaInfoOnUIThread();
-            }
-        });
+            return;
+        }
+
+        _initialized = true;
+
+        try
+        {
+            _sessionManager = await GlobalSystemMediaTransportControlsSessionManager.RequestAsync();
+            _sessionManager.CurrentSessionChanged += OnCurrentSessionChanged;
+            UpdateSession(_sessionManager.GetCurrentSession());
+        }
+        catch (Exception ex)
+        {
+            _sessionManager = null;
+            _logger.LogError(ex, "Failed to initialize the media session manager. Media controls will be unavailable.");
+            RaiseNoMedia();
+        }
     }
 
     /// <inheritdoc />
     public void RequestUpdate()
     {
-        // The sill layout (and therefore the required thumbnail size) may have changed, so force a
-        // thumbnail refresh on the next update even if the track is unchanged.
         _forceThumbnailRefresh = true;
-        UpdateSessionAsync(_sessionManager?.CurrentSession).ForgetSafely();
+        RefreshMediaInfoAsync().ForgetSafely();
     }
 
     /// <inheritdoc />
-    public void PlayPause()
+    public async void PlayPause()
     {
         try
         {
-            _mediaPlaybackDataSource?.SendMediaPlaybackCommand(MediaPlaybackCommands.PlayPauseToggle);
+            if (_currentSession is not null)
+            {
+                await _currentSession.TryTogglePlayPauseAsync();
+            }
         }
         catch (Exception ex)
         {
@@ -93,11 +84,14 @@ internal sealed class MediaSessionService : IMediaSessionService
     }
 
     /// <inheritdoc />
-    public void Next()
+    public async void Next()
     {
         try
         {
-            _mediaPlaybackDataSource?.SendMediaPlaybackCommand(MediaPlaybackCommands.Next);
+            if (_currentSession is not null)
+            {
+                await _currentSession.TrySkipNextAsync();
+            }
         }
         catch (Exception ex)
         {
@@ -106,11 +100,14 @@ internal sealed class MediaSessionService : IMediaSessionService
     }
 
     /// <inheritdoc />
-    public void Previous()
+    public async void Previous()
     {
         try
         {
-            _mediaPlaybackDataSource?.SendMediaPlaybackCommand(MediaPlaybackCommands.Previous);
+            if (_currentSession is not null)
+            {
+                await _currentSession.TrySkipPreviousAsync();
+            }
         }
         catch (Exception ex)
         {
@@ -123,194 +120,152 @@ internal sealed class MediaSessionService : IMediaSessionService
     {
         if (_sessionManager is not null)
         {
-            _sessionManager.SessionListChanged -= OnSessionListChanged;
+            _sessionManager.CurrentSessionChanged -= OnCurrentSessionChanged;
         }
 
-        lock (_lock)
+        if (_currentSession is not null)
         {
-            if (_mediaPlaybackDataSource is not null)
-            {
-                try
-                {
-                    _mediaPlaybackDataSource.MediaPlaybackDataChanged -= OnMediaPlaybackDataChanged;
-                }
-                catch
-                {
-                    // Best effort cleanup.
-                }
-            }
+            _currentSession.MediaPropertiesChanged -= OnMediaPropertiesChanged;
+            _currentSession.PlaybackInfoChanged -= OnPlaybackInfoChanged;
         }
     }
 
-    private void OnSessionListChanged(object? sender, NowPlayingSessionManagerEventArgs e)
+    private void OnCurrentSessionChanged(GlobalSystemMediaTransportControlsSessionManager sender, CurrentSessionChangedEventArgs args)
     {
-        UpdateSessionAsync(_sessionManager?.CurrentSession).ForgetSafely();
+        ThreadHelper.RunOnUIThreadAsync(() =>
+        {
+            UpdateSession(_sessionManager?.GetCurrentSession());
+        }).ForgetSafely();
     }
 
-    private void OnMediaPlaybackDataChanged(object? sender, MediaPlaybackDataChangedArgs e)
+    private void OnMediaPropertiesChanged(GlobalSystemMediaTransportControlsSession sender, MediaPropertiesChangedEventArgs args)
     {
-        // Fired very frequently (e.g. on every playback position update) by the active data source.
-        // Only refresh media info from the already-activated data source. Re-querying
-        // NowPlayingSessionManager.CurrentSession here re-materializes COM objects on every tick,
-        // which is both CPU-heavy and a major source of finalizer/RCW churn.
         RefreshMediaInfoAsync().ForgetSafely();
     }
 
-    /// <summary>
-    /// Determines whether two sessions refer to the same underlying media source. NPSMLib returns a
-    /// new wrapper instance on each <c>CurrentSession</c> access, so reference equality is unreliable
-    /// and would cause the data source to be torn down and re-activated on every update.
-    /// </summary>
-    private static bool IsSameSession(NowPlayingSession? a, NowPlayingSession? b)
+    private void OnPlaybackInfoChanged(GlobalSystemMediaTransportControlsSession sender, PlaybackInfoChangedEventArgs args)
     {
-        if (ReferenceEquals(a, b))
-        {
-            return true;
-        }
-
-        if (a is null || b is null)
-        {
-            return false;
-        }
-
-        return a.PID == b.PID
-            && a.Hwnd == b.Hwnd
-            && string.Equals(a.SourceAppId, b.SourceAppId, StringComparison.Ordinal);
+        RefreshMediaInfoAsync().ForgetSafely();
     }
 
-    /// <summary>
-    /// Resolves the active session, swapping the cached data source only when the session actually
-    /// changes, then refreshes the reported media information.
-    /// </summary>
-    private async Task UpdateSessionAsync(NowPlayingSession? session)
+    private void UpdateSession(GlobalSystemMediaTransportControlsSession? session)
     {
-        await ThreadHelper.RunOnUIThreadAsync(() =>
+        if (session != _currentSession)
         {
-            lock (_lock)
+            if (_currentSession is not null)
             {
-                if (!IsSameSession(session, _currentSession))
-                {
-                    if (_mediaPlaybackDataSource is not null)
-                    {
-                        try
-                        {
-                            _mediaPlaybackDataSource.MediaPlaybackDataChanged -= OnMediaPlaybackDataChanged;
-                        }
-                        catch
-                        {
-                            // Best effort cleanup.
-                        }
-                    }
-
-                    _currentSession = session;
-                    _mediaPlaybackDataSource = null;
-
-                    if (_currentSession is not null)
-                    {
-                        try
-                        {
-                            _mediaPlaybackDataSource = _currentSession.ActivateMediaPlaybackDataSource();
-                            _mediaPlaybackDataSource.MediaPlaybackDataChanged += OnMediaPlaybackDataChanged;
-                        }
-                        catch
-                        {
-                            // Session may have been disposed between enumeration and activation.
-                        }
-                    }
-
-                    // A new session means new artwork, so force a thumbnail refresh.
-                    _forceThumbnailRefresh = true;
-                }
+                _currentSession.MediaPropertiesChanged -= OnMediaPropertiesChanged;
+                _currentSession.PlaybackInfoChanged -= OnPlaybackInfoChanged;
             }
 
-            RaiseMediaInfoOnUIThread();
+            _currentSession = session;
+
+            if (_currentSession is not null)
+            {
+                _currentSession.MediaPropertiesChanged += OnMediaPropertiesChanged;
+                _currentSession.PlaybackInfoChanged += OnPlaybackInfoChanged;
+            }
+
+            _forceThumbnailRefresh = true;
+        }
+
+        RefreshMediaInfoAsync().ForgetSafely();
+    }
+
+    private async Task RefreshMediaInfoAsync()
+    {
+        await ThreadHelper.RunOnUIThreadAsync(async () =>
+        {
+            try
+            {
+                if (_currentSession is null)
+                {
+                    RaiseNoMedia();
+                    return;
+                }
+
+                GlobalSystemMediaTransportControlsSessionMediaProperties? mediaProperties = null;
+                try
+                {
+                    mediaProperties = await _currentSession.TryGetMediaPropertiesAsync();
+                }
+                catch
+                {
+                    // Session may have been disposed.
+                }
+
+                if (mediaProperties is null)
+                {
+                    RaiseNoMedia();
+                    return;
+                }
+
+                string? title = string.IsNullOrEmpty(mediaProperties.Title) ? null : mediaProperties.Title;
+                string? artist = string.IsNullOrEmpty(mediaProperties.Artist) ? null : mediaProperties.Artist;
+
+                bool thumbnailChanged
+                    = _forceThumbnailRefresh
+                    || !string.Equals(title, _lastTitle, StringComparison.Ordinal)
+                    || !string.Equals(artist, _lastArtist, StringComparison.Ordinal);
+                _forceThumbnailRefresh = false;
+                _lastTitle = title;
+                _lastArtist = artist;
+
+                Stream? thumbnailStream = null;
+                if (thumbnailChanged)
+                {
+                    try
+                    {
+                        IRandomAccessStreamReference? thumbnailRef = mediaProperties.Thumbnail;
+                        if (thumbnailRef is not null)
+                        {
+                            IRandomAccessStreamWithContentType stream = await thumbnailRef.OpenReadAsync();
+                            thumbnailStream = stream.AsStreamForRead();
+                        }
+                    }
+                    catch
+                    {
+                        // Thumbnail retrieval can fail if the media source doesn't provide one.
+                    }
+                }
+
+                GlobalSystemMediaTransportControlsSessionPlaybackInfo playbackInfo = _currentSession.GetPlaybackInfo();
+                GlobalSystemMediaTransportControlsSessionPlaybackControls controls = playbackInfo.Controls;
+
+                MediaInfoChanged?.Invoke(this, new MediaInfoChangedEventArgs
+                {
+                    SongTitle = title,
+                    ArtistName = artist,
+                    IsPlaying = playbackInfo.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing,
+                    IsNextEnabled = controls.IsNextEnabled,
+                    IsPreviousEnabled = controls.IsPreviousEnabled,
+                    IsPlayPauseToggleEnabled = controls.IsPlayPauseToggleEnabled,
+                    ThumbnailStream = thumbnailStream,
+                    ThumbnailChanged = thumbnailChanged,
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while trying to update media information.");
+            }
         });
     }
 
-    /// <summary>
-    /// Refreshes the reported media information from the already-activated data source without
-    /// touching the session manager. Used for high-frequency playback data updates.
-    /// </summary>
-    private Task RefreshMediaInfoAsync()
+    private void RaiseNoMedia()
     {
-        return ThreadHelper.RunOnUIThreadAsync(RaiseMediaInfoOnUIThread);
-    }
-
-    private void RaiseMediaInfoOnUIThread()
-    {
-        NowPlayingSession? currentSession;
-        MediaPlaybackDataSource? mediaPlaybackDataSource;
-        lock (_lock)
+        _lastTitle = null;
+        _lastArtist = null;
+        _forceThumbnailRefresh = false;
+        MediaInfoChanged?.Invoke(this, new MediaInfoChangedEventArgs
         {
-            currentSession = _currentSession;
-            mediaPlaybackDataSource = _mediaPlaybackDataSource;
-        }
-
-        try
-        {
-            if (currentSession is not null && mediaPlaybackDataSource is not null)
-            {
-                try
-                {
-                    MediaObjectInfo mediaInfo = mediaPlaybackDataSource.GetMediaObjectInfo();
-                    MediaPlaybackInfo playbackInfo = mediaPlaybackDataSource.GetMediaPlaybackInfo();
-
-                    // Only fetch and decode the thumbnail when the track actually changed (or a
-                    // refresh was explicitly requested), not on every playback position tick.
-                    bool thumbnailChanged
-                        = _forceThumbnailRefresh
-                        || !string.Equals(mediaInfo.Title, _lastTitle, StringComparison.Ordinal)
-                        || !string.Equals(mediaInfo.Artist, _lastArtist, StringComparison.Ordinal);
-                    _forceThumbnailRefresh = false;
-                    _lastTitle = mediaInfo.Title;
-                    _lastArtist = mediaInfo.Artist;
-
-                    Stream? thumbnailStream = null;
-                    if (thumbnailChanged)
-                    {
-                        try
-                        {
-                            thumbnailStream = mediaPlaybackDataSource.GetThumbnailStream();
-                        }
-                        catch
-                        {
-                            // Thumbnail retrieval can fail if the media source doesn't provide one.
-                        }
-                    }
-
-                    MediaInfoChanged?.Invoke(this, new MediaInfoChangedEventArgs
-                    {
-                        SongTitle = mediaInfo.Title,
-                        ArtistName = mediaInfo.Artist,
-                        PlaybackInfo = playbackInfo,
-                        ThumbnailStream = thumbnailStream,
-                        ThumbnailChanged = thumbnailChanged,
-                    });
-
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Error while trying to retrieve media information.");
-                }
-            }
-
-            // No active session or retrieval failed — reset state.
-            _lastTitle = null;
-            _lastArtist = null;
-            _forceThumbnailRefresh = false;
-            MediaInfoChanged?.Invoke(this, new MediaInfoChangedEventArgs
-            {
-                SongTitle = null,
-                ArtistName = null,
-                PlaybackInfo = null,
-                ThumbnailStream = null,
-                ThumbnailChanged = true,
-            });
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error while trying to update media information.");
-        }
+            SongTitle = null,
+            ArtistName = null,
+            IsPlaying = false,
+            IsNextEnabled = false,
+            IsPreviousEnabled = false,
+            IsPlayPauseToggleEnabled = false,
+            ThumbnailStream = null,
+            ThumbnailChanged = true,
+        });
     }
 }
