@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Core;
 
 namespace WindowSill.ClipboardHistory.ViewModels;
 
@@ -17,9 +18,9 @@ internal sealed partial class UserActivityItemViewModel : ClipboardHistoryItemVi
     /// Initializes a new instance of the <see cref="UserActivityItemViewModel"/> class.
     /// </summary>
     /// <param name="processInteractionService">Service for interacting with external processes.</param>
-    /// <param name="item">The clipboard history item containing user activity data.</param>
-    internal UserActivityItemViewModel(IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
-        : base(processInteractionService, item)
+    /// <param name="source">The clipboard item source containing user activity data.</param>
+    internal UserActivityItemViewModel(IProcessInteractionService processInteractionService, IClipboardItemSource source)
+        : base(processInteractionService, source)
     {
         _logger = this.Log();
         InitializeAsync().Forget();

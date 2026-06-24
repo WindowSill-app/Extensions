@@ -8,6 +8,7 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.System;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Core;
 
 namespace WindowSill.ClipboardHistory.ViewModels;
 
@@ -22,9 +23,9 @@ internal sealed partial class FileItemViewModel : ClipboardHistoryItemViewModelB
     /// Initializes a new instance of the <see cref="FileItemViewModel"/> class.
     /// </summary>
     /// <param name="processInteractionService">Service for interacting with external processes.</param>
-    /// <param name="item">The clipboard history item containing file data.</param>
-    internal FileItemViewModel(IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
-        : base(processInteractionService, item)
+    /// <param name="source">The clipboard item source containing file data.</param>
+    internal FileItemViewModel(IProcessInteractionService processInteractionService, IClipboardItemSource source)
+        : base(processInteractionService, source)
     {
         _logger = this.Log();
         InitializeAsync().Forget();

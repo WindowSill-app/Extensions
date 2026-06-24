@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Core;
 
 namespace WindowSill.ClipboardHistory.ViewModels;
 
@@ -22,8 +23,8 @@ internal sealed partial class RtfItemViewModel : ClipboardHistoryItemViewModelBa
     [ObservableProperty]
     public partial string PreviewText { get; set; } = string.Empty;
 
-    internal RtfItemViewModel(IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
-        : base(processInteractionService, item)
+    internal RtfItemViewModel(IProcessInteractionService processInteractionService, IClipboardItemSource source)
+        : base(processInteractionService, source)
     {
         _logger = this.Log();
 
@@ -55,7 +56,11 @@ internal sealed partial class RtfItemViewModel : ClipboardHistoryItemViewModelBa
                 .Replace('\r', '⏎')
                 .Replace('\n', '⏎');
 
-            PreviewText = text;
+            PreviewText = text.Substring(0, Math.Min(text.Length, 1000));
+            if (text.Length > 1000)
+            {
+                PreviewText += "…";
+            }
         }
         catch (Exception ex)
         {

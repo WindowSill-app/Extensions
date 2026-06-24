@@ -3,6 +3,7 @@ using System.ComponentModel.Composition;
 using Microsoft.Extensions.Logging;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Core;
 using WindowSill.ClipboardHistory.Utils;
 
 namespace WindowSill.ClipboardHistory.Services;
@@ -18,6 +19,7 @@ internal sealed class ClipboardHistoryDataService
     private readonly DisposableSemaphore _semaphore = new();
     private readonly ILogger _logger;
     private readonly ConcurrentDictionary<string, DetectedClipboardDataType> _dataTypeCache = new();
+    private readonly ConcurrentDictionary<string, string> _signatureCache = new();
 
     private IReadOnlyList<ClipboardItemData> _cachedItems = [];
     private int _subscriberCount;
@@ -86,12 +88,13 @@ internal sealed class ClipboardHistoryDataService
             {
                 IReadOnlyList<ClipboardHistoryItem> clipboardItems = await GetClipboardHistoryItemsAsync(maxItems);
 
-                // Compute data types on background thread
+                // Compute data types and signatures on background thread
                 var itemDataList = new List<ClipboardItemData>(clipboardItems.Count);
                 foreach (ClipboardHistoryItem item in clipboardItems)
                 {
                     DetectedClipboardDataType dataType = await GetOrComputeDataTypeAsync(item);
-                    itemDataList.Add(new ClipboardItemData(item, dataType));
+                    string signature = await GetOrComputeSignatureAsync(item, dataType);
+                    itemDataList.Add(new ClipboardItemData(new LiveClipboardItemSource(item), dataType, signature));
                 }
 
                 // Prune cache of items no longer in history
@@ -109,6 +112,27 @@ internal sealed class ClipboardHistoryDataService
     public void ClearCache()
     {
         _dataTypeCache.Clear();
+        _signatureCache.Clear();
+    }
+
+    private async Task<string> GetOrComputeSignatureAsync(ClipboardHistoryItem item, DetectedClipboardDataType dataType)
+    {
+        if (_signatureCache.TryGetValue(item.Id, out string? cached))
+        {
+            return cached;
+        }
+
+        try
+        {
+            string signature = await ClipboardContentCapturer.ComputeSignatureAsync(item.Content, dataType);
+            _signatureCache.TryAdd(item.Id, signature);
+            return signature;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to compute content signature for item {ItemId}.", item.Id);
+            return string.Empty;
+        }
     }
 
     private async Task<DetectedClipboardDataType> GetOrComputeDataTypeAsync(ClipboardHistoryItem item)
@@ -139,6 +163,7 @@ internal sealed class ClipboardHistoryDataService
             if (!currentIds.Contains(cachedId))
             {
                 _dataTypeCache.TryRemove(cachedId, out _);
+                _signatureCache.TryRemove(cachedId, out _);
             }
         }
     }

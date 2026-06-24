@@ -27,6 +27,7 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
     private readonly IPluginInfo _pluginInfo;
     private readonly ISettingsProvider _settingsProvider;
     private readonly ClipboardHistoryDataService _clipboardDataService;
+    private readonly PinnedClipboardService _pinnedService;
     private readonly ClipboardItemViewFactory _viewFactory;
 
     private ClipboardHistoryPopupViewModel? _popupViewModel;
@@ -37,13 +38,15 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
         IProcessInteractionService processInteractionService,
         ISettingsProvider settingsProvider,
         IPluginInfo pluginInfo,
-        ClipboardHistoryDataService clipboardDataService)
+        ClipboardHistoryDataService clipboardDataService,
+        PinnedClipboardService pinnedService)
     {
         _logger = this.Log();
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _clipboardDataService = clipboardDataService;
-        _viewFactory = new ClipboardItemViewFactory(_pluginInfo, settingsProvider, processInteractionService);
+        _pinnedService = pinnedService;
+        _viewFactory = new ClipboardItemViewFactory(_pluginInfo, settingsProvider, processInteractionService, pinnedService);
         PlaceholderView = _viewFactory.CreatePlaceholderView();
     }
 
@@ -82,9 +85,11 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
     {
         _settingsProvider.SettingChanged += SettingsProvider_SettingChanged;
         _clipboardDataService.DataUpdated += ClipboardDataService_DataUpdated;
+        _pinnedService.PinsChanged += PinnedService_PinsChanged;
         _clipboardDataService.Subscribe();
         await ExplorerDetector.StartTrackingAsync();
 
+        await _pinnedService.LoadAsync();
         await RefreshClipboardDataAsync();
     }
 
@@ -93,9 +98,15 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
         ExplorerDetector.StopTracking();
         _settingsProvider.SettingChanged -= SettingsProvider_SettingChanged;
         _clipboardDataService.DataUpdated -= ClipboardDataService_DataUpdated;
+        _pinnedService.PinsChanged -= PinnedService_PinsChanged;
         _clipboardDataService.Unsubscribe();
         _popupViewModel = null;
         return ValueTask.CompletedTask;
+    }
+
+    private void PinnedService_PinsChanged(object? sender, EventArgs e)
+    {
+        RefreshClipboardDataAsync().Forget();
     }
 
     private void SettingsProvider_SettingChanged(ISettingsProvider sender, SettingChangedEventArgs args)
@@ -140,12 +151,27 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
     }
 
     /// <summary>
+    /// Combines pinned items (shown first) with the live clipboard history, excluding any
+    /// live items whose content is already pinned.
+    /// </summary>
+    private IReadOnlyList<ClipboardItemData> GetCombinedItems()
+    {
+        IReadOnlyList<ClipboardItemData> pinned = _pinnedService.GetPinnedItems();
+        var pinnedSignatures = new HashSet<string>(pinned.Select(p => p.ContentSignature), StringComparer.Ordinal);
+
+        IEnumerable<ClipboardItemData> live = _clipboardDataService.GetCachedItems()
+            .Where(i => !pinnedSignatures.Contains(i.ContentSignature));
+
+        return [.. pinned, .. live];
+    }
+
+    /// <summary>
     /// Updates the popup ViewModel's items collection for compact mode.
     /// Creates the popup SillListViewPopupItem on first call.
     /// </summary>
     private async Task UpdatePopupViewModelAsync()
     {
-        IReadOnlyList<ClipboardItemData> cachedItems = _clipboardDataService.GetCachedItems();
+        IReadOnlyList<ClipboardItemData> cachedItems = GetCombinedItems();
 
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
@@ -167,7 +193,7 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
 
             _popupViewModel.Items.SynchronizeWith(
                 cachedItems,
-                (existingVm, newItemData) => existingVm.Equals(newItemData.Item),
+                (existingVm, newItemData) => existingVm.Equals(newItemData.Source),
                 (itemData) =>
                 {
                     try
@@ -177,7 +203,7 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
                     catch (Exception ex)
                     {
                         _logger.LogError(ex, "Failed to create a viewmodel for a clipboard item in compact mode.");
-                        return _viewFactory.CreateViewModel(new ClipboardItemData(itemData.Item, DetectedClipboardDataType.Unknown));
+                        return _viewFactory.CreateViewModel(new ClipboardItemData(itemData.Source, DetectedClipboardDataType.Unknown, itemData.ContentSignature));
                     }
                 });
         });
@@ -188,7 +214,7 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
     /// </summary>
     private async Task UpdateViewListAsync()
     {
-        IReadOnlyList<ClipboardItemData> cachedItems = _clipboardDataService.GetCachedItems();
+        IReadOnlyList<ClipboardItemData> cachedItems = GetCombinedItems();
 
         await ThreadHelper.RunOnUIThreadAsync(() =>
         {
@@ -222,7 +248,7 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
                 {
                     if (oldItem.DataContext is ClipboardHistoryItemViewModelBase oldItemViewModel)
                     {
-                        return oldItemViewModel.Equals(newItem.Item);
+                        return oldItemViewModel.Equals(newItem.Source);
                     }
                     throw new Exception($"Unexpected item type in ViewList: {oldItem.DataContext?.GetType().FullName ?? "null"}");
                 },
@@ -238,10 +264,15 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
                     catch (Exception ex)
                     {
                         _logger.LogError(ex, "Failed to create a view and viewmodel for a clipboard item.");
-                        (viewModel, view) = _viewFactory.Create(new ClipboardItemData(itemData.Item, DetectedClipboardDataType.Unknown));
+                        (viewModel, view) = _viewFactory.Create(new ClipboardItemData(itemData.Source, DetectedClipboardDataType.Unknown, itemData.ContentSignature));
                     }
 
                     CreateContextMenu(viewModel, view);
+
+                    if (itemData.Source.IsPinned)
+                    {
+                        DecorateAsPinned(view);
+                    }
 
                     return view;
                 });
@@ -265,19 +296,63 @@ public sealed partial class ClipboardHistorySill : ObservableObject, ISillActiva
     private static void CreateContextMenu(ClipboardHistoryItemViewModelBase viewModel, SillListViewItem view)
     {
         var menuFlyout = new MenuFlyout();
-        menuFlyout.Items.Add(new MenuFlyoutItem
+
+        if (viewModel.IsPinned)
         {
-            Text = "/WindowSill.ClipboardHistory/Misc/ClearHistory".GetLocalizedString(),
-            Icon = new SymbolIcon(Symbol.Clear),
-            Command = viewModel.ClearCommand
-        });
-        menuFlyout.Items.Add(new MenuFlyoutItem
+            menuFlyout.Items.Add(new MenuFlyoutItem
+            {
+                Text = "/WindowSill.ClipboardHistory/Misc/Unpin".GetLocalizedString(),
+                Icon = new SymbolIcon(Symbol.UnPin),
+                Command = viewModel.UnpinCommand
+            });
+        }
+        else
         {
-            Text = "/WindowSill.ClipboardHistory/Misc/Delete".GetLocalizedString(),
-            Icon = new SymbolIcon(Symbol.Delete),
-            Command = viewModel.DeleteCommand
-        });
+            menuFlyout.Items.Add(new MenuFlyoutItem
+            {
+                Text = "/WindowSill.ClipboardHistory/Misc/Pin".GetLocalizedString(),
+                Icon = new SymbolIcon(Symbol.Pin),
+                Command = viewModel.PinCommand,
+                IsEnabled = viewModel.CanPin
+            });
+
+            menuFlyout.Items.Add(new MenuFlyoutItem
+            {
+                Text = "/WindowSill.ClipboardHistory/Misc/ClearHistory".GetLocalizedString(),
+                Icon = new SymbolIcon(Symbol.Clear),
+                Command = viewModel.ClearCommand
+            });
+            menuFlyout.Items.Add(new MenuFlyoutItem
+            {
+                Text = "/WindowSill.ClipboardHistory/Misc/Delete".GetLocalizedString(),
+                Icon = new SymbolIcon(Symbol.Delete),
+                Command = viewModel.DeleteCommand
+            });
+        }
 
         view.ContextFlyout = menuFlyout;
+    }
+
+    /// <summary>
+    /// Adds a small pin indicator overlay to a pinned item's content.
+    /// </summary>
+    private static void DecorateAsPinned(SillListViewItem view)
+    {
+        if (view is SillListViewButtonItem buttonItem && buttonItem.Content is UIElement existing)
+        {
+            var grid = new Grid();
+            grid.Children.Add(existing);
+            grid.Children.Add(new FontIcon
+            {
+                Glyph = "\uE840",
+                FontSize = 10,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(2, 2, 0, 0),
+                Opacity = 0.7
+            });
+
+            buttonItem.Content = grid;
+        }
     }
 }

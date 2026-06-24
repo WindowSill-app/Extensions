@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Core;
 
 namespace WindowSill.ClipboardHistory.ViewModels;
 
@@ -19,9 +20,9 @@ internal sealed partial class ApplicationLinkItemViewModel : ClipboardHistoryIte
     /// Initializes a new instance of the <see cref="ApplicationLinkItemViewModel"/> class.
     /// </summary>
     /// <param name="processInteractionService">Service for interacting with external processes.</param>
-    /// <param name="item">The clipboard history item containing application link data.</param>
-    internal ApplicationLinkItemViewModel(IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
-        : base(processInteractionService, item)
+    /// <param name="source">The clipboard item source containing application link data.</param>
+    internal ApplicationLinkItemViewModel(IProcessInteractionService processInteractionService, IClipboardItemSource source)
+        : base(processInteractionService, source)
     {
         _logger = this.Log();
         InitializeAsync().Forget();

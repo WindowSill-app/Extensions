@@ -1,10 +1,12 @@
-using Windows.ApplicationModel.DataTransfer;
+using WindowSill.ClipboardHistory.Core;
 
 namespace WindowSill.ClipboardHistory.Services;
 
 /// <summary>
-/// Immutable data transfer object holding a clipboard history item and its detected data type.
+/// Immutable data transfer object holding a clipboard item source, its detected data type,
+/// and the canonical content signature used to deduplicate live items against pins.
 /// </summary>
 internal sealed record ClipboardItemData(
-    ClipboardHistoryItem Item,
-    DetectedClipboardDataType DataType);
+    IClipboardItemSource Source,
+    DetectedClipboardDataType DataType,
+    string ContentSignature);

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <PackageId>WindowSill.ClipboardHistory</PackageId>
-        <Version>0.9.25</Version>
+        <Version>0.9.26</Version>
         <Authors>Etienne Baudoux</Authors>
         <Title>Clipboard History</Title>
         <Description>
@@ -9,6 +9,7 @@
 
           Key features:
           • Tracks text, images, URIs, colors &amp; files
+          • Pin important items, kept across restarts
           • Automatically hides passwords for privacy
           • Paste text and images directly in File Explorer
           • Delete or clear individual items on demand
@@ -33,5 +34,6 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="WindowSill.API" />
+        <PackageReference Include="System.Security.Cryptography.ProtectedData" />
     </ItemGroup>
 </Project>

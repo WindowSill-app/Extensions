@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Core;
 
 namespace WindowSill.ClipboardHistory.ViewModels;
 
@@ -18,10 +18,10 @@ internal sealed partial class UnknownItemViewModel : ClipboardHistoryItemViewMod
     [ObservableProperty]
     public partial string PreviewText { get; set; } = string.Empty;
 
-    internal UnknownItemViewModel(IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
-        : base(processInteractionService, item)
+    internal UnknownItemViewModel(IProcessInteractionService processInteractionService, IClipboardItemSource source)
+        : base(processInteractionService, source)
     {
         DisplayText = "/WindowSill.ClipboardHistory/Misc/UnsupportedFormat".GetLocalizedString();
-        PreviewText = string.Join(", ", item.Content.AvailableFormats);
+        PreviewText = string.Join(", ", Data.AvailableFormats);
     }
 }

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Core;
 using WindowSill.ClipboardHistory.Utils;
 
 namespace WindowSill.ClipboardHistory.ViewModels;
@@ -18,9 +19,9 @@ internal sealed partial class ColorItemViewModel : ClipboardHistoryItemViewModel
     /// Initializes a new instance of the <see cref="ColorItemViewModel"/> class.
     /// </summary>
     /// <param name="processInteractionService">Service for interacting with external processes.</param>
-    /// <param name="item">The clipboard history item containing color data.</param>
-    internal ColorItemViewModel(IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
-        : base(processInteractionService, item)
+    /// <param name="source">The clipboard item source containing color data.</param>
+    internal ColorItemViewModel(IProcessInteractionService processInteractionService, IClipboardItemSource source)
+        : base(processInteractionService, source)
     {
         _logger = this.Log();
         InitializeAsync().Forget();

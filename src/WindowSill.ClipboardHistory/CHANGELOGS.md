@@ -1,3 +1,7 @@
+# 0.9.26
+- You can now pin clipboard items. Pinned items stay at the top and are kept across restarts, even after Windows clears its clipboard history.
+- Fixed a crash happening when a tooltip contains a large text.
+
 # 0.9.25
 - Added missing screenshots to the extension package.
 

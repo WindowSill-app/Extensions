@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Logging;
 using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Core;
 
 namespace WindowSill.ClipboardHistory.ViewModels;
 
@@ -26,8 +27,8 @@ internal sealed partial class TextItemViewModel : ClipboardHistoryItemViewModelB
     [ObservableProperty]
     public partial string PreviewText { get; set; } = string.Empty;
 
-    internal TextItemViewModel(ISettingsProvider settingsProvider, IProcessInteractionService processInteractionService, ClipboardHistoryItem item)
-        : base(processInteractionService, item)
+    internal TextItemViewModel(ISettingsProvider settingsProvider, IProcessInteractionService processInteractionService, IClipboardItemSource source)
+        : base(processInteractionService, source)
     {
         _logger = this.Log();
         _settingsProvider = settingsProvider;
@@ -82,7 +83,11 @@ internal sealed partial class TextItemViewModel : ClipboardHistoryItemViewModelB
                             .Replace('\n', '⏎');
                     }
 
-                    PreviewText = text;
+                    PreviewText = text.Substring(0, Math.Min(text.Length, 1000));
+                    if (text.Length > 1000)
+                    {
+                        PreviewText += "…";
+                    }
                 });
             }
             catch (Exception ex)

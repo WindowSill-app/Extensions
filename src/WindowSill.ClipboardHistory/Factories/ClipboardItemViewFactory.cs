@@ -1,5 +1,5 @@
-using Windows.ApplicationModel.DataTransfer;
 using WindowSill.API;
+using WindowSill.ClipboardHistory.Core;
 using WindowSill.ClipboardHistory.Services;
 using WindowSill.ClipboardHistory.ViewModels;
 using WindowSill.ClipboardHistory.Views;
@@ -15,6 +15,7 @@ internal sealed class ClipboardItemViewFactory
     private readonly IPluginInfo _pluginInfo;
     private readonly ISettingsProvider _settingsProvider;
     private readonly IProcessInteractionService _processInteractionService;
+    private readonly PinnedClipboardService _pinnedService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ClipboardItemViewFactory"/> class.
@@ -22,14 +23,17 @@ internal sealed class ClipboardItemViewFactory
     /// <param name="pluginInfo">The plugin information.</param>
     /// <param name="settingsProvider">The settings provider for extension settings.</param>
     /// <param name="processInteractionService">The service for interacting with external processes.</param>
+    /// <param name="pinnedService">The service that owns pinned clipboard items.</param>
     internal ClipboardItemViewFactory(
         IPluginInfo pluginInfo,
         ISettingsProvider settingsProvider,
-        IProcessInteractionService processInteractionService)
+        IProcessInteractionService processInteractionService,
+        PinnedClipboardService pinnedService)
     {
         _pluginInfo = pluginInfo;
         _settingsProvider = settingsProvider;
         _processInteractionService = processInteractionService;
+        _pinnedService = pinnedService;
     }
 
     /// <summary>
@@ -40,19 +44,22 @@ internal sealed class ClipboardItemViewFactory
     /// <returns>The ViewModel for the clipboard item.</returns>
     internal ClipboardHistoryItemViewModelBase CreateViewModel(ClipboardItemData itemData)
     {
-        return itemData.DataType switch
+        ClipboardHistoryItemViewModelBase viewModel = itemData.DataType switch
         {
-            DetectedClipboardDataType.Text => new TextItemViewModel(_settingsProvider, _processInteractionService, itemData.Item),
-            DetectedClipboardDataType.Html => new HtmlItemViewModel(_processInteractionService, itemData.Item),
-            DetectedClipboardDataType.Rtf => new RtfItemViewModel(_processInteractionService, itemData.Item),
-            DetectedClipboardDataType.Image => new ImageItemViewModel(_processInteractionService, itemData.Item),
-            DetectedClipboardDataType.Uri => new UriItemViewModel(_processInteractionService, itemData.Item),
-            DetectedClipboardDataType.ApplicationLink => new ApplicationLinkItemViewModel(_processInteractionService, itemData.Item),
-            DetectedClipboardDataType.Color => new ColorItemViewModel(_processInteractionService, itemData.Item),
-            DetectedClipboardDataType.UserActivity => new UserActivityItemViewModel(_processInteractionService, itemData.Item),
-            DetectedClipboardDataType.File => new FileItemViewModel(_processInteractionService, itemData.Item),
-            _ => new UnknownItemViewModel(_processInteractionService, itemData.Item),
+            DetectedClipboardDataType.Text => new TextItemViewModel(_settingsProvider, _processInteractionService, itemData.Source),
+            DetectedClipboardDataType.Html => new HtmlItemViewModel(_processInteractionService, itemData.Source),
+            DetectedClipboardDataType.Rtf => new RtfItemViewModel(_processInteractionService, itemData.Source),
+            DetectedClipboardDataType.Image => new ImageItemViewModel(_processInteractionService, itemData.Source),
+            DetectedClipboardDataType.Uri => new UriItemViewModel(_processInteractionService, itemData.Source),
+            DetectedClipboardDataType.ApplicationLink => new ApplicationLinkItemViewModel(_processInteractionService, itemData.Source),
+            DetectedClipboardDataType.Color => new ColorItemViewModel(_processInteractionService, itemData.Source),
+            DetectedClipboardDataType.UserActivity => new UserActivityItemViewModel(_processInteractionService, itemData.Source),
+            DetectedClipboardDataType.File => new FileItemViewModel(_processInteractionService, itemData.Source),
+            _ => new UnknownItemViewModel(_processInteractionService, itemData.Source),
         };
+
+        viewModel.ConfigurePinning(itemData, _pinnedService);
+        return viewModel;
     }
 
     /// <summary>
@@ -62,19 +69,22 @@ internal sealed class ClipboardItemViewFactory
     /// <returns>A tuple of the ViewModel and its wrapped <see cref="SillListViewItem"/>.</returns>
     internal (ClipboardHistoryItemViewModelBase ViewModel, SillListViewItem View) Create(ClipboardItemData itemData)
     {
-        return itemData.DataType switch
+        (ClipboardHistoryItemViewModelBase ViewModel, SillListViewItem View) result = itemData.DataType switch
         {
-            DetectedClipboardDataType.Text => CreateTextView(itemData.Item),
-            DetectedClipboardDataType.Html => CreateHtmlView(itemData.Item),
-            DetectedClipboardDataType.Rtf => CreateRtfView(itemData.Item),
-            DetectedClipboardDataType.Image => CreateImageView(itemData.Item),
-            DetectedClipboardDataType.Uri => CreateUriView(itemData.Item),
-            DetectedClipboardDataType.ApplicationLink => CreateApplicationLinkView(itemData.Item),
-            DetectedClipboardDataType.Color => CreateColorView(itemData.Item),
-            DetectedClipboardDataType.UserActivity => CreateUserActivityView(itemData.Item),
-            DetectedClipboardDataType.File => CreateFileView(itemData.Item),
-            _ => CreateUnknownView(itemData.Item),
+            DetectedClipboardDataType.Text => CreateTextView(itemData.Source),
+            DetectedClipboardDataType.Html => CreateHtmlView(itemData.Source),
+            DetectedClipboardDataType.Rtf => CreateRtfView(itemData.Source),
+            DetectedClipboardDataType.Image => CreateImageView(itemData.Source),
+            DetectedClipboardDataType.Uri => CreateUriView(itemData.Source),
+            DetectedClipboardDataType.ApplicationLink => CreateApplicationLinkView(itemData.Source),
+            DetectedClipboardDataType.Color => CreateColorView(itemData.Source),
+            DetectedClipboardDataType.UserActivity => CreateUserActivityView(itemData.Source),
+            DetectedClipboardDataType.File => CreateFileView(itemData.Source),
+            _ => CreateUnknownView(itemData.Source),
         };
+
+        result.ViewModel.ConfigurePinning(itemData, _pinnedService);
+        return result;
     }
 
     /// <summary>
@@ -86,90 +96,90 @@ internal sealed class ClipboardItemViewFactory
         return new SillView { Content = new EmptyOrDisabledItemView(_pluginInfo) };
     }
 
-    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateTextView(ClipboardHistoryItem item)
+    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateTextView(IClipboardItemSource source)
     {
-        var viewModel = new TextItemViewModel(_settingsProvider, _processInteractionService, item);
+        var viewModel = new TextItemViewModel(_settingsProvider, _processInteractionService, source);
         SillListViewButtonItem view = CreateButtonItem(viewModel);
         view.Content = new TextItemContentView(viewModel);
         view.PreviewFlyoutContent = new TextItemPreviewView(viewModel);
         return (viewModel, view);
     }
 
-    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateHtmlView(ClipboardHistoryItem item)
+    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateHtmlView(IClipboardItemSource source)
     {
-        var viewModel = new HtmlItemViewModel(_processInteractionService, item);
+        var viewModel = new HtmlItemViewModel(_processInteractionService, source);
         SillListViewButtonItem view = CreateButtonItem(viewModel);
         view.Content = new HtmlItemContentView(viewModel);
         view.PreviewFlyoutContent = new HtmlItemPreviewView(viewModel);
         return (viewModel, view);
     }
 
-    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateRtfView(ClipboardHistoryItem item)
+    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateRtfView(IClipboardItemSource source)
     {
-        var viewModel = new RtfItemViewModel(_processInteractionService, item);
+        var viewModel = new RtfItemViewModel(_processInteractionService, source);
         SillListViewButtonItem view = CreateButtonItem(viewModel);
         view.Content = new RtfItemContentView(viewModel);
         view.PreviewFlyoutContent = new RtfItemPreviewView(viewModel);
         return (viewModel, view);
     }
 
-    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateImageView(ClipboardHistoryItem item)
+    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateImageView(IClipboardItemSource source)
     {
-        var viewModel = new ImageItemViewModel(_processInteractionService, item);
+        var viewModel = new ImageItemViewModel(_processInteractionService, source);
         SillListViewButtonItem view = CreateButtonItem(viewModel);
         view.Content = new ImageItemContentView(viewModel);
         view.PreviewFlyoutContent = new ImageItemPreviewView(viewModel);
         return (viewModel, view);
     }
 
-    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateUriView(ClipboardHistoryItem item)
+    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateUriView(IClipboardItemSource source)
     {
-        var viewModel = new UriItemViewModel(_processInteractionService, item);
+        var viewModel = new UriItemViewModel(_processInteractionService, source);
         SillListViewButtonItem view = CreateButtonItem(viewModel);
         view.Content = new UriItemContentView(viewModel);
         view.PreviewFlyoutContent = new UriItemPreviewView(viewModel);
         return (viewModel, view);
     }
 
-    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateApplicationLinkView(ClipboardHistoryItem item)
+    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateApplicationLinkView(IClipboardItemSource source)
     {
-        var viewModel = new ApplicationLinkItemViewModel(_processInteractionService, item);
+        var viewModel = new ApplicationLinkItemViewModel(_processInteractionService, source);
         SillListViewButtonItem view = CreateButtonItem(viewModel);
         view.Content = new ApplicationLinkItemContentView(viewModel);
         view.PreviewFlyoutContent = new ApplicationLinkItemPreviewView(viewModel);
         return (viewModel, view);
     }
 
-    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateColorView(ClipboardHistoryItem item)
+    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateColorView(IClipboardItemSource source)
     {
-        var viewModel = new ColorItemViewModel(_processInteractionService, item);
+        var viewModel = new ColorItemViewModel(_processInteractionService, source);
         SillListViewButtonItem view = CreateButtonItem(viewModel);
         view.Content = new ColorItemContentView(viewModel);
         view.PreviewFlyoutContent = new ColorItemPreviewView(viewModel);
         return (viewModel, view);
     }
 
-    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateUserActivityView(ClipboardHistoryItem item)
+    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateUserActivityView(IClipboardItemSource source)
     {
-        var viewModel = new UserActivityItemViewModel(_processInteractionService, item);
+        var viewModel = new UserActivityItemViewModel(_processInteractionService, source);
         SillListViewButtonItem view = CreateButtonItem(viewModel);
         view.Content = new UserActivityItemContentView(viewModel);
         view.PreviewFlyoutContent = new UserActivityItemPreviewView(viewModel);
         return (viewModel, view);
     }
 
-    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateFileView(ClipboardHistoryItem item)
+    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateFileView(IClipboardItemSource source)
     {
-        var viewModel = new FileItemViewModel(_processInteractionService, item);
+        var viewModel = new FileItemViewModel(_processInteractionService, source);
         SillListViewButtonItem view = CreateButtonItem(viewModel);
         view.Content = new FileItemContentView(viewModel);
         view.PreviewFlyoutContent = new FileItemPreviewView(viewModel);
         return (viewModel, view);
     }
 
-    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateUnknownView(ClipboardHistoryItem item)
+    private (ClipboardHistoryItemViewModelBase, SillListViewItem) CreateUnknownView(IClipboardItemSource source)
     {
-        var viewModel = new UnknownItemViewModel(_processInteractionService, item);
+        var viewModel = new UnknownItemViewModel(_processInteractionService, source);
         SillListViewButtonItem view = CreateButtonItem(viewModel);
         view.Content = new UnknownItemContentView(viewModel);
         view.PreviewFlyoutContent = new UnknownItemPreviewView(viewModel);
