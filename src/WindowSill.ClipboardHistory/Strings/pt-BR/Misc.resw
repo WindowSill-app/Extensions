@@ -156,4 +156,10 @@
   <data name="ClipboardFileBaseName" xml:space="preserve">
     <value>Área de transferência</value>
   </data>
+  <data name="Pin" xml:space="preserve">
+    <value>Pin</value>
+  </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Unpin</value>
+  </data>
 </root>
