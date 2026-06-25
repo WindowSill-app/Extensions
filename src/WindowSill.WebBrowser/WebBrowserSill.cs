@@ -1,5 +1,3 @@
-using CommunityToolkit.Diagnostics;
-
 using Microsoft.UI.Xaml.Media.Imaging;
 
 using System.Collections.ObjectModel;
@@ -84,27 +82,44 @@ public sealed class WebBrowserSill : ISillActivatedByProcess, ISillListView
 
     private async Task OnZoomInButtonClickAsync()
     {
-        Guard.IsNotNull(_activeProcessWindow);
+        // The list item button can be invoked after the browser window lost focus and the sill was
+        // deactivated, which clears the tracked window. Treat that as a no-op instead of throwing.
+        WindowInfo? activeProcessWindow = _activeProcessWindow;
+        if (activeProcessWindow is null)
+        {
+            return;
+        }
+
         await _processInteractionService.SimulateKeysOnWindow(
-            _activeProcessWindow,
+            activeProcessWindow,
             VirtualKey.LeftControl,
             VirtualKey.Add);
     }
 
     private async Task OnResetZoomButtonClickAsync()
     {
-        Guard.IsNotNull(_activeProcessWindow);
+        WindowInfo? activeProcessWindow = _activeProcessWindow;
+        if (activeProcessWindow is null)
+        {
+            return;
+        }
+
         await _processInteractionService.SimulateKeysOnWindow(
-            _activeProcessWindow,
+            activeProcessWindow,
             VirtualKey.LeftControl,
             VirtualKey.Number0);
     }
 
     private async Task OnZoomOutButtonClickAsync()
     {
-        Guard.IsNotNull(_activeProcessWindow);
+        WindowInfo? activeProcessWindow = _activeProcessWindow;
+        if (activeProcessWindow is null)
+        {
+            return;
+        }
+
         await _processInteractionService.SimulateKeysOnWindow(
-            _activeProcessWindow,
+            activeProcessWindow,
             VirtualKey.LeftControl,
             VirtualKey.Subtract);
     }

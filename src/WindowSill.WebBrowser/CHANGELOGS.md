@@ -1,3 +1,6 @@
+# 0.9.26
+- Fixed an issue where the extension could crash when using the zoom actions.
+
 # 0.9.22
 - Updated dependencies.
 - Added screenshots.
