@@ -175,7 +175,7 @@
     <value>Posição na barra</value>
   </data>
   <data name="MeetingPlacement.DescriptionProperty" xml:space="preserve">
-    <value>Onde os sills de reunião aparecem em relação ao sill de data e hora e relógios mundiais</value>
+    <value>Onde os sills de reunião aparecem em relação a data, hora e relógios mundiais</value>
   </data>
   <data name="PlacementBefore" xml:space="preserve">
     <value>Antes de tudo</value>
@@ -247,7 +247,7 @@
     <value>Tela cheia</value>
   </data>
   <data name="NotificationModeToast" xml:space="preserve">
-    <value>Toast</value>
+    <value>Aviso rápido</value>
   </data>
   <data name="EnableFlashing.HeaderProperty" xml:space="preserve">
     <value>Piscar quando a reunião começar</value>

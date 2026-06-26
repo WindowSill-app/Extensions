@@ -83,7 +83,7 @@
     <value>Introduza um nome personalizado...</value>
   </data>
   <data name="CustomNameHint.TextProperty" xml:space="preserve">
-    <value>Deixe vazio para usar o nome predefinido da cidade.</value>
+    <value>Deixe em branco para usar o nome padrão da cidade.</value>
   </data>
   <data name="ShowInBar.HeaderProperty" xml:space="preserve">
     <value>Mostrar na barra</value>
