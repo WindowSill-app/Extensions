@@ -79,7 +79,7 @@ internal sealed class ThumbnailService : IThumbnailService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error while trying to retrieve media thumbnail.");
+            _logger.LogWarning(ex, "Error while trying to retrieve media thumbnail.");
         }
         finally
         {

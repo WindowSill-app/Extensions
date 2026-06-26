@@ -1,3 +1,6 @@
+# 0.9.28
+- Improved reliability telemetry.
+
 # 0.9.27
 - Fixed an issue where the media control would not show up on some devices.
 
