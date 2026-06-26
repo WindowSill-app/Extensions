@@ -1,3 +1,6 @@
+# 0.9.26
+- Improved localization.
+
 # 0.9.23
 - Added missing screenshots to the extension package.
 

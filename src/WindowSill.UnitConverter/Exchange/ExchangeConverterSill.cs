@@ -1,4 +1,4 @@
-﻿using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 using System.Collections.ObjectModel;
 using System.ComponentModel.Composition;
@@ -31,9 +31,15 @@ public sealed class ExchangeConverterSill : ISillActivatedByTextSelection, ISill
     public SillSettingsView[]? SettingsViews =>
         [
         new SillSettingsView(
-            "/WindowSill.UnitConverter/Exchange/DisplayName".GetLocalizedString(),
+            GetSettingsViewTitle(),
             new(() => new ExchangeSettingsView(_settingsProvider)))
         ];
+
+    private static string GetSettingsViewTitle()
+    {
+        string title = "/WindowSill.UnitConverter/Exchange/DisplayName".GetLocalizedString();
+        return string.IsNullOrWhiteSpace(title) ? "Exchange" : title;
+    }
 
     public ObservableCollection<SillListViewItem> ViewList { get; } = new();
 
