@@ -157,9 +157,9 @@
     <value>Área de transferência</value>
   </data>
   <data name="Pin" xml:space="preserve">
-    <value>Pin</value>
+    <value>Fixar</value>
   </data>
   <data name="Unpin" xml:space="preserve">
-    <value>Unpin</value>
+    <value>Desafixar</value>
   </data>
 </root>
