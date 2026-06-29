@@ -101,10 +101,10 @@
     <value>Onde os relógios fixados aparecem em relação ao sill de data na barra</value>
   </data>
   <data name="PlacementBefore" xml:space="preserve">
-    <value>Antes do sill de data</value>
+    <value>Antes da data</value>
   </data>
   <data name="PlacementAfter" xml:space="preserve">
-    <value>Depois do sill de data</value>
+    <value>Depois da data</value>
   </data>
   <data name="PlacementByTimezone" xml:space="preserve">
     <value>Por fuso horário (mais cedo antes, mais tarde depois)</value>
