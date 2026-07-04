@@ -154,12 +154,12 @@
     <value>Unable to load link</value>
   </data>
   <data name="ClipboardFileBaseName" xml:space="preserve">
-    <value>Clipboard</value>
+    <value>Schowek</value>
   </data>
   <data name="Pin" xml:space="preserve">
-    <value>Pin</value>
+    <value>Przypnij</value>
   </data>
   <data name="Unpin" xml:space="preserve">
-    <value>Unpin</value>
+    <value>Odepnij</value>
   </data>
 </root>
