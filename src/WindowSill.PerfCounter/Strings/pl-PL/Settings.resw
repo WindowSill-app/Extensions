@@ -145,7 +145,7 @@
     <value>Kliknij, aby otworzyć Menedżera zadań systemu Windows i uzyskać szczegółowe informacje o systemie</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
-    <value>Show CPU Usage</value>
+    <value>Pokaz użycie procesora</value>
   </data>
   <data name="ShowGpu.HeaderProperty" xml:space="preserve">
     <value>Show GPU Usage</value>
