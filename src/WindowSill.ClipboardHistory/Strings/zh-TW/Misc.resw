@@ -151,7 +151,7 @@
     <value>不支援的格式</value>
   </data>
   <data name="LinkError" xml:space="preserve">
-    <value>Unable to load link</value>
+    <value>鏈接載入失敗</value>
   </data>
   <data name="ClipboardFileBaseName" xml:space="preserve">
     <value>Clipboard</value>
@@ -160,6 +160,6 @@
     <value>Pin</value>
   </data>
   <data name="Unpin" xml:space="preserve">
-    <value>Unpin</value>
+    <value>取消釘選</value>
   </data>
 </root>
