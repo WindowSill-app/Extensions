@@ -157,6 +157,6 @@
     <value>Show CPU Temperature</value>
   </data>
   <data name="ShowGpuTemperature.HeaderProperty" xml:space="preserve">
-    <value>Show GPU Temperature</value>
+    <value>顯示GPU溫度</value>
   </data>
 </root>
