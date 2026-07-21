@@ -156,6 +156,9 @@
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
     <value>O ícone de calendário é exibido como está. Mude para "Data e hora" para mais opções de exibição.</value>
   </data>
+  <data name="StartWeekOnMonday.HeaderProperty" xml:space="preserve">
+    <value>Iniciar a semana na segunda-feira</value>
+  </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
     <value>Mostrar eventos passados</value>
   </data>
