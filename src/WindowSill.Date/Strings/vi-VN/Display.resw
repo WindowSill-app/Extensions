@@ -156,6 +156,9 @@
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
     <value>Biểu tượng lịch được hiển thị nguyên trạng. Chuyển sang "Ngày và giờ" để có thêm tùy chọn hiển thị.</value>
   </data>
+  <data name="StartWeekOnMonday.HeaderProperty" xml:space="preserve">
+    <value>Bắt đầu tuần vào thứ Hai</value>
+  </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
     <value>Hiển thị sự kiện đã qua</value>
   </data>
