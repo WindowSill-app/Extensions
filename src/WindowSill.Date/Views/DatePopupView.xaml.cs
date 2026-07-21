@@ -30,6 +30,10 @@ internal sealed partial class DatePopupView : SillPopupContent
     /// </summary>
     public override void OnOpening()
     {
+        CalendarControl.FirstDayOfWeek = ViewModel.StartWeekOnMonday
+            ? Windows.Globalization.DayOfWeek.Monday
+            : (Windows.Globalization.DayOfWeek)System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+
         // Select today in the CalendarView.
         CalendarControl.SelectedDates.Clear();
         CalendarControl.SelectedDates.Add(DateTimeOffset.Now);

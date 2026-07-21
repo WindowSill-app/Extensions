@@ -74,6 +74,14 @@
                     api:Uids.Uid="/WindowSill.Date/Display/PopupHeader"
                     Style="{ThemeResource BodyStrongTextBlockStyle}" />
 
+                <!--  First day of week  -->
+                <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Display/StartWeekOnMonday">
+                    <ctk:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE787;" />
+                    </ctk:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.StartWeekOnMonday, Mode=TwoWay}" />
+                </ctk:SettingsCard>
+
                 <!--  Show past events  -->
                 <ctk:SettingsCard api:Uids.Uid="/WindowSill.Date/Display/ShowPastEvents">
                     <ctk:SettingsCard.HeaderIcon>

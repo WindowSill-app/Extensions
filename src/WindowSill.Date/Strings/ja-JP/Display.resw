@@ -156,6 +156,9 @@
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
     <value>カレンダーアイコンがそのまま表示されます。表示オプションを変更するには「日付と時刻」に切り替えてください。</value>
   </data>
+  <data name="StartWeekOnMonday.HeaderProperty" xml:space="preserve">
+    <value>週の始まりを月曜日にする</value>
+  </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
     <value>過去のイベントを表示</value>
   </data>

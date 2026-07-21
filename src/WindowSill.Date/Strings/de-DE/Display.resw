@@ -156,6 +156,9 @@
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
     <value>Das Kalendersymbol wird unverändert angezeigt. Wechseln Sie zu „Datum und Uhrzeit" für weitere Anzeigeoptionen.</value>
   </data>
+  <data name="StartWeekOnMonday.HeaderProperty" xml:space="preserve">
+    <value>Woche am Montag beginnen</value>
+  </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
     <value>Vergangene Ereignisse anzeigen</value>
   </data>

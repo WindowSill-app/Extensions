@@ -123,6 +123,12 @@ internal sealed partial class DatePopupViewModel : ObservableObject, IDisposable
     public bool HasWorldClocks => WorldClocks.Count > 0;
 
     /// <summary>
+    /// Gets whether the popup calendar starts each week on Monday.
+    /// </summary>
+    public bool StartWeekOnMonday
+        => _settingsProvider.GetSetting(Settings.Settings.StartWeekOnMonday);
+
+    /// <summary>
     /// Gets or sets whether the calendar section is expanded in the popup.
     /// Persisted to settings as the default state for next open.
     /// </summary>

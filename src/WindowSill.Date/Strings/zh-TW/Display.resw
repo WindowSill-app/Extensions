@@ -156,6 +156,9 @@
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
     <value>日曆圖示按原樣顯示。切換到「日期與時間」以獲取更多顯示選項。</value>
   </data>
+  <data name="StartWeekOnMonday.HeaderProperty" xml:space="preserve">
+    <value>將星期一設為每週第一天</value>
+  </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
     <value>顯示過去的活動</value>
   </data>

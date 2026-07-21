@@ -1,3 +1,6 @@
+# 0.9.25
+- Added the possibility to set Monday as the first day of the week in the settings.
+
 # 0.9.24
 - Changed scopes needed to authenticate with Google.
 

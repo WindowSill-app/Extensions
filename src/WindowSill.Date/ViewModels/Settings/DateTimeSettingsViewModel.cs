@@ -149,6 +149,15 @@ internal sealed partial class DateTimeSettingsViewModel : ObservableObject
         set => _settingsProvider.SetSetting(Settings.Settings.ShowPastEvents, value);
     }
 
+    /// <summary>
+    /// Gets or sets whether the popup calendar starts each week on Monday.
+    /// </summary>
+    public bool StartWeekOnMonday
+    {
+        get => _settingsProvider.GetSetting(Settings.Settings.StartWeekOnMonday);
+        set => _settingsProvider.SetSetting(Settings.Settings.StartWeekOnMonday, value);
+    }
+
     private static IReadOnlyList<FormatOptionItem<SillDisplayMode>> BuildDisplayModeItems()
     {
         return

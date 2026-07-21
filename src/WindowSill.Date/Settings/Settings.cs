@@ -57,6 +57,12 @@ internal static class Settings
         = new(true, typeof(Settings).Assembly);
 
     /// <summary>
+    /// Whether Monday is shown as the first day of the week in the popup calendar.
+    /// </summary>
+    internal static readonly SettingDefinition<bool> StartWeekOnMonday
+        = new(false, typeof(Settings).Assembly);
+
+    /// <summary>
     /// Where pinned world clocks appear relative to the main date sill in the bar.
     /// </summary>
     internal static readonly SettingDefinition<WorldClockPlacement> WorldClockPlacement
