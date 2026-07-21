@@ -154,6 +154,12 @@
     <value>Unable to load link</value>
   </data>
   <data name="ClipboardFileBaseName" xml:space="preserve">
-    <value>Clipboard</value>
+    <value>Área de Transferência</value>
+  </data>
+  <data name="Pin" xml:space="preserve">
+    <value>Pin</value>
+  </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Unpin</value>
   </data>
 </root>

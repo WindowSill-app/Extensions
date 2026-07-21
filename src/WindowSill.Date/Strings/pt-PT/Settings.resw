@@ -211,6 +211,6 @@
     <value>Sincronizar agora</value>
   </data>
   <data name="SyncNow.DescriptionProperty" xml:space="preserve">
-    <value>Atualizar eventos de todas as contas ligadas</value>
+    <value>Atualizar eventos de todas as contas conectadas</value>
   </data>
 </root>
