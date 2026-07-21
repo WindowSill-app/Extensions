@@ -156,6 +156,9 @@
   <data name="IconModeInfo.TextProperty" xml:space="preserve">
     <value>कैलेंडर आइकन जैसा है वैसा प्रदर्शित होता है। अधिक प्रदर्शन विकल्पों के लिए "दिनांक और समय" पर स्विच करें।</value>
   </data>
+  <data name="StartWeekOnMonday.HeaderProperty" xml:space="preserve">
+    <value>सप्ताह सोमवार से शुरू करें</value>
+  </data>
   <data name="ShowPastEvents.HeaderProperty" xml:space="preserve">
     <value>बीते हुए इवेंट दिखाएं</value>
   </data>
