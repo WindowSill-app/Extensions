@@ -1,3 +1,6 @@
+# 0.9.24
+- Added audio extraction: convert a video to MP3 or WAV to keep only its sound track.
+
 # 0.9.23
 - Added missing screenshots to the extension package.
 

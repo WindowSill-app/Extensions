@@ -133,6 +133,44 @@
                             TextTrimming="CharacterEllipsis" />
                     </StackPanel>
                 </api:ShortcutButton>
+                <api:ShortcutButton
+                    Height="64"
+                    Command="{x:Bind ViewModel.SelectFormatCommand}"
+                    CommandParameter="mp3"
+                    Style="{StaticResource LargeShortcutButtonStyle}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <TextBlock api:Uids.Uid="/WindowSill.VideoHelper/ConvertVideo/FormatMp3Title" HorizontalAlignment="Center" />
+                        <TextBlock
+                            api:Uids.Uid="/WindowSill.VideoHelper/ConvertVideo/FormatMp3Description"
+                            HorizontalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            TextAlignment="Center"
+                            TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </api:ShortcutButton>
+                <api:ShortcutButton
+                    Height="64"
+                    Command="{x:Bind ViewModel.SelectFormatCommand}"
+                    CommandParameter="wav"
+                    Style="{StaticResource LargeShortcutButtonStyle}">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                        <TextBlock api:Uids.Uid="/WindowSill.VideoHelper/ConvertVideo/FormatWavTitle" HorizontalAlignment="Center" />
+                        <TextBlock
+                            api:Uids.Uid="/WindowSill.VideoHelper/ConvertVideo/FormatWavDescription"
+                            HorizontalAlignment="Center"
+                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            TextAlignment="Center"
+                            TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </api:ShortcutButton>
             </controls:UniformGrid>
         </StackPanel>
     </ScrollViewer>

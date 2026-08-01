@@ -26,6 +26,15 @@ internal sealed class VideoConversionOptions
     internal bool KeepAudio { get; set; } = true;
 
     /// <summary>
+    /// Gets a value indicating whether the target format carries audio only, in which case the video stream is
+    /// dropped instead of being re-encoded.
+    /// </summary>
+    internal bool IsAudioOnly => AudioOnlyFormats.Contains(OutputFormat);
+
+    private static readonly HashSet<string> AudioOnlyFormats =
+        new(StringComparer.OrdinalIgnoreCase) { "mp3", "wav", "m4a", "flac" };
+
+    /// <summary>
     /// Gets the recommended video codec for the current output format.
     /// </summary>
     internal string GetEffectiveVideoCodec()
@@ -51,6 +60,9 @@ internal sealed class VideoConversionOptions
             "webm" => "libopus",
             "mkv" => "aac",
             "avi" => "mp3",
+            "mp3" => "libmp3lame",
+            "wav" => "pcm_s16le",
+            "flac" => "flac",
             _ => "aac",
         };
     }

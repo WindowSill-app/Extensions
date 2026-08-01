@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>WindowSill.VideoHelper</PackageId>
-    <Version>0.9.23</Version>
+    <Version>0.9.24</Version>
     <Authors>Etienne Baudoux</Authors>
     <Title>Video Helper</Title>
     <Description>
       Drag &amp; drop videos into WindowSill for instant processing — single files or entire batches.
 
       • Convert between MP4, AVI, MOV &amp; more
+      • Extract the audio track to MP3 or WAV
       • Compress to reduce file size
 
       All the essential video tools you need, right in your digital window sill.

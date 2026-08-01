@@ -30,6 +30,17 @@ internal sealed class FFmpegVideoConverter : IVideoConverter
     {
         TimeSpan? duration = await _ffmpeg.GetDurationAsync(sourcePath, cancellationToken);
 
+        // Audio-only targets drop the video stream instead of encoding it, so none of the video encoder selection
+        // (and its GPU fallback dance) applies.
+        if (options.IsAudioOnly)
+        {
+            string extractArguments = string.Create(
+                CultureInfo.InvariantCulture,
+                $"-i \"{sourcePath}\" -vn -c:a {options.GetEffectiveAudioCodec()} \"{outputPath}\"");
+
+            return await _ffmpeg.RunAsync(extractArguments, duration, progress, cancellationToken);
+        }
+
         string softwareCodec = options.GetEffectiveVideoCodec();
         string? audioCodec = options.GetEffectiveAudioCodec();
 

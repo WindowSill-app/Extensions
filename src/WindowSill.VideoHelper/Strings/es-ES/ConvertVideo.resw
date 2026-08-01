@@ -109,4 +109,16 @@
   <data name="OpenFolderButton.ContentProperty" xml:space="preserve">
     <value>Abrir carpeta</value>
   </data>
+  <data name="FormatMp3Title.TextProperty" xml:space="preserve">
+    <value>MP3</value>
+  </data>
+  <data name="FormatMp3Description.TextProperty" xml:space="preserve">
+    <value>Extraer la pista de audio</value>
+  </data>
+  <data name="FormatWavTitle.TextProperty" xml:space="preserve">
+    <value>WAV</value>
+  </data>
+  <data name="FormatWavDescription.TextProperty" xml:space="preserve">
+    <value>Extraer audio sin comprimir</value>
+  </data>
 </root>
