@@ -1,5 +1,5 @@
 using FluentAssertions;
-using UnitTests.Date.Core.Fakes;
+using UnitTests.Fakes;
 using WindowSill.Date.Core.Models;
 
 namespace UnitTests.Date.Core;

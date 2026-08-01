@@ -1,6 +1,6 @@
 using FluentAssertions;
 
-using UnitTests.FileHelper.Fakes;
+using UnitTests.Fakes;
 
 using WindowSill.FileHelper.Core;
 

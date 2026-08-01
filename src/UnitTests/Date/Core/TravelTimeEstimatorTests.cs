@@ -2,6 +2,7 @@ using FluentAssertions;
 using WindowSill.Date.Core.Models;
 using WindowSill.Date.Core.Services;
 using UnitTests.Date.Core.Fakes;
+using UnitTests.Fakes;
 
 namespace UnitTests.Date.Core;
 

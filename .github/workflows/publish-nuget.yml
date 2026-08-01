@@ -42,7 +42,7 @@ jobs:
         GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
 
     - name: Run unit tests
-      run: dotnet vstest src/**/bin/**/Release/**/*Tests.dll
+      run: dotnet vstest "src/UnitTests/bin/Any CPU/Release/net10.0-windows10.0.22621/UnitTests.dll"
 
     - name: Publish extensions to NuGet.org
       run: dotnet nuget push "${{ github.workspace }}\artifacts\*.nupkg" --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
