@@ -1,0 +1,4 @@
+{
+  "//": "Local-dev Syncfusion Community license key. Copy this file to 'SyncfusionLicense.json' (gitignored) and paste your key. In CI the key comes from the SYNCFUSION_LICENSE_KEY GitHub Actions secret instead. Leaving it empty still builds — Syncfusion just renders a trial watermark.",
+  "LicenseKey": ""
+}

@@ -32,6 +32,7 @@ jobs:
         OUTLOOK_CLIENT_ID: ${{ secrets.OUTLOOK_CLIENT_ID }}
         GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
         GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        SYNCFUSION_LICENSE_KEY: ${{ secrets.SYNCFUSION_LICENSE_KEY }}
 
     - name: Build unit tests
       run: msbuild src/UnitTests/UnitTests.csproj /p:Configuration=Release /p:Platform="Any CPU" /p:RestorePackages=false

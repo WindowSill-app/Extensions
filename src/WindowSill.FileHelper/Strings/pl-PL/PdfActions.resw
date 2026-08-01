@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Title" xml:space="preserve">
+    <value>Narzędzia</value>
+    <comment>Sill button label shown when PDFs are selected.</comment>
+  </data>
+  <data name="Merge" xml:space="preserve">
+    <value>Scal</value>
+    <comment>Action button. Combines several PDFs into one document.</comment>
+  </data>
+  <data name="Split" xml:space="preserve">
+    <value>Podziel strony</value>
+    <comment>Action button. Writes each page of a PDF to its own file.</comment>
+  </data>
+  <data name="Compress" xml:space="preserve">
+    <value>Kompresuj</value>
+    <comment>Action button. Makes a PDF smaller.</comment>
+  </data>
+  <data name="MergeTaskName" xml:space="preserve">
+    <value>Liczba plików: {0}</value>
+    <comment>{0} is the number of PDFs being merged. Shown as the task name in the progress list.</comment>
+  </data>
+  <data name="MergedFileName" xml:space="preserve">
+    <value>{0} - scalony</value>
+    <comment>{0} is the first selected file's name without extension. Used as the merged file's name.</comment>
+  </data>
+  <data name="CompressedFileSuffix" xml:space="preserve">
+    <value> - skompresowany</value>
+    <comment>Appended to the file name of a compressed PDF, before the extension.</comment>
+  </data>
+  <data name="PageFileName" xml:space="preserve">
+    <value>{0} - strona {1}</value>
+    <comment>{0} is the document name, {1} is the page number. Name of each file produced by splitting.</comment>
+  </data>
+  <data name="ProgressMergingMany" xml:space="preserve">
+    <value>Scalanie plików: {0}</value>
+    <comment>{0} is the number of files.</comment>
+  </data>
+  <data name="ProgressSplittingOne" xml:space="preserve">
+    <value>Dzielenie {0}</value>
+    <comment>{0} is a file name.</comment>
+  </data>
+  <data name="ProgressSplittingMany" xml:space="preserve">
+    <value>Dzielenie plików: {0}</value>
+    <comment>{0} is the number of files.</comment>
+  </data>
+  <data name="ProgressCompressingOne" xml:space="preserve">
+    <value>Kompresowanie {0}</value>
+    <comment>{0} is a file name.</comment>
+  </data>
+  <data name="ProgressCompressingMany" xml:space="preserve">
+    <value>Kompresowanie plików: {0}</value>
+    <comment>{0} is the number of files.</comment>
+  </data>
+  <data name="ErrorPasswordProtected" xml:space="preserve">
+    <value>Ten plik PDF jest chroniony hasłem. Usuń hasło i spróbuj ponownie.</value>
+    <comment>Shown per file in the results list when a PDF could not be opened.</comment>
+  </data>
+  <data name="ErrorAlreadyOptimized" xml:space="preserve">
+    <value>Ten plik PDF jest już zoptymalizowany — kompresja nie zmniejszyłaby jego rozmiaru.</value>
+    <comment>Shown per file in the results list when compression would increase the file size.</comment>
+  </data>
+  <data name="Extract" xml:space="preserve">
+    <value>Wyodrębnij strony</value>
+    <comment>Action button. Opens a page picker, so the label ends with an ellipsis.</comment>
+  </data>
+  <data name="ExtractedFileName" xml:space="preserve">
+    <value>{0} - strony</value>
+    <comment>{0} is the source file's name without extension. Name of the file holding several extracted pages.</comment>
+  </data>
+  <data name="ExtractedSinglePageFileName" xml:space="preserve">
+    <value>{0} - strona {1}</value>
+    <comment>{0} is the source name, {1} the page number. Used when exactly one page is extracted.</comment>
+  </data>
+  <data name="ExtractConfirmOne" xml:space="preserve">
+    <value>Wyodrębnij {0} stronę</value>
+    <comment>{0} is always 1 here. Confirm button on the page picker.</comment>
+  </data>
+  <data name="ExtractConfirmMany" xml:space="preserve">
+    <value>Wyodrębnij strony ({0})</value>
+    <comment>{0} is the number of ticked pages. Confirm button on the page picker.</comment>
+  </data>
+  <data name="ProgressExtracting" xml:space="preserve">
+    <value>Wyodrębnianie stron: {0}</value>
+    <comment>{0} is the number of pages.</comment>
+  </data>
+  <data name="ErrorNoPagesExtracted" xml:space="preserve">
+    <value>Nie znaleziono żadnej z wybranych stron w tym pliku PDF.</value>
+    <comment>Shown per file in the results list.</comment>
+  </data>
+  <data name="SelectAll.ContentProperty" xml:space="preserve">
+    <value>Zaznacz wszystko</value>
+  </data>
+  <data name="ClearSelection.ContentProperty" xml:space="preserve">
+    <value>Wyczyść</value>
+  </data>
+  <data name="PreviewUnavailable.TextProperty" xml:space="preserve">
+    <value>Nie można wyświetlić podglądu tego pliku PDF. Może być chroniony hasłem lub uszkodzony.</value>
+  </data>
+  <data name="MergeOrderHint.TextProperty" xml:space="preserve">
+    <value>Pliki zostaną scalone w tej kolejności</value>
+  </data>
+  <data name="MergeConfirm" xml:space="preserve">
+    <value>Scal pliki ({0})</value>
+    <comment>{0} is the number of files. Confirm button on the merge arrangement page.</comment>
+  </data>
+  <data name="MoveUp.ToolTipService.ToolTipProperty" xml:space="preserve">
+    <value>Przenieś w górę</value>
+  </data>
+  <data name="MoveDown.ToolTipService.ToolTipProperty" xml:space="preserve">
+    <value>Przenieś w dół</value>
+  </data>
+  <data name="PageCountOne" xml:space="preserve">
+    <value>{0} strona</value>
+    <comment>{0} is always 1 here.</comment>
+  </data>
+  <data name="PageCountMany" xml:space="preserve">
+    <value>Liczba stron: {0}</value>
+    <comment>{0} is the number of pages in a document.</comment>
+  </data>
+  <data name="SaveAsImages" xml:space="preserve">
+    <value>Zapisz jako obrazy</value>
+  </data>
+  <data name="Protect" xml:space="preserve">
+    <value>Dodaj hasło</value>
+  </data>
+  <data name="Unlock" xml:space="preserve">
+    <value>Usuń hasło</value>
+  </data>
+  <data name="ProtectHint" xml:space="preserve">
+    <value>Wybierz hasło. Będzie potrzebne do otwarcia kopii.</value>
+  </data>
+  <data name="UnlockHint" xml:space="preserve">
+    <value>Wpisz bieżące hasło tego pliku PDF.</value>
+  </data>
+  <data name="ProtectConfirm" xml:space="preserve">
+    <value>Dodaj hasło</value>
+  </data>
+  <data name="UnlockConfirm" xml:space="preserve">
+    <value>Usuń hasło</value>
+  </data>
+  <data name="ProtectedFileSuffix" xml:space="preserve">
+    <value> - chroniony</value>
+  </data>
+  <data name="UnlockedFileSuffix" xml:space="preserve">
+    <value> - bez hasła</value>
+  </data>
+  <data name="ProgressImagingOne" xml:space="preserve">
+    <value>Zapisywanie obrazów z {0}</value>
+    <comment>{0} is a file name.</comment>
+  </data>
+  <data name="ProgressImagingMany" xml:space="preserve">
+    <value>Zapisywanie obrazów z plików: {0}</value>
+    <comment>{0} is the number of files.</comment>
+  </data>
+  <data name="ProgressProtecting" xml:space="preserve">
+    <value>Zabezpieczanie {0}</value>
+    <comment>{0} is a file name.</comment>
+  </data>
+  <data name="ProgressUnlocking" xml:space="preserve">
+    <value>Odblokowywanie {0}</value>
+    <comment>{0} is a file name.</comment>
+  </data>
+  <data name="ErrorWrongPassword" xml:space="preserve">
+    <value>Podane hasło nie umożliwiło otwarcia tego pliku PDF.</value>
+  </data>
+</root>

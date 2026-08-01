@@ -1,0 +1,43 @@
+<Project>
+  <!--
+    Generates Core/SyncfusionLicenseValues.g.cs at build time.
+    Sources (in priority order):
+      1. Environment variable: SYNCFUSION_LICENSE_KEY (used by CI via a GitHub Actions secret)
+      2. SyncfusionLicense.json (local dev, gitignored — see SyncfusionLicense.template.json)
+      3. Empty string (contributors can build; without a key Syncfusion renders a trial watermark)
+    The key is a Syncfusion Community license, embedded at build time so it never lives in source control.
+  -->
+  <Target Name="GenerateSyncfusionLicense" BeforeTargets="CoreCompile;XamlPreCompile">
+    <PropertyGroup>
+      <_SyncfusionSecretsFile>$(MSBuildProjectDirectory)\SyncfusionLicense.json</_SyncfusionSecretsFile>
+      <_SyncfusionOutputFile>$(MSBuildProjectDirectory)\Core\SyncfusionLicenseValues.g.cs</_SyncfusionOutputFile>
+      <_SyncfusionLicenseKey>$(SYNCFUSION_LICENSE_KEY)</_SyncfusionLicenseKey>
+    </PropertyGroup>
+
+    <!-- Read JSON file if the env var is empty -->
+    <ReadLinesFromFile File="$(_SyncfusionSecretsFile)"
+                       Condition="Exists('$(_SyncfusionSecretsFile)') AND '$(_SyncfusionLicenseKey)' == ''">
+      <Output TaskParameter="Lines" ItemName="_SyncfusionSecretsLines" />
+    </ReadLinesFromFile>
+    <PropertyGroup Condition="'@(_SyncfusionSecretsLines)' != ''">
+      <_SyncfusionSecretsJson>@(_SyncfusionSecretsLines, '')</_SyncfusionSecretsJson>
+      <_SyncfusionLicenseKey Condition="'$(_SyncfusionLicenseKey)' == ''">$([System.Text.RegularExpressions.Regex]::Match('$(_SyncfusionSecretsJson)', '"LicenseKey"\s*:\s*"([^"]*)"').Groups[1].Value)</_SyncfusionLicenseKey>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <_SyncfusionLines Include="// &lt;auto-generated /&gt;" />
+      <_SyncfusionLines Include="namespace WindowSill.FileHelper.Core%3B" />
+      <_SyncfusionLines Include="internal static class SyncfusionLicenseValues" />
+      <_SyncfusionLines Include="{" />
+      <_SyncfusionLines Include="    internal const string LicenseKey = &quot;$(_SyncfusionLicenseKey)&quot;%3B" />
+      <_SyncfusionLines Include="}" />
+    </ItemGroup>
+
+    <WriteLinesToFile File="$(_SyncfusionOutputFile)" Lines="@(_SyncfusionLines)" Overwrite="true" />
+
+    <!-- Add to Compile so the file is picked up even on clean checkouts (it is gitignored). -->
+    <ItemGroup>
+      <Compile Include="$(_SyncfusionOutputFile)" Condition="!@(Compile->AnyHaveMetadataValue('Identity', '$(_SyncfusionOutputFile)'))" />
+    </ItemGroup>
+  </Target>
+</Project>

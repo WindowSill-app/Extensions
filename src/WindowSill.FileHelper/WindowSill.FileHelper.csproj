@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="SyncfusionLicense.targets" />
+  <PropertyGroup>
+    <PackageId>WindowSill.FileHelper</PackageId>
+    <Version>0.9.29</Version>
+    <Authors>Etienne Baudoux</Authors>
+    <Title>File Helper</Title>
+    <Description>
+      Drag &amp; drop files into WindowSill for instant processing — single files or entire batches.
+
+      • Convert documents, spreadsheets and presentations to supported formats
+      • Merge, split, extract and compress PDFs, save pages as images, and add or remove passwords
+      • Inspect ZIP archives without extracting them
+      • Re-encode text files and switch between Windows and Unix line endings
+
+      All the essential file tools you need, right in your digital window sill.
+    </Description>
+    <PackageIcon>Assets/file.png</PackageIcon>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://getwindowsill.app</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/WindowSill-app/Extensions</RepositoryUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Assets/file.png" Pack="true" PackagePath="\Assets\" />
+    <None Include="LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="CHANGELOGS.md" Pack="true" PackagePath="\" />
+    <None Include="THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
+    <PackageReference Include="Syncfusion.DocIO.Net.Core" />
+    <PackageReference Include="Syncfusion.DocIORenderer.Net.Core" />
+    <PackageReference Include="Syncfusion.Pdf.Net.Core" />
+    <PackageReference Include="Syncfusion.Pdf.Imaging.Net.Core" />
+    <PackageReference Include="Syncfusion.XlsIO.Net.Core" />
+    <PackageReference Include="Syncfusion.XlsIORenderer.Net.Core" />
+    <PackageReference Include="Syncfusion.Presentation.Net.Core" />
+    <PackageReference Include="Syncfusion.PresentationRenderer.Net.Core" />
+    <PackageReference Include="Syncfusion.OfficeChart.Net.Core" />
+    <PackageReference Include="Syncfusion.Compression.Net.Core" />
+    <PackageReference Include="Syncfusion.MetafileRenderer.Net.Core" />
+    <PackageReference Include="Syncfusion.SkiaSharpHelper.Net.Core" />
+    <PackageReference Include="Syncfusion.Licensing" />
+    <PackageReference Include="Syncfusion.Markdown" />
+    <PackageReference Include="Syncfusion.Telemetry" />
+    <PackageReference Include="SkiaSharp" />
+    <PackageReference Include="SkiaSharp.HarfBuzz" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Win32" />
+    <PackageReference Include="HarfBuzzSharp" />
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.Win32" />
+    <PackageReference Include="WindowSill.API" />
+  </ItemGroup>
+</Project>

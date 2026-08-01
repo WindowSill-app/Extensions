@@ -3,7 +3,7 @@
     <CommunityToolkitWinUIVersion>8.2.251219</CommunityToolkitWinUIVersion>
     <DotNetVersion>10.0.6</DotNetVersion>
     <GoogleApisVersion>1.73.0</GoogleApisVersion>
-    <HarfBuzzSharpVersion>8.3.1.1</HarfBuzzSharpVersion>
+    <HarfBuzzSharpVersion>8.3.1.5</HarfBuzzSharpVersion>
     <LiveChartsCoreVersion>2.0.0</LiveChartsCoreVersion>
     <MagickNETVersion>14.12.0</MagickNETVersion>
     <MicrosoftIdentityClientVersion>4.83.3</MicrosoftIdentityClientVersion>
@@ -11,7 +11,8 @@
     <MicrosoftKiotaVersion>1.22.1</MicrosoftKiotaVersion>
     <MicrosoftMLOnnxRuntimeVersion>1.24.2</MicrosoftMLOnnxRuntimeVersion>
     <MicrosoftRecognizersVersion>1.8.13</MicrosoftRecognizersVersion>
-    <SkiaSharpVersion>3.119.0</SkiaSharpVersion>
+    <SkiaSharpVersion>3.119.4</SkiaSharpVersion>
+    <SyncfusionVersion>34.1.29</SyncfusionVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Azure.Core" Version="1.53.0" />
@@ -69,6 +70,21 @@
     <PackageVersion Include="SkiaSharp" Version="$(SkiaSharpVersion)" />
     <PackageVersion Include="SkiaSharp.HarfBuzz" Version="$(SkiaSharpVersion)" />
     <PackageVersion Include="SkiaSharp.NativeAssets.Win32" Version="$(SkiaSharpVersion)" />
+    <PackageVersion Include="Syncfusion.Compression.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.DocIO.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.DocIORenderer.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.Licensing" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.Markdown" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.MetafileRenderer.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.OfficeChart.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.Pdf.Imaging.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.Pdf.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.Presentation.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.PresentationRenderer.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.XlsIO.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.XlsIORenderer.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.SkiaSharpHelper.Net.Core" Version="$(SyncfusionVersion)" />
+    <PackageVersion Include="Syncfusion.Telemetry" Version="$(SyncfusionVersion)" />
     <PackageVersion Include="SkiaSharp.NativeAssets.WinUI" Version="$(SkiaSharpVersion)" />
     <PackageVersion Include="SkiaSharp.Views.WinUI" Version="$(SkiaSharpVersion)" />
     <PackageVersion Include="Std.UriTemplate" Version="2.0.8" />

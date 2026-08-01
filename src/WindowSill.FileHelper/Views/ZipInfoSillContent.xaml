@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<UserControl
+    x:Class="WindowSill.FileHelper.Views.ZipInfoSillContent"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:api="using:WindowSill.API"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:BoolToVisibilityConverter
+            x:Key="TrueToCollapsedConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
+    </UserControl.Resources>
+
+    <Grid
+        Margin="12,0,12,0"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        AutomationProperties.Name="{x:Bind ViewModel.FileName}">
+
+        <!--  Loading  -->
+        <StackPanel
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="8"
+            Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ProgressRing
+                Width="16"
+                Height="16"
+                MinWidth="0"
+                MinHeight="0"
+                IsActive="{x:Bind ViewModel.IsLoading, Mode=OneWay}" />
+            <TextBlock
+                VerticalAlignment="Center"
+                api:Uids.Uid="/WindowSill.FileHelper/ZipInfo/Loading"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                TextTrimming="CharacterEllipsis" />
+        </StackPanel>
+
+        <!--  Result (error or summary)  -->
+        <Grid Visibility="{x:Bind ViewModel.IsLoading, Mode=OneWay, Converter={StaticResource TrueToCollapsedConverter}}">
+
+            <!--  Error  -->
+            <StackPanel
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="8"
+                Visibility="{x:Bind ViewModel.HasError, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                <FontIcon
+                    FontSize="16"
+                    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+                    Glyph="&#xE783;" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    api:Uids.Uid="/WindowSill.FileHelper/ZipInfo/ErrorShort"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+
+            <!--  Summary  -->
+            <StackPanel
+                x:Name="SummaryPanel"
+                VerticalAlignment="Center"
+                Visibility="{x:Bind ViewModel.HasError, Mode=OneWay, Converter={StaticResource TrueToCollapsedConverter}}">
+                <TextBlock
+                    x:Name="HeadlineText"
+                    FontSize="14"
+                    FontWeight="SemiBold"
+                    Text="{x:Bind ViewModel.CompressionRatioText, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap" />
+                <TextBlock
+                    x:Name="CountsText"
+                    FontSize="12"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Text="{x:Bind ViewModel.CountsText, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap" />
+                <TextBlock
+                    x:Name="SizesText"
+                    FontSize="11"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                    Text="{x:Bind ViewModel.SizesText, Mode=OneWay}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="NoWrap" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -25,6 +25,9 @@
   <Project Path="src/WindowSill.DevToys/WindowSill.DevToys.csproj">
     <Platform Project="Any CPU" />
   </Project>
+  <Project Path="src/WindowSill.FileHelper/WindowSill.FileHelper.csproj">
+    <Platform Project="Any CPU" />
+  </Project>
   <Project Path="src/WindowSill.ImageHelper/WindowSill.ImageHelper.csproj">
     <Platform Project="Any CPU" />
   </Project>

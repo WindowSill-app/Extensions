@@ -19,6 +19,7 @@
     <ProjectReference Include="..\WindowSill.AppLauncher\WindowSill.AppLauncher.csproj" />
     <ProjectReference Include="..\WindowSill.ClipboardHistory\WindowSill.ClipboardHistory.csproj" />
     <ProjectReference Include="..\WindowSill.DevToys\WindowSill.DevToys.csproj" />
+    <ProjectReference Include="..\WindowSill.FileHelper\WindowSill.FileHelper.csproj" />
     <ProjectReference Include="..\WindowSill.ImageHelper\WindowSill.ImageHelper.csproj" />
     <ProjectReference Include="..\WindowSill.MediaControl\WindowSill.MediaControl.csproj" />
     <ProjectReference Include="..\WindowSill.PerfCounter\WindowSill.PerfCounter.csproj" />
