@@ -1,3 +1,6 @@
+# 0.9.24
+- Added "Combine into PDF": select several images to turn them into a single PDF, one image per page sized to the image.
+
 # 0.9.23
 - Added missing screenshots to the extension package.
 

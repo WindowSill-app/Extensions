@@ -24,6 +24,7 @@ public sealed class ImageHelperSill : ISillActivatedByDragAndDrop, ISillListView
     private readonly IImageCompressor _compressor = new MagickImageCompressor();
     private readonly IImageConverter _converter = new MagickImageConverter();
     private readonly IImageResizer _resizer = new MagickImageResizer();
+    private readonly IImagePdfCombiner _pdfCombiner = new MagickImagePdfCombiner();
 
     [ImportingConstructor]
     internal ImageHelperSill(IPluginInfo pluginInfo)
@@ -104,6 +105,17 @@ public sealed class ImageHelperSill : ISillActivatedByDragAndDrop, ISillListView
                         "/WindowSill.ImageHelper/CompressImage/Title".GetLocalizedString(),
                         null,
                         compressPopup));
+
+                // Combining needs at least two images: a one-page PDF is not worth an action.
+                if (compatibleFiles.Count > 1)
+                {
+                    CombineImagesPopup combinePopup = CreateCombinePopup(compatibleFiles);
+                    ViewList.Add(
+                        new SillListViewPopupItem(
+                            "/WindowSill.ImageHelper/CombineImages/Title".GetLocalizedString(),
+                            null,
+                            combinePopup));
+                }
             }
         });
     }
@@ -134,6 +146,14 @@ public sealed class ImageHelperSill : ISillActivatedByDragAndDrop, ISillListView
         ResizeImagePopup? popup = null;
         var viewModel = new ResizeImageViewModel(file, _resizer, () => popup?.Close());
         popup = new ResizeImagePopup(viewModel);
+        return popup;
+    }
+
+    private CombineImagesPopup CreateCombinePopup(IReadOnlyList<IStorageFile> files)
+    {
+        CombineImagesPopup? popup = null;
+        var viewModel = new CombineImagesViewModel(files, _pdfCombiner, () => popup?.Close());
+        popup = new CombineImagesPopup(viewModel);
         return popup;
     }
 }
