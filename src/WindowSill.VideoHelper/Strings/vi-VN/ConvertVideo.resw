@@ -109,4 +109,16 @@
   <data name="OpenFolderButton.ContentProperty" xml:space="preserve">
     <value>Mở thư mục</value>
   </data>
+  <data name="FormatMp3Title.TextProperty" xml:space="preserve">
+    <value>MP3</value>
+  </data>
+  <data name="FormatMp3Description.TextProperty" xml:space="preserve">
+    <value>Trích xuất rãnh âm thanh</value>
+  </data>
+  <data name="FormatWavTitle.TextProperty" xml:space="preserve">
+    <value>WAV</value>
+  </data>
+  <data name="FormatWavDescription.TextProperty" xml:space="preserve">
+    <value>Trích xuất âm thanh không nén</value>
+  </data>
 </root>
