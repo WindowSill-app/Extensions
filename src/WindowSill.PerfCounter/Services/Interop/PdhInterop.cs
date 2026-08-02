@@ -2,171 +2,284 @@ using System.Runtime.InteropServices;
 
 namespace WindowSill.PerfCounter.Services.Interop;
 
+internal readonly record struct PdhCounterValue(string Name, double Value);
+
 /// <summary>
-/// Shared PDH (Performance Data Helper) P/Invoke declarations and helper methods.
+/// Shared language-neutral PDH declarations and counter-path helpers.
 /// </summary>
 internal static class PdhInterop
 {
-    internal const uint PDH_FMT_DOUBLE = 512U;
-    internal const uint PDH_MORE_DATA = 0x800007D2;
-    internal const uint PDH_CSTATUS_VALID_DATA = 0;
-    internal const uint PERF_DETAIL_WIZARD = 400U;
+    internal const uint ErrorSuccess = 0;
+    internal const uint PdhMoreData = 0x800007D2;
+    internal const uint PdhNoInstance = 0x800007D1;
+
+    private const uint PdhFormatDouble = 0x00000200;
+    private const uint PdhStatusValidData = 0;
+    private const uint PdhStatusNewData = 1;
+    private const uint PdhRefreshCounters = 0x00000001;
+    private const int MaximumBufferAttempts = 3;
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct PdhFmtCounterValue
+    private struct PdhFormattedCounterValue
     {
-        public uint CStatus;
-        public double DoubleValue;
+        public uint Status;
+        public double Value;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct PdhFmtCounterValueItemDouble
+    private struct PdhCounterInfo
     {
-        public nint SzName;
-        public PdhFmtCounterValue FmtValue;
+        public uint Length;
+        public uint Type;
+        public uint Version;
+        public uint Status;
+        public int Scale;
+        public int DefaultScale;
+        public nuint UserData;
+        public nuint QueryUserData;
+        public nint FullPath;
+        public nint MachineName;
+        public nint ObjectName;
+        public nint InstanceName;
+        public nint ParentInstance;
+        public uint InstanceIndex;
+        public nint CounterName;
+        public nint ExplainText;
     }
 
-    [DllImport("pdh.dll", CharSet = CharSet.Unicode)]
-    internal static extern uint PdhOpenQuery(nint szDataSource, nint dwUserData, out nint phQuery);
+    [DllImport("pdh.dll", EntryPoint = "PdhOpenQueryW", CharSet = CharSet.Unicode)]
+    internal static extern uint PdhOpenQuery(
+        string? dataSource,
+        nint userData,
+        out nint query);
 
-    [DllImport("pdh.dll", CharSet = CharSet.Unicode)]
-    internal static extern uint PdhAddCounter(nint hQuery, string szFullCounterPath, nint dwUserData, out nint phCounter);
+    [DllImport("pdh.dll", EntryPoint = "PdhAddEnglishCounterW", CharSet = CharSet.Unicode)]
+    internal static extern uint PdhAddEnglishCounter(
+        nint query,
+        string fullCounterPath,
+        nint userData,
+        out nint counter);
+
+    [DllImport("pdh.dll", EntryPoint = "PdhAddCounterW", CharSet = CharSet.Unicode)]
+    internal static extern uint PdhAddCounter(
+        nint query,
+        string fullCounterPath,
+        nint userData,
+        out nint counter);
 
     [DllImport("pdh.dll")]
-    internal static extern uint PdhCollectQueryData(nint hQuery);
+    internal static extern uint PdhCollectQueryData(nint query);
 
     [DllImport("pdh.dll")]
-    internal static extern uint PdhCloseQuery(nint hQuery);
+    internal static extern uint PdhCloseQuery(nint query);
 
     [DllImport("pdh.dll")]
-    internal static extern uint PdhGetFormattedCounterValue(nint hCounter, uint dwFormat, nint lpdwType, ref PdhFmtCounterValue pValue);
+    internal static extern uint PdhRemoveCounter(nint counter);
 
-    [DllImport("pdh.dll")]
-    internal static extern uint PdhGetFormattedCounterArray(nint hCounter, uint dwFormat, ref uint lpdwBufferSize, ref uint lpdwItemCount, nint itemBuffer);
+    [DllImport("pdh.dll", EntryPoint = "PdhGetFormattedCounterValue")]
+    private static extern uint PdhGetFormattedCounterValue(
+        nint counter,
+        uint format,
+        nint counterType,
+        ref PdhFormattedCounterValue value);
 
-    [DllImport("pdh.dll", CharSet = CharSet.Unicode)]
-    internal static extern uint PdhEnumObjectItems(
-        string? szDataSource,
-        string? szMachineName,
-        string szObjectName,
-        nint mszCounterList,
-        ref uint pcchCounterListLength,
-        nint mszInstanceList,
-        ref uint pcchInstanceListLength,
-        uint dwDetailLevel,
-        uint dwFlags);
+    [DllImport("pdh.dll", EntryPoint = "PdhGetCounterInfoW", CharSet = CharSet.Unicode)]
+    private static extern uint PdhGetCounterInfo(
+        nint counter,
+        [MarshalAs(UnmanagedType.Bool)] bool retrieveExplainText,
+        ref uint bufferSize,
+        nint buffer);
 
-    /// <summary>
-    /// Collects formatted counter array values, calling the two-pass PDH pattern.
-    /// Returns the sum of all valid double values, or null if no valid data.
-    /// </summary>
-    internal static (double total, int validCount) CollectFormattedCounterArray(nint counter)
+    [DllImport("pdh.dll", EntryPoint = "PdhExpandWildCardPathW", CharSet = CharSet.Unicode)]
+    private static extern uint PdhExpandWildCardPath(
+        string? dataSource,
+        string wildcardPath,
+        nint expandedPathList,
+        ref uint pathListLength,
+        uint flags);
+
+    internal static bool TryGetFormattedCounterValue(nint counter, out double value)
     {
-        double total = 0.0;
-        int validCount = 0;
+        var formattedValue = new PdhFormattedCounterValue();
+        uint status = PdhGetFormattedCounterValue(
+            counter,
+            PdhFormatDouble,
+            nint.Zero,
+            ref formattedValue);
 
-        uint bufferSize = 0u;
-        uint itemCount = 0u;
-
-        uint status = PdhGetFormattedCounterArray(counter, PDH_FMT_DOUBLE,
-            ref bufferSize, ref itemCount, nint.Zero);
-
-        if (status == PDH_MORE_DATA && itemCount > 0)
+        if (status == ErrorSuccess &&
+            IsValidDataStatus(formattedValue.Status) &&
+            double.IsFinite(formattedValue.Value))
         {
-            nint buffer = Marshal.AllocHGlobal((int)bufferSize);
+            value = formattedValue.Value;
+            return true;
+        }
+
+        value = 0;
+        return false;
+    }
+
+    internal static bool TryGetLocalizedCounterPath(
+        nint query,
+        string englishCounterPath,
+        out string localizedCounterPath,
+        out uint status)
+    {
+        localizedCounterPath = string.Empty;
+        status = PdhAddEnglishCounter(
+            query,
+            englishCounterPath,
+            nint.Zero,
+            out nint translationCounter);
+        if (status != ErrorSuccess)
+        {
+            return false;
+        }
+
+        try
+        {
+            uint bufferSize = 0;
+            status = PdhGetCounterInfo(
+                translationCounter,
+                false,
+                ref bufferSize,
+                nint.Zero);
+            if (status != PdhMoreData || bufferSize == 0)
+            {
+                return false;
+            }
+
+            for (int attempt = 0; attempt < MaximumBufferAttempts; attempt++)
+            {
+                nint buffer = Marshal.AllocHGlobal(checked((int)bufferSize));
+                try
+                {
+                    uint requestedSize = bufferSize;
+                    status = PdhGetCounterInfo(
+                        translationCounter,
+                        false,
+                        ref requestedSize,
+                        buffer);
+
+                    if (status == PdhMoreData)
+                    {
+                        bufferSize = requestedSize > bufferSize
+                            ? requestedSize
+                            : checked(bufferSize * 2);
+                        continue;
+                    }
+
+                    if (status != ErrorSuccess)
+                    {
+                        return false;
+                    }
+
+                    PdhCounterInfo counterInfo =
+                        Marshal.PtrToStructure<PdhCounterInfo>(buffer);
+                    localizedCounterPath =
+                        Marshal.PtrToStringUni(counterInfo.FullPath) ?? string.Empty;
+                    return localizedCounterPath.Length > 0;
+                }
+                finally
+                {
+                    Marshal.FreeHGlobal(buffer);
+                }
+            }
+
+            return false;
+        }
+        finally
+        {
+            PdhRemoveCounter(translationCounter);
+        }
+    }
+
+    internal static bool TryExpandWildcardPath(
+        string localizedWildcardPath,
+        out IReadOnlyList<string> expandedPaths,
+        out uint status)
+    {
+        expandedPaths = [];
+        uint pathListLength = 0;
+        status = PdhExpandWildCardPath(
+            null,
+            localizedWildcardPath,
+            nint.Zero,
+            ref pathListLength,
+            PdhRefreshCounters);
+
+        if (status == PdhNoInstance)
+        {
+            return true;
+        }
+
+        if (status != PdhMoreData || pathListLength == 0)
+        {
+            return false;
+        }
+
+        for (int attempt = 0; attempt < MaximumBufferAttempts; attempt++)
+        {
+            nint buffer = Marshal.AllocHGlobal(checked((int)pathListLength * sizeof(char)));
             try
             {
-                status = PdhGetFormattedCounterArray(counter, PDH_FMT_DOUBLE,
-                    ref bufferSize, ref itemCount, buffer);
+                uint requestedLength = pathListLength;
+                status = PdhExpandWildCardPath(
+                    null,
+                    localizedWildcardPath,
+                    buffer,
+                    ref requestedLength,
+                    PdhRefreshCounters);
 
-                if (status == 0)
+                if (status == PdhMoreData)
                 {
-                    nint current = buffer;
-                    for (int i = 0; i < itemCount; i++)
-                    {
-                        PdhFmtCounterValueItemDouble item = Marshal.PtrToStructure<PdhFmtCounterValueItemDouble>(current);
-                        if (item.FmtValue.CStatus == PDH_CSTATUS_VALID_DATA)
-                        {
-                            total += item.FmtValue.DoubleValue;
-                            validCount++;
-                        }
-
-                        current = IntPtr.Add(current, Marshal.SizeOf<PdhFmtCounterValueItemDouble>());
-                    }
+                    pathListLength = requestedLength > pathListLength
+                        ? requestedLength
+                        : checked(pathListLength * 2);
+                    continue;
                 }
+
+                if (status == PdhNoInstance)
+                {
+                    expandedPaths = [];
+                    return true;
+                }
+
+                if (status != ErrorSuccess)
+                {
+                    return false;
+                }
+
+                expandedPaths = ReadMultiString(buffer);
+                return true;
             }
             finally
             {
                 Marshal.FreeHGlobal(buffer);
             }
         }
-        else
-        {
-            // Try single counter value
-            var counterValue = new PdhFmtCounterValue();
-            uint singleStatus = PdhGetFormattedCounterValue(counter, PDH_FMT_DOUBLE, nint.Zero, ref counterValue);
 
-            if (singleStatus == 0 && counterValue.CStatus == PDH_CSTATUS_VALID_DATA)
-            {
-                total += counterValue.DoubleValue;
-                validCount++;
-            }
-        }
-
-        return (total, validCount);
+        return false;
     }
 
-    /// <summary>
-    /// Enumerates PDH object instances by name, returning a list of instance names.
-    /// </summary>
-    internal static List<string> EnumerateObjectInstances(string objectName)
+    private static IReadOnlyList<string> ReadMultiString(nint buffer)
     {
-        var instances = new List<string>();
+        var values = new List<string>();
+        nint current = buffer;
 
-        uint counterListSize = 0u;
-        uint instanceListSize = 0u;
-
-        uint status = PdhEnumObjectItems(
-            null, null, objectName,
-            nint.Zero, ref counterListSize,
-            nint.Zero, ref instanceListSize,
-            PERF_DETAIL_WIZARD, 0);
-
-        if (status != PDH_MORE_DATA || instanceListSize == 0)
+        while (true)
         {
-            return instances;
-        }
-
-        nint buffer = Marshal.AllocHGlobal((int)instanceListSize * 2);
-        try
-        {
-            status = PdhEnumObjectItems(
-                null, null, objectName,
-                nint.Zero, ref counterListSize,
-                buffer, ref instanceListSize,
-                PERF_DETAIL_WIZARD, 0);
-
-            if (status == 0)
+            string? value = Marshal.PtrToStringUni(current);
+            if (string.IsNullOrEmpty(value))
             {
-                nint current = buffer;
-                while (true)
-                {
-                    string? instanceName = Marshal.PtrToStringUni(current);
-                    if (string.IsNullOrEmpty(instanceName))
-                    {
-                        break;
-                    }
-
-                    instances.Add(instanceName);
-                    current = IntPtr.Add(current, (instanceName.Length + 1) * 2);
-                }
+                return values;
             }
-        }
-        finally
-        {
-            Marshal.FreeHGlobal(buffer);
-        }
 
-        return instances;
+            values.Add(value);
+            current = IntPtr.Add(current, checked((value.Length + 1) * sizeof(char)));
+        }
     }
+
+    private static bool IsValidDataStatus(uint status) =>
+        status is PdhStatusValidData or PdhStatusNewData;
 }

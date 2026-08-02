@@ -6,7 +6,18 @@ namespace WindowSill.PerfCounter.Services;
 internal interface IGpuMonitorService : IDisposable
 {
     /// <summary>
-    /// Gets the current GPU usage percentage, or null if no dedicated GPU is available.
+    /// Opens and primes the GPU performance-counter query.
     /// </summary>
-    double? GetGpuUsage();
+    void StartMonitoring();
+
+    /// <summary>
+    /// Stops sampling and releases the GPU performance-counter query.
+    /// </summary>
+    void StopMonitoring();
+
+    /// <summary>
+    /// Gets adapter-aware GPU utilization.
+    /// </summary>
+    /// <returns>The GPU sample, or <c>null</c> when counters are unavailable.</returns>
+    GpuPerformanceData? GetGpuUsage();
 }

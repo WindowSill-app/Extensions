@@ -182,6 +182,8 @@ public partial class PerformanceCounterViewModel : ObservableObject, IDisposable
         {
             CpuUsage = e.Data.CpuUsage;
             MemoryUsage = e.Data.MemoryUsage;
+            MemoryUsedMB = e.Data.MemoryUsedMB;
+            MemoryTotalMB = e.Data.MemoryTotalMB;
             GpuUsage = e.Data.GpuUsage;
             CpuTemperature = e.Data.CpuTemperature;
             GpuTemperature = e.Data.GpuTemperature;

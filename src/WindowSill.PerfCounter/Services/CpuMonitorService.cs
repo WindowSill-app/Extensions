@@ -8,23 +8,23 @@ using WindowSill.PerfCounter.Services.Interop;
 namespace WindowSill.PerfCounter.Services;
 
 /// <summary>
-/// Monitors GPU engines through a persistent language-neutral PDH query.
+/// Samples group-aware CPU utilization through language-neutral PDH counters.
 /// </summary>
-[Export(typeof(IGpuMonitorService))]
-internal sealed class GpuMonitorService : IGpuMonitorService
+[Export(typeof(ICpuMonitorService))]
+internal sealed class CpuMonitorService : ICpuMonitorService
 {
     private static readonly string[] CounterPaths =
     [
-        @"\GPU Engine(*)\Utilization Percentage"
+        @"\Processor Information(*)\% Processor Time",
+        @"\Processor Information(*)\% User Time",
+        @"\Processor Information(*)\% Privileged Time"
     ];
 
-    private static readonly ILogger Logger = typeof(GpuMonitorService).Log();
+    private static readonly ILogger Logger = typeof(CpuMonitorService).Log();
 
     private readonly Lock _lock = new();
 
     private PdhCounterQuery? _query;
-    private IReadOnlyDictionary<long, GpuAdapterInfo> _adaptersByLuid =
-        new Dictionary<long, GpuAdapterInfo>();
     private DateTimeOffset _retryAfter;
     private bool _initializationFailureLogged;
     private bool _readFailureLogged;
@@ -36,7 +36,6 @@ internal sealed class GpuMonitorService : IGpuMonitorService
         {
             _isMonitoring = true;
             _retryAfter = DateTimeOffset.MinValue;
-            _adaptersByLuid = GpuAdapterCatalog.GetAdaptersByLuid();
             EnsureQuery();
         }
     }
@@ -50,7 +49,7 @@ internal sealed class GpuMonitorService : IGpuMonitorService
         }
     }
 
-    public GpuPerformanceData? GetGpuUsage()
+    public CpuPerformanceData? GetCpuUsage()
     {
         lock (_lock)
         {
@@ -66,23 +65,18 @@ internal sealed class GpuMonitorService : IGpuMonitorService
 
             if (!_query.Collect())
             {
-                HandleReadFailure("PDH failed to collect GPU counter data.");
+                HandleReadFailure("PDH failed to collect CPU counter data.");
                 return null;
             }
 
-            IReadOnlyList<PdhCounterValue> counterValues =
-                _query.GetFormattedCounterArray(0);
+            CpuPerformanceData? data = CpuUsageAggregator.Create(
+                _query.GetFormattedCounterArray(0),
+                _query.GetFormattedCounterArray(1),
+                _query.GetFormattedCounterArray(2));
 
-            if (ContainsUnknownAdapter(counterValues))
-            {
-                _adaptersByLuid = GpuAdapterCatalog.GetAdaptersByLuid();
-            }
-
-            GpuPerformanceData? data =
-                GpuUsageAggregator.Create(counterValues, _adaptersByLuid);
             if (data is null)
             {
-                HandleReadFailure("GPU counter instances could not be identified.");
+                HandleReadFailure("PDH returned no valid CPU counter data.");
                 return null;
             }
 
@@ -119,7 +113,7 @@ internal sealed class GpuMonitorService : IGpuMonitorService
             if (!_initializationFailureLogged)
             {
                 Logger.LogWarning(
-                    "Unable to initialize GPU performance counters. PDH status: 0x{Status:X8}.",
+                    "Unable to initialize CPU performance counters. PDH status: 0x{Status:X8}.",
                     status);
                 _initializationFailureLogged = true;
             }
@@ -131,7 +125,7 @@ internal sealed class GpuMonitorService : IGpuMonitorService
         if (!query.Collect())
         {
             query.Dispose();
-            HandleInitializationFailure("Unable to prime GPU performance counters.");
+            HandleInitializationFailure("Unable to prime CPU performance counters.");
             return false;
         }
 
@@ -139,20 +133,6 @@ internal sealed class GpuMonitorService : IGpuMonitorService
         _initializationFailureLogged = false;
         _readFailureLogged = false;
         return true;
-    }
-
-    private bool ContainsUnknownAdapter(IReadOnlyList<PdhCounterValue> counterValues)
-    {
-        foreach (PdhCounterValue counterValue in counterValues)
-        {
-            if (GpuEngineInstance.TryParse(counterValue.Name, out GpuEngineInstance instance) &&
-                !_adaptersByLuid.ContainsKey(instance.Luid))
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private void HandleInitializationFailure(string message)

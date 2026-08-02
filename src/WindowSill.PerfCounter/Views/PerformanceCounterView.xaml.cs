@@ -12,7 +12,7 @@ namespace WindowSill.PerfCounter.Views;
 /// Main view for the performance counter extension.
 /// Displays CPU, memory, and GPU usage or an animated running man.
 /// </summary>
-public sealed partial class PerformanceCounterView : UserControl
+public sealed partial class PerformanceCounterView : UserControl, IDisposable
 {
     private readonly SillView _sillView;
     private readonly PerfCounterPopupViewModel _popupViewModel;
@@ -47,6 +47,15 @@ public sealed partial class PerformanceCounterView : UserControl
 
         sillView.IsSillOrientationOrSizeChanged += OnIsSillOrientationOrSizeChanged;
         sillView.ActualThemeChanged += OnActualThemeChanged;
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        _sillView.IsSillOrientationOrSizeChanged -= OnIsSillOrientationOrSizeChanged;
+        _sillView.ActualThemeChanged -= OnActualThemeChanged;
+        _popupViewModel.Dispose();
+        _popup = null;
     }
 
     private void MainButton_Click(object sender, RoutedEventArgs e)

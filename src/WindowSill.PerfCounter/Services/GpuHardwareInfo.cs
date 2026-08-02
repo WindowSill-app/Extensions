@@ -7,4 +7,10 @@ namespace WindowSill.PerfCounter.Services;
 /// <param name="TotalVramMB">The total video RAM in megabytes, or null if unavailable.</param>
 public record GpuHardwareInfo(
     string Name,
-    long? TotalVramMB);
+    long? TotalVramMB)
+{
+    /// <summary>
+    /// Gets the Windows adapter LUID, or null when unavailable.
+    /// </summary>
+    public long? AdapterLuid { get; init; }
+}

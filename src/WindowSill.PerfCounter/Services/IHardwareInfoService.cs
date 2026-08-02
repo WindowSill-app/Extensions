@@ -12,9 +12,9 @@ public interface IHardwareInfoService
     Task<CpuHardwareInfo?> GetCpuInfoAsync();
 
     /// <summary>
-    /// Gets static GPU hardware information.
+    /// Gets static GPU hardware information when exactly one adapter is present.
     /// </summary>
-    /// <returns>GPU info, or null if no dedicated GPU is detected.</returns>
+    /// <returns>GPU info, or null when adapter identity would be ambiguous.</returns>
     Task<GpuHardwareInfo?> GetGpuInfoAsync();
 
     /// <summary>

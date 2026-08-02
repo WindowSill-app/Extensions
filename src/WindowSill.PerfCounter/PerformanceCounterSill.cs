@@ -92,6 +92,11 @@ public sealed class PerformanceCounterSill : ISillActivatedByDefault, ISillSingl
     {
         _performanceMonitorService.StopMonitoring();
 
+        if (View?.Content is PerformanceCounterView performanceCounterView)
+        {
+            performanceCounterView.Dispose();
+        }
+
         _viewModel?.Dispose();
         _viewModel = null;
         View = null;

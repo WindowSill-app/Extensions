@@ -18,7 +18,7 @@ namespace WindowSill.PerfCounter.ViewModels;
 
 /// <summary>
 /// ViewModel for the performance counter popup, providing rolling chart data
-/// and static hardware info for CPU, Memory, and GPU.
+/// and hardware info aligned with the sampled CPU and GPU.
 /// </summary>
 internal sealed partial class PerfCounterPopupViewModel : ObservableObject, IDisposable
 {
@@ -166,24 +166,6 @@ internal sealed partial class PerfCounterPopupViewModel : ObservableObject, IDis
             });
         }
 
-        GpuHardwareInfo? gpuInfo = await hardwareInfoService.GetGpuInfoAsync();
-        if (gpuInfo is not null)
-        {
-            await ThreadHelper.RunOnUIThreadAsync(() =>
-            {
-                GpuName = gpuInfo.Name;
-                if (gpuInfo.TotalVramMB.HasValue)
-                {
-                    double vramGB = gpuInfo.TotalVramMB.Value / 1024.0;
-                    GpuVramText = $"{vramGB:F1} GB VRAM";
-                }
-
-                HasGpuInfo = true;
-            });
-        }
-
-        MemoryHardwareInfo memInfo = hardwareInfoService.GetMemoryInfo();
-        // MemoryUsageText is updated on each tick with used/total
     }
 
     private void OnPerformanceDataUpdated(object? sender, PerformanceDataEventArgs e)
@@ -219,6 +201,21 @@ internal sealed partial class PerfCounterPopupViewModel : ObservableObject, IDis
             else
             {
                 IsGpuAvailable = false;
+            }
+
+            if (e.Data.GpuInfo is { } gpuInfo)
+            {
+                GpuName = gpuInfo.Name;
+                GpuVramText = gpuInfo.TotalVramMB.HasValue
+                    ? $"{gpuInfo.TotalVramMB.Value / 1024.0:F1} GB VRAM"
+                    : "";
+                HasGpuInfo = true;
+            }
+            else
+            {
+                GpuName = "";
+                GpuVramText = "";
+                HasGpuInfo = false;
             }
 
             if (e.Data.GpuTemperature.HasValue)

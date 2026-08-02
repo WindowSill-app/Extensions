@@ -1,3 +1,10 @@
+# 0.9.30
+- Fixed performance counters on non-English Windows installations.
+- Improved CPU usage accuracy on high-core-count systems.
+- Fixed GPU usage being over-counted and added support for integrated and multi-GPU systems.
+- Improved CPU and GPU temperature matching to avoid reporting unrelated or ambiguous sensors.
+- Improved monitoring reliability and resource cleanup.
+
 # 0.9.24
 - Added missing screenshots to the extension package.
 

@@ -57,51 +57,14 @@ internal sealed class HardwareInfoService : IHardwareInfoService
     {
         return Task.Run<GpuHardwareInfo?>(() =>
         {
-            try
-            {
-                using RegistryKey? displayKey = Registry.LocalMachine.OpenSubKey(
-                    @"SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}");
+            IReadOnlyDictionary<long, GpuAdapterInfo> adapters =
+                GpuAdapterCatalog.GetAdaptersByLuid();
+            IReadOnlyList<GpuAdapterInfo> displayableAdapters =
+                GpuAdapterCatalog.GetDisplayableAdapters(adapters);
 
-                if (displayKey is null)
-                {
-                    return null;
-                }
-
-                foreach (string subKeyName in displayKey.GetSubKeyNames())
-                {
-                    if (!subKeyName.All(char.IsDigit))
-                    {
-                        continue;
-                    }
-
-                    using RegistryKey? adapterKey = displayKey.OpenSubKey(subKeyName);
-                    if (adapterKey is null)
-                    {
-                        continue;
-                    }
-
-                    string? description = adapterKey.GetValue("DriverDesc") as string;
-                    if (string.IsNullOrWhiteSpace(description))
-                    {
-                        continue;
-                    }
-
-                    // Try to get VRAM size from various registry values
-                    long? vramBytes = GetRegistryQwordOrDword(adapterKey, "HardwareInformation.qwMemorySize")
-                        ?? GetRegistryQwordOrDword(adapterKey, "HardwareInformation.MemorySize");
-
-                    long? vramMB = vramBytes.HasValue ? vramBytes.Value / (1024 * 1024) : null;
-
-                    // Return the first adapter with a description (typically the primary GPU)
-                    return new GpuHardwareInfo(description.Trim(), vramMB);
-                }
-            }
-            catch
-            {
-                // Registry access failed
-            }
-
-            return null;
+            return displayableAdapters.Count == 1
+                ? displayableAdapters[0].ToHardwareInfo()
+                : null;
         });
     }
 
@@ -124,73 +87,79 @@ internal sealed class HardwareInfoService : IHardwareInfoService
 
     private static (int Cores, int Threads) GetCpuCoreInfo()
     {
-        int threads = Environment.ProcessorCount;
-
-        // Count physical cores by enumerating processor core registry keys
+        uint activeProcessorCount = GetActiveProcessorCount(AllProcessorGroups);
+        int threads = activeProcessorCount is > 0 and <= int.MaxValue
+            ? (int)activeProcessorCount
+            : Environment.ProcessorCount;
         int cores = 0;
-        try
-        {
-            using RegistryKey? cpuKey = Registry.LocalMachine.OpenSubKey(
-                @"HARDWARE\DESCRIPTION\System\CentralProcessor");
-            if (cpuKey is not null)
-            {
-                // Each subkey is a logical processor
-                int logicalCount = cpuKey.GetSubKeyNames().Length;
-                // Estimate physical cores (common heuristic when WMI is unavailable)
-                // If HT/SMT is enabled, typically threads = 2 * cores
-                cores = logicalCount;
-                threads = logicalCount;
-            }
-        }
-        catch
-        {
-            cores = threads;
-        }
 
-        // Use GetLogicalProcessorInformation for accurate core count
         try
         {
             uint returnLength = 0;
-            PInvoke.GetLogicalProcessorInformation(Span<SYSTEM_LOGICAL_PROCESSOR_INFORMATION>.Empty, ref returnLength);
-            int structSize = Marshal.SizeOf<SYSTEM_LOGICAL_PROCESSOR_INFORMATION>();
-            int count = (int)returnLength / structSize;
-            var buffer = new SYSTEM_LOGICAL_PROCESSOR_INFORMATION[count];
+            GetLogicalProcessorInformationEx(
+                LogicalProcessorRelationshipProcessorCore,
+                nint.Zero,
+                ref returnLength);
 
-            if (PInvoke.GetLogicalProcessorInformation(buffer, ref returnLength))
+            if (returnLength > 0)
             {
-                int physicalCores = 0;
-                for (int i = 0; i < count; i++)
+                nint buffer = Marshal.AllocHGlobal(checked((int)returnLength));
+                try
                 {
-                    if (buffer[i].Relationship == LOGICAL_PROCESSOR_RELATIONSHIP.RelationProcessorCore)
+                    if (GetLogicalProcessorInformationEx(
+                            LogicalProcessorRelationshipProcessorCore,
+                            buffer,
+                            ref returnLength))
                     {
-                        physicalCores++;
+                        uint offset = 0;
+                        while (offset + 8 <= returnLength)
+                        {
+                            nint entry = IntPtr.Add(buffer, checked((int)offset));
+                            int relationship = Marshal.ReadInt32(entry);
+                            uint size = unchecked((uint)Marshal.ReadInt32(entry, 4));
+                            if (size < 8 || offset + size > returnLength)
+                            {
+                                break;
+                            }
+
+                            if (relationship == LogicalProcessorRelationshipProcessorCore)
+                            {
+                                cores++;
+                            }
+
+                            offset += size;
+                        }
                     }
                 }
-
-                if (physicalCores > 0)
+                finally
                 {
-                    cores = physicalCores;
+                    Marshal.FreeHGlobal(buffer);
                 }
             }
         }
         catch
         {
-            // Fall back to the registry-based count
+            cores = 0;
+        }
+
+        if (cores == 0)
+        {
+            cores = threads;
         }
 
         return (cores, threads);
     }
 
-    private static long? GetRegistryQwordOrDword(RegistryKey key, string valueName)
-    {
-        object? value = key.GetValue(valueName);
-        return value switch
-        {
-            long l => l,
-            int i => i,
-            byte[] bytes when bytes.Length >= 8 => BitConverter.ToInt64(bytes, 0),
-            byte[] bytes when bytes.Length >= 4 => BitConverter.ToInt32(bytes, 0),
-            _ => null
-        };
-    }
+    private const ushort AllProcessorGroups = ushort.MaxValue;
+    private const int LogicalProcessorRelationshipProcessorCore = 0;
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    private static extern uint GetActiveProcessorCount(ushort groupNumber);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool GetLogicalProcessorInformationEx(
+        int relationshipType,
+        nint buffer,
+        ref uint returnedLength);
 }

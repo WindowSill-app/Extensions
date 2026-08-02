@@ -6,12 +6,25 @@ namespace WindowSill.PerfCounter.Services;
 internal interface ITemperatureMonitorService : IDisposable
 {
     /// <summary>
-    /// Gets the current CPU temperature in Celsius, or null if unavailable.
+    /// Opens the system thermal-zone counter query.
     /// </summary>
+    void StartMonitoring();
+
+    /// <summary>
+    /// Stops sampling and releases temperature-monitoring resources.
+    /// </summary>
+    void StopMonitoring();
+
+    /// <summary>
+    /// Gets the current CPU-identified thermal-zone temperature in Celsius.
+    /// </summary>
+    /// <returns>The temperature, or <c>null</c> when no CPU-specific zone is exposed.</returns>
     double? GetCpuTemperature();
 
     /// <summary>
-    /// Gets the current GPU temperature in Celsius, or null if unavailable.
+    /// Gets the current temperature for an unambiguously identified GPU adapter.
     /// </summary>
-    double? GetGpuTemperature();
+    /// <param name="adapter">The adapter selected by the GPU utilization sample.</param>
+    /// <returns>The temperature, or <c>null</c> when unsupported or ambiguous.</returns>
+    double? GetGpuTemperature(GpuAdapterInfo? adapter);
 }

@@ -1,168 +1,292 @@
 using System.ComponentModel.Composition;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
+
+using Microsoft.Extensions.Logging;
 
 using Windows.Win32;
 using Windows.Win32.System.SystemInformation;
 
+using WindowSill.API;
+
 namespace WindowSill.PerfCounter.Services;
 
 /// <summary>
-/// Aggregates CPU, memory, GPU, and temperature data on a 1-second timer.
+/// Aggregates CPU, memory, GPU, and temperature data on a one-second interval.
 /// </summary>
 [Export(typeof(IPerformanceMonitorService))]
 internal sealed class PerformanceMonitorService : IPerformanceMonitorService, IDisposable
 {
-    private readonly Timer _timer;
+    private static readonly TimeSpan DefaultSamplingInterval = TimeSpan.FromSeconds(1);
+    private static readonly ILogger Logger = typeof(PerformanceMonitorService).Log();
+
+    private readonly ICpuMonitorService _cpuMonitor;
     private readonly IGpuMonitorService _gpuMonitor;
     private readonly ITemperatureMonitorService _temperatureMonitor;
-    private ulong _lastIdleTime;
-    private ulong _lastKernelTime;
-    private ulong _lastUserTime;
+    private readonly TimeSpan _samplingInterval;
+    private readonly Func<CancellationToken, Task> _waitForNextSampleAsync;
     private readonly object _lockObject = new();
+
+    private CancellationTokenSource? _monitoringCancellation;
+    private Task? _monitoringTask;
+    private TaskCompletionSource<PerformanceData>? _nextSample;
+    private PerformanceData? _latestPerformanceData;
     private int _monitoringCount;
-    private int _callbackRunning;
+    private long _nextGeneration;
+    private long _activeGeneration;
+    private bool _disposed;
 
     public event EventHandler<PerformanceDataEventArgs>? PerformanceDataUpdated;
 
     [ImportingConstructor]
     public PerformanceMonitorService(
+        ICpuMonitorService cpuMonitor,
         IGpuMonitorService gpuMonitor,
         ITemperatureMonitorService temperatureMonitor)
+        : this(cpuMonitor, gpuMonitor, temperatureMonitor, DefaultSamplingInterval)
     {
-        _timer = new Timer(OnTimerCallback, null, Timeout.Infinite, Timeout.Infinite);
+    }
+
+    internal PerformanceMonitorService(
+        ICpuMonitorService cpuMonitor,
+        IGpuMonitorService gpuMonitor,
+        ITemperatureMonitorService temperatureMonitor,
+        TimeSpan samplingInterval,
+        Func<CancellationToken, Task>? waitForNextSampleAsync = null)
+    {
+        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(
+            samplingInterval,
+            TimeSpan.Zero);
+
+        _cpuMonitor = cpuMonitor;
         _gpuMonitor = gpuMonitor;
         _temperatureMonitor = temperatureMonitor;
-        InitializeCpuUsageTracking();
+        _samplingInterval = samplingInterval;
+        _waitForNextSampleAsync = waitForNextSampleAsync
+            ?? (cancellationToken => Task.Delay(
+                _samplingInterval,
+                cancellationToken));
     }
 
-    /// <inheritdoc/>
-    public void Dispose()
-    {
-        StopMonitoring();
-        _timer?.Dispose();
-    }
-
-    /// <inheritdoc/>
     public void StartMonitoring()
     {
         lock (_lockObject)
         {
-            if (Interlocked.Increment(ref _monitoringCount) == 1)
+            ObjectDisposedException.ThrowIf(_disposed, this);
+
+            _monitoringCount++;
+            if (_monitoringCount != 1)
             {
-                InitializeCpuUsageTracking();
-                _timer.Change(TimeSpan.Zero, TimeSpan.FromSeconds(1));
+                return;
+            }
+
+            try
+            {
+                StartMonitoringGeneration();
+            }
+            catch
+            {
+                _monitoringCount = 0;
+                StopMonitoringGeneration();
+                throw;
             }
         }
     }
 
-    /// <inheritdoc/>
     public void StopMonitoring()
     {
         lock (_lockObject)
         {
-            if (Interlocked.Decrement(ref _monitoringCount) == 0)
+            if (_monitoringCount == 0)
             {
-                _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                return;
+            }
+
+            _monitoringCount--;
+            if (_monitoringCount == 0)
+            {
+                StopMonitoringGeneration();
             }
         }
     }
 
-    /// <inheritdoc/>
     public PerformanceData GetCurrentPerformanceData()
     {
-        double cpuUsage = GetCpuUsage();
-        (double memoryUsage, long memoryUsedMB, long memoryTotalMB) = GetMemoryInfo();
-        double? gpuUsage = _gpuMonitor.GetGpuUsage();
-        double? cpuTemperature = _temperatureMonitor.GetCpuTemperature();
-        double? gpuTemperature = _temperatureMonitor.GetGpuTemperature();
+        bool temporaryLease = false;
+        Task<PerformanceData> pendingSample;
 
-        return new PerformanceData(
-            cpuUsage,
-            memoryUsage,
-            gpuUsage,
-            cpuTemperature,
-            gpuTemperature,
-            memoryUsedMB,
-            memoryTotalMB
-        );
-    }
-
-    private void OnTimerCallback(object? state)
-    {
-        if (_monitoringCount == 0)
+        lock (_lockObject)
         {
-            return;
-        }
+            ObjectDisposedException.ThrowIf(_disposed, this);
 
-        // Prevent overlapping callbacks (GPU sampling can take >100ms)
-        if (Interlocked.CompareExchange(ref _callbackRunning, 1, 0) != 0)
-        {
-            return;
+            if (_monitoringCount > 0 && _latestPerformanceData is not null)
+            {
+                return _latestPerformanceData;
+            }
+
+            _monitoringCount++;
+            temporaryLease = true;
+
+            if (_monitoringCount == 1)
+            {
+                try
+                {
+                    StartMonitoringGeneration();
+                }
+                catch
+                {
+                    _monitoringCount = 0;
+                    StopMonitoringGeneration();
+                    throw;
+                }
+            }
+
+            if (_nextSample is null)
+            {
+                _monitoringCount--;
+                temporaryLease = false;
+                if (_monitoringCount == 0)
+                {
+                    StopMonitoringGeneration();
+                }
+
+                throw new InvalidOperationException(
+                    "Performance monitoring did not create a pending sample.");
+            }
+
+            pendingSample = _nextSample.Task;
         }
 
         try
         {
-            PerformanceData performanceData = GetCurrentPerformanceData();
-            PerformanceDataUpdated?.Invoke(this, new PerformanceDataEventArgs(performanceData));
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Error getting performance data: {ex.Message}");
+            return pendingSample
+                .WaitAsync(TimeSpan.FromSeconds(10))
+                .GetAwaiter()
+                .GetResult();
         }
         finally
         {
-            Interlocked.Exchange(ref _callbackRunning, 0);
-        }
-    }
-
-    private void InitializeCpuUsageTracking()
-    {
-        unsafe
-        {
-            FILETIME idleTime, kernelTime, userTime;
-            if (PInvoke.GetSystemTimes(&idleTime, &kernelTime, &userTime))
+            if (temporaryLease)
             {
-                _lastIdleTime = FileTimeToUInt64(idleTime);
-                _lastKernelTime = FileTimeToUInt64(kernelTime);
-                _lastUserTime = FileTimeToUInt64(userTime);
+                StopMonitoring();
             }
         }
     }
 
-    private double GetCpuUsage()
+    public void Dispose()
     {
-        unsafe
+        lock (_lockObject)
         {
-            FILETIME idleTime, kernelTime, userTime;
-            if (!PInvoke.GetSystemTimes(&idleTime, &kernelTime, &userTime))
+            if (_disposed)
             {
-                return 0.0;
+                return;
             }
 
-            ulong currentIdleTime = FileTimeToUInt64(idleTime);
-            ulong currentKernelTime = FileTimeToUInt64(kernelTime);
-            ulong currentUserTime = FileTimeToUInt64(userTime);
-
-            ulong idleDiff = currentIdleTime - _lastIdleTime;
-            ulong kernelDiff = currentKernelTime - _lastKernelTime;
-            ulong userDiff = currentUserTime - _lastUserTime;
-
-            ulong totalSys = kernelDiff + userDiff;
-            ulong totalCpu = totalSys - idleDiff;
-
-            double cpuUsage = 0.0;
-            if (totalSys > 0)
-            {
-                cpuUsage = (double)totalCpu * 100.0 / totalSys;
-            }
-
-            _lastIdleTime = currentIdleTime;
-            _lastKernelTime = currentKernelTime;
-            _lastUserTime = currentUserTime;
-
-            return Math.Max(0.0, Math.Min(100.0, cpuUsage));
+            _disposed = true;
+            _monitoringCount = 0;
+            StopMonitoringGeneration();
         }
+    }
+
+    private void StartMonitoringGeneration()
+    {
+        _cpuMonitor.StartMonitoring();
+        _gpuMonitor.StartMonitoring();
+        _temperatureMonitor.StartMonitoring();
+
+        long generation = checked(++_nextGeneration);
+        _activeGeneration = generation;
+        _latestPerformanceData = null;
+        _nextSample = new TaskCompletionSource<PerformanceData>(
+            TaskCreationOptions.RunContinuationsAsynchronously);
+        var cancellation = new CancellationTokenSource();
+        CancellationToken cancellationToken = cancellation.Token;
+        _monitoringCancellation = cancellation;
+        _monitoringTask = Task.Run(
+            () => MonitorAsync(generation, cancellationToken));
+    }
+
+    private void StopMonitoringGeneration()
+    {
+        _activeGeneration = 0;
+
+        CancellationTokenSource? cancellation = _monitoringCancellation;
+        _monitoringCancellation = null;
+        cancellation?.Cancel();
+
+        _nextSample?.TrySetCanceled();
+        _nextSample = null;
+        _latestPerformanceData = null;
+        _monitoringTask = null;
+
+        _cpuMonitor.StopMonitoring();
+        _gpuMonitor.StopMonitoring();
+        _temperatureMonitor.StopMonitoring();
+
+        cancellation?.Dispose();
+    }
+
+    private async Task MonitorAsync(long generation, CancellationToken cancellationToken)
+    {
+        try
+        {
+            while (true)
+            {
+                await _waitForNextSampleAsync(cancellationToken)
+                    .ConfigureAwait(false);
+
+                lock (_lockObject)
+                {
+                    if (_disposed ||
+                        _monitoringCount == 0 ||
+                        _activeGeneration != generation)
+                    {
+                        return;
+                    }
+
+                    try
+                    {
+                        PerformanceData performanceData = SamplePerformanceData();
+                        _latestPerformanceData = performanceData;
+                        _nextSample?.TrySetResult(performanceData);
+                        PerformanceDataUpdated?.Invoke(
+                            this,
+                            new PerformanceDataEventArgs(performanceData));
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError(ex, "Unable to update performance-counter data.");
+                    }
+                }
+            }
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+        }
+    }
+
+    private PerformanceData SamplePerformanceData()
+    {
+        CpuPerformanceData? cpu = _cpuMonitor.GetCpuUsage();
+        (double memoryUsage, long memoryUsedMB, long memoryTotalMB) = GetMemoryInfo();
+        GpuPerformanceData? gpu = _gpuMonitor.GetGpuUsage();
+        double? cpuTemperature = _temperatureMonitor.GetCpuTemperature();
+        double? gpuTemperature =
+            _temperatureMonitor.GetGpuTemperature(gpu?.UnambiguousAdapter);
+
+        return new PerformanceData(
+            cpu?.TotalUsage ?? 0,
+            memoryUsage,
+            gpu?.OverallUsage,
+            cpuTemperature,
+            gpuTemperature,
+            memoryUsedMB,
+            memoryTotalMB)
+        {
+            CpuUserUsage = cpu?.UserUsage ?? 0,
+            CpuPrivilegedUsage = cpu?.PrivilegedUsage ?? 0,
+            CpuLogicalProcessors = cpu?.LogicalProcessors ?? [],
+            GpuInfo = gpu?.UnambiguousAdapter?.ToHardwareInfo()
+        };
     }
 
     private static (double Usage, long UsedMB, long TotalMB) GetMemoryInfo()
@@ -172,21 +296,19 @@ internal sealed class PerformanceMonitorService : IPerformanceMonitorService, ID
             dwLength = (uint)Marshal.SizeOf<MEMORYSTATUSEX>()
         };
 
-        if (!PInvoke.GlobalMemoryStatusEx(ref memoryStatus))
+        if (!PInvoke.GlobalMemoryStatusEx(ref memoryStatus) ||
+            memoryStatus.ullTotalPhys == 0)
         {
-            return (0.0, 0, 0);
+            return (0, 0, 0);
         }
 
-        double memoryUsage = (double)memoryStatus.dwMemoryLoad;
-        long totalMB = (long)(memoryStatus.ullTotalPhys / (1024 * 1024));
-        long availMB = (long)(memoryStatus.ullAvailPhys / (1024 * 1024));
-        long usedMB = totalMB - availMB;
+        ulong usedBytes = memoryStatus.ullTotalPhys >= memoryStatus.ullAvailPhys
+            ? memoryStatus.ullTotalPhys - memoryStatus.ullAvailPhys
+            : 0;
+        double usage = usedBytes * 100d / memoryStatus.ullTotalPhys;
+        long totalMB = checked((long)(memoryStatus.ullTotalPhys / (1024 * 1024)));
+        long usedMB = checked((long)(usedBytes / (1024 * 1024)));
 
-        return (memoryUsage, usedMB, totalMB);
-    }
-
-    private static ulong FileTimeToUInt64(FILETIME fileTime)
-    {
-        return ((ulong)(uint)fileTime.dwHighDateTime << 32) | (ulong)(uint)fileTime.dwLowDateTime;
+        return (Math.Clamp(usage, 0, 100), usedMB, totalMB);
     }
 }
