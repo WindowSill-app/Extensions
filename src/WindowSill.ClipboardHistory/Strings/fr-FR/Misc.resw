@@ -151,7 +151,7 @@
     <value>Format non pris en charge</value>
   </data>
   <data name="LinkError" xml:space="preserve">
-    <value>Unable to load link</value>
+    <value>Impossible de charger le lien</value>
   </data>
   <data name="ClipboardFileBaseName" xml:space="preserve">
     <value>Clipboard</value>
