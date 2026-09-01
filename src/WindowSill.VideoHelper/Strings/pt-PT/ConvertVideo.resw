@@ -71,7 +71,7 @@
     <value>MKV</value>
   </data>
   <data name="FormatMkvDescription.TextProperty" xml:space="preserve">
-    <value>Contentor flexível (H.264)</value>
+    <value>Container flexível (H.264)</value>
   </data>
   <data name="FormatWebmTitle.TextProperty" xml:space="preserve">
     <value>WebM</value>
@@ -104,7 +104,7 @@
     <value>Conversão concluída</value>
   </data>
   <data name="ResultSummary" xml:space="preserve">
-    <value>{0} de {1} ficheiros convertidos com sucesso</value>
+    <value>{0} de {1} arquivos convertidos com sucesso</value>
   </data>
   <data name="OpenFolderButton.ContentProperty" xml:space="preserve">
     <value>Abrir pasta</value>
