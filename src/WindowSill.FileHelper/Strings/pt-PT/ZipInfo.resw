@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Loading.TextProperty" xml:space="preserve">
-    <value>A ler o arquivo...</value>
+    <value>Lendo o arquivo...</value>
   </data>
   <data name="ErrorShort.TextProperty" xml:space="preserve">
     <value>Não foi possível ler o arquivo</value>
@@ -128,10 +128,10 @@
     <comment>Joins the file-count and folder-count fragments (e.g. "28 files · 23 folders").</comment>
   </data>
   <data name="FilesSingularFormat" xml:space="preserve">
-    <value>{0} ficheiro</value>
+    <value>{0} arquivo</value>
   </data>
   <data name="FilesPluralFormat" xml:space="preserve">
-    <value>{0} ficheiros</value>
+    <value>{0} arquivos</value>
   </data>
   <data name="FoldersSingularFormat" xml:space="preserve">
     <value>{0} pasta</value>
@@ -140,7 +140,7 @@
     <value>{0} pastas</value>
   </data>
   <data name="SizesFormat" xml:space="preserve">
-    <value>{0} → {1}</value>
+    <value>{0} - {1}</value>
     <comment>{0} = uncompressed size, {1} = compressed size (e.g. "36.3 MB → 14.2 MB").</comment>
   </data>
   <data name="CompressionRatioSmallerFormat" xml:space="preserve">
@@ -160,6 +160,6 @@
     <comment>Shown as a single file's compression outcome when it has no content to compress (a zero-byte file).</comment>
   </data>
   <data name="EmptyArchive.TextProperty" xml:space="preserve">
-    <value>Este arquivo não contém ficheiros.</value>
+    <value>Este local não contém arquivos.</value>
   </data>
 </root>
