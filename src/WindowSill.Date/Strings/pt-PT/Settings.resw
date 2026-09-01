@@ -133,7 +133,7 @@
     <value>Ainda não existem contas ligadas. Adicione uma conta para ver os seus eventos de calendário.</value>
   </data>
   <data name="RemoveAccountDialogTitle" xml:space="preserve">
-    <value>Remove account</value>
+    <value>Remover conta</value>
   </data>
   <data name="RemoveAccountDialogContent" xml:space="preserve">
     <value>Tem a certeza de que pretende remover {0}? Isto irá desligar a conta e parar de sincronizar os seus eventos de calendário.</value>
@@ -145,7 +145,7 @@
     <value>Cancelar</value>
   </data>
   <data name="ConnectDialogTitle" xml:space="preserve">
-    <value>Add account</value>
+    <value>Adicionar conta</value>
   </data>
   <data name="OutlookConnectMessage" xml:space="preserve">
     <value>Inicie sessão na sua conta Microsoft utilizando a janela de início de sessão do Windows...</value>
@@ -166,7 +166,7 @@
     <value>Palavra-passe</value>
   </data>
   <data name="ICloudAppleId.HeaderProperty" xml:space="preserve">
-    <value>Apple ID</value>
+    <value>ID Apple</value>
   </data>
   <data name="ICloudAppPassword.HeaderProperty" xml:space="preserve">
     <value>Palavra-passe específica da app</value>
@@ -181,10 +181,10 @@
     <value>Não foi possível encontrar calendários para esta conta. Certifique-se de que o Calendário iCloud está ativado.</value>
   </data>
   <data name="CalDavAuthFailed" xml:space="preserve">
-    <value>Falha na autenticação. Verifique o URL do servidor, nome de utilizador e palavra-passe.</value>
+    <value>Falha na autenticação. Verifique o URL do servidor, nome de usuário e senha.</value>
   </data>
   <data name="LoadingCalendars.MessageProperty" xml:space="preserve">
-    <value>A carregar calendários…</value>
+    <value>Carregando calendários…</value>
   </data>
   <data name="CalendarColor.ToolTipService.ToolTipProperty" xml:space="preserve">
     <value>Alterar cor do calendário</value>
