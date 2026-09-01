@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NotificationHeader.TextProperty" xml:space="preserve">
-    <value>A REUNIÃO ESTÁ A COMEÇAR</value>
+    <value>A REUNIÃO ESTÁ COMEÇANDO</value>
   </data>
   <data name="NotificationJoin.TextProperty" xml:space="preserve">
     <value>Entrar na reunião</value>
