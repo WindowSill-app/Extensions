@@ -145,18 +145,18 @@
     <value>Clica para abrir o Gestor de Tarefas do Windows para informações detalhadas do sistema</value>
   </data>
   <data name="ShowCpu.HeaderProperty" xml:space="preserve">
-    <value>Show CPU Usage</value>
+    <value>Mostrar uso da CPU</value>
   </data>
   <data name="ShowGpu.HeaderProperty" xml:space="preserve">
-    <value>Show GPU Usage</value>
+    <value>Mostrar uso da GPU</value>
   </data>
   <data name="ShowRam.HeaderProperty" xml:space="preserve">
-    <value>Show RAM Usage</value>
+    <value>Mostrar uso de RAM</value>
   </data>
   <data name="ShowCpuTemperature.HeaderProperty" xml:space="preserve">
-    <value>Show CPU Temperature</value>
+    <value>Mostrar temperatura da CPU</value>
   </data>
   <data name="ShowGpuTemperature.HeaderProperty" xml:space="preserve">
-    <value>Show GPU Temperature</value>
+    <value>Mostrar temperatura da GPU</value>
   </data>
 </root>
