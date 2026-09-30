@@ -12,10 +12,10 @@
   <data name="WordWrapOutput.DescriptionProperty" xml:space="preserve"><value>水平スクロールの代わりにコマンド出力ビューでテキストを折り返す</value></data>
   <data name="DisableClickFixWarning.HeaderProperty" xml:space="preserve"><value>セキュリティ警告を無効にする</value></data>
   <data name="DisableClickFixWarning.DescriptionProperty" xml:space="preserve"><value>Webブラウザーから選択したコマンドを実行する際のセキュリティ警告をスキップする</value></data>
-  <data name="About.TextProperty" xml:space="preserve"><value>About</value></data>
-  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>Special thanks</value></data>
-  <data name="AutoDismiss.HeaderProperty" xml:space="preserve"><value>Auto-dismiss completed runs</value></data>
-  <data name="AutoDismiss.DescriptionProperty" xml:space="preserve"><value>Automatically dismiss completed command runs after the specified time. Pinned runs are not affected.</value></data>
-  <data name="AutoDismissOff" xml:space="preserve"><value>Off</value></data>
-  <data name="AutoDismissMinutesFormat" xml:space="preserve"><value>{0} minutes</value></data>
+  <data name="About.TextProperty" xml:space="preserve"><value>について</value></data>
+  <data name="SpecialThanks.HeaderProperty" xml:space="preserve"><value>特別な感謝の意を表します</value></data>
+  <data name="AutoDismiss.HeaderProperty" xml:space="preserve"><value>完了したランを自動解除</value></data>
+  <data name="AutoDismiss.DescriptionProperty" xml:space="preserve"><value>指定された時間の後に自動的に完了したコマンドの実行を解除します。固定された実行には影響しません。</value></data>
+  <data name="AutoDismissOff" xml:space="preserve"><value>オフ</value></data>
+  <data name="AutoDismissMinutesFormat" xml:space="preserve"><value>{0} 分</value></data>
 </root>
