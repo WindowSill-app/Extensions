@@ -151,15 +151,15 @@
     <value>サポートされていない形式</value>
   </data>
   <data name="LinkError" xml:space="preserve">
-    <value>Unable to load link</value>
+    <value>リンクを読み込めません</value>
   </data>
   <data name="ClipboardFileBaseName" xml:space="preserve">
-    <value>Clipboard</value>
+    <value>クリップボード</value>
   </data>
   <data name="Pin" xml:space="preserve">
-    <value>Pin</value>
+    <value>ピン</value>
   </data>
   <data name="Unpin" xml:space="preserve">
-    <value>Unpin</value>
+    <value>ピン解除</value>
   </data>
 </root>
