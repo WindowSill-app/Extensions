@@ -139,31 +139,31 @@
     <value>{1} 個中 {0} 個のファイルを正常に処理しました</value>
   </data>
   <data name="FormatPdf" xml:space="preserve">
-    <value>PDF</value>
+    <value>PDF ドキュメント</value>
     <comment>Conversion target button label. Name of the PDF file format.</comment>
   </data>
   <data name="FormatDocx" xml:space="preserve">
-    <value>Word</value>
+    <value>Word ドキュメント</value>
     <comment>Conversion target button label. Refers to the Microsoft Word .docx format.</comment>
   </data>
   <data name="FormatDoc" xml:space="preserve">
-    <value>Word 97-2003</value>
+    <value>Word 97-2003 ドキュメント</value>
     <comment>Label for the legacy Microsoft Word .doc format.</comment>
   </data>
   <data name="FormatRtf" xml:space="preserve">
-    <value>RTF</value>
+    <value>RTF ドキュメント</value>
     <comment>Conversion target button label. Acronym for Rich Text Format.</comment>
   </data>
   <data name="FormatHtml" xml:space="preserve">
-    <value>HTML</value>
+    <value>HTML ファイル</value>
     <comment>Conversion target button label. Name of the HTML file format.</comment>
   </data>
   <data name="FormatMarkdown" xml:space="preserve">
-    <value>Markdown</value>
+    <value>Markdownドキュメント</value>
     <comment>Conversion target button label. Name of the Markdown file format.</comment>
   </data>
   <data name="FormatTxt" xml:space="preserve">
-    <value>TXT</value>
+    <value>テキスト ドキュメント</value>
     <comment>Conversion target button label. Refers to a plain text .txt file.</comment>
   </data>
   <data name="SelectionSummaryMany" xml:space="preserve">
@@ -171,7 +171,7 @@
     <comment>{0} is the number of selected files. Header above the action cards.</comment>
   </data>
   <data name="FormatCsv" xml:space="preserve">
-    <value>CSV</value>
+    <value>CSV ファイル</value>
     <comment>Conversion target button label. Comma-separated values.</comment>
   </data>
   <data name="FormatTsv" xml:space="preserve">
@@ -179,11 +179,11 @@
     <comment>Conversion target button label. Tab-separated values.</comment>
   </data>
   <data name="FormatXlsx" xml:space="preserve">
-    <value>Excel</value>
+    <value>Excel ファイル</value>
     <comment>Conversion target button label. Refers to the Microsoft Excel .xlsx format.</comment>
   </data>
   <data name="FormatPptx" xml:space="preserve">
-    <value>PowerPoint</value>
+    <value>PowerPoint ファイル</value>
     <comment>Label for the Microsoft PowerPoint .pptx format.</comment>
   </data>
   <data name="SheetFileName" xml:space="preserve">
