@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Loading.TextProperty" xml:space="preserve">
-    <value>アーカイブを読み込んでいます...</value>
+    <value>アーカイブを読み込んでいます…</value>
   </data>
   <data name="ErrorShort.TextProperty" xml:space="preserve">
     <value>アーカイブを読み込めませんでした</value>
