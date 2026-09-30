@@ -62,37 +62,37 @@
     <value>ビデオを変換</value>
   </data>
   <data name="FormatMp4Title.TextProperty" xml:space="preserve">
-    <value>MP4</value>
+    <value>MP4 ファイル</value>
   </data>
   <data name="FormatMp4Description.TextProperty" xml:space="preserve">
     <value>汎用的な互換性 (H.264)</value>
   </data>
   <data name="FormatMkvTitle.TextProperty" xml:space="preserve">
-    <value>MKV</value>
+    <value>MKV ファイル</value>
   </data>
   <data name="FormatMkvDescription.TextProperty" xml:space="preserve">
     <value>柔軟なコンテナ (H.264)</value>
   </data>
   <data name="FormatWebmTitle.TextProperty" xml:space="preserve">
-    <value>WebM</value>
+    <value>WebM ファイル</value>
   </data>
   <data name="FormatWebmDescription.TextProperty" xml:space="preserve">
     <value>Web 最適化 (VP9)</value>
   </data>
   <data name="FormatMovTitle.TextProperty" xml:space="preserve">
-    <value>MOV</value>
+    <value>MOV ファイル</value>
   </data>
   <data name="FormatMovDescription.TextProperty" xml:space="preserve">
     <value>Apple エコシステム (H.264)</value>
   </data>
   <data name="FormatAviTitle.TextProperty" xml:space="preserve">
-    <value>AVI</value>
+    <value>AVI ファイル</value>
   </data>
   <data name="FormatAviDescription.TextProperty" xml:space="preserve">
     <value>レガシー互換 (H.264)</value>
   </data>
   <data name="FormatGifTitle.TextProperty" xml:space="preserve">
-    <value>GIF</value>
+    <value>GIF ファイル</value>
   </data>
   <data name="FormatGifDescription.TextProperty" xml:space="preserve">
     <value>アニメーション画像 (音声なし)</value>
@@ -110,13 +110,13 @@
     <value>フォルダーを開く</value>
   </data>
   <data name="FormatMp3Title.TextProperty" xml:space="preserve">
-    <value>MP3</value>
+    <value>MP3 ファイル</value>
   </data>
   <data name="FormatMp3Description.TextProperty" xml:space="preserve">
     <value>オーディオトラックを抽出</value>
   </data>
   <data name="FormatWavTitle.TextProperty" xml:space="preserve">
-    <value>WAV</value>
+    <value>WAV ファイル</value>
   </data>
   <data name="FormatWavDescription.TextProperty" xml:space="preserve">
     <value>非圧縮オーディオを抽出</value>
