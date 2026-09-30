@@ -328,13 +328,13 @@
     <value>2時間</value>
   </data>
   <data name="MapsProviderGoogle" xml:space="preserve">
-    <value>Google Maps</value>
+    <value>Google マップ</value>
   </data>
   <data name="MapsProviderBing" xml:space="preserve">
-    <value>Bing Maps</value>
+    <value>Bing マップ</value>
   </data>
   <data name="MapsProviderApple" xml:space="preserve">
-    <value>Apple Maps</value>
+    <value>Apple マップ</value>
   </data>
   <data name="TravelMode.HeaderProperty" xml:space="preserve">
     <value>移動手段</value>
@@ -358,19 +358,19 @@
     <value>{0} {1}</value>
   </data>
   <data name="ProviderMicrosoftTeams" xml:space="preserve">
-    <value>Microsoft Teams</value>
+    <value>マイクロソフト チーム</value>
   </data>
   <data name="ProviderZoom" xml:space="preserve">
-    <value>Zoom</value>
+    <value>Zoom ズーム</value>
   </data>
   <data name="ProviderGoogleMeet" xml:space="preserve">
-    <value>Google Meet</value>
+    <value>Google ミート</value>
   </data>
   <data name="ProviderWebex" xml:space="preserve">
     <value>Webex</value>
   </data>
   <data name="ProviderSlack" xml:space="preserve">
-    <value>Slack</value>
+    <value>Slack スラック</value>
   </data>
   <data name="ProviderFaceTime" xml:space="preserve">
     <value>FaceTime</value>
