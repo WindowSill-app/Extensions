@@ -1,3 +1,6 @@
+# 1.0.4
+- Fixed a rare issue where WindowSill could fail to show up at startup after selecting files in File Explorer.
+
 # 0.9.24
 - Added "Combine into PDF": select several images to turn them into a single PDF, one image per page sized to the image.
 
