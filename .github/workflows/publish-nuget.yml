@@ -52,3 +52,4 @@ jobs:
       with:
         name: nuget-package
         path: ${{ github.workspace }}/artifacts/*.nupkg
+        retention-days: 1
