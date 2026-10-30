@@ -1,3 +1,8 @@
+# 1.0.4
+- Fixed an issue where cancelling the FFmpeg download would freeze WindowSill, preventing it from showing up on subsequent starts.
+- Hardware encoder detection no longer hangs or leaves stray `ffmpeg.exe` processes behind.
+- Downloading FFmpeg no longer makes the app sluggish.
+
 # 0.9.24
 - Added audio extraction: convert a video to MP3 or WAV to keep only its sound track.
 

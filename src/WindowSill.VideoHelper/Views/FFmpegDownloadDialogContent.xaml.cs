@@ -8,10 +8,17 @@ namespace WindowSill.VideoHelper.Views;
 /// </summary>
 internal sealed partial class FFmpegDownloadDialogContent : UserControl
 {
+    /// <summary>
+    /// Completed exactly once, with <see langword="true"/> only when FFmpeg was downloaded
+    /// successfully. It is created up-front (rather than when the download starts) so that closing
+    /// the dialog through any route — Close button, Escape, light dismiss or <c>Hide()</c> — can
+    /// always complete it and release the caller.
+    /// </summary>
+    private readonly TaskCompletionSource<bool> _downloadCompletionSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
     private ContentDialog? _parentDialog;
     private CancellationTokenSource? _downloadCts;
     private string _ffmpegDirectory = string.Empty;
-    private TaskCompletionSource<bool>? _downloadCompletionSource;
 
     private FFmpegDownloadDialogContent()
     {
@@ -52,29 +59,34 @@ internal sealed partial class FFmpegDownloadDialogContent : UserControl
         dialogContent._parentDialog = dialog;
 
         dialog.PrimaryButtonClick += dialogContent.OnPrimaryButtonClick;
-        dialog.CloseButtonClick += dialogContent.OnCloseButtonClick;
+        dialog.Closed += dialogContent.OnDialogClosed;
 
         _ = await dialog.ShowAsync();
 
-        return dialogContent._downloadCompletionSource?.Task.Result ?? false;
+        return await dialogContent._downloadCompletionSource.Task;
     }
 
     private void OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
     {
         args.Cancel = true;
-        _ = StartDownloadAsync();
+        StartDownloadAsync().ForgetSafely();
     }
 
-    private void OnCloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    private void OnDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
-        _downloadCts?.Cancel();
-
-        if (!string.IsNullOrEmpty(_ffmpegDirectory))
+        // Unlike CloseButtonClick, Closed is raised for every dismissal route, including Escape and
+        // light dismiss. TrySetResult only succeeds when the download has not already reported its
+        // own outcome, so a successful download is never mistaken for a cancellation (and its
+        // freshly downloaded binaries are never deleted below).
+        if (_downloadCompletionSource.TrySetResult(false))
         {
-            FFmpegManager.CleanupPartialDownload(_ffmpegDirectory);
-        }
+            _downloadCts?.Cancel();
 
-        _downloadCompletionSource?.TrySetResult(false);
+            if (!string.IsNullOrEmpty(_ffmpegDirectory))
+            {
+                FFmpegManager.CleanupPartialDownload(_ffmpegDirectory);
+            }
+        }
     }
 
     private async Task StartDownloadAsync()
@@ -84,8 +96,6 @@ internal sealed partial class FFmpegDownloadDialogContent : UserControl
             return;
         }
 
-        _downloadCompletionSource = new TaskCompletionSource<bool>();
-
         PromptPanel.Visibility = Visibility.Collapsed;
         DownloadingPanel.Visibility = Visibility.Visible;
         ErrorInfoBar.IsOpen = false;
@@ -93,11 +103,12 @@ internal sealed partial class FFmpegDownloadDialogContent : UserControl
         _parentDialog.IsPrimaryButtonEnabled = false;
 
         _downloadCts = new CancellationTokenSource();
+        CancellationToken cancellationToken = _downloadCts.Token;
         var progress = new Progress<double>(UpdateProgress);
 
         try
         {
-            await FFmpegManager.DownloadFFmpegAsync(_ffmpegDirectory, progress, _downloadCts.Token);
+            await FFmpegManager.DownloadFFmpegAsync(_ffmpegDirectory, progress, cancellationToken);
             _downloadCompletionSource.TrySetResult(true);
             _parentDialog.Hide();
         }
@@ -106,8 +117,10 @@ internal sealed partial class FFmpegDownloadDialogContent : UserControl
             _downloadCompletionSource.TrySetResult(false);
             _parentDialog.Hide();
         }
-        catch (Exception) when (!_downloadCts.IsCancellationRequested)
+        catch (Exception) when (!cancellationToken.IsCancellationRequested)
         {
+            // Leave the dialog open so the user can retry. The completion source stays pending on
+            // purpose; whichever way the user then dismisses the dialog, OnDialogClosed completes it.
             ShowError();
         }
     }
@@ -119,7 +132,7 @@ internal sealed partial class FFmpegDownloadDialogContent : UserControl
             int percentage = (int)(progressValue * 100);
             DownloadProgressBar.Value = percentage;
             ProgressTextBlock.Text = $"{percentage}%";
-        });
+        }).ForgetSafely();
     }
 
     private void ShowError()

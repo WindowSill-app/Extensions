@@ -17,6 +17,12 @@ namespace WindowSill.VideoHelper.Core;
 /// </remarks>
 internal sealed class GpuEncoderDetector
 {
+    /// <summary>
+    /// Upper bound for a single FFmpeg probe. A GPU driver can hang while initializing an encoder,
+    /// so probes must never be allowed to run unbounded.
+    /// </summary>
+    private static readonly TimeSpan ProbeTimeout = TimeSpan.FromSeconds(10);
+
     private readonly string _ffmpegPath;
     private static readonly ConcurrentDictionary<string, HashSet<string>> _cache = new();
 
@@ -55,25 +61,11 @@ internal sealed class GpuEncoderDetector
         try
         {
             // First, get compiled-in encoders list
-            var listStartInfo = new ProcessStartInfo
-            {
-                FileName = _ffmpegPath,
-                Arguments = "-hide_banner -encoders",
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-            };
-
-            using var listProcess = Process.Start(listStartInfo);
-            if (listProcess is null)
+            (_, string output) = await RunFFmpegAsync("-hide_banner -encoders", cancellationToken);
+            if (string.IsNullOrEmpty(output))
             {
                 return available;
             }
-
-            string output = await listProcess.StandardOutput.ReadToEndAsync(cancellationToken);
-            _ = await listProcess.StandardError.ReadToEndAsync(cancellationToken);
-            await listProcess.WaitForExitAsync(cancellationToken);
 
             // For each compiled-in GPU encoder, verify it actually works at runtime
             // by encoding a single synthetic frame
@@ -102,36 +94,80 @@ internal sealed class GpuEncoderDetector
     /// </summary>
     private async Task<bool> ProbeEncoderAsync(string encoder, CancellationToken cancellationToken)
     {
+        (bool succeeded, _) = await RunFFmpegAsync(
+            $"-hide_banner -f lavfi -i color=black:s=256x256:d=0.04:r=25 -frames:v 1 -c:v {encoder} -f null -",
+            cancellationToken);
+
+        return succeeded;
+    }
+
+    /// <summary>
+    /// Runs a short-lived FFmpeg probe and returns whether it exited successfully along with its
+    /// standard output.
+    /// </summary>
+    /// <remarks>
+    /// Both output streams are drained concurrently: reading them one after the other deadlocks as
+    /// soon as FFmpeg fills the pipe buffer of the stream that is not being read yet. The probe is
+    /// also bounded by <see cref="ProbeTimeout"/> and the process is killed when it elapses,
+    /// otherwise a driver that hangs while initializing a GPU encoder would leave an orphaned
+    /// <c>ffmpeg.exe</c> behind and block this task forever.
+    /// </remarks>
+    private async Task<(bool Succeeded, string Output)> RunFFmpegAsync(string arguments, CancellationToken cancellationToken)
+    {
         try
         {
             var startInfo = new ProcessStartInfo
             {
                 FileName = _ffmpegPath,
-                Arguments = $"-hide_banner -f lavfi -i color=black:s=256x256:d=0.04:r=25 -frames:v 1 -c:v {encoder} -f null -",
+                Arguments = arguments,
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
             };
 
-            using var process = Process.Start(startInfo);
+            using Process? process = Process.Start(startInfo);
             if (process is null)
             {
-                return false;
+                return (false, string.Empty);
             }
 
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            cts.CancelAfter(TimeSpan.FromSeconds(10));
+            cts.CancelAfter(ProbeTimeout);
 
-            _ = await process.StandardOutput.ReadToEndAsync(cts.Token);
-            _ = await process.StandardError.ReadToEndAsync(cts.Token);
-            await process.WaitForExitAsync(cts.Token);
+            try
+            {
+                Task<string> readStdoutTask = process.StandardOutput.ReadToEndAsync(cts.Token);
+                Task<string> readStderrTask = process.StandardError.ReadToEndAsync(cts.Token);
 
-            return process.ExitCode == 0;
+                await Task.WhenAll(readStdoutTask, readStderrTask);
+                await process.WaitForExitAsync(cts.Token);
+
+                return (process.ExitCode == 0, await readStdoutTask);
+            }
+            finally
+            {
+                TryKill(process);
+            }
         }
         catch
         {
-            return false;
+            return (false, string.Empty);
+        }
+    }
+
+    private static void TryKill(Process process)
+    {
+        try
+        {
+            if (!process.HasExited)
+            {
+                process.Kill(entireProcessTree: true);
+            }
+        }
+        catch (Exception ex) when (ex is InvalidOperationException or NotSupportedException or System.ComponentModel.Win32Exception)
+        {
+            // The process already exited, or cannot be killed. Nothing more we can do.
         }
     }
 
