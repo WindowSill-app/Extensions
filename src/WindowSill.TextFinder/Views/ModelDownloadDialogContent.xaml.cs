@@ -8,10 +8,17 @@ namespace WindowSill.TextFinder.Views;
 /// </summary>
 public sealed partial class ModelDownloadDialogContent : UserControl
 {
+    /// <summary>
+    /// Completed exactly once, with <see langword="true"/> only when the model was downloaded
+    /// successfully. It is created up-front (rather than when the download starts) so that closing
+    /// the dialog through any route — Close button, Escape, light dismiss or <c>Hide()</c> — can
+    /// always complete it and release the caller.
+    /// </summary>
+    private readonly TaskCompletionSource<bool> _downloadCompletionSource = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
     private ContentDialog? _parentDialog;
     private CancellationTokenSource? _downloadCts;
     private string _modelDirectory = string.Empty;
-    private TaskCompletionSource<bool>? _downloadCompletionSource;
 
     private ModelDownloadDialogContent()
     {
@@ -53,12 +60,13 @@ public sealed partial class ModelDownloadDialogContent : UserControl
 
         // Prevent dialog from closing when Download is clicked - we handle closing manually
         dialog.PrimaryButtonClick += dialogContent.OnPrimaryButtonClick;
-        dialog.CloseButtonClick += dialogContent.OnCloseButtonClick;
+        dialog.Closed += dialogContent.OnDialogClosed;
 
         _ = await dialog.ShowAsync();
 
-        // Return the result from download completion
-        return dialogContent._downloadCompletionSource?.Task.Result ?? false;
+        // Return the result from download completion. This must never be awaited synchronously:
+        // the download resumes on the UI thread, so blocking it here would deadlock permanently.
+        return await dialogContent._downloadCompletionSource.Task;
     }
 
     private void OnPrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -67,21 +75,24 @@ public sealed partial class ModelDownloadDialogContent : UserControl
         args.Cancel = true;
 
         // Start download
-        _ = StartDownloadAsync();
+        StartDownloadAsync().ForgetSafely();
     }
 
-    private void OnCloseButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+    private void OnDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
-        // Cancel any ongoing download
-        _downloadCts?.Cancel();
-
-        // Clean up any partially downloaded files
-        if (!string.IsNullOrEmpty(_modelDirectory))
+        // Unlike CloseButtonClick, Closed is raised for every dismissal route, including Escape and
+        // light dismiss. TrySetResult only succeeds when the download has not already reported its
+        // own outcome, so a successful download is never mistaken for a cancellation (and its
+        // freshly downloaded files are never deleted below).
+        if (_downloadCompletionSource.TrySetResult(false))
         {
-            ModelManager.CleanupPartialDownload(_modelDirectory);
-        }
+            _downloadCts?.Cancel();
 
-        _downloadCompletionSource?.TrySetResult(false);
+            if (!string.IsNullOrEmpty(_modelDirectory))
+            {
+                ModelManager.CleanupPartialDownload(_modelDirectory);
+            }
+        }
     }
 
     private async Task StartDownloadAsync()
@@ -90,8 +101,6 @@ public sealed partial class ModelDownloadDialogContent : UserControl
         {
             return;
         }
-
-        _downloadCompletionSource = new TaskCompletionSource<bool>();
 
         // Switch to downloading state
         PromptPanel.Visibility = Visibility.Collapsed;
@@ -121,7 +130,8 @@ public sealed partial class ModelDownloadDialogContent : UserControl
         }
         catch (Exception ex) when (ex is HttpRequestException or IOException)
         {
-            // Show error and allow retry
+            // Show error and allow retry. The completion source stays pending on purpose; whichever
+            // way the user then dismisses the dialog, OnDialogClosed completes it.
             ShowError();
         }
     }
@@ -133,7 +143,7 @@ public sealed partial class ModelDownloadDialogContent : UserControl
             int percentage = (int)(progressValue * 100);
             DownloadProgressBar.Value = percentage;
             ProgressTextBlock.Text = $"{percentage}%";
-        });
+        }).ForgetSafely();
     }
 
     private void ShowError()

@@ -1,3 +1,6 @@
+# 1.0.4
+- Fixed an issue where cancelling the model download would freeze WindowSill, preventing it from showing up on subsequent starts.
+
 # 0.9.23
 - Added missing screenshots to the extension package.
 

@@ -111,6 +111,12 @@ internal static class ModelManager
         }
     }
 
+    /// <remarks>
+    /// Every await in this method deliberately uses <c>ConfigureAwait(false)</c>. The download is
+    /// started from the UI thread, which owns a <c>DispatcherQueueSynchronizationContext</c>; without
+    /// this, each of the thousands of read/write continuations would be marshalled back to the UI
+    /// thread, and the download could not make progress at all if that thread ever stalled.
+    /// </remarks>
     private static async Task DownloadFileAsync(
         string url,
         string destinationPath,
@@ -118,32 +124,38 @@ internal static class ModelManager
         CancellationToken cancellationToken)
     {
         using var client = new HttpClient();
-        using HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+        using HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
 
         response.EnsureSuccessStatusCode();
 
         long? totalBytes = response.Content.Headers.ContentLength;
-        await using Stream contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
-        await using var fileStream = new FileStream(
-            destinationPath,
-            FileMode.Create,
-            FileAccess.Write,
-            FileShare.None,
-            bufferSize: 81920,
-            useAsync: true);
-
-        byte[] buffer = new byte[81920];
-        long totalRead = 0;
-        int bytesRead;
-
-        while ((bytesRead = await contentStream.ReadAsync(buffer, cancellationToken)) > 0)
+        Stream contentStream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+        await using (contentStream.ConfigureAwait(false))
         {
-            await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken);
-            totalRead += bytesRead;
+            var fileStream = new FileStream(
+                destinationPath,
+                FileMode.Create,
+                FileAccess.Write,
+                FileShare.None,
+                bufferSize: 81920,
+                useAsync: true);
 
-            if (totalBytes.HasValue)
+            await using (fileStream.ConfigureAwait(false))
             {
-                progress?.Report((double)totalRead / totalBytes.Value);
+                byte[] buffer = new byte[81920];
+                long totalRead = 0;
+                int bytesRead;
+
+                while ((bytesRead = await contentStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false)) > 0)
+                {
+                    await fileStream.WriteAsync(buffer.AsMemory(0, bytesRead), cancellationToken).ConfigureAwait(false);
+                    totalRead += bytesRead;
+
+                    if (totalBytes.HasValue)
+                    {
+                        progress?.Report((double)totalRead / totalBytes.Value);
+                    }
+                }
             }
         }
     }
