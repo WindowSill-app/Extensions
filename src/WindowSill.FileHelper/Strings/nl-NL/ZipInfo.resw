@@ -118,48 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Loading.TextProperty" xml:space="preserve">
-    <value>Reading archive...</value>
+    <value>Archief wordt gelezen...</value>
   </data>
   <data name="ErrorShort.TextProperty" xml:space="preserve">
-    <value>Couldn't read archive</value>
+    <value>Kon archief niet lezen</value>
   </data>
   <data name="CountsJoinFormat" xml:space="preserve">
     <value>{0} · {1}</value>
     <comment>Joins the file-count and folder-count fragments (e.g. "28 files · 23 folders").</comment>
   </data>
   <data name="FilesSingularFormat" xml:space="preserve">
-    <value>{0} file</value>
+    <value>{0} bestand</value>
   </data>
   <data name="FilesPluralFormat" xml:space="preserve">
-    <value>{0} files</value>
+    <value>{0} bestanden</value>
   </data>
   <data name="FoldersSingularFormat" xml:space="preserve">
-    <value>{0} folder</value>
+    <value>{0} map</value>
   </data>
   <data name="FoldersPluralFormat" xml:space="preserve">
-    <value>{0} folders</value>
+    <value>{0} mappen</value>
   </data>
   <data name="SizesFormat" xml:space="preserve">
     <value>{0} → {1}</value>
     <comment>{0} = uncompressed size, {1} = compressed size (e.g. "36.3 MB → 14.2 MB").</comment>
   </data>
   <data name="CompressionRatioSmallerFormat" xml:space="preserve">
-    <value>{0}% smaller</value>
+    <value>{0}% kleiner</value>
   </data>
   <data name="CompressionRatioLargerFormat" xml:space="preserve">
-    <value>{0}% larger</value>
+    <value>{0}% groter</value>
   </data>
   <data name="CompressionRatioEqual" xml:space="preserve">
-    <value>Same as original size</value>
+    <value>Zelfde als oorspronkelijke grootte</value>
   </data>
   <data name="CompressionRatioNotAvailable" xml:space="preserve">
-    <value>Not available</value>
+    <value>Niet beschikbaar</value>
   </data>
   <data name="EntryCompressionNotApplicable" xml:space="preserve">
     <value>—</value>
     <comment>Shown as a single file's compression outcome when it has no content to compress (a zero-byte file).</comment>
   </data>
   <data name="EmptyArchive.TextProperty" xml:space="preserve">
-    <value>This archive contains no files.</value>
+    <value>Dit archief bevat geen bestanden.</value>
   </data>
 </root>
