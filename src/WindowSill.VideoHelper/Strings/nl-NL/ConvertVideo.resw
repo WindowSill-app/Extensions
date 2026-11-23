@@ -59,66 +59,66 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>Convert video</value>
+    <value>Video converteren</value>
   </data>
   <data name="FormatMp4Title.TextProperty" xml:space="preserve">
     <value>MP4</value>
   </data>
   <data name="FormatMp4Description.TextProperty" xml:space="preserve">
-    <value>Universal compatibility (H.264)</value>
+    <value>Universele compatibiliteit (H.264)</value>
   </data>
   <data name="FormatMkvTitle.TextProperty" xml:space="preserve">
     <value>MKV</value>
   </data>
   <data name="FormatMkvDescription.TextProperty" xml:space="preserve">
-    <value>Flexible container (H.264)</value>
+    <value>Flexibele container (H.264)</value>
   </data>
   <data name="FormatWebmTitle.TextProperty" xml:space="preserve">
     <value>WebM</value>
   </data>
   <data name="FormatWebmDescription.TextProperty" xml:space="preserve">
-    <value>Web-optimized (VP9)</value>
+    <value>Geoptimaliseerd voor het web (VP9)</value>
   </data>
   <data name="FormatMovTitle.TextProperty" xml:space="preserve">
     <value>MOV</value>
   </data>
   <data name="FormatMovDescription.TextProperty" xml:space="preserve">
-    <value>Apple ecosystem (H.264)</value>
+    <value>Apple-ecosysteem (H.264)</value>
   </data>
   <data name="FormatAviTitle.TextProperty" xml:space="preserve">
     <value>AVI</value>
   </data>
   <data name="FormatAviDescription.TextProperty" xml:space="preserve">
-    <value>Legacy compatibility (H.264)</value>
+    <value>Compatibiliteit met oudere systemen (H.264)</value>
   </data>
   <data name="FormatGifTitle.TextProperty" xml:space="preserve">
     <value>GIF</value>
   </data>
   <data name="FormatGifDescription.TextProperty" xml:space="preserve">
-    <value>Animated image (no audio)</value>
+    <value>Geanimeerde afbeelding (geen audio)</value>
   </data>
   <data name="CancelButton.ContentProperty" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuleren</value>
   </data>
   <data name="ResultTitle.TextProperty" xml:space="preserve">
-    <value>Conversion complete</value>
+    <value>Conversie voltooid</value>
   </data>
   <data name="ResultSummary" xml:space="preserve">
-    <value>{0} of {1} files converted successfully</value>
+    <value>{0} van de {1} bestanden zijn succesvol geconverteerd</value>
   </data>
   <data name="OpenFolderButton.ContentProperty" xml:space="preserve">
-    <value>Open folder</value>
+    <value>Open map</value>
   </data>
   <data name="FormatMp3Title.TextProperty" xml:space="preserve">
     <value>MP3</value>
   </data>
   <data name="FormatMp3Description.TextProperty" xml:space="preserve">
-    <value>Extract the audio track</value>
+    <value>De audiotrack extraheren</value>
   </data>
   <data name="FormatWavTitle.TextProperty" xml:space="preserve">
     <value>WAV</value>
   </data>
   <data name="FormatWavDescription.TextProperty" xml:space="preserve">
-    <value>Extract uncompressed audio</value>
+    <value>Ongecomprimeerde audio extraheren</value>
   </data>
 </root>
