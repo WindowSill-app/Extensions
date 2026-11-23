@@ -118,25 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>Convert</value>
+    <value>Zet om</value>
   </data>
   <data name="CancelButton.ContentProperty" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuleren</value>
   </data>
   <data name="OpenFolderButton.ContentProperty" xml:space="preserve">
-    <value>Open folder</value>
+    <value>Open map</value>
   </data>
   <data name="ResultTitle" xml:space="preserve">
-    <value>All done</value>
+    <value>Alles gereed</value>
   </data>
   <data name="ResultFailedTitle" xml:space="preserve">
-    <value>Nothing was produced</value>
+    <value>Er is niets gegenereerd</value>
   </data>
   <data name="ResultCanceledTitle" xml:space="preserve">
-    <value>Canceled</value>
+    <value>Geannuleerd</value>
   </data>
   <data name="ResultSummary" xml:space="preserve">
-    <value>{0} of {1} files processed successfully</value>
+    <value>{0} van {1} bestanden succesvol verwerkt</value>
   </data>
   <data name="FormatPdf" xml:space="preserve">
     <value>PDF</value>
@@ -167,7 +167,7 @@
     <comment>Conversion target button label. Refers to a plain text .txt file.</comment>
   </data>
   <data name="SelectionSummaryMany" xml:space="preserve">
-    <value>{0} files selected</value>
+    <value>{0} bestanden zijn geselecteerd</value>
     <comment>{0} is the number of selected files. Header above the action cards.</comment>
   </data>
   <data name="FormatCsv" xml:space="preserve">
