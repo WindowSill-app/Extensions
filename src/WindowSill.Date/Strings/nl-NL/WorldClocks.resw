@@ -59,54 +59,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SettingsTabName" xml:space="preserve">
-    <value>World Clocks</value>
+    <value>Wereldklokken</value>
   </data>
   <data name="AddTimezoneHeader.TextProperty" xml:space="preserve">
-    <value>Add timezone</value>
+    <value>Tijdzone toevoegen</value>
   </data>
   <data name="CitySearch.PlaceholderTextProperty" xml:space="preserve">
-    <value>Search cities...</value>
+    <value>Steden zoeken...</value>
   </data>
   <data name="ConfiguredClocksHeader.TextProperty" xml:space="preserve">
-    <value>Configured clocks</value>
+    <value>Ingestelde klokken</value>
   </data>
   <data name="NoClocksMessage.TextProperty" xml:space="preserve">
-    <value>No world clocks configured yet. Search for a city above to add one.</value>
+    <value>Er zijn nog geen wereldklokken ingesteld. Zoek hierboven naar een stad om er een toe te voegen.</value>
   </data>
   <data name="CustomNameBox.HeaderProperty" xml:space="preserve">
-    <value>Custom display name</value>
+    <value>Aangepaste weergavenaam</value>
   </data>
   <data name="SaveName.ContentProperty" xml:space="preserve">
-    <value>Save</value>
+    <value>Opslaan</value>
   </data>
   <data name="CustomNameBox.PlaceholderTextProperty" xml:space="preserve">
-    <value>Enter custom name...</value>
+    <value>Voer een aangepaste naam in...</value>
   </data>
   <data name="CustomNameHint.TextProperty" xml:space="preserve">
-    <value>Leave empty to use the default city name.</value>
+    <value>Laat leeg om de standaard stadsnaam te gebruiken.</value>
   </data>
   <data name="ShowInBar.HeaderProperty" xml:space="preserve">
-    <value>Show in bar</value>
+    <value>Weergeven op de balk</value>
   </data>
   <data name="ShowInBarHint.TextProperty" xml:space="preserve">
-    <value>Pin this clock to the WindowSill bar for quick access.</value>
+    <value>Zet deze klok vast op de WindowSill-balk voor snelle toegang.</value>
   </data>
   <data name="BarPlacementHeader.TextProperty" xml:space="preserve">
-    <value>Bar placement</value>
+    <value>Positie op de balk</value>
   </data>
   <data name="ClockPlacement.HeaderProperty" xml:space="preserve">
-    <value>Pinned clock position</value>
+    <value>Positie van de vastgemaakte klok</value>
   </data>
   <data name="ClockPlacement.DescriptionProperty" xml:space="preserve">
-    <value>Where pinned clocks appear relative to the date sill in the bar</value>
+    <value>Waar vastgemaakte klokken op de balk verschijnen ten opzichte van de datumweergave</value>
   </data>
   <data name="PlacementBefore" xml:space="preserve">
-    <value>Before date sill</value>
+    <value>Vóór de datumweergave</value>
   </data>
   <data name="PlacementAfter" xml:space="preserve">
-    <value>After date sill</value>
+    <value>Na de datumweergave</value>
   </data>
   <data name="PlacementByTimezone" xml:space="preserve">
-    <value>By timezone (earlier before, later after)</value>
+    <value>Op tijdzone (eerder ervoor, later erna)</value>
   </data>
 </root>
