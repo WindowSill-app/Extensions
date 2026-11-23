@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CpuLabel.TextProperty" xml:space="preserve">
-    <value>CPU Usage</value>
+    <value>CPU-gebruik</value>
   </data>
   <data name="MemoryLabel.TextProperty" xml:space="preserve">
-    <value>Memory Usage</value>
+    <value>Geheugengebruik</value>
   </data>
   <data name="GpuLabel.TextProperty" xml:space="preserve">
-    <value>GPU Usage</value>
+    <value>GPU-gebruik</value>
   </data>
   <data name="OpenTaskManager.TextProperty" xml:space="preserve">
-    <value>Open Task Manager</value>
+    <value>Taakbeheer openen</value>
   </data>
 </root>
