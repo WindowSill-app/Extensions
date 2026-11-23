@@ -118,48 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ClearHistory" xml:space="preserve">
-    <value>Clear History</value>
+    <value>Geschiedenis wissen</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Verwijderen</value>
   </data>
   <data name="DisplayName" xml:space="preserve">
-    <value>Clipboard History</value>
+    <value>Klembordgeschiedenis</value>
   </data>
   <data name="EmptyClipboard.TextProperty" xml:space="preserve">
-    <value>The clipboard is empty.</value>
+    <value>Het klembord is leeg.</value>
   </data>
   <data name="EnableClipboardHistory.TextProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Windows-klembordgeschiedenis inschakelen</value>
   </data>
   <data name="FileError" xml:space="preserve">
-    <value>Failed to get file info</value>
+    <value>Kan bestandsinformatie niet ophalen</value>
   </data>
   <data name="ImageSize" xml:space="preserve">
-    <value>{0} x {1} pixels</value>
+    <value>{0} x {1} beeldpunten</value>
   </data>
   <data name="OpenApplication" xml:space="preserve">
-    <value>Open application</value>
+    <value>Toepassing openen</value>
   </data>
   <data name="OpenInFileExplorer" xml:space="preserve">
-    <value>Open in File Explorer</value>
+    <value>Openen in Verkenner</value>
   </data>
   <data name="OpenInWebBrowser" xml:space="preserve">
-    <value>Open in web browser</value>
+    <value>Openen in webbrowser</value>
   </data>
   <data name="UnsupportedFormat" xml:space="preserve">
-    <value>Unsupported Format</value>
+    <value>Niet-ondersteunde indeling</value>
   </data>
   <data name="LinkError" xml:space="preserve">
-    <value>Unable to load link</value>
+    <value>Kan de koppeling niet laden</value>
   </data>
   <data name="ClipboardFileBaseName" xml:space="preserve">
-    <value>Clipboard</value>
+    <value>Klembord</value>
   </data>
   <data name="Pin" xml:space="preserve">
-    <value>Pin</value>
+    <value>Vastmaken</value>
   </data>
   <data name="Unpin" xml:space="preserve">
-    <value>Unpin</value>
+    <value>Losmaken</value>
   </data>
 </root>
