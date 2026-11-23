@@ -118,27 +118,27 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DialogTitle" xml:space="preserve">
-    <value>Download required</value>
+    <value>Download vereist</value>
   </data>
   <data name="DialogDescription.TextProperty" xml:space="preserve">
-    <value>Video Helper requires FFmpeg to compress and convert videos. FFmpeg will be downloaded from the internet (approximately 210 MB). This is a one-time download.</value>
+    <value>Video Helper heeft FFmpeg nodig om video's te comprimeren en converteren. FFmpeg wordt gedownload van internet (ongeveer 210 MB). Dit is een eenmalige download.</value>
   </data>
   <data name="LicenseNotice.TextProperty" xml:space="preserve">
-    <value>FFmpeg is licensed under the GPL. Learn more at ffmpeg.org.</value>
+    <value>FFmpeg is gelicentieerd onder de GPL. Lees meer op ffmpeg.org.</value>
   </data>
   <data name="DownloadButton" xml:space="preserve">
-    <value>Download</value>
+    <value>Downloaden</value>
   </data>
   <data name="CancelButton" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuleren</value>
   </data>
   <data name="Downloading.TextProperty" xml:space="preserve">
-    <value>Downloading FFmpeg...</value>
+    <value>FFmpeg downloaden...</value>
   </data>
   <data name="Extracting" xml:space="preserve">
-    <value>Extracting FFmpeg...</value>
+    <value>FFmpeg uitpakken...</value>
   </data>
   <data name="DownloadFailed.MessageProperty" xml:space="preserve">
-    <value>Download failed. Please check your internet connection and try again.</value>
+    <value>Downloaden mislukt. Controleer je internetverbinding en probeer het opnieuw.</value>
   </data>
 </root>
