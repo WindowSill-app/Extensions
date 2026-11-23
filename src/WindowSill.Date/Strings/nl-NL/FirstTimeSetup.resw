@@ -118,39 +118,39 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="WelcomeDescription.TextProperty" xml:space="preserve">
-    <value>The Date feature keeps you on top of your schedule right from the sill bar. Connect your calendar accounts to see upcoming events, get meeting reminders, and never miss an appointment.</value>
+    <value>Met de functie Datum houd je je planning direct vanuit de Sill-balk bij. Koppel je agenda-accounts om aankomende afspraken te bekijken, herinneringen voor vergaderingen te ontvangen en nooit meer een afspraak te missen.</value>
   </data>
   <data name="FeatureCalendar.TextProperty" xml:space="preserve">
-    <value>View your calendar and upcoming events at a glance</value>
+    <value>Bekijk je agenda en aankomende afspraken in één oogopslag</value>
   </data>
   <data name="FeatureMeetings.TextProperty" xml:space="preserve">
-    <value>Get meeting reminders and join video calls with one click</value>
+    <value>Ontvang herinneringen voor vergaderingen en neem met één klik deel aan videogesprekken</value>
   </data>
   <data name="FeatureWorldClocks.TextProperty" xml:space="preserve">
-    <value>Pin world clocks to track time across time zones</value>
+    <value>Zet wereldklokken vast om de tijd in verschillende tijdzones bij te houden</value>
   </data>
   <data name="AccountsDescription.TextProperty" xml:space="preserve">
-    <value>Connect your calendar accounts to start seeing events. You can add more accounts later in Settings.</value>
+    <value>Koppel je agenda-accounts om afspraken te bekijken. Je kunt later meer accounts toevoegen via Instellingen.</value>
   </data>
   <data name="AddAccount.TextProperty" xml:space="preserve">
-    <value>Add account</value>
+    <value>Account toevoegen</value>
   </data>
   <data name="NoAccountsMessage.TextProperty" xml:space="preserve">
-    <value>No accounts connected yet. You can skip this step and add accounts later.</value>
+    <value>Er zijn nog geen accounts gekoppeld. Je kunt deze stap overslaan en later accounts toevoegen.</value>
   </data>
   <data name="RemoveAccount.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Remove account</value>
+    <value>Account verwijderen</value>
   </data>
   <data name="TravelTimeDescription.TextProperty" xml:space="preserve">
-    <value>When enabled, WindowSill can estimate how long it takes to travel to your appointments and notify you when it's time to leave. This requires access to your location.</value>
+    <value>Als deze optie is ingeschakeld, kan WindowSill inschatten hoelang het duurt om naar je afspraken te reizen en je laten weten wanneer het tijd is om te vertrekken. Hiervoor is toegang tot je locatie vereist.</value>
   </data>
   <data name="TravelTimeToggle.HeaderProperty" xml:space="preserve">
-    <value>Enable travel time notifications</value>
+    <value>Meldingen over reistijd inschakelen</value>
   </data>
   <data name="LocationDenied.MessageProperty" xml:space="preserve">
-    <value>Location access was denied. You can enable location access in Windows Settings and turn on this feature later in the Date extension settings.</value>
+    <value>Toegang tot je locatie is geweigerd. Je kunt locatietoegang inschakelen in de Windows-instellingen en deze functie later inschakelen in de instellingen van de extensie Datum.</value>
   </data>
   <data name="TravelTimeNoAccounts.TextProperty" xml:space="preserve">
-    <value>No calendar accounts were added, so travel time notifications are not available. You can enable this feature later in the Date extension settings after connecting an account.</value>
+    <value>Er zijn geen agenda-accounts toegevoegd, dus meldingen over reistijd zijn niet beschikbaar. Je kunt deze functie later inschakelen in de instellingen van de extensie Datum nadat je een account hebt gekoppeld.</value>
   </data>
 </root>
