@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>File Helper</value>
+    <value>Bestandshulp</value>
   </data>
   <data name="ConvertingFiles" xml:space="preserve">
-    <value>Converting {0} files...</value>
+    <value>{0} bestanden converteren...</value>
   </data>
   <data name="ConversionCompleted" xml:space="preserve">
-    <value>Completed!</value>
+    <value>Voltooid!</value>
   </data>
   <data name="ConversionCanceled" xml:space="preserve">
-    <value>Canceled</value>
+    <value>Geannuleerd</value>
   </data>
 </root>
