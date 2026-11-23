@@ -118,20 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="General.TextProperty" xml:space="preserve">
-    <value>General</value>
+    <value>Algemeen</value>
   </data>
   <data name="NotificationMode.DescriptionProperty" xml:space="preserve">
-    <value>Choose how reminders appear.
-• Toast notification provide a small pop-up that blends into your workflow and stays in Windows Action Center.
-• Full-screen notification take over the display, ensuring it is impossible to overlook—even when Windows is in Focus mode. Ideal for anyone who benefits from stronger visual cues to stay on track.</value>
+    <value>Kies hoe herinneringen worden weergegeven.
+• Toastmeldingen zijn kleine pop-ups die in je workflow passen en in het Windows-actiecentrum blijven staan.
+• Meldingen op volledig scherm nemen het hele scherm in beslag, zodat je ze onmogelijk over het hoofd ziet, zelfs wanneer Windows in de focusmodus staat. Ideaal voor iedereen die extra visuele aanwijzingen nodig heeft om op koers te blijven.</value>
   </data>
   <data name="NotificationMode.HeaderProperty" xml:space="preserve">
-    <value>Notification mode</value>
+    <value>Meldingsmodus</value>
   </data>
   <data name="NotificationModeToggle.OffContentProperty" xml:space="preserve">
-    <value>Toast notification</value>
+    <value>Toastmelding</value>
   </data>
   <data name="NotificationModeToggle.OnContentProperty" xml:space="preserve">
-    <value>Full-screen notification</value>
+    <value>Melding op volledig scherm</value>
   </data>
 </root>
