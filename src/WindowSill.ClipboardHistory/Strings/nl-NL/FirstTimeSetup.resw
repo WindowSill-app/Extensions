@@ -59,9 +59,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Description.TextProperty" xml:space="preserve">
-    <value>WindowSill's clipboard history leverages the Windows Clipboard history feature to work. Windows Clipboard history needs to be enabled.</value>
+    <value>De klembordgeschiedenis van WindowSill maakt gebruik van de functie Klembordgeschiedenis van Windows. Deze functie moet zijn ingeschakeld.</value>
   </data>
   <data name="EnableClipboardHistory.HeaderProperty" xml:space="preserve">
-    <value>Enable Windows Clipboard history</value>
+    <value>Klembordgeschiedenis van Windows inschakelen</value>
   </data>
 </root>
