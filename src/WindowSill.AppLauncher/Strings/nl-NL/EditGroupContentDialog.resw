@@ -118,42 +118,42 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AppApps.TextProperty" xml:space="preserve">
-    <value>Add app(s)</value>
+    <value>App(s) toevoegen</value>
   </data>
   <data name="AppFiles.TextProperty" xml:space="preserve">
-    <value>Add file(s)</value>
+    <value>Bestand(en) toevoegen</value>
   </data>
   <data name="AppFolders.TextProperty" xml:space="preserve">
-    <value>Add folder(s)</value>
+    <value>Map(pen) toevoegen</value>
   </data>
   <data name="AppUrls.TextProperty" xml:space="preserve">
-    <value>Add URL(s)</value>
+    <value>URL('s) toevoegen</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuleren</value>
   </data>
   <data name="ChangeIcon.TextProperty" xml:space="preserve">
-    <value>Change icon</value>
+    <value>Pictogram wijzigen</value>
   </data>
   <data name="Delete.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Delete</value>
+    <value>Verwijderen</value>
   </data>
   <data name="Edit.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Edit</value>
+    <value>Bewerken</value>
   </data>
   <data name="EditGroup" xml:space="preserve">
-    <value>Edit group</value>
+    <value>Groep bewerken</value>
   </data>
   <data name="GroupName.HeaderProperty" xml:space="preserve">
-    <value>Group name</value>
+    <value>Groepsnaam</value>
   </data>
   <data name="NewGroup" xml:space="preserve">
-    <value>New group</value>
+    <value>Nieuwe groep</value>
   </data>
   <data name="Reset.TextProperty" xml:space="preserve">
-    <value>Reset</value>
+    <value>Resetten</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Opslaan</value>
   </data>
 </root>
