@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Kopiëren</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Opslaan</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Generate QRCode</value>
+    <value>QR-code genereren</value>
   </data>
 </root>
