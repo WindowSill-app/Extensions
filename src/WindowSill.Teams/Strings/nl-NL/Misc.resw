@@ -121,12 +121,12 @@
     <value>Microsoft Teams</value>
   </data>
   <data name="Leave" xml:space="preserve">
-    <value>Leave call</value>
+    <value>Gesprek verlaten</value>
   </data>
   <data name="Mute" xml:space="preserve">
-    <value>Mute</value>
+    <value>Dempen</value>
   </data>
   <data name="Unmute" xml:space="preserve">
-    <value>Umute</value>
+    <value>Dempen opheffen</value>
   </data>
 </root>
