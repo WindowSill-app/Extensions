@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Delete.TextProperty" xml:space="preserve">
-    <value>Delete</value>
+    <value>Verwijderen</value>
   </data>
   <data name="ReminderPassed" xml:space="preserve">
-    <value>Reminder time has passed</value>
+    <value>De tijd voor de herinnering is verstreken</value>
   </data>
   <data name="ReminderRemainingTime" xml:space="preserve">
-    <value>In {0} minutes (at {1})</value>
+    <value>Over {0} minuten (om {1})</value>
   </data>
 </root>
