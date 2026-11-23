@@ -118,53 +118,53 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CopyButton.TextProperty" xml:space="preserve">
-    <value>Copy</value>
+    <value>Kopiëren</value>
   </data>
   <data name="RerunButton.TextProperty" xml:space="preserve">
-    <value>Re-run</value>
+    <value>Opnieuw uitvoeren</value>
     <comment>Re-run a shell command</comment>
   </data>
   <data name="DismissButton.TextProperty" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Sluiten</value>
   </data>
   <data name="DismissOthersButton.TextProperty" xml:space="preserve">
-    <value>Dismiss other runs</value>
+    <value>Andere opdrachten sluiten</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
   <data name="DismissOthersFormat" xml:space="preserve">
-    <value>Dismiss {0} other run(s)</value>
+    <value>{0} andere opdracht(en) sluiten</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
   <data name="DismissAllButton.TextProperty" xml:space="preserve">
-    <value>Dismiss all runs</value>
+    <value>Alle opdrachten sluiten</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
   <data name="DismissAllFormat" xml:space="preserve">
-    <value>Dismiss all {0} runs</value>
+    <value>Alle {0} opdrachten sluiten</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
   <data name="RunCopyButton.TextProperty" xml:space="preserve">
-    <value>Re-run &amp; Copy output</value>
+    <value>Opnieuw uitvoeren en uitvoer kopiëren</value>
   </data>
   <data name="RunAppendButton.TextProperty" xml:space="preserve">
-    <value>Re-run &amp; Append selection</value>
+    <value>Opnieuw uitvoeren en selectie toevoegen</value>
   </data>
   <data name="RunReplaceButton.TextProperty" xml:space="preserve">
-    <value>Re-run &amp; Replace selection</value>
+    <value>Opnieuw uitvoeren en selectie vervangen</value>
   </data>
   <data name="CancelButton.TextProperty" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuleren</value>
   </data>
   <data name="NoOtherRuns" xml:space="preserve">
-    <value>No other runs</value>
+    <value>Geen andere opdrachten</value>
     <comment>"run" is a shell command that got executed</comment>
   </data>
   <data name="PinButton" xml:space="preserve">
-    <value>Pin (prevent auto-dismiss)</value>
+    <value>Vastzetten (automatisch sluiten voorkomen)</value>
     <comment>Tooltip for pinning a command run to prevent auto-dismiss</comment>
   </data>
   <data name="UnpinButton" xml:space="preserve">
-    <value>Unpin</value>
+    <value>Losmaken</value>
     <comment>Tooltip for unpinning a command run to allow auto-dismiss</comment>
   </data>
 </root>
