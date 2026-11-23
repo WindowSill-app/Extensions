@@ -118,81 +118,81 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PresetTab.TextProperty" xml:space="preserve">
-    <value>Preset</value>
+    <value>Voorinstelling</value>
   </data>
   <data name="CustomTab.TextProperty" xml:space="preserve">
-    <value>Custom</value>
+    <value>Aangepast</value>
   </data>
   <data name="PresetQualityTitle.TextProperty" xml:space="preserve">
-    <value>Quality</value>
+    <value>Kwaliteit</value>
   </data>
   <data name="PresetQualityDescription.TextProperty" xml:space="preserve">
-    <value>High quality, moderate size reduction (H.264)</value>
+    <value>Hoge kwaliteit, gemiddelde verkleining van de bestandsgrootte (H.264)</value>
   </data>
   <data name="PresetBalancedTitle.TextProperty" xml:space="preserve">
-    <value>Balanced</value>
+    <value>Gebalanceerd</value>
   </data>
   <data name="PresetBalancedDescription.TextProperty" xml:space="preserve">
-    <value>Good balance of quality and size (H.264)</value>
+    <value>Goede balans tussen kwaliteit en bestandsgrootte (H.264)</value>
   </data>
   <data name="PresetSmallFileTitle.TextProperty" xml:space="preserve">
-    <value>Small File</value>
+    <value>Kleiner bestand</value>
   </data>
   <data name="PresetSmallFileDescription.TextProperty" xml:space="preserve">
-    <value>Smaller file, noticeable quality loss (H.264)</value>
+    <value>Kleiner bestand, merkbaar kwaliteitsverlies (H.264)</value>
   </data>
   <data name="PresetMaxCompressionTitle.TextProperty" xml:space="preserve">
-    <value>Max Compression</value>
+    <value>Maximale compressie</value>
   </data>
   <data name="PresetMaxCompressionDescription.TextProperty" xml:space="preserve">
-    <value>Smallest file using HEVC (H.265)</value>
+    <value>Kleinst mogelijke bestand met HEVC (H.265)</value>
   </data>
   <data name="VideoCodec.HeaderProperty" xml:space="preserve">
-    <value>Video codec</value>
+    <value>Videocodec</value>
   </data>
   <data name="QualityLabel.TextProperty" xml:space="preserve">
-    <value>Quality (CRF)</value>
+    <value>Kwaliteit (CRF)</value>
   </data>
   <data name="EncodingSpeed.HeaderProperty" xml:space="preserve">
-    <value>Encoding speed</value>
+    <value>Encodersnelheid</value>
   </data>
   <data name="AudioBitrate.HeaderProperty" xml:space="preserve">
-    <value>Audio bitrate</value>
+    <value>Audiobitsnelheid</value>
   </data>
   <data name="Resolution.HeaderProperty" xml:space="preserve">
-    <value>Resolution</value>
+    <value>Resolutie</value>
   </data>
   <data name="FrameRate.HeaderProperty" xml:space="preserve">
-    <value>Max frame rate</value>
+    <value>Maximale beeldsnelheid</value>
   </data>
   <data name="CompressButton.ContentProperty" xml:space="preserve">
-    <value>Compress</value>
+    <value>Comprimeren</value>
   </data>
   <data name="CancelButton.ContentProperty" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Annuleren</value>
   </data>
   <data name="ResultTitle.TextProperty" xml:space="preserve">
-    <value>Compression complete</value>
+    <value>Compressie voltooid</value>
   </data>
   <data name="ResultSummary" xml:space="preserve">
-    <value>{0} of {1} files compressed successfully</value>
+    <value>{0} van {1} bestanden succesvol gecomprimeerd</value>
   </data>
   <data name="OpenFolderButton.ContentProperty" xml:space="preserve">
-    <value>Open folder</value>
+    <value>Open map</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Compress video</value>
+    <value>Video comprimeren</value>
   </data>
   <data name="RateControlMode.HeaderProperty" xml:space="preserve">
-    <value>Rate control</value>
+    <value>Bitsnelheidsregeling</value>
   </data>
   <data name="VideoBitrate.HeaderProperty" xml:space="preserve">
-    <value>Video bitrate (kbps)</value>
+    <value>Videobitsnelheid (kbps)</value>
   </data>
   <data name="RateControlCrf.ContentProperty" xml:space="preserve">
-    <value>CRF (Quality)</value>
+    <value>CRF (kwaliteit)</value>
   </data>
   <data name="RateControlBitrate.ContentProperty" xml:space="preserve">
-    <value>Constant Bitrate</value>
+    <value>Constante bitsnelheid</value>
   </data>
 </root>
