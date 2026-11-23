@@ -118,167 +118,167 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Title" xml:space="preserve">
-    <value>Tools</value>
+    <value>Gereedschappen</value>
     <comment>Sill button label shown when PDFs are selected.</comment>
   </data>
   <data name="Merge" xml:space="preserve">
-    <value>Merge</value>
+    <value>Samenvoegen</value>
     <comment>Action button. Combines several PDFs into one document.</comment>
   </data>
   <data name="Split" xml:space="preserve">
-    <value>Split pages</value>
+    <value>Pagina's splitsen</value>
     <comment>Action button. Writes each page of a PDF to its own file.</comment>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>Comprimeren</value>
     <comment>Action button. Makes a PDF smaller.</comment>
   </data>
   <data name="MergeTaskName" xml:space="preserve">
-    <value>{0} files</value>
+    <value>{0} bestanden</value>
     <comment>{0} is the number of PDFs being merged. Shown as the task name in the progress list.</comment>
   </data>
   <data name="MergedFileName" xml:space="preserve">
-    <value>{0} - merged</value>
+    <value>{0} - samengevoegd</value>
     <comment>{0} is the first selected file's name without extension. Used as the merged file's name.</comment>
   </data>
   <data name="CompressedFileSuffix" xml:space="preserve">
-    <value> - compressed</value>
+    <value> - gecomprimeerd</value>
     <comment>Appended to the file name of a compressed PDF, before the extension.</comment>
   </data>
   <data name="PageFileName" xml:space="preserve">
-    <value>{0} - page {1}</value>
+    <value>{0} - pagina {1}</value>
     <comment>{0} is the document name, {1} is the page number. Name of each file produced by splitting.</comment>
   </data>
   <data name="ProgressMergingMany" xml:space="preserve">
-    <value>Merging {0} files</value>
+    <value>{0} bestanden samenvoegen</value>
     <comment>{0} is the number of files.</comment>
   </data>
   <data name="ProgressSplittingOne" xml:space="preserve">
-    <value>Splitting {0}</value>
+    <value>{0} splitsen</value>
     <comment>{0} is a file name.</comment>
   </data>
   <data name="ProgressSplittingMany" xml:space="preserve">
-    <value>Splitting {0} files</value>
+    <value>{0} bestanden splitsen</value>
     <comment>{0} is the number of files.</comment>
   </data>
   <data name="ProgressCompressingOne" xml:space="preserve">
-    <value>Compressing {0}</value>
+    <value>{0} comprimeren</value>
     <comment>{0} is a file name.</comment>
   </data>
   <data name="ProgressCompressingMany" xml:space="preserve">
-    <value>Compressing {0} files</value>
+    <value>{0} bestanden comprimeren</value>
     <comment>{0} is the number of files.</comment>
   </data>
   <data name="ErrorPasswordProtected" xml:space="preserve">
-    <value>This PDF is password-protected. Remove its password and try again.</value>
+    <value>Dit PDF-bestand is beveiligd met een wachtwoord. Verwijder het wachtwoord en probeer het opnieuw.</value>
     <comment>Shown per file in the results list when a PDF could not be opened.</comment>
   </data>
   <data name="ErrorAlreadyOptimized" xml:space="preserve">
-    <value>This PDF is already optimized — compressing it would not make it smaller.</value>
+    <value>Dit PDF-bestand is al geoptimaliseerd. Comprimeren zou het niet kleiner maken.</value>
     <comment>Shown per file in the results list when compression would increase the file size.</comment>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Extract pages</value>
+    <value>Pagina's extraheren</value>
     <comment>Action button. Opens a page picker, so the label ends with an ellipsis.</comment>
   </data>
   <data name="ExtractedFileName" xml:space="preserve">
-    <value>{0} - pages</value>
+    <value>{0} - pagina's</value>
     <comment>{0} is the source file's name without extension. Name of the file holding several extracted pages.</comment>
   </data>
   <data name="ExtractedSinglePageFileName" xml:space="preserve">
-    <value>{0} - page {1}</value>
+    <value>{0} - pagina {1}</value>
     <comment>{0} is the source name, {1} the page number. Used when exactly one page is extracted.</comment>
   </data>
   <data name="ExtractConfirmOne" xml:space="preserve">
-    <value>Extract {0} page</value>
+    <value>{0} pagina extraheren</value>
     <comment>{0} is always 1 here. Confirm button on the page picker.</comment>
   </data>
   <data name="ExtractConfirmMany" xml:space="preserve">
-    <value>Extract {0} pages</value>
+    <value>{0} pagina's extraheren</value>
     <comment>{0} is the number of ticked pages. Confirm button on the page picker.</comment>
   </data>
   <data name="ProgressExtracting" xml:space="preserve">
-    <value>Extracting {0} pages</value>
+    <value>{0} pagina's extraheren</value>
     <comment>{0} is the number of pages.</comment>
   </data>
   <data name="ErrorNoPagesExtracted" xml:space="preserve">
-    <value>None of the selected pages could be found in this PDF.</value>
+    <value>Geen van de geselecteerde pagina's kon in dit PDF-bestand worden gevonden.</value>
     <comment>Shown per file in the results list.</comment>
   </data>
   <data name="SelectAll.ContentProperty" xml:space="preserve">
-    <value>Select all</value>
+    <value>Alles selecteren</value>
   </data>
   <data name="ClearSelection.ContentProperty" xml:space="preserve">
-    <value>Clear</value>
+    <value>Wissen</value>
   </data>
   <data name="PreviewUnavailable.TextProperty" xml:space="preserve">
-    <value>This PDF can't be previewed. It may be password-protected or damaged.</value>
+    <value>Van dit PDF-bestand kan geen voorbeeld worden weergegeven. Het is mogelijk beveiligd met een wachtwoord of beschadigd.</value>
   </data>
   <data name="MergeOrderHint.TextProperty" xml:space="preserve">
-    <value>Files will be merged in this order</value>
+    <value>Bestanden worden in deze volgorde samengevoegd</value>
   </data>
   <data name="MergeConfirm" xml:space="preserve">
-    <value>Merge {0} files</value>
+    <value>{0} bestanden samenvoegen</value>
     <comment>{0} is the number of files. Confirm button on the merge arrangement page.</comment>
   </data>
   <data name="MoveUp.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Move up</value>
+    <value>Omhoog verplaatsen</value>
   </data>
   <data name="MoveDown.ToolTipService.ToolTipProperty" xml:space="preserve">
-    <value>Move down</value>
+    <value>Omlaag verplaatsen</value>
   </data>
   <data name="PageCountOne" xml:space="preserve">
-    <value>{0} page</value>
+    <value>{0} pagina</value>
     <comment>{0} is always 1 here.</comment>
   </data>
   <data name="PageCountMany" xml:space="preserve">
-    <value>{0} pages</value>
+    <value>{0} pagina's</value>
     <comment>{0} is the number of pages in a document.</comment>
   </data>
   <data name="SaveAsImages" xml:space="preserve">
-    <value>Save as images</value>
+    <value>Opslaan als afbeeldingen</value>
   </data>
   <data name="Protect" xml:space="preserve">
-    <value>Add password</value>
+    <value>Wachtwoord toevoegen</value>
   </data>
   <data name="Unlock" xml:space="preserve">
-    <value>Remove password</value>
+    <value>Wachtwoord verwijderen</value>
   </data>
   <data name="ProtectHint" xml:space="preserve">
-    <value>Choose a password. It will be needed to open the copy.</value>
+    <value>Kies een wachtwoord. Dit is nodig om de kopie te openen.</value>
   </data>
   <data name="UnlockHint" xml:space="preserve">
-    <value>Enter this PDF's current password.</value>
+    <value>Voer het huidige wachtwoord van dit PDF-bestand in.</value>
   </data>
   <data name="ProtectConfirm" xml:space="preserve">
-    <value>Add password</value>
+    <value>Wachtwoord toevoegen</value>
   </data>
   <data name="UnlockConfirm" xml:space="preserve">
-    <value>Remove password</value>
+    <value>Wachtwoord verwijderen</value>
   </data>
   <data name="ProtectedFileSuffix" xml:space="preserve">
-    <value> - protected</value>
+    <value> - beveiligd</value>
   </data>
   <data name="UnlockedFileSuffix" xml:space="preserve">
-    <value> - unlocked</value>
+    <value> - ontgrendeld</value>
   </data>
   <data name="ProgressImagingOne" xml:space="preserve">
-    <value>Saving images from {0}</value>
+    <value>Afbeeldingen opslaan uit {0}</value>
     <comment>{0} is a file name.</comment>
   </data>
   <data name="ProgressImagingMany" xml:space="preserve">
-    <value>Saving images from {0} files</value>
+    <value>Afbeeldingen opslaan uit {0} bestanden</value>
     <comment>{0} is the number of files.</comment>
   </data>
   <data name="ProgressProtecting" xml:space="preserve">
-    <value>Protecting {0}</value>
+    <value>{0} beveiligen</value>
     <comment>{0} is a file name.</comment>
   </data>
   <data name="ProgressUnlocking" xml:space="preserve">
-    <value>Unlocking {0}</value>
+    <value>{0} ontgrendelen</value>
     <comment>{0} is a file name.</comment>
   </data>
   <data name="ErrorWrongPassword" xml:space="preserve">
-    <value>That password did not open this PDF.</value>
+    <value>Dat wachtwoord heeft dit PDF-bestand niet geopend.</value>
   </data>
 </root>
