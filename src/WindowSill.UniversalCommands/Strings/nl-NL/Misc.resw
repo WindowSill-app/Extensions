@@ -121,6 +121,6 @@
     <value>Universele opdrachten</value>
   </data>
   <data name="ProcessDisplayName" xml:space="preserve">
-    <value>Universele opdrachten (appspecifiek)</value>
+    <value>Universele opdrachten (app-specifiek)</value>
   </data>
 </root>
