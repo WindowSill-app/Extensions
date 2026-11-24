@@ -163,7 +163,7 @@
     <value>Gebeurtenis verbergen in sill</value>
   </data>
   <data name="ShowInCalendar" xml:space="preserve">
-    <value>Weergeven in Agenda</value>
+    <value>Weergeven in agenda</value>
   </data>
   <data name="SettingsTabName" xml:space="preserve">
     <value>Vergaderingen</value>
