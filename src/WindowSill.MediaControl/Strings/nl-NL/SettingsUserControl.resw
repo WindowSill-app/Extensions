@@ -121,6 +121,6 @@
     <value>Algemeen</value>
   </data>
   <data name="ShowMediaNameAndThumbnail.HeaderProperty" xml:space="preserve">
-    <value>Medianaam en miniatuur weergeven</value>
+    <value>Media-naam en miniatuur weergeven</value>
   </data>
 </root>
