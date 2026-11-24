@@ -125,7 +125,7 @@
     <value>Werkmap</value>
   </data>
   <data name="Shell.HeaderProperty" xml:space="preserve">
-    <value>Opdrachtshell</value>
+    <value>Opdracht-shell</value>
     <comment>A field that indicate PowerShell, WSL, CMD, etc.</comment>
   </data>
   <data name="RunButton.TextProperty" xml:space="preserve">
