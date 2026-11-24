@@ -169,7 +169,7 @@
     <value>Annuleren</value>
   </data>
   <data name="RunCount" xml:space="preserve">
-    <value>{0} keer(s) uitgevoerd</value>
+    <value>{0} keer uitgevoerd</value>
   </data>
   <data name="DismissOtherRuns" xml:space="preserve">
     <value>Verberg {0} andere uitvoering(en)</value>
