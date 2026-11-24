@@ -136,7 +136,7 @@
     <value>Kan bestandsinformatie niet ophalen</value>
   </data>
   <data name="ImageSize" xml:space="preserve">
-    <value>{0} x {1} beeldpunten</value>
+    <value>{0} x {1} pixels</value>
   </data>
   <data name="OpenApplication" xml:space="preserve">
     <value>Toepassing openen</value>
