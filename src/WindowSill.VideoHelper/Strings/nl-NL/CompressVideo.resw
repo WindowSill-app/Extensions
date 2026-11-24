@@ -154,10 +154,10 @@
     <value>Kwaliteit (CRF)</value>
   </data>
   <data name="EncodingSpeed.HeaderProperty" xml:space="preserve">
-    <value>Encodersnelheid</value>
+    <value>Encoder-snelheid</value>
   </data>
   <data name="AudioBitrate.HeaderProperty" xml:space="preserve">
-    <value>Audiobitsnelheid</value>
+    <value>Audiobit-snelheid</value>
   </data>
   <data name="Resolution.HeaderProperty" xml:space="preserve">
     <value>Resolutie</value>
