@@ -145,7 +145,7 @@
     <value>2 spaties</value>
   </data>
   <data name="Unescape" xml:space="preserve">
-    <value>On-ontsnap</value>
+    <value>Unescape</value>
   </data>
   <data name="Yaml" xml:space="preserve">
     <value>YAML</value>
